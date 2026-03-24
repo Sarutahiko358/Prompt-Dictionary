@@ -67,6 +67,431 @@
       ],
       "browser": "全ブラウザ対応",
       "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/span"
+    },
+    {
+      "name": "&lt;strong&gt;",
+      "label": "HTML",
+      "labelClass": "label-html",
+      "desc": "重要性・緊急性を示すテキスト。デフォルトで太字表示。&lt;b&gt;と異なり意味的な重要性を持つ。",
+      "demo": "<p style=\"font-size:0.85rem\">これは<strong>非常に重要な</strong>テキストです。</p>",
+      "code": "<p>これは<strong>重要</strong>です</p>",
+      "props": [],
+      "tags": [
+        "基本",
+        "セマンティック",
+        "強調"
+      ],
+      "browser": "全ブラウザ対応",
+      "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/strong"
+    },
+    {
+      "name": "&lt;em&gt;",
+      "label": "HTML",
+      "labelClass": "label-html",
+      "desc": "強調テキスト。デフォルトでイタリック表示。&lt;i&gt;と異なり意味的な強調を持つ。",
+      "demo": "<p style=\"font-size:0.85rem\">これは<em>強調された</em>テキストです。</p>",
+      "code": "<p>これは<em>強調</em>です</p>",
+      "props": [],
+      "tags": [
+        "基本",
+        "セマンティック",
+        "強調"
+      ],
+      "browser": "全ブラウザ対応",
+      "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/em"
+    },
+    {
+      "name": "&lt;b&gt; / &lt;i&gt; / &lt;u&gt;",
+      "label": "HTML",
+      "labelClass": "label-html",
+      "desc": "太字(b)、イタリック(i)、下線(u)。視覚的な装飾のみで意味的な重みはない。strong/em を優先推奨。",
+      "demo": "<p style=\"font-size:0.85rem\"><b>太字</b> / <i>イタリック</i> / <u>下線</u></p>",
+      "code": "<b>太字</b> <i>イタリック</i> <u>下線</u>",
+      "props": [],
+      "tags": [
+        "基本",
+        "装飾"
+      ],
+      "browser": "全ブラウザ対応",
+      "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/b"
+    },
+    {
+      "name": "&lt;small&gt;",
+      "label": "HTML",
+      "labelClass": "label-html",
+      "desc": "注釈や著作権表示など、付随的な小さいテキスト。",
+      "demo": "<p style=\"font-size:0.85rem\">メイン文 <small style=\"color:#6b7280\">※注釈テキスト</small></p>",
+      "code": "<small>Copyright 2026</small>",
+      "props": [],
+      "tags": [
+        "基本",
+        "注釈"
+      ],
+      "browser": "全ブラウザ対応",
+      "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/small"
+    },
+    {
+      "name": "&lt;mark&gt;",
+      "label": "HTML",
+      "labelClass": "label-html",
+      "desc": "ハイライト・マーク付けされたテキスト。検索結果のマッチ部分等に使用。",
+      "demo": "<p style=\"font-size:0.85rem\">検索結果: Web <mark>コンポーネント</mark> 辞典</p>",
+      "code": "<p>検索: <mark>該当箇所</mark></p>",
+      "props": [],
+      "tags": [
+        "セマンティック",
+        "ハイライト"
+      ],
+      "browser": "全ブラウザ対応",
+      "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/mark"
+    },
+    {
+      "name": "&lt;del&gt; / &lt;ins&gt;",
+      "label": "HTML",
+      "labelClass": "label-html",
+      "desc": "削除されたテキスト(del)と挿入されたテキスト(ins)。変更履歴の表示に使用。",
+      "demo": "<p style=\"font-size:0.85rem\">価格: <del style=\"color:#dc2626\">¥5,000</del> → <ins style=\"color:#16a34a;text-decoration:none;font-weight:700\">¥3,980</ins></p>",
+      "code": "<del>旧テキスト</del>\n<ins>新テキスト</ins>",
+      "props": [
+        {
+          "name": "cite",
+          "desc": "変更理由のURLを指定"
+        },
+        {
+          "name": "datetime",
+          "desc": "変更日時をISO形式で指定"
+        }
+      ],
+      "tags": [
+        "セマンティック",
+        "編集"
+      ],
+      "browser": "全ブラウザ対応",
+      "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/del"
+    },
+    {
+      "name": "&lt;s&gt;",
+      "label": "HTML",
+      "labelClass": "label-html",
+      "desc": "もはや正確でない・関連がないテキストに取り消し線を表示。delとは異なりドキュメント編集の意味はない。",
+      "demo": "<p style=\"font-size:0.85rem\"><s>在庫あり</s> 売り切れ</p>",
+      "code": "<s>関連性がなくなった情報</s>",
+      "props": [],
+      "tags": [
+        "セマンティック",
+        "取り消し"
+      ],
+      "browser": "全ブラウザ対応",
+      "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/s"
+    },
+    {
+      "name": "&lt;blockquote&gt;",
+      "label": "HTML",
+      "labelClass": "label-html",
+      "desc": "ブロックレベルの引用文。長い引用に使用。字下げ表示される。",
+      "demo": "<blockquote style=\"border-left:3px solid #2563eb;padding-left:12px;font-size:0.85rem;color:#4b5563;margin:0\">\"すべての偉大なことは、小さなことの積み重ねから始まる。\"</blockquote>",
+      "code": "<blockquote cite=\"https://...\">\n  引用テキスト\n</blockquote>",
+      "props": [
+        {
+          "name": "cite",
+          "desc": "引用元のURL"
+        }
+      ],
+      "tags": [
+        "セマンティック",
+        "引用"
+      ],
+      "browser": "全ブラウザ対応",
+      "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/blockquote"
+    },
+    {
+      "name": "&lt;q&gt;",
+      "label": "HTML",
+      "labelClass": "label-html",
+      "desc": "インライン引用。短い引用に使用。ブラウザが自動でクォーテーションマークを付加。",
+      "demo": "<p style=\"font-size:0.85rem\">彼は<q>これは素晴らしい</q>と言った。</p>",
+      "code": "<p>彼は<q>引用</q>と言った</p>",
+      "props": [
+        {
+          "name": "cite",
+          "desc": "引用元のURL"
+        }
+      ],
+      "tags": [
+        "セマンティック",
+        "引用",
+        "インライン"
+      ],
+      "browser": "全ブラウザ対応",
+      "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/q"
+    },
+    {
+      "name": "&lt;cite&gt;",
+      "label": "HTML",
+      "labelClass": "label-html",
+      "desc": "著作物のタイトルを参照する要素。書籍名、映画名、論文名などに使用。",
+      "demo": "<p style=\"font-size:0.85rem\">参考文献: <cite style=\"font-style:italic\">Web技術の基礎</cite></p>",
+      "code": "<cite>Web技術の基礎</cite>",
+      "props": [],
+      "tags": [
+        "セマンティック",
+        "参照"
+      ],
+      "browser": "全ブラウザ対応",
+      "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/cite"
+    },
+    {
+      "name": "&lt;code&gt;",
+      "label": "HTML",
+      "labelClass": "label-html",
+      "desc": "コードの断片をインラインで表示。モノスペースフォントで表示される。",
+      "demo": "<p style=\"font-size:0.85rem\">変数宣言は <code style=\"background:#f3f4f6;padding:2px 6px;border-radius:4px;font-family:monospace\">const x = 10;</code> のように書く。</p>",
+      "code": "<code>const x = 10;</code>",
+      "props": [],
+      "tags": [
+        "コード",
+        "インライン"
+      ],
+      "browser": "全ブラウザ対応",
+      "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/code"
+    },
+    {
+      "name": "&lt;pre&gt;",
+      "label": "HTML",
+      "labelClass": "label-html",
+      "desc": "整形済みテキスト。空白・改行がそのまま保持される。コードブロックの表示に使用。",
+      "demo": "<pre style=\"background:#1f2937;color:#a5f3fc;padding:10px;border-radius:6px;font-size:0.78rem;margin:0;font-family:monospace\">function hello() {\n  console.log(\"Hello!\");\n}</pre>",
+      "code": "<pre><code>\nfunction hello() {\n  console.log(\"Hello!\");\n}\n</code></pre>",
+      "props": [],
+      "tags": [
+        "コード",
+        "ブロック",
+        "整形"
+      ],
+      "browser": "全ブラウザ対応",
+      "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/pre"
+    },
+    {
+      "name": "&lt;kbd&gt;",
+      "label": "HTML",
+      "labelClass": "label-html",
+      "desc": "キーボード入力を表す。ショートカットキーの説明などに使用。",
+      "demo": "<p style=\"font-size:0.85rem\">保存: <kbd style=\"background:#e5e7eb;padding:2px 8px;border-radius:4px;font-family:monospace;border:1px solid #d1d5db\">Ctrl</kbd> + <kbd style=\"background:#e5e7eb;padding:2px 8px;border-radius:4px;font-family:monospace;border:1px solid #d1d5db\">S</kbd></p>",
+      "code": "<kbd>Ctrl</kbd> + <kbd>S</kbd>",
+      "props": [],
+      "tags": [
+        "セマンティック",
+        "キーボード"
+      ],
+      "browser": "全ブラウザ対応",
+      "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/kbd"
+    },
+    {
+      "name": "&lt;var&gt;",
+      "label": "HTML",
+      "labelClass": "label-html",
+      "desc": "変数名を表す。数式やプログラミングの文脈で使用。イタリック表示。",
+      "demo": "<p style=\"font-size:0.85rem\">面積 = <var>π</var> × <var>r</var><sup>2</sup></p>",
+      "code": "<var>x</var> + <var>y</var> = 10",
+      "props": [],
+      "tags": [
+        "セマンティック",
+        "変数",
+        "数式"
+      ],
+      "browser": "全ブラウザ対応",
+      "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/var"
+    },
+    {
+      "name": "&lt;samp&gt;",
+      "label": "HTML",
+      "labelClass": "label-html",
+      "desc": "プログラムの出力サンプルを表す。コマンドの実行結果表示などに使用。",
+      "demo": "<p style=\"font-size:0.85rem\">出力: <samp style=\"font-family:monospace;background:#f3f4f6;padding:2px 6px;border-radius:4px\">Hello World!</samp></p>",
+      "code": "<samp>File not found</samp>",
+      "props": [],
+      "tags": [
+        "セマンティック",
+        "出力"
+      ],
+      "browser": "全ブラウザ対応",
+      "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/samp"
+    },
+    {
+      "name": "&lt;abbr&gt;",
+      "label": "HTML",
+      "labelClass": "label-html",
+      "desc": "略語・頭字語。title属性でフルネームを表示。ホバー時にツールチップが出る。",
+      "demo": "<p style=\"font-size:0.85rem\"><abbr title=\"HyperText Markup Language\" style=\"text-decoration:underline dotted;cursor:help\">HTML</abbr> はWeb技術の基礎です。（ホバーしてみてください）</p>",
+      "code": "<abbr title=\"HyperText Markup Language\">HTML</abbr>",
+      "props": [
+        {
+          "name": "title",
+          "desc": "略語の完全な形を指定"
+        }
+      ],
+      "tags": [
+        "セマンティック",
+        "略語",
+        "a11y"
+      ],
+      "browser": "全ブラウザ対応",
+      "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/abbr"
+    },
+    {
+      "name": "&lt;dfn&gt;",
+      "label": "HTML",
+      "labelClass": "label-html",
+      "desc": "定義語。用語の定義文の中で、定義される語句をマークアップする。",
+      "demo": "<p style=\"font-size:0.85rem\"><dfn>HTML</dfn> とは、Webページの構造を記述するマークアップ言語です。</p>",
+      "code": "<p><dfn>API</dfn>とは...</p>",
+      "props": [],
+      "tags": [
+        "セマンティック",
+        "定義"
+      ],
+      "browser": "全ブラウザ対応",
+      "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/dfn"
+    },
+    {
+      "name": "&lt;sub&gt; / &lt;sup&gt;",
+      "label": "HTML",
+      "labelClass": "label-html",
+      "desc": "下付き文字(sub)と上付き文字(sup)。数式、化学式、脚注番号などに使用。",
+      "demo": "<p style=\"font-size:0.85rem\">H<sub>2</sub>O &nbsp; E=mc<sup>2</sup> &nbsp; 注<sup>[1]</sup></p>",
+      "code": "H<sub>2</sub>O\nE=mc<sup>2</sup>",
+      "props": [],
+      "tags": [
+        "基本",
+        "数式",
+        "化学式"
+      ],
+      "browser": "全ブラウザ対応",
+      "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/sub"
+    },
+    {
+      "name": "&lt;br&gt;",
+      "label": "HTML",
+      "labelClass": "label-html",
+      "desc": "改行を挿入する空要素。詩や住所など、意味のある改行に使用。レイアウト目的では非推奨。",
+      "demo": "<p style=\"font-size:0.85rem\">東京都渋谷区<br>○○ビル3F</p>",
+      "code": "<p>1行目<br>2行目</p>",
+      "props": [],
+      "tags": [
+        "基本",
+        "改行"
+      ],
+      "browser": "全ブラウザ対応",
+      "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/br"
+    },
+    {
+      "name": "&lt;wbr&gt;",
+      "label": "HTML",
+      "labelClass": "label-html",
+      "desc": "任意改行位置。長い単語やURLの途中に挿入し、ブラウザに改行可能位置を伝える。",
+      "demo": "<p style=\"font-size:0.85rem;word-break:break-all\">https://www.example<wbr>.com/<wbr>very-long-path</p>",
+      "code": "<p>Super<wbr>califragilistic</p>",
+      "props": [],
+      "tags": [
+        "基本",
+        "改行",
+        "テキスト制御"
+      ],
+      "browser": "全ブラウザ対応",
+      "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/wbr"
+    },
+    {
+      "name": "&lt;hr&gt;",
+      "label": "HTML",
+      "labelClass": "label-html",
+      "desc": "水平線。テーマの区切りを示す。段落間のトピック変更などに使用。",
+      "demo": "<p style=\"font-size:0.85rem\">セクション1</p><hr style=\"margin:8px 0\"><p style=\"font-size:0.85rem\">セクション2</p>",
+      "code": "<p>前の話題</p>\n<hr>\n<p>次の話題</p>",
+      "props": [],
+      "tags": [
+        "基本",
+        "区切り"
+      ],
+      "browser": "全ブラウザ対応",
+      "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/hr"
+    },
+    {
+      "name": "&lt;ruby&gt; / &lt;rt&gt; / &lt;rp&gt;",
+      "label": "HTML",
+      "labelClass": "label-html",
+      "desc": "ルビ（ふりがな）注釈。東アジア言語の発音ガイドなどに使用。",
+      "demo": "<p style=\"font-size:1.1rem\"><ruby>漢<rp>(</rp><rt>かん</rt><rp>)</rp>字<rp>(</rp><rt>じ</rt><rp>)</rp></ruby></p>",
+      "code": "<ruby>漢<rt>かん</rt>字<rt>じ</rt></ruby>",
+      "props": [],
+      "tags": [
+        "国際化",
+        "ルビ",
+        "日本語"
+      ],
+      "browser": "全ブラウザ対応",
+      "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/ruby"
+    },
+    {
+      "name": "&lt;bdi&gt; / &lt;bdo&gt;",
+      "label": "HTML",
+      "labelClass": "label-html",
+      "desc": "双方向テキスト制御。bdiは周囲から分離、bdoは方向を上書き。多言語サイトで使用。",
+      "demo": "<p style=\"font-size:0.85rem\">ユーザー名: <bdi>مستخدم</bdi> さん &nbsp; <bdo dir=\"rtl\">逆方向テキスト</bdo></p>",
+      "code": "<bdi>アラビア語名</bdi>\n<bdo dir=\"rtl\">右から左</bdo>",
+      "props": [
+        {
+          "name": "dir",
+          "desc": "テキスト方向 (ltr / rtl)"
+        }
+      ],
+      "tags": [
+        "国際化",
+        "双方向",
+        "多言語"
+      ],
+      "browser": "全ブラウザ対応",
+      "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/bdi"
+    },
+    {
+      "name": "&lt;data&gt;",
+      "label": "HTML",
+      "labelClass": "label-html",
+      "desc": "コンテンツと機械可読な値を結びつける。価格データや製品IDなどに使用。",
+      "demo": "<p style=\"font-size:0.85rem\">価格: <data value=\"3980\">¥3,980</data></p>",
+      "code": "<data value=\"3980\">¥3,980</data>",
+      "props": [
+        {
+          "name": "value",
+          "desc": "機械可読な値"
+        }
+      ],
+      "tags": [
+        "セマンティック",
+        "データ"
+      ],
+      "browser": "全ブラウザ対応",
+      "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/data"
+    },
+    {
+      "name": "&lt;time&gt;",
+      "label": "HTML",
+      "labelClass": "label-html",
+      "desc": "日時を表す。datetime属性で機械可読なISO形式の日時を指定可能。",
+      "demo": "<p style=\"font-size:0.85rem\">公開日: <time datetime=\"2026-03-21\">2026年3月21日</time></p>",
+      "code": "<time datetime=\"2026-03-21\">3月21日</time>",
+      "props": [
+        {
+          "name": "datetime",
+          "desc": "ISO 8601形式の日時"
+        }
+      ],
+      "tags": [
+        "セマンティック",
+        "日時",
+        "SEO"
+      ],
+      "browser": "全ブラウザ対応",
+      "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/time"
     }
   ]
 }
