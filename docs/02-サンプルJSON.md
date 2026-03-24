@@ -1,0 +1,55 @@
+# サンプルJSON（フォーマット参考用）
+
+新しいチャットで共通指示書と一緒に貼り付けてフォーマットの実例として使う。
+
+```json
+{
+  "cat": "テキスト・見出し",
+  "catIcon": "📝",
+  "catDesc": "文章の構造を定義するHTML要素。見出し、段落、引用、コードブロックなど。",
+  "items": [
+    {
+      "name": "&lt;h1&gt; ～ &lt;h6&gt;",
+      "label": "HTML",
+      "labelClass": "label-html",
+      "desc": "見出しを表す。h1が最も重要度が高く、h6が最も低い。SEOやアクセシビリティにおいて文書構造を示す重要な要素。",
+      "demo": "<h1 style=\"font-size:1.4rem\">h1 見出し</h1><h2 style=\"font-size:1.2rem\">h2 見出し</h2><h3 style=\"font-size:1rem\">h3 見出し</h3><h4 style=\"font-size:0.9rem\">h4 見出し</h4>",
+      "code": "<h1>メインタイトル</h1>\n<h2>サブタイトル</h2>\n<h3>セクション見出し</h3>",
+      "props": [
+        { "name": "レベル (1-6)", "desc": "文書のアウトライン階層を示す" },
+        { "name": "id", "desc": "ページ内リンクのアンカーに使用可能" }
+      ],
+      "tags": ["基本", "セマンティック", "SEO"],
+      "browser": "全ブラウザ対応",
+      "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/Heading_Elements"
+    },
+    {
+      "name": "&lt;p&gt;",
+      "label": "HTML",
+      "labelClass": "label-html",
+      "desc": "段落（パラグラフ）を表す。ブロックレベル要素で、前後に余白が自動挿入される。",
+      "demo": "<p style=\"font-size:0.85rem\">これは段落テキストです。Webページにおいて最も基本的な文章表現の要素です。</p>",
+      "code": "<p>ここに段落テキストを入力します。</p>",
+      "props": [
+        { "name": "align (廃止)", "desc": "text-align CSSプロパティを使用すること" }
+      ],
+      "tags": ["基本", "ブロック"],
+      "browser": "全ブラウザ対応",
+      "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/p"
+    },
+    {
+      "name": "&lt;span&gt;",
+      "label": "HTML",
+      "labelClass": "label-html",
+      "desc": "インラインのコンテナ。意味を持たないが、CSSやJSでテキストの一部をスタイリング・操作するのに使用。",
+      "demo": "<p style=\"font-size:0.85rem\">この<span style=\"color:#dc2626;font-weight:700\">赤い部分</span>がspan要素です。</p>",
+      "code": "<p>この<span class=\"highlight\">部分</span>を装飾</p>",
+      "props": [
+        { "name": "class / id", "desc": "スタイリングやJS操作の対象指定" }
+      ],
+      "tags": ["基本", "インライン"],
+      "browser": "全ブラウザ対応",
+      "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/span"
+    }
+  ]
+}

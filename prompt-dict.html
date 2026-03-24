@@ -1,0 +1,2047 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI コーディング プロンプト用語辞典 v2.0</title>
+    <style>
+        :root {
+            --bg: #0a0c14;
+            --bg2: #0f1219;
+            --card: #151926;
+            --card-hover: #1c2237;
+            --accent: #6c63ff;
+            --accent2: #00d4aa;
+            --accent3: #ff6b9d;
+            --text: #e8e8f0;
+            --text-dim: #8888aa;
+            --text-xdim: #555577;
+            --border: #232840;
+            --border-light: #2e3352;
+            --cat1: #6c63ff;
+            --cat2: #00d4aa;
+            --cat3: #ff6b9d;
+            --cat4: #ffa726;
+            --cat5: #42a5f5;
+            --cat6: #ab47bc;
+            --cat7: #66bb6a;
+            --cat8: #ef5350;
+            --cat9: #26c6da;
+            --cat10: #d4e157;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Hiragino Sans', 'Noto Sans JP', 'Meiryo', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ===== Header ===== */
+        header {
+            background: linear-gradient(160deg, #12082a 0%, #0a0c14 50%, #071018 100%);
+            border-bottom: 1px solid var(--border);
+            padding: 24px 20px 16px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(20px);
+        }
+
+        .header-top {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 4px;
+        }
+
+        header h1 {
+            font-size: 1.5em;
+            background: linear-gradient(135deg, var(--accent), var(--accent2), var(--accent3));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% 200%;
+            animation: gradShift 4s ease infinite;
+        }
+
+        @keyframes gradShift {
+
+            0%,
+            100% {
+                background-position: 0% 50%
+            }
+
+            50% {
+                background-position: 100% 50%
+            }
+        }
+
+        .version-badge {
+            font-size: .65em;
+            padding: 2px 8px;
+            border-radius: 8px;
+            background: rgba(108, 99, 255, .2);
+            color: var(--accent);
+            border: 1px solid rgba(108, 99, 255, .3);
+        }
+
+        header .subtitle {
+            color: var(--text-dim);
+            font-size: 0.82em;
+            margin-bottom: 14px;
+        }
+
+        /* Stats Cards */
+        .stats-cards {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            max-width: 700px;
+            margin: 0 auto 14px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, .03);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 8px 16px;
+            text-align: center;
+            min-width: 90px;
+        }
+
+        .stat-card .stat-num {
+            font-size: 1.4em;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-card .stat-label {
+            font-size: .65em;
+            color: var(--text-dim);
+            margin-top: 2px;
+        }
+
+        /* Search */
+        .search-area {
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        #searchInput {
+            width: 100%;
+            padding: 12px 44px 12px 44px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: var(--card);
+            color: var(--text);
+            font-size: .95em;
+            outline: none;
+            transition: all .3s;
+        }
+
+        #searchInput:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 20px rgba(108, 99, 255, .15);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-dim);
+            font-size: 1.1em;
+            pointer-events: none;
+        }
+
+        .search-clear {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-dim);
+            font-size: 1.2em;
+            cursor: pointer;
+            display: none;
+            line-height: 1;
+        }
+
+        .search-clear.show {
+            display: block;
+        }
+
+        .search-clear:hover {
+            color: #fff;
+        }
+
+        .search-meta {
+            max-width: 600px;
+            margin: 8px auto 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.75em;
+            color: var(--text-dim);
+        }
+
+        .view-toggles {
+            display: flex;
+            gap: 4px;
+        }
+
+        .view-btn {
+            padding: 4px 8px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: transparent;
+            color: var(--text-dim);
+            cursor: pointer;
+            font-size: .85em;
+            transition: all .2s;
+        }
+
+        .view-btn.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #fff;
+        }
+
+        /* Filters */
+        .filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            justify-content: center;
+            padding: 12px 20px 0;
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+        .filter-btn {
+            padding: 5px 12px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text-dim);
+            font-size: 0.75em;
+            cursor: pointer;
+            transition: all .3s;
+            white-space: nowrap;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--accent);
+            color: var(--text);
+        }
+
+        .filter-btn.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .eff-filter {
+            display: flex;
+            gap: 4px;
+            justify-content: center;
+            padding: 8px 20px 0;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .eff-btn {
+            padding: 4px 10px;
+            border-radius: 14px;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text-xdim);
+            font-size: .7em;
+            cursor: pointer;
+            transition: all .3s;
+        }
+
+        .eff-btn:hover {
+            border-color: var(--accent2);
+            color: var(--text-dim);
+        }
+
+        .eff-btn.active {
+            background: rgba(0, 212, 170, .15);
+            border-color: var(--accent2);
+            color: var(--accent2);
+        }
+
+        /* ===== Main ===== */
+        .container {
+            max-width: 1060px;
+            margin: 0 auto;
+            padding: 20px 16px 80px;
+        }
+
+        .category-section {
+            margin-bottom: 28px;
+        }
+
+        .category-title {
+            font-size: 1.05em;
+            font-weight: 700;
+            margin-bottom: 10px;
+            padding-left: 14px;
+            border-left: 4px solid var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .category-badge {
+            font-size: 0.62em;
+            padding: 2px 8px;
+            border-radius: 10px;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        /* Grid View */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 10px;
+        }
+
+        /* List View */
+        .cards-grid.list-view {
+            grid-template-columns: 1fr;
+        }
+
+        .cards-grid.list-view .card {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            align-items: center;
+            padding: 12px 18px;
+        }
+
+        .cards-grid.list-view .card-summary,
+        .cards-grid.list-view .card-tags,
+        .cards-grid.list-view .expand-icon {
+            display: none;
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all .3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            background: var(--card-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(108, 99, 255, 0.12);
+            border-color: var(--border-light);
+        }
+
+        .card-cat-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 6px;
+            gap: 8px;
+        }
+
+        .card-word {
+            font-size: .95em;
+            font-weight: 700;
+            color: #fff;
+            word-break: break-all;
+            line-height: 1.3;
+        }
+
+        .card-en {
+            font-size: .72em;
+            color: var(--text-dim);
+            margin-bottom: 6px;
+        }
+
+        .card-right {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+
+        .card-effectiveness {
+            font-size: 0.65em;
+            padding: 2px 7px;
+            border-radius: 8px;
+            background: rgba(0, 212, 170, 0.12);
+            color: var(--accent2);
+            white-space: nowrap;
+        }
+
+        .card-fav {
+            background: none;
+            border: none;
+            color: var(--text-xdim);
+            cursor: pointer;
+            font-size: 1em;
+            transition: all .2s;
+            padding: 0;
+        }
+
+        .card-fav:hover,
+        .card-fav.active {
+            color: #ff6b9d;
+        }
+
+        .card-summary {
+            font-size: 0.78em;
+            color: var(--text-dim);
+            line-height: 1.55;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .card-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin-top: 8px;
+        }
+
+        .card-tag {
+            font-size: .64em;
+            padding: 2px 6px;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, .04);
+            color: var(--text-xdim);
+        }
+
+        .expand-icon {
+            position: absolute;
+            bottom: 6px;
+            right: 10px;
+            color: var(--text-xdim);
+            font-size: .68em;
+        }
+
+        /* ===== Modal ===== */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .75);
+            z-index: 200;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px 16px;
+            overflow-y: auto;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            max-width: 700px;
+            width: 100%;
+            padding: 30px;
+            position: relative;
+            animation: modalIn .3s ease;
+            margin: auto;
+        }
+
+        @keyframes modalIn {
+            from {
+                opacity: 0;
+                transform: scale(.96) translateY(12px)
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0)
+            }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 14px;
+            right: 16px;
+            background: none;
+            border: none;
+            color: var(--text-dim);
+            font-size: 1.5em;
+            cursor: pointer;
+            line-height: 1;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            transition: all .2s;
+        }
+
+        .modal-close:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, .08);
+        }
+
+        .modal-nav {
+            display: flex;
+            gap: 8px;
+            position: absolute;
+            top: 14px;
+            right: 56px;
+        }
+
+        .modal-nav button {
+            background: rgba(255, 255, 255, .06);
+            border: 1px solid var(--border);
+            color: var(--text-dim);
+            border-radius: 6px;
+            padding: 4px 10px;
+            cursor: pointer;
+            font-size: .8em;
+            transition: all .2s;
+        }
+
+        .modal-nav button:hover {
+            background: rgba(255, 255, 255, .12);
+            color: #fff;
+        }
+
+        .modal-cat-badge {
+            display: inline-block;
+            font-size: .72em;
+            padding: 3px 12px;
+            border-radius: 10px;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
+        .modal h2 {
+            font-size: 1.4em;
+            margin-bottom: 4px;
+            line-height: 1.3;
+            background: linear-gradient(90deg, var(--accent), var(--accent2));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .modal-en {
+            color: var(--text-dim);
+            font-size: .85em;
+            margin-bottom: 4px;
+        }
+
+        .modal-eff {
+            color: var(--accent2);
+            font-size: .82em;
+            margin-bottom: 16px;
+        }
+
+        .modal-section {
+            margin-bottom: 18px;
+        }
+
+        .modal-section h3 {
+            font-size: .82em;
+            color: var(--accent);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .modal-section p {
+            font-size: .85em;
+            color: var(--text-dim);
+            line-height: 1.75;
+        }
+
+        .modal-section pre {
+            background: rgba(0, 0, 0, .35);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 14px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
+            font-family: 'Consolas', 'Monaco', 'Fira Code', monospace;
+            font-size: .8em;
+            color: var(--accent2);
+            line-height: 1.6;
+            position: relative;
+        }
+
+        .copy-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: 8px;
+            padding: 6px 14px;
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: .75em;
+            cursor: pointer;
+            transition: all .3s;
+        }
+
+        .copy-btn:hover {
+            background: #5a52e0;
+            transform: translateY(-1px);
+        }
+
+        .modal-section .tips-box {
+            background: rgba(0, 212, 170, .06);
+            border: 1px solid rgba(0, 212, 170, .15);
+            border-radius: 10px;
+            padding: 12px 16px;
+            margin-top: 8px;
+        }
+
+        .tips-box h4 {
+            font-size: .78em;
+            color: var(--accent2);
+            margin-bottom: 4px;
+        }
+
+        .tips-box p {
+            font-size: .8em;
+        }
+
+        .modal-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 14px;
+        }
+
+        .modal-tag {
+            font-size: .72em;
+            padding: 4px 10px;
+            border-radius: 8px;
+            background: rgba(108, 99, 255, .12);
+            color: var(--accent);
+            cursor: pointer;
+            transition: all .2s;
+        }
+
+        .modal-tag:hover {
+            background: rgba(108, 99, 255, .25);
+        }
+
+        .related-section {
+            margin-top: 20px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border);
+        }
+
+        .related-section h3 {
+            font-size: .82em;
+            color: var(--accent);
+            margin-bottom: 8px;
+        }
+
+        .related-cards {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .related-card {
+            background: rgba(255, 255, 255, .04);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: .78em;
+            cursor: pointer;
+            transition: all .2s;
+            color: var(--text-dim);
+        }
+
+        .related-card:hover {
+            background: rgba(108, 99, 255, .1);
+            color: #fff;
+            border-color: var(--accent);
+        }
+
+        /* ===== Footer ===== */
+        .page-footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: var(--text-xdim);
+            font-size: .75em;
+            border-top: 1px solid var(--border);
+        }
+
+        .no-results {
+            text-align: center;
+            color: var(--text-dim);
+            padding: 60px 20px;
+            font-size: .95em;
+        }
+
+        .no-results .emoji {
+            font-size: 2.5em;
+            margin-bottom: 12px;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 5px
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 3px
+        }
+
+        /* Back to top */
+        .back-top {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 50;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2em;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(108, 99, 255, .4);
+            transition: all .3s;
+        }
+
+        .back-top.show {
+            display: flex;
+        }
+
+        .back-top:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(108, 99, 255, .6);
+        }
+
+        @media(max-width:640px) {
+            header h1 {
+                font-size: 1.15em
+            }
+
+            .stats-cards {
+                gap: 8px
+            }
+
+            .stat-card {
+                min-width: 70px;
+                padding: 6px 10px
+            }
+
+            .stat-card .stat-num {
+                font-size: 1.1em
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr
+            }
+
+            .modal {
+                padding: 20px;
+                margin: 20px 0;
+            }
+
+            .modal-nav {
+                display: none
+            }
+        }
+    </style>
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%236c63ff'/%3E%3Cstop offset='50%25' stop-color='%2300d4aa'/%3E%3Cstop offset='100%25' stop-color='%23ff6b9d'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='8' fill='%230a0c14'/%3E%3Ctext x='16' y='13' text-anchor='middle' font-size='8' font-family='monospace' fill='%2300d4aa'%3E%3E_%3C/text%3E%3Ctext x='16' y='24' text-anchor='middle' font-size='11' font-weight='800' font-family='system-ui' fill='url(%23g)'%3EAI%3C/text%3E%3C/svg%3E">
+</head>
+
+<body>
+
+    <header>
+        <div class="header-top">
+            <h1>AI Coding Prompt Dictionary</h1>
+            <span class="version-badge">v2.0</span>
+        </div>
+        <p class="subtitle">AIにコードを書かせる時に使うと効果的なキーワード・フレーズ集 — 全<span id="totalCount">0</span>語収録</p>
+
+        <div style="display:flex;gap:8px;justify-content:center;margin:8px 0;flex-wrap:wrap">
+            <a href="index.html"
+                style="display:inline-flex;align-items:center;gap:4px;padding:4px 12px;border-radius:20px;background:rgba(255,255,255,0.1);color:#fff;text-decoration:none;font-size:0.72em;font-weight:600;border:1px solid rgba(255,255,255,0.15);transition:all 0.2s">
+                📚 Web UIコンポーネント辞典
+            </a>
+            <a href="design-dict.html"
+                style="display:inline-flex;align-items:center;gap:4px;padding:4px 12px;border-radius:20px;background:rgba(255,255,255,0.1);color:#fff;text-decoration:none;font-size:0.72em;font-weight:600;border:1px solid rgba(255,255,255,0.15);transition:all 0.2s">
+                🎨 AI Design Prompt辞典
+            </a>
+        </div>
+
+
+        <div class="stats-cards">
+            <div class="stat-card">
+                <div class="stat-num" id="sTotal">0</div>
+                <div class="stat-label">総用語数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num" id="sCat">0</div>
+                <div class="stat-label">カテゴリ</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num" id="s5star">0</div>
+                <div class="stat-label">★5 最重要</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num" id="sFav">0</div>
+                <div class="stat-label">お気に入り</div>
+            </div>
+        </div>
+
+        <div class="search-area">
+            <span class="search-icon">&#128269;</span>
+            <input type="text" id="searchInput" placeholder="キーワード検索（日本語 / English / タグ）...">
+            <button class="search-clear" id="searchClear">&times;</button>
+        </div>
+        <div class="search-meta">
+            <span id="resultCount">-</span>
+            <div class="view-toggles">
+                <button class="view-btn active" data-view="grid" title="グリッド表示">&#9638;</button>
+                <button class="view-btn" data-view="list" title="リスト表示">&#9776;</button>
+            </div>
+        </div>
+        <div class="filter-bar" id="filterBar"></div>
+        <div class="eff-filter" id="effFilter"></div>
+    </header>
+
+    <div class="container" id="mainContent"></div>
+
+    <button class="back-top" id="backTop" title="トップへ戻る">&#8593;</button>
+
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal" id="modal"></div>
+    </div>
+
+    <footer class="page-footer">
+        AI Coding Prompt Dictionary v2.0 &mdash; プロンプトエンジニアリングでコーディング効率を最大化<br>
+        最終更新: 2026年3月
+    </footer>
+
+    <script>
+        // ==================== DATA ====================
+        const CATEGORIES = [
+            { id: "basic", name: "基本指示", color: "#6c63ff", icon: "📝" },
+            { id: "quality", name: "品質・制約", color: "#00d4aa", icon: "✅" },
+            { id: "structure", name: "構造・設計", color: "#ff6b9d", icon: "🏗️" },
+            { id: "output", name: "出力形式", color: "#ffa726", icon: "📤" },
+            { id: "debug", name: "デバッグ・改善", color: "#42a5f5", icon: "🔧" },
+            { id: "context", name: "コンテキスト設定", color: "#ab47bc", icon: "🎯" },
+            { id: "advanced", name: "高度なテクニック", color: "#66bb6a", icon: "🚀" },
+            { id: "meta", name: "メタ指示・制御", color: "#ef5350", icon: "⚙️" },
+            { id: "vibe", name: "Vibe Coding", color: "#26c6da", icon: "🎵" },
+            { id: "team", name: "チーム・協業", color: "#d4e157", icon: "👥" },
+        ];
+
+        const TERMS = [
+            // ===== 基本指示 (basic) =====
+            {
+                word: "〜を実装してください",
+                en: "Implement ~",
+                category: "basic",
+                effectiveness: "★★★★★",
+                summary: "最も基本的かつ直接的なコード生成指示。具体的な機能名と組み合わせることで強力になる。",
+                detail: "AIに対して「何を作るか」を明確に伝える最重要フレーズ。曖昧な依頼より具体的にタスクを定義することで的確なコード生成が可能。機能名、言語、フレームワークを併記すると精度が向上します。",
+                example: "Reactを使ってユーザー認証機能を実装してください。ログイン、ログアウト、セッション管理を含めてください。",
+                tips: "「〜を作って」よりも「〜を実装して」の方が技術的に精密なコードが得られやすい。",
+                tags: ["基本", "指示", "コード生成"],
+                related: ["〜の関数/クラスを作成", "〜を使って / 〜を用いて"]
+            },
+            {
+                word: "ステップバイステップで",
+                en: "Step by step",
+                category: "basic",
+                effectiveness: "★★★★★",
+                summary: "AIに段階的な思考と実装を促す。複雑なロジックの分解に非常に効果的。",
+                detail: "Chain of Thought（思考の連鎖）を誘発するキーフレーズ。AIが段階的にロジックを構築するため、複雑な処理でもミスが減り可読性の高いコードが得られます。研究によると複雑な推論タスクで精度が最大40%向上すると報告されています。",
+                example: "ステップバイステップで、二分探索アルゴリズムをPythonで実装してください。各ステップの処理にコメントも付けてください。",
+                tips: "特にアルゴリズム実装や複数ステップの処理で効果絶大。「まず〜、次に〜」と順序を示すとさらに効果的。",
+                tags: ["思考", "分解", "Chain of Thought"],
+                related: ["まず計画を立ててから実装して", "段階的に機能を追加して"]
+            },
+            {
+                word: "〜の関数/クラスを作成",
+                en: "Create a function/class for ~",
+                category: "basic",
+                effectiveness: "★★★★☆",
+                summary: "出力の単位を関数やクラスに限定し、適切な粒度のコードを得られる。",
+                detail: "「アプリを作って」のような大きすぎる指示ではなく、関数やクラス単位で指示することで適切なスコープのコードが得られます。引数、戻り値、例外処理なども自然に含まれやすくなります。",
+                example: "ユーザーの年齢を受け取り、年齢層カテゴリ（子供/青年/成人/高齢者）を返すPython関数を作成してください。",
+                tips: "スコープを小さくするほどAIの出力精度は上がる。巨大なリクエストは分割すべし。",
+                tags: ["基本", "スコープ", "モジュール化"],
+                related: ["〜を実装してください", "コンポーネントに分割して"]
+            },
+            {
+                word: "〜を使って / 〜を用いて",
+                en: "Using ~ / With ~",
+                category: "basic",
+                effectiveness: "★★★★★",
+                summary: "使用する技術・ライブラリ・フレームワークを明示し、意図通りの技術スタックでコードを生成させる。",
+                detail: "AIは文脈がなければ自分で技術選択をします。「Reactを使って」「TypeScriptで」のように技術を指定するとベストプラクティスに沿ったコードが生成されます。バージョンも指定するとさらに正確になります。メジャーなフレームワークほど高品質な結果が得られます。",
+                example: "Next.js 14のApp Routerを使って、ブログの記事一覧ページをServer Componentで作成してください。",
+                tips: "広く使われている技術ほどAIの学習データが多く、高品質な結果が得られる。",
+                tags: ["技術指定", "フレームワーク", "ライブラリ"],
+                related: ["前提条件 / 環境", "〜を実装してください"]
+            },
+            {
+                word: "以下の要件に従って",
+                en: "According to the following requirements",
+                category: "basic",
+                effectiveness: "★★★★☆",
+                summary: "要件を箇条書きで整理して渡す際の導入フレーズ。要件の見落としを防ぐ。",
+                detail: "複数の条件や要件がある場合、このフレーズの後に箇条書きで要件を列挙すると各要件を漏れなくコードに反映してくれます。APIコントラクトのように扱うと効果的です。",
+                example: "以下の要件に従ってREST APIを作成してください：\n- エンドポイント: /api/users\n- メソッド: GET, POST, PUT, DELETE\n- バリデーション付き\n- エラーハンドリング付き",
+                tips: "要件が3つ以上ある場合は箇条書きにすると見落としが激減する。",
+                tags: ["要件定義", "構造化", "箇条書き"],
+                related: ["前提条件 / 環境", "制約: 〜を使わないで"]
+            },
+            {
+                word: "〜してください / Please ~",
+                en: "Please ~",
+                category: "basic",
+                effectiveness: "★★★☆☆",
+                summary: "丁寧な指示形。研究によると丁寧な表現でAIの出力品質が向上する場合がある。",
+                detail: "直接的な命令形よりも丁寧な表現を使うことで、より詳細で配慮の行き届いたコードが生成されるとの報告があります。特に複数の指示を並べる際のトーン統一に効果があります。",
+                example: "以下のコードにエラーハンドリングを追加してください。try-catch文を使い、ユーザーフレンドリーなエラーメッセージも含めてください。",
+                tips: "長いプロンプトでは「〜してください」で各指示を明確に区切ると読みやすくなる。",
+                tags: ["基本", "トーン", "丁寧"],
+                related: ["〜を実装してください"]
+            },
+            {
+                word: "〜のサンプルコードを書いて",
+                en: "Write sample code for ~",
+                category: "basic",
+                effectiveness: "★★★★☆",
+                summary: "学習や理解目的で、動作するサンプルコードを生成させる基本フレーズ。",
+                detail: "「実装して」が本番コード向けなのに対し、「サンプルコードを書いて」は学習・検証用です。簡潔でわかりやすいコードが生成され、新しい技術を学ぶ際に最適です。",
+                example: "WebSocketを使ったリアルタイム通知のサンプルコードをNode.jsで書いてください。",
+                tips: "「最小限の」「シンプルな」を付けると、余計な処理のない純粋なサンプルが得られる。",
+                tags: ["基本", "学習", "サンプル"],
+                related: ["使い方の例も示して", "初心者向けに / 中級者向けに"]
+            },
+
+            // ===== 品質・制約 (quality) =====
+            {
+                word: "ベストプラクティスに従って",
+                en: "Following best practices",
+                category: "quality",
+                effectiveness: "★★★★★",
+                summary: "業界標準のコーディング規約・設計パターンに沿ったコード生成を指示する強力なフレーズ。",
+                detail: "AIはその言語やフレームワークの推奨パターン、命名規則、ディレクトリ構成、セキュリティ対策などを自動的に考慮します。Reactなら「カスタムフックの活用」「Propsの型定義」などが含まれやすくなります。",
+                example: "ベストプラクティスに従って、Node.js + Expressでセキュアなユーザー認証APIを実装してください。",
+                tips: "具体的に「〜のベストプラクティス」と領域を絞るとさらに精度が上がる。",
+                tags: ["品質", "規約", "推奨パターン"],
+                related: ["プロダクションレディ / 本番環境向け", "セキュリティを考慮して"]
+            },
+            {
+                word: "型安全 / Type-safe",
+                en: "Type-safe",
+                category: "quality",
+                effectiveness: "★★★★☆",
+                summary: "TypeScriptなどで型を厳密に定義したコードを生成させる。バグ防止に効果的。",
+                detail: "「型安全に」と付けると、AIはany型の使用を避け、ジェネリクスやユニオン型、interface/typeの定義を積極的に行います。実行時エラーの予防に繋がる高品質なコードが得られます。",
+                example: "型安全なTypeScriptで、APIレスポンスをパースするユーティリティ関数を作成してください。ジェネリクスを使ってください。",
+                tips: "「any型を使わないで」と明示的に禁止するとさらに厳密になる。",
+                tags: ["TypeScript", "型", "安全性"],
+                related: ["型定義 / インターフェースも含めて", "制約: 〜を使わないで"]
+            },
+            {
+                word: "エラーハンドリングを含めて",
+                en: "Include error handling",
+                category: "quality",
+                effectiveness: "★★★★★",
+                summary: "例外処理やエラー分岐を明示的に要求。実用的なコードに必須。",
+                detail: "指示しないとAIはハッピーパスのみのコードを生成しがちです。このフレーズでtry-catch、バリデーション、エラーメッセージ、fallback処理などが含まれ、本番環境で使えるレベルのコードに近づきます。",
+                example: "ファイル読み込み関数をPythonで作成してください。エラーハンドリングを含めて、ファイルが存在しない場合・権限がない場合・読み込みエラーの場合を個別に処理してください。",
+                tips: "「カスタムエラークラスも定義して」を追加すると、より体系的なエラー処理が得られる。",
+                tags: ["エラー処理", "例外", "堅牢性"],
+                related: ["エッジケースも考慮して", "プロダクションレディ / 本番環境向け"]
+            },
+            {
+                word: "テスト可能な / テストコード付きで",
+                en: "Testable / With test code",
+                category: "quality",
+                effectiveness: "★★★★☆",
+                summary: "テストしやすい設計とテストコードの同時生成を促す。",
+                detail: "「テスト可能な設計で」と指示するとAIは依存性注入（DI）パターンやモック可能な構造を採用します。「テストコード付きで」と指示すればJest、pytest、JUnitなどのテストも同時に生成されます。",
+                example: "テストコード付きで、ショッピングカートの合計金額を計算するクラスをTypeScriptで作成してください。Jestのテストも含めてください。",
+                tips: "「テストファースト」で先にテストケースを書かせ、それに合うコードを生成させるとTDD的なアプローチも可能。",
+                tags: ["テスト", "品質保証", "TDD"],
+                related: ["動作確認の手順も示して", "エッジケースも考慮して"]
+            },
+            {
+                word: "パフォーマンスを考慮して",
+                en: "With performance in mind / Optimized",
+                category: "quality",
+                effectiveness: "★★★★☆",
+                summary: "計算量・メモリ使用量・レンダリング効率などを意識したコード生成を促す。",
+                detail: "AIはO(n)とO(n²)の違いを意識し、メモ化、キャッシュ、遅延評価、効率的なデータ構造の選択などを行います。Reactならusememo/useCallbackの適切な使用なども含まれます。",
+                example: "パフォーマンスを考慮して、100万件のデータをフィルタリング・ソートするPython関数を実装してください。時間計算量も示してください。",
+                tips: "「Big O記法で計算量を示して」を追加するとパフォーマンス分析も得られる。",
+                tags: ["パフォーマンス", "最適化", "効率"],
+                related: ["〜を最適化して", "プロダクションレディ / 本番環境向け"]
+            },
+            {
+                word: "セキュリティを考慮して",
+                en: "With security in mind",
+                category: "quality",
+                effectiveness: "★★★★★",
+                summary: "SQLインジェクション、XSS、CSRFなどの脆弱性対策を含むコードを生成させる。",
+                detail: "Web開発では必須のフレーズ。サニタイズ、プリペアドステートメント、CSRFトークン、入力バリデーション、認証・認可の適切な実装などがコードに含まれるようになります。",
+                example: "セキュリティを考慮して、ユーザー入力を受け取りデータベースに保存するNode.jsのAPIエンドポイントを作成してください。",
+                tips: "「OWASP Top 10に対応して」とさらに具体的に指示するのも効果的。",
+                tags: ["セキュリティ", "脆弱性", "保護"],
+                related: ["ベストプラクティスに従って", "プロダクションレディ / 本番環境向け"]
+            },
+            {
+                word: "プロダクションレディ / 本番環境向け",
+                en: "Production-ready",
+                category: "quality",
+                effectiveness: "★★★★★",
+                summary: "サンプルではなく本番で使える品質のコード生成を指示する最強フレーズの一つ。",
+                detail: "エラーハンドリング、ログ出力、入力バリデーション、型定義、エッジケース処理、設定の外部化など本番環境に必要な要素を網羅的に含むコードが生成されます。",
+                example: "プロダクションレディなExpressミドルウェアとして、リクエストのレートリミッター（Rate Limiter）を実装してください。",
+                tips: "最も包括的な品質指示語。一言で複数の品質要件をカバーできる。",
+                tags: ["本番", "実運用", "包括的"],
+                related: ["ベストプラクティスに従って", "エラーハンドリングを含めて", "セキュリティを考慮して"]
+            },
+            {
+                word: "アクセシビリティ対応で",
+                en: "With accessibility / a11y support",
+                category: "quality",
+                effectiveness: "★★★★☆",
+                summary: "WCAG準拠のアクセシブルなUIコードを生成させる。",
+                detail: "aria属性、キーボードナビゲーション、スクリーンリーダー対応、適切なセマンティックHTMLの使用などが含まれるようになります。フロントエンド開発では品質の重要な指標です。",
+                example: "アクセシビリティ対応で、キーボード操作可能なドロップダウンメニューコンポーネントをReactで作成してください。ARIA属性も適切に設定してください。",
+                tips: "「WCAG 2.1 AA準拠で」と具体的なレベルを指定するとさらに精密になる。",
+                tags: ["a11y", "アクセシビリティ", "WCAG"],
+                related: ["ベストプラクティスに従って", "セマンティックHTMLで"]
+            },
+            {
+                word: "DRY原則に従って",
+                en: "Following DRY principle",
+                category: "quality",
+                effectiveness: "★★★★☆",
+                summary: "コードの重複を避け、再利用性の高い設計でコードを生成させる。",
+                detail: "Don't Repeat Yourself の原則に基づき、共通処理のユーティリティ化、定数の一元管理、ジェネリクスの活用などを行います。保守性の向上につながります。",
+                example: "DRY原則に従って、CRUD操作の共通ロジックをジェネリクスで抽象化したTypeScriptのベースリポジトリクラスを作成してください。",
+                tips: "SOLID原則全体を指定すると、さらに設計品質が向上する。",
+                tags: ["DRY", "原則", "再利用"],
+                related: ["再利用可能な / Reusable", "関心の分離を意識して"]
+            },
+
+            // ===== 構造・設計 (structure) =====
+            {
+                word: "コンポーネントに分割して",
+                en: "Split into components",
+                category: "structure",
+                effectiveness: "★★★★☆",
+                summary: "UIやロジックを再利用可能なコンポーネントに分離した設計でコードを生成させる。",
+                detail: "責務ごとに分割されたコンポーネント構成で出力されます。React、Vue、Svelteなどのフロントエンド開発で特に有効。各コンポーネントのprops型も定義されやすくなります。",
+                example: "Todoアプリを、TodoList、TodoItem、AddTodoForm、TodoFilterの4つのReactコンポーネントに分割して作成してください。",
+                tips: "コンポーネント名を自分で指定すると、命名の一貫性を保てる。",
+                tags: ["コンポーネント", "分割", "フロントエンド"],
+                related: ["ディレクトリ構成も示して", "関心の分離を意識して"]
+            },
+            {
+                word: "ディレクトリ構成も示して",
+                en: "Show the directory structure",
+                category: "structure",
+                effectiveness: "★★★★☆",
+                summary: "ファイルの配置や構成も含めて出力させる。プロジェクト全体の見通しが良くなる。",
+                detail: "コードだけでなくファイルの配置構成図も得られます。新規プロジェクト立ち上げ時や、既存プロジェクトのリファクタリング方針検討に非常に役立ちます。",
+                example: "Next.js 14のApp Routerを使ったECサイトのディレクトリ構成を示してください。主要ファイルの役割も説明してください。",
+                tips: "「tree形式で」と指定するとASCIIツリーで見やすく出力される。",
+                tags: ["設計", "構成", "プロジェクト"],
+                related: ["コンポーネントに分割して", "まず計画を立ててから実装して"]
+            },
+            {
+                word: "MVCパターン / デザインパターンを使って",
+                en: "Using MVC / design pattern",
+                category: "structure",
+                effectiveness: "★★★★☆",
+                summary: "特定のデザインパターンに沿った設計でコードを生成させる。",
+                detail: "MVC、MVVM、Repository、Observer、Strategyなど、特定のデザインパターンを指定するとAIはそのパターンの構造に準拠したコードを生成します。",
+                example: "Repositoryパターンを使って、TypeScriptでユーザーデータのCRUD操作を実装してください。インターフェースも定義してください。",
+                tips: "パターン名を明示するだけで、AIは正確な構造で実装してくれる。",
+                tags: ["デザインパターン", "設計", "アーキテクチャ"],
+                related: ["関心の分離を意識して", "再利用可能な / Reusable"]
+            },
+            {
+                word: "再利用可能な / Reusable",
+                en: "Reusable",
+                category: "structure",
+                effectiveness: "★★★★☆",
+                summary: "汎用的で再利用できるコードの生成を促す。ハードコードを避けさせる効果がある。",
+                detail: "マジックナンバーの排除、設定の外部化、パラメータ化、ジェネリクスの活用など、柔軟で再利用可能なコードが生成されます。",
+                example: "再利用可能なReactのモーダルコンポーネントを作成してください。タイトル、内容、ボタンラベルをpropsで受け取れるようにしてください。",
+                tips: "「ジェネリクスを使って」と併用するとさらに汎用性が高まる。",
+                tags: ["再利用", "汎用", "柔軟性"],
+                related: ["DRY原則に従って", "コンポーネントに分割して"]
+            },
+            {
+                word: "関心の分離を意識して",
+                en: "With separation of concerns",
+                category: "structure",
+                effectiveness: "★★★★☆",
+                summary: "ロジック・表示・データアクセスを分離した設計でのコード生成を指示する。",
+                detail: "ビジネスロジック、UI表示、データアクセス層を明確に分離するよう促します。保守性とテスタビリティが向上し、大規模プロジェクトに適した設計になります。",
+                example: "関心の分離を意識して、Reactでデータ取得（カスタムフック）、表示（Presentational Component）、ロジック（Container）を分けてユーザー一覧機能を作成してください。",
+                tips: "「レイヤードアーキテクチャで」と言い換えることも可能。",
+                tags: ["設計原則", "分離", "保守性"],
+                related: ["MVCパターン / デザインパターンを使って", "コンポーネントに分割して"]
+            },
+            {
+                word: "クリーンアーキテクチャで",
+                en: "Using Clean Architecture",
+                category: "structure",
+                effectiveness: "★★★★☆",
+                summary: "依存関係の方向を制御し、テスタブルで変更に強いコード構造を指示する。",
+                detail: "Robert C. Martinが提唱したクリーンアーキテクチャに基づき、Entities、Use Cases、Interface Adapters、Frameworks & Driversの各層を分離したコードが生成されます。",
+                example: "クリーンアーキテクチャで、TypeScriptの注文管理システムのバックエンドを設計してください。各層のディレクトリ構成も示してください。",
+                tips: "小規模プロジェクトではオーバーエンジニアリングになりがち。規模に応じて使い分けを。",
+                tags: ["アーキテクチャ", "クリーン", "レイヤー"],
+                related: ["関心の分離を意識して", "ディレクトリ構成も示して"]
+            },
+
+            // ===== 出力形式 (output) =====
+            {
+                word: "コメント付きで",
+                en: "With comments",
+                category: "output",
+                effectiveness: "★★★★★",
+                summary: "コード内にコメントを含めて出力させる。学習目的やチーム共有に最適。",
+                detail: "各処理ブロックやトリッキーなロジックの前に説明コメントが追加されます。「日本語コメント付き」「JSDocコメント付き」など形式も指定可能です。",
+                example: "日本語コメント付きで、JWTを使ったNode.jsの認証ミドルウェアを実装してください。各ステップの処理を説明するコメントも含めてください。",
+                tips: "「WHY（なぜ）のコメントを重視して」と指示すると、実装の意図が分かるコメントが増える。",
+                tags: ["コメント", "可読性", "ドキュメント"],
+                related: ["完全なコードを出力して", "使い方の例も示して"]
+            },
+            {
+                word: "完全なコードを出力して",
+                en: "Output the complete / full code",
+                category: "output",
+                effectiveness: "★★★★★",
+                summary: "省略なしの完全なコードを要求。AIがコードを省略する問題を防ぐ。",
+                detail: "AIは長いコードを「...（省略）...」と省略しがちです。このフレーズでコピペですぐ動く完全なコードが得られます。「省略しないでください」と併用すると強力です。",
+                example: "完全なコードを出力してください。省略せずに、コピペで動くReactのTodoアプリケーション全体を作成してください。",
+                tips: "「コピーアンドペーストで動く」は非常に効果的なフレーズ。",
+                tags: ["完全", "省略なし", "コピペ可能"],
+                related: ["省略しないでください", "一つのファイルにまとめて"]
+            },
+            {
+                word: "使い方の例も示して",
+                en: "Show usage examples",
+                category: "output",
+                effectiveness: "★★★★☆",
+                summary: "コードの使い方・呼び出し方のサンプルも含めて出力させる。",
+                detail: "関数やクラスの具体的な呼び出し例、引数の渡し方、返り値の受け取り方のサンプルが追加されます。ライブラリやユーティリティの作成時に特に有用です。",
+                example: "Pythonでデコレータパターンのキャッシュ関数を作成してください。使い方の例も3パターン示してください。",
+                tips: "「エッジケースの使用例も」と追加するとより実用的なサンプルが得られる。",
+                tags: ["サンプル", "使い方", "実例"],
+                related: ["コメント付きで", "動作確認の手順も示して"]
+            },
+            {
+                word: "型定義 / インターフェースも含めて",
+                en: "Include type definitions / interfaces",
+                category: "output",
+                effectiveness: "★★★★☆",
+                summary: "TypeScriptの型やインターフェース定義を明示的に要求する。",
+                detail: "APIレスポンスやコンポーネントのprops、関数の引数・戻り値の型定義を含めることでIDEの補完が効き、バグの予防にもつながります。",
+                example: "TypeScriptで天気APIのレスポンスを扱うためのインターフェース定義と、データ取得関数を型定義付きで作成してください。",
+                tips: "「zodスキーマも一緒に」と指示するとランタイムバリデーションも得られる。",
+                tags: ["型", "インターフェース", "TypeScript"],
+                related: ["型安全 / Type-safe", "完全なコードを出力して"]
+            },
+            {
+                word: "マークダウンで / コードブロックで",
+                en: "In markdown / In code blocks",
+                category: "output",
+                effectiveness: "★★★☆☆",
+                summary: "出力形式をマークダウンやコードブロックに指定し、見やすい出力を得る。",
+                detail: "コードだけでなく説明文も含む場合、マークダウン形式で出力させると構造化された読みやすい内容が得られます。ファイル名をコードブロックのタイトルに含めてもらうことも可能。",
+                example: "マークダウン形式で、各ファイル名をコードブロックの冒頭に記載して、Express + TypeScriptのAPIプロジェクトの全ファイルを出力してください。",
+                tips: "「```typescript:src/index.ts」のようにファイルパスをフェンスに含めてもらうと管理しやすい。",
+                tags: ["形式", "マークダウン", "整形"],
+                related: ["完全なコードを出力して", "ディレクトリ構成も示して"]
+            },
+            {
+                word: "JSON / YAML形式で出力して",
+                en: "Output in JSON / YAML format",
+                category: "output",
+                effectiveness: "★★★★☆",
+                summary: "構造化されたデータ形式での出力を指定。設定ファイルやAPI設計に最適。",
+                detail: "設定ファイル、APIスキーマ、データ構造の設計時に、特定のデータ形式での出力を指定できます。OpenAPI仕様のYAMLやpackage.jsonの生成などに活用可能です。",
+                example: "以下のREST APIのエンドポイント設計をOpenAPI 3.0のYAML形式で出力してください。\n- ユーザー登録\n- ログイン\n- プロフィール取得",
+                tips: "「バリデーション可能な正しいJSON」と指定するとシンタックスエラーが減る。",
+                tags: ["JSON", "YAML", "データ形式"],
+                related: ["マークダウンで / コードブロックで", "型定義 / インターフェースも含めて"]
+            },
+
+            // ===== デバッグ・改善 (debug) =====
+            {
+                word: "このコードをリファクタリングして",
+                en: "Refactor this code",
+                category: "debug",
+                effectiveness: "★★★★★",
+                summary: "既存コードの構造・可読性・パフォーマンスを改善させる強力な指示。",
+                detail: "冗長な処理の簡略化、変数名の改善、関数の分割、早期リターンの活用など、コードの品質向上を包括的に行います。「理由も説明して」と付けると学習にもなります。",
+                example: "このコードをリファクタリングしてください。各変更点とその理由も説明してください。\n\n[既存コードを貼り付け]",
+                tips: "「変更点をdiff形式で」と付けると、何が変わったか一目瞭然。",
+                tags: ["リファクタリング", "改善", "可読性"],
+                related: ["コードレビューして", "〜を最適化して"]
+            },
+            {
+                word: "バグを見つけて修正して",
+                en: "Find and fix the bug",
+                category: "debug",
+                effectiveness: "★★★★★",
+                summary: "既存コードのバグ検出と修正を同時に依頼する。デバッグ時間を大幅短縮。",
+                detail: "コードを貼り付けてこのフレーズを使うと、ロジックエラー、off-by-oneエラー、nullポインタ参照、非同期処理の問題などを検出し修正版と原因説明を提供します。",
+                example: "以下のコードにバグがあります。バグを見つけて修正し、何が問題だったか説明してください。\n\n[バグのあるコードを貼り付け]",
+                tips: "エラーメッセージやスタックトレースも一緒に貼り付けると精度が大幅向上。",
+                tags: ["デバッグ", "修正", "問題解決"],
+                related: ["エラーメッセージを貼り付けて修正", "コードレビューして"]
+            },
+            {
+                word: "〜を最適化して",
+                en: "Optimize ~",
+                category: "debug",
+                effectiveness: "★★★★☆",
+                summary: "既存コードのパフォーマンスやメモリ使用量の改善を指示する。",
+                detail: "「パフォーマンスを最適化して」「メモリ使用量を最適化して」など対象を具体的にすると効果的。最適化前後の比較も依頼できます。",
+                example: "以下のSQLクエリを最適化してください。実行計画の観点から改善点を説明してください。\n\n[遅いSQLクエリを貼り付け]",
+                tips: "「ベンチマーク結果の予測も」と付けると改善効果の見積もりが得られる。",
+                tags: ["最適化", "パフォーマンス", "改善"],
+                related: ["パフォーマンスを考慮して", "このコードをリファクタリングして"]
+            },
+            {
+                word: "コードレビューして",
+                en: "Review this code",
+                category: "debug",
+                effectiveness: "★★★★★",
+                summary: "プロの視点でコードの問題点・改善点を指摘させる。品質向上に非常に有効。",
+                detail: "可読性、パフォーマンス、セキュリティ、エラーハンドリング、テスタビリティの観点から問題点と改善提案が得られます。「シニアエンジニアとして」と前置きするとさらに効果的。",
+                example: "シニアエンジニアとしてこのコードをレビューしてください。セキュリティ、パフォーマンス、可読性の観点からフィードバックをお願いします。\n\n[コードを貼り付け]",
+                tips: "「プルリクエストのレビューコメント形式で」と指示するとGitHub風のフィードバックが得られる。",
+                tags: ["レビュー", "品質", "フィードバック"],
+                related: ["このコードをリファクタリングして", "バグを見つけて修正して"]
+            },
+            {
+                word: "〜に変換 / 〜に移行して",
+                en: "Convert to ~ / Migrate to ~",
+                category: "debug",
+                effectiveness: "★★★★☆",
+                summary: "コードの言語変換やフレームワーク移行を指示する。",
+                detail: "JavaScriptからTypeScript、クラスコンポーネントから関数コンポーネント、REST APIからGraphQLなど、既存コードの変換・移行を指示できます。",
+                example: "以下のJavaScriptコードをTypeScriptに変換してください。適切な型定義も追加してください。\n\n[JSコードを貼り付け]",
+                tips: "「移行時の注意点も示して」と追加すると罠にハマりにくくなる。",
+                tags: ["変換", "移行", "アップグレード"],
+                related: ["このコードをリファクタリングして", "型安全 / Type-safe"]
+            },
+            {
+                word: "エラーメッセージを貼り付けて修正",
+                en: "Paste the error message and fix",
+                category: "debug",
+                effectiveness: "★★★★★",
+                summary: "コンパイルエラーやスタックトレースを直接貼り付けてAIに修正させる即効テクニック。",
+                detail: "Error-Forward Prompting と呼ばれるテクニック。正確なエラーメッセージを渡すことでAIのパターン認識能力が最大化され、的確な修正が得られます。検索するよりも速い場合が多いです。",
+                example: "以下のESLint/TypeScriptのエラーが出ています。既存のロジックを変えずにエラーを修正してください。\n\n[エラーメッセージを貼り付け]\n\n対象コード：\n[コードを貼り付け]",
+                tips: "エラーメッセージは省略せず全文を貼り付けると精度が格段に上がる。",
+                tags: ["エラー", "即修正", "スタックトレース"],
+                related: ["バグを見つけて修正して", "コードレビューして"]
+            },
+
+            // ===== コンテキスト設定 (context) =====
+            {
+                word: "あなたは〜のエキスパートです",
+                en: "You are an expert in ~",
+                category: "context",
+                effectiveness: "★★★★★",
+                summary: "AIに専門家の役割を与える。出力の専門性と質が大幅に向上する最強テクニック。",
+                detail: "ロールプロンプティング。「ReactのシニアエンジニアAです」「セキュリティの専門家です」のように役割を設定するとその分野の深い知識に基づいたコードが生成されます。研究でもドメイン固有の精度向上が確認されています。",
+                example: "あなたはTypeScriptとNext.jsのシニアエンジニアです。大規模ECサイトのパフォーマンスを最優化する経験が豊富です。以下の課題を解決してください...",
+                tips: "「〜年の経験があり」「〜を専門とする」など詳細を加えるとペルソナがより明確に。",
+                tags: ["ロール", "専門家", "ペルソナ"],
+                related: ["前提条件 / 環境", "Role-Goal-Constraints テンプレート"]
+            },
+            {
+                word: "前提条件 / 環境",
+                en: "Prerequisites / Environment",
+                category: "context",
+                effectiveness: "★★★★☆",
+                summary: "開発環境、バージョン、既存コードベースなどの文脈情報を提供する。",
+                detail: "Node.js v20、React 18、PostgreSQL 15などの環境情報を伝えるとバージョン互換性のあるコードが生成されます。既存の型定義やユーティリティ関数を前提条件として共有するのも効果的です。",
+                example: "前提条件：\n- Node.js v20, TypeScript 5.3\n- データベース: PostgreSQL 15\n- ORM: Prisma\n\nこの環境で、ユーザー管理のCRUD APIを作成してください。",
+                tips: "バージョンの指定は最も重要なコンテキスト情報の一つ。必ず含めるべし。",
+                tags: ["環境", "前提", "バージョン"],
+                related: ["〜を使って / 〜を用いて", "既存のコードに合わせて"]
+            },
+            {
+                word: "初心者向けに / 中級者向けに",
+                en: "For beginners / For intermediate",
+                category: "context",
+                effectiveness: "★★★☆☆",
+                summary: "出力のレベルを対象者に合わせて調整させる。学習目的に最適。",
+                detail: "初心者向けなら詳細なコメントと基本的なパターン、中級者向けなら効率的な実装とデザインパターンの活用、上級者向けなら高度な最適化テクニックが含まれるようになります。",
+                example: "プログラミング初心者向けに、PythonでじゃんけんゲームのCLIアプリを作成してください。各行にわかりやすいコメントを付けてください。",
+                tips: "自分用なら省略して良い。チーム向けドキュメント作成時に特に有効。",
+                tags: ["レベル", "学習", "教育"],
+                related: ["コメント付きで", "〜の理由も説明して"]
+            },
+            {
+                word: "既存のコードに合わせて",
+                en: "Consistent with existing code",
+                category: "context",
+                effectiveness: "★★★★☆",
+                summary: "既存プロジェクトのスタイルや規約に合わせたコード生成を指示する。",
+                detail: "既存コードの一部を貼り付けて「このスタイルに合わせて」と指示すると、命名規則、インデント、コメントスタイル、エラーハンドリングのパターンなどが統一されたコードが得られます。",
+                example: "既存のコードスタイルに合わせて、新しいAPIエンドポイントを追加してください。\n\n[既存コードのサンプルを貼り付け]",
+                tips: "Pattern Extension テクニック：既存コードをパターンの見本として渡すのが最も確実。",
+                tags: ["一貫性", "スタイル", "チーム"],
+                related: ["パターン拡張（Pattern Extension）", "ルールファイルを参照して"]
+            },
+            {
+                word: "Role-Goal-Constraints テンプレート",
+                en: "Role-Goal-Constraints template",
+                category: "context",
+                effectiveness: "★★★★★",
+                summary: "ロール（役割）、ゴール（目標）、制約（ルール）の3行でコンテキストを完璧に設定するフレームワーク。",
+                detail: "プロンプトエンジニアリングの基本フレームワーク。Role: 「あなたは〜です」、Goal: 「〜を作成してください」、Constraints: 「〜のルールに従って」の3つを明示するだけで出力品質が劇的に向上します。",
+                example: "Role: あなたはセキュリティに精通したシニアNode.js開発者です\nGoal: JWTベースの認証ミドルウェアを実装してください\nConstraints: Express.js使用、テストコード付き、ESLint設定に準拠",
+                tips: "チームで共有テンプレートとして保存すると、全員が高品質なプロンプトを書ける。",
+                tags: ["テンプレート", "フレームワーク", "RGC"],
+                related: ["あなたは〜のエキスパートです", "制約: 〜を使わないで"]
+            },
+
+            // ===== 高度なテクニック (advanced) =====
+            {
+                word: "まず計画を立ててから実装して",
+                en: "Plan first, then implement",
+                category: "advanced",
+                effectiveness: "★★★★★",
+                summary: "コードを書く前に設計・計画を立てさせる。複雑な実装で特に有効。",
+                detail: "先に設計方針やアーキテクチャの計画を出力させ、合意した上で実装に進むテクニック。大規模な機能開発や複雑なアルゴリズムの実装で効果的です。",
+                example: "リアルタイムチャット機能を実装する前に、まず以下を計画してください：\n1. 技術選定と理由\n2. データモデル設計\n3. API設計\n4. 実装の優先順位\n\n計画を確認後、実装に進みます。",
+                tips: "「実装は計画を承認した後で」と明記すると、早まった実装を防げる。",
+                tags: ["計画", "設計", "段階的"],
+                related: ["ステップバイステップで", "複数のアプローチを比較して"]
+            },
+            {
+                word: "複数のアプローチを比較して",
+                en: "Compare multiple approaches",
+                category: "advanced",
+                effectiveness: "★★★★☆",
+                summary: "一つの解決策だけでなく、複数の選択肢とその比較を提示させる。",
+                detail: "Comparative Prompting。各アプローチのメリット・デメリット、パフォーマンスの違い、ユースケースの適合性を比較させます。最適な技術選定やアーキテクチャ決定に活用できます。",
+                example: "Reactで状態管理を行う方法を3つ提示してください（useState、Zustand、Redux）。各アプローチの長所・短所をコード例とともに比較してください。",
+                tips: "「表形式でメリット/デメリットを比較して」と指定するとさらに見やすい。",
+                tags: ["比較", "選択肢", "意思決定"],
+                related: ["〜の理由も説明して", "まず計画を立ててから実装して"]
+            },
+            {
+                word: "エッジケースも考慮して",
+                en: "Consider edge cases",
+                category: "advanced",
+                effectiveness: "★★★★★",
+                summary: "通常パスだけでなく、例外的な入力やレアケースへの対応も含めさせる。",
+                detail: "空文字列、null/undefined、巨大な数値、負の値、空配列、特殊文字、同時アクセスなどへの対応を含むコードが生成されます。堅牢性が大幅に向上します。",
+                example: "エッジケースも考慮して、文字列を受け取りURLスラッグに変換するTypeScript関数を作成してください。空文字、特殊文字、Unicode、連続ハイフンなども処理してください。",
+                tips: "「考えられるエッジケースを先にリストアップして」と前置きするとさらに網羅的に。",
+                tags: ["エッジケース", "堅牢性", "例外"],
+                related: ["エラーハンドリングを含めて", "テスト可能な / テストコード付きで"]
+            },
+            {
+                word: "〜の理由も説明して",
+                en: "Explain why ~",
+                category: "advanced",
+                effectiveness: "★★★★☆",
+                summary: "コードだけでなく設計判断の理由・根拠も説明させる。学習と理解に最適。",
+                detail: "Chain-of-Thought Emulation。「なぜこのアルゴリズムを選んだのか」をAIに説明させることで背景にある思考プロセスが理解でき、エンジニアとしての成長につながります。",
+                example: "ソート済み配列から重複を除去する関数を3つの異なる方法で実装し、各方法を選んだ理由と計算量を説明してください。",
+                tips: "「他の選択肢をなぜ却下したかも説明して」と付けると判断の全体像が見える。",
+                tags: ["説明", "理由", "学習"],
+                related: ["複数のアプローチを比較して", "自己レビューして"]
+            },
+            {
+                word: "段階的に機能を追加して",
+                en: "Add features incrementally",
+                category: "advanced",
+                effectiveness: "★★★★☆",
+                summary: "一度に全機能ではなく段階的に機能追加させる。差分の理解が容易に。",
+                detail: "最小限の動くコードからスタートし、一つずつ機能を追加していく方法です。各段階の変更点が明確になり、理解しやすくなります。Stepwise Prompting とも呼ばれます。",
+                example: "段階的にチャットアプリを作成してください：\nStep 1: 基本的なメッセージ送信\nStep 2: ユーザー名の表示\nStep 3: タイムスタンプの追加\nStep 4: メッセージの削除機能",
+                tips: "「各ステップの差分だけ示して」と併用すると変更点が明確に。",
+                tags: ["段階的", "インクリメンタル", "反復"],
+                related: ["ステップバイステップで", "まず計画を立ててから実装して"]
+            },
+            {
+                word: "制約: 〜を使わないで",
+                en: "Constraint: Do not use ~",
+                category: "advanced",
+                effectiveness: "★★★★☆",
+                summary: "特定のライブラリ・パターン・構文の使用を禁止する制約を設定する。",
+                detail: "外部ライブラリなし、ループなし（再帰で実装）、any型を使わないなど、制約を設けることで特定の実装方法を強制できます。",
+                example: "制約: 外部ライブラリを一切使わずに、バニラJavaScriptだけでSPA（シングルページアプリケーション）のルーターを実装してください。",
+                tips: "学習目的で「〜なしで」と制約するのも効果的なテクニック。",
+                tags: ["制約", "制限", "ルール"],
+                related: ["以下の要件に従って", "Role-Goal-Constraints テンプレート"]
+            },
+            {
+                word: "自己レビューして",
+                en: "Self-review / Review your solution",
+                category: "advanced",
+                effectiveness: "★★★★☆",
+                summary: "AIに自分が生成したコードを自己レビュー・検証させる。バグの自動検出に有効。",
+                detail: "Self-Evaluation テクニック。「生成したコードにバグやセキュリティ上の問題がないか自分でレビューして」と指示すると、AIが自己批判的にコードを検証し問題点を自ら指摘・修正します。",
+                example: "上記のコードを実装したら、セキュリティ上の問題、パフォーマンスの問題、エッジケースの見落としがないか自己レビューしてください。問題があれば修正版も提示してください。",
+                tips: "「レビュー後に修正版も出して」と指示すると一度で完結する。",
+                tags: ["自己検証", "レビュー", "品質"],
+                related: ["コードレビューして", "〜の理由も説明して"]
+            },
+            {
+                word: "Few-shot: 例を見せてパターンを学習させる",
+                en: "Few-shot prompting with examples",
+                category: "advanced",
+                effectiveness: "★★★★★",
+                summary: "2〜3個の入出力例を見せることで、AIにパターンを学習させて同じスタイルで生成させる。",
+                detail: "Few-shot Prompting。例を見せるだけで命名規則、エラーハンドリングのパターン、コメントスタイルなどを暗黙的に学習させられます。スタイルの統一に最も効果的な方法の一つです。",
+                example: "以下のパターンに従って、残りのAPIエンドポイントも作成してください：\n\n[例1: GET /users のコード]\n[例2: POST /users のコード]\n\n同じパターンで PUT /users/:id と DELETE /users/:id を作成してください。",
+                tips: "2〜3例が最も効率的。多すぎると逆にコンテキスト窓を圧迫する。",
+                tags: ["Few-shot", "パターン学習", "例示"],
+                related: ["パターン拡張（Pattern Extension）", "既存のコードに合わせて"]
+            },
+
+            // ===== メタ指示・制御 (meta) =====
+            {
+                word: "省略しないでください",
+                en: "Do not abbreviate / Do not truncate",
+                category: "meta",
+                effectiveness: "★★★★★",
+                summary: "AIの出力省略を防止する最重要メタ指示。長いコード生成時に必須。",
+                detail: "AIは「// ... 残りも同様」のように省略しがちです。「省略せず全てのコードを出力してください」と明示することでコピペで即実行可能な完全なコードが得られます。",
+                example: "省略しないでください。CRUDの全操作（Create、Read、Update、Delete）のコードを完全に出力してください。",
+                tips: "プロンプトの最後に配置すると最も効果的。",
+                tags: ["省略禁止", "完全出力", "制御"],
+                related: ["完全なコードを出力して", "頼んだこと以外変更しないで"]
+            },
+            {
+                word: "日本語で説明して",
+                en: "Explain in Japanese",
+                category: "meta",
+                effectiveness: "★★★☆☆",
+                summary: "コードの説明やコメントを日本語で出力させる。チーム共有時に有用。",
+                detail: "デフォルトでは英語のコメントや説明が生成される場合があります。このフレーズでコメント、変数名の説明、設計意図の解説などを日本語で出力させることができます。",
+                example: "以下のコードが何をしているか、日本語で行ごとに詳しく説明してください。\n\n[コードを貼り付け]",
+                tips: "「コメントは日本語、変数名は英語で」のように使い分けも可能。",
+                tags: ["日本語", "言語", "コメント"],
+                related: ["コメント付きで", "初心者向けに / 中級者向けに"]
+            },
+            {
+                word: "一つのファイルにまとめて",
+                en: "In a single file",
+                category: "meta",
+                effectiveness: "★★★☆☆",
+                summary: "複数ファイルに分割せず、一つのファイルで動作するコードを要求する。",
+                detail: "プロトタイプやデモ作成時に便利です。HTML/CSS/JSを一つのHTMLファイルにまとめたり、全ロジックを一つのPythonファイルに収めたりする指示に使います。",
+                example: "HTML、CSS、JavaScriptを一つのHTMLファイルにまとめて、インタラクティブなカレンダーウィジェットを作成してください。",
+                tips: "「外部依存なし」と併用するとさらに自己完結したコードが得られる。",
+                tags: ["単一ファイル", "まとめ", "プロトタイプ"],
+                related: ["完全なコードを出力して", "制約: 〜を使わないで"]
+            },
+            {
+                word: "差分だけ表示して",
+                en: "Show only the diff / changes",
+                category: "meta",
+                effectiveness: "★★★★☆",
+                summary: "変更箇所だけを表示させる。既存コードの修正時にノイズを減らせる。",
+                detail: "既存の長いコードを修正する際、全体を再出力させると変更箇所が分かりにくくなります。修正部分とその前後の文脈だけが得られます。",
+                example: "以下のコードのパフォーマンスを改善してください。変更箇所だけを差分形式で表示してください。\n\n[既存コードを貼り付け]",
+                tips: "「unified diff 形式で」と指定すると git diff のような形式が得られる。",
+                tags: ["差分", "変更", "効率"],
+                related: ["このコードをリファクタリングして", "頼んだこと以外変更しないで"]
+            },
+            {
+                word: "想定される質問にも回答して",
+                en: "Answer anticipated questions",
+                category: "meta",
+                effectiveness: "★★★☆☆",
+                summary: "コード提供後に生じそうな疑問への回答も先回りして含めさせる。",
+                detail: "「なぜこの書き方なのか」「別の方法はないか」「この部分はどうカスタマイズするか」など、コードを読んだ後に湧くであろう疑問への回答を含めた包括的な出力が得られます。",
+                example: "Dockerfileを作成してください。想定される質問（なぜこのベースイメージか、マルチステージビルドは必要か、など）にも回答してください。",
+                tips: "ドキュメント生成時に特に効果的。FAQセクションの自動生成として使える。",
+                tags: ["FAQ", "包括的", "先回り"],
+                related: ["〜の理由も説明して", "動作確認の手順も示して"]
+            },
+            {
+                word: "動作確認の手順も示して",
+                en: "Show how to test / verify",
+                category: "meta",
+                effectiveness: "★★★★☆",
+                summary: "生成したコードの動作確認方法やテスト手順も含めて出力させる。",
+                detail: "実行コマンド、テストの実行方法、curlコマンドでのAPI確認方法なども含めて出力させることですぐに動作確認できます。",
+                example: "Express APIを作成した後、curlコマンドでの動作確認手順も示してください。各エンドポイントのリクエスト例とレスポンス例を含めてください。",
+                tips: "「docker-compose upで起動できるように」と併用するとすぐ試せる環境が得られる。",
+                tags: ["動作確認", "テスト", "実行"],
+                related: ["テスト可能な / テストコード付きで", "使い方の例も示して"]
+            },
+            {
+                word: "頼んだこと以外変更しないで",
+                en: "Do not change anything I did not ask for",
+                category: "meta",
+                effectiveness: "★★★★★",
+                summary: "AIが余計な変更を加えることを防ぐ。既存コードの安全な修正に必須。",
+                detail: "AIは「親切心」で命名の変更やリファクタリング、不要な機能追加を行いがちです。この一文を加えるだけで、依頼した箇所のみの変更に限定できます。実務で非常に重要なフレーズです。",
+                example: "以下のコードのvalidateEmail関数だけを修正してください。頼んだこと以外は一切変更しないでください。\n\n[コードを貼り付け]",
+                tips: "既存コードの修正時は必ず付けるべき最重要フレーズの一つ。",
+                tags: ["制御", "安全", "変更制限"],
+                related: ["差分だけ表示して", "省略しないでください"]
+            },
+
+            // ===== Vibe Coding (vibe) =====
+            {
+                word: "一つのチャットで一つの機能",
+                en: "One chat, one feature",
+                category: "vibe",
+                effectiveness: "★★★★★",
+                summary: "AIとの会話を機能単位で分割する。コンテキストの汚染を防ぎ精度を維持する最重要原則。",
+                detail: "長い会話はAIの「記憶」を圧迫し、前の文脈を忘れたり矛盾したコードを生成する原因になります。機能ごとに新しいチャットを開始することで、常にフレッシュなコンテキストで高品質な出力が得られます。",
+                example: "[新しいチャットを開始]\n今から「ユーザープロフィール編集機能」だけを実装します。前提条件は以下です：\n[技術スタック、既存コードの構造を簡潔に記載]",
+                tips: "3〜5個の小さなタスクに分解してから、それぞれ別チャットで進めるのがベスト。",
+                tags: ["Vibe Coding", "コンテキスト", "効率"],
+                related: ["段階的に機能を追加して", "コンテキストを限定して"]
+            },
+            {
+                word: "コンテキストを限定して",
+                en: "Scope the context / Keep context focused",
+                category: "vibe",
+                effectiveness: "★★★★★",
+                summary: "AIに見せるファイル・情報を必要最小限に絞る。精度とスピードを最大化。",
+                detail: "Context Layering テクニック。AIに渡す情報は多ければ良いわけではなく、関連するファイルだけに絞ることで精度が向上します。Cursorの@file、@folderや、Claude Codeのコンテキスト指定を活用します。",
+                example: "以下のファイルだけを対象にしてください：\n- src/hooks/useAuth.ts\n- src/types/auth.ts\n\nこの2ファイルのuseAuth hookにリフレッシュトークンの自動更新機能を追加してください。",
+                tips: "「このファイル以外は見ないで」と明示すると余計な変更を防げる。",
+                tags: ["コンテキスト", "スコープ", "集中"],
+                related: ["一つのチャットで一つの機能", "頼んだこと以外変更しないで"]
+            },
+            {
+                word: "テストファーストで実装して",
+                en: "Test-first / TDD approach",
+                category: "vibe",
+                effectiveness: "★★★★★",
+                summary: "先にテストを書かせ、そのテストを通すコードを生成させるTDDアプローチ。",
+                detail: "「まずテストケースを書いて、次にそのテストを通す実装をして」と指示するTDD（テスト駆動開発）的なアプローチ。テストが仕様書の役割を果たし、AIの実装を正しい方向に導きます。Vibe Coding界隈で特に推奨されている手法です。",
+                example: "以下の仕様に対して、まずJestのテストケースを書いてください：\n- メールアドレスのバリデーション関数\n- 正常系: valid@example.com → true\n- 異常系: invalid-email → false\n\nテストを書いた後、そのテストを全て通す実装を作成してください。",
+                tips: "テストを先にロックし、それに合格するコードを生成させると品質が安定する。",
+                tags: ["TDD", "テスト", "品質"],
+                related: ["テスト可能な / テストコード付きで", "段階的に機能を追加して"]
+            },
+            {
+                word: "メジャーな技術スタックを使って",
+                en: "Use popular, well-documented tools",
+                category: "vibe",
+                effectiveness: "★★★★☆",
+                summary: "広く使われている技術を選ぶことでAIの出力品質を最大化する戦略。",
+                detail: "AIの学習データには人気のあるフレームワークやライブラリの情報が圧倒的に多いです。Next.js、Supabase、Tailwind CSSなどメジャーな技術を使うことで、高品質なコード提案が得られます。",
+                example: "フロントエンドはNext.js + Tailwind CSS、バックエンドはSupabase、認証はNextAuth.jsを使って、シンプルなブログアプリを作成してください。",
+                tips: "ニッチなライブラリを使う場合は、そのドキュメントの一部をコンテキストとして渡すと品質が上がる。",
+                tags: ["技術選択", "メジャー", "Vibe Coding"],
+                related: ["〜を使って / 〜を用いて", "前提条件 / 環境"]
+            },
+            {
+                word: "3回試してダメなら最初からやり直し",
+                en: "If not fixed in 3 tries, start over",
+                category: "vibe",
+                effectiveness: "★★★★☆",
+                summary: "デバッグの無限ループを避ける実践的なルール。時間の浪費を防ぐ。",
+                detail: "AIとのデバッグで3回修正しても解決しない場合、そのアプローチ自体に問題がある可能性が高いです。新しいチャットでプロンプトを見直し、より詳しいコンテキストを提供して最初からやり直す方が効率的です。",
+                example: "[3回目の修正依頼が失敗した場合]\n→ チャットをリセット\n→ エラーの全文、期待する動作、試した修正を明記して新しいプロンプトを作成",
+                tips: "エラーを過剰に説明するくらいがちょうど良い。2回目以降は詳細度を上げる。",
+                tags: ["デバッグ", "効率", "実践"],
+                related: ["エラーメッセージを貼り付けて修正", "バグを見つけて修正して"]
+            },
+            {
+                word: "こまめにGitコミットして",
+                en: "Commit early and often",
+                category: "vibe",
+                effectiveness: "★★★★☆",
+                summary: "AI生成コードが動いた時点でこまめにコミットする安全策。ロールバック可能に。",
+                detail: "AIが大量のコードを変更して壊してしまうリスクに備えます。機能が動いたらすぐgit commit、大きな変更の前にはブランチを切る。Vibe Codingの必須習慣です。",
+                example: "[AIへの指示例]\n以下の機能を実装してください。各ステップが完了するたびに、gitのコミットメッセージ案も提示してください。\n\n1. ベースとなるコンポーネント作成 → commit\n2. API接続 → commit\n3. エラーハンドリング → commit",
+                tips: "AIにコミットメッセージの提案もさせると、変更履歴が綺麗になる。",
+                tags: ["Git", "安全", "バージョン管理"],
+                related: ["段階的に機能を追加して", "一つのチャットで一つの機能"]
+            },
+
+            // ===== チーム・協業 (team) =====
+            {
+                word: "ルールファイルを参照して",
+                en: "Reference the rules file",
+                category: "team",
+                effectiveness: "★★★★★",
+                summary: "プロジェクトのコーディングルールやスタイルガイドをAIに読み込ませる。チーム開発に必須。",
+                detail: ".cursorrules、CLAUDE.md、.github/copilot-instructions.mdなどのルールファイルにプロジェクトの規約を記述し、AIに参照させるテクニック。5〜10個のルールを設定するとAIの出力がプロジェクトに最適化されます。",
+                example: "[CLAUDE.md の例]\n# プロジェクトルール\n- TypeScript strict mode必須\n- コンポーネントは関数コンポーネントのみ\n- CSS ModulesではなくTailwind CSSを使用\n- エラーはカスタムエラークラスで処理\n- テストはVitest使用",
+                tips: "ルールは具体的に書くほど効果的。「良いコードを書け」より「early returnを使え」の方が有効。",
+                tags: ["ルール", "チーム", "設定ファイル"],
+                related: ["既存のコードに合わせて", "Role-Goal-Constraints テンプレート"]
+            },
+            {
+                word: "プルリクエストの説明文を書いて",
+                en: "Write a PR description",
+                category: "team",
+                effectiveness: "★★★★☆",
+                summary: "実装したコードのPR説明文やchangelogをAIに生成させる。",
+                detail: "実装内容、変更理由、テスト方法、影響範囲などを含む構造化されたPR説明文が生成されます。チーム開発でのコミュニケーション効率が大幅に向上します。",
+                example: "以下のコード変更に対するプルリクエストの説明文を書いてください。\n- 変更内容の要約\n- 変更理由\n- テスト方法\n- 破壊的変更の有無\n- スクリーンショットが必要か\n\n[変更したコードのdiff]",
+                tips: "チームのPRテンプレートがあれば、それに合わせた形式で依頼すると良い。",
+                tags: ["PR", "チーム", "ドキュメント"],
+                related: ["コードレビューして", "想定される質問にも回答して"]
+            },
+            {
+                word: "コミットメッセージを生成して",
+                en: "Generate commit messages",
+                category: "team",
+                effectiveness: "★★★☆☆",
+                summary: "変更内容に基づいた適切なコミットメッセージを自動生成させる。",
+                detail: "Conventional Commits 形式（feat:, fix:, refactor: など）に従ったコミットメッセージをAIに生成させます。変更の意図が明確な履歴が残ります。",
+                example: "以下のコード変更に対する Conventional Commits 形式のコミットメッセージを生成してください。\n\n[変更内容の説明またはdiff]",
+                tips: "「日本語で本文を書いて」と指定することも可能。",
+                tags: ["Git", "コミット", "規約"],
+                related: ["こまめにGitコミットして", "プルリクエストの説明文を書いて"]
+            },
+            {
+                word: "テンプレートとして保存できる形で",
+                en: "In a reusable template format",
+                category: "team",
+                effectiveness: "★★★★☆",
+                summary: "チームで再利用可能なプロンプトテンプレートの作成を指示する。",
+                detail: "{{LANGUAGE}}、{{FEATURE}}などのプレースホルダーを含むテンプレート形式でプロンプトを生成させます。チーム全員が同品質のプロンプトを使えるようになります。",
+                example: "以下のプロンプトをチームで再利用できるテンプレートに変換してください。変数部分は {{変数名}} のプレースホルダーにしてください。\n\n[成功したプロンプトを貼り付け]",
+                tips: "成功したプロンプトは必ずテンプレート化してナレッジベースに保存すべし。",
+                tags: ["テンプレート", "チーム", "共有"],
+                related: ["Role-Goal-Constraints テンプレート", "ルールファイルを参照して"]
+            },
+            {
+                word: "パターン拡張（Pattern Extension）",
+                en: "Pattern Extension",
+                category: "team",
+                effectiveness: "★★★★★",
+                summary: "既存コードの「パターンの種」を見せて、同じスタイルで新しいコードを生成させるFew-shotの実践応用。",
+                detail: "プロジェクトの既存のルーティング、フック、スタイリング、テストなどの「パターンの種」を事前に用意しておき、それをAIに見せて拡張させます。コードの一貫性を自動的に維持できます。",
+                example: "以下は既存のカスタムフックのパターンです：\n\n```typescript\n// src/hooks/useUsers.ts\nexport const useUsers = () => {\n  return useQuery({ queryKey: ['users'], queryFn: fetchUsers });\n};\n```\n\nこのパターンに従って、useProducts、useOrders のフックも作成してください。",
+                tips: "パターンの種は1〜2ファイル程度が最適。多すぎるとコンテキストを圧迫する。",
+                tags: ["パターン", "一貫性", "拡張"],
+                related: ["Few-shot: 例を見せてパターンを学習させる", "既存のコードに合わせて"]
+            },
+        ];
+
+        // ==================== APP LOGIC ====================
+        let activeFilter = 'all';
+        let effFilter = 'all';
+        let searchQuery = '';
+        let viewMode = 'grid';
+        let favorites = JSON.parse(localStorage.getItem('promptdict_favs') || '[]');
+
+        function getCategoryInfo(id) {
+            return CATEGORIES.find(c => c.id === id) || CATEGORIES[0];
+        }
+
+        function updateStats() {
+            document.getElementById('totalCount').textContent = TERMS.length;
+            document.getElementById('sTotal').textContent = TERMS.length;
+            document.getElementById('sCat').textContent = CATEGORIES.length;
+            document.getElementById('s5star').textContent = TERMS.filter(t => t.effectiveness === '★★★★★').length;
+            document.getElementById('sFav').textContent = favorites.length;
+        }
+
+        function renderFilters() {
+            const bar = document.getElementById('filterBar');
+            let html = `<button class="filter-btn active" data-cat="all">すべて (${TERMS.length})</button>`;
+            html += `<button class="filter-btn" data-cat="favorites">⭐ お気に入り (${favorites.length})</button>`;
+            CATEGORIES.forEach(cat => {
+                const count = TERMS.filter(t => t.category === cat.id).length;
+                html += `<button class="filter-btn" data-cat="${cat.id}">${cat.icon} ${cat.name} (${count})</button>`;
+            });
+            bar.innerHTML = html;
+            bar.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    bar.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    activeFilter = btn.dataset.cat;
+                    render();
+                });
+            });
+
+            // Effectiveness filter
+            const effBar = document.getElementById('effFilter');
+            const effs = ['all', '★★★★★', '★★★★☆', '★★★☆☆'];
+            const effLabels = ['全て', '★5 最重要', '★4 重要', '★3 有効'];
+            effBar.innerHTML = effs.map((e, i) =>
+                `<button class="eff-btn ${e === 'all' ? 'active' : ''}" data-eff="${e}">${effLabels[i]}</button>`
+            ).join('');
+            effBar.querySelectorAll('.eff-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    effBar.querySelectorAll('.eff-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    effFilter = btn.dataset.eff;
+                    render();
+                });
+            });
+        }
+
+        function getFilteredTerms() {
+            let terms = TERMS;
+            if (activeFilter === 'favorites') {
+                terms = terms.filter(t => favorites.includes(t.word));
+            } else if (activeFilter !== 'all') {
+                terms = terms.filter(t => t.category === activeFilter);
+            }
+            if (effFilter !== 'all') {
+                terms = terms.filter(t => t.effectiveness === effFilter);
+            }
+            if (searchQuery) {
+                const q = searchQuery.toLowerCase();
+                terms = terms.filter(t =>
+                    t.word.toLowerCase().includes(q) ||
+                    t.en.toLowerCase().includes(q) ||
+                    t.summary.toLowerCase().includes(q) ||
+                    t.detail.toLowerCase().includes(q) ||
+                    (t.tips && t.tips.toLowerCase().includes(q)) ||
+                    t.tags.some(tag => tag.toLowerCase().includes(q))
+                );
+            }
+            return terms;
+        }
+
+        function render() {
+            const container = document.getElementById('mainContent');
+            const filtered = getFilteredTerms();
+            document.getElementById('resultCount').textContent = `${filtered.length} / ${TERMS.length} 件表示中`;
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="no-results"><div class="emoji">🔍</div>該当する用語が見つかりません。<br>検索キーワードやフィルターを変更してみてください。</div>`;
+                return;
+            }
+
+            const grouped = {};
+            if (activeFilter === 'all' || activeFilter === 'favorites') {
+                CATEGORIES.forEach(cat => {
+                    const items = filtered.filter(t => t.category === cat.id);
+                    if (items.length > 0) grouped[cat.id] = items;
+                });
+            } else {
+                const items = filtered.filter(t => t.category === activeFilter);
+                if (items.length > 0) grouped[activeFilter] = items;
+            }
+
+            let html = '';
+            for (const [catId, items] of Object.entries(grouped)) {
+                const cat = getCategoryInfo(catId);
+                html += `<div class="category-section">`;
+                html += `<div class="category-title" style="border-left-color:${cat.color}">
+      ${cat.icon} ${cat.name}
+      <span class="category-badge" style="background:${cat.color}">${items.length}</span>
+    </div>`;
+                html += `<div class="cards-grid ${viewMode === 'list' ? 'list-view' : ''}">`;
+                items.forEach(term => {
+                    const isFav = favorites.includes(term.word);
+                    html += `
+        <div class="card" data-index="${TERMS.indexOf(term)}">
+          <div class="card-cat-line" style="background:linear-gradient(90deg,${cat.color},${cat.color}88)"></div>
+          <div class="card-header">
+            <div>
+              <span class="card-word">${highlightSearch(term.word)}</span>
+              <div class="card-en">${highlightSearch(term.en)}</div>
+            </div>
+            <div class="card-right">
+              <span class="card-effectiveness">${term.effectiveness}</span>
+              <button class="card-fav ${isFav ? 'active' : ''}" data-word="${term.word}" title="お気に入り">&#9733;</button>
+            </div>
+          </div>
+          <div class="card-summary">${highlightSearch(term.summary)}</div>
+          <div class="card-tags">
+            ${term.tags.map(t => `<span class="card-tag">${t}</span>`).join('')}
+          </div>
+          <div class="expand-icon">&#9660; 詳細を見る</div>
+        </div>`;
+                });
+                html += `</div></div>`;
+            }
+            container.innerHTML = html;
+
+            container.querySelectorAll('.card').forEach(card => {
+                card.addEventListener('click', (e) => {
+                    if (e.target.classList.contains('card-fav')) return;
+                    openModal(parseInt(card.dataset.index));
+                });
+            });
+            container.querySelectorAll('.card-fav').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    toggleFav(btn.dataset.word);
+                });
+            });
+        }
+
+        function toggleFav(word) {
+            if (favorites.includes(word)) {
+                favorites = favorites.filter(f => f !== word);
+            } else {
+                favorites.push(word);
+            }
+            localStorage.setItem('promptdict_favs', JSON.stringify(favorites));
+            updateStats();
+            renderFilters();
+            // Re-activate current filter
+            document.querySelectorAll('.filter-btn').forEach(b => {
+                b.classList.toggle('active', b.dataset.cat === activeFilter);
+            });
+            render();
+        }
+
+        function highlightSearch(text) {
+            if (!searchQuery) return text;
+            const regex = new RegExp(`(${searchQuery.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+            return text.replace(regex, '<mark style="background:rgba(108,99,255,.35);color:#fff;border-radius:2px;padding:0 2px">$1</mark>');
+        }
+
+        function openModal(index) {
+            const term = TERMS[index];
+            const cat = getCategoryInfo(term.category);
+            const isFav = favorites.includes(term.word);
+            const modal = document.getElementById('modal');
+
+            // Find related terms
+            let relatedHtml = '';
+            if (term.related && term.related.length > 0) {
+                relatedHtml = `<div class="related-section"><h3>&#128279; 関連する用語</h3><div class="related-cards">`;
+                term.related.forEach(rw => {
+                    const ri = TERMS.findIndex(t => t.word === rw);
+                    if (ri >= 0) {
+                        relatedHtml += `<div class="related-card" data-ri="${ri}">${TERMS[ri].word}</div>`;
+                    }
+                });
+                relatedHtml += `</div></div>`;
+            }
+
+            modal.innerHTML = `
+    <div class="modal-nav">
+      <button id="modalPrev" title="前へ">&#8592; 前</button>
+      <button id="modalNext" title="次へ">次 &#8594;</button>
+    </div>
+    <button class="modal-close" id="modalClose">&times;</button>
+    <span class="modal-cat-badge" style="background:${cat.color}">${cat.icon} ${cat.name}</span>
+    <h2>${term.word}</h2>
+    <div class="modal-en">${term.en}</div>
+    <div class="modal-eff">効果度: ${term.effectiveness}
+      <button class="card-fav ${isFav ? 'active' : ''}" style="margin-left:12px;font-size:1.2em" data-word="${term.word}" title="お気に入り">&#9733;</button>
+    </div>
+
+    <div class="modal-section">
+      <h3>&#128214; 概要</h3>
+      <p>${term.summary}</p>
+    </div>
+
+    <div class="modal-section">
+      <h3>&#128161; 詳しい説明</h3>
+      <p>${term.detail}</p>
+    </div>
+
+    <div class="modal-section">
+      <h3>&#128187; 使用例（プロンプト例）</h3>
+      <pre id="exampleCode">${term.example}</pre>
+      <button class="copy-btn" id="copyBtn">&#128203; コピーする</button>
+    </div>
+
+    ${term.tips ? `
+    <div class="modal-section">
+      <div class="tips-box">
+        <h4>&#128161; プロのTips</h4>
+        <p>${term.tips}</p>
+      </div>
+    </div>` : ''}
+
+    <div class="modal-tags">
+      ${term.tags.map(t => `<span class="modal-tag">${t}</span>`).join('')}
+    </div>
+
+    ${relatedHtml}
+  `;
+
+            document.getElementById('modalOverlay').classList.add('show');
+            document.body.style.overflow = 'hidden';
+
+            document.getElementById('modalClose').addEventListener('click', closeModal);
+            document.getElementById('copyBtn').addEventListener('click', () => {
+                navigator.clipboard.writeText(term.example).then(() => {
+                    const btn = document.getElementById('copyBtn');
+                    btn.innerHTML = '&#10003; コピーしました!';
+                    setTimeout(() => btn.innerHTML = '&#128203; コピーする', 1500);
+                });
+            });
+
+            // Navigation
+            const allFiltered = getFilteredTerms();
+            const currentFilteredIndex = allFiltered.indexOf(term);
+            document.getElementById('modalPrev').addEventListener('click', () => {
+                const prevTerm = allFiltered[(currentFilteredIndex - 1 + allFiltered.length) % allFiltered.length];
+                openModal(TERMS.indexOf(prevTerm));
+            });
+            document.getElementById('modalNext').addEventListener('click', () => {
+                const nextTerm = allFiltered[(currentFilteredIndex + 1) % allFiltered.length];
+                openModal(TERMS.indexOf(nextTerm));
+            });
+
+            // Related term clicks
+            modal.querySelectorAll('.related-card').forEach(rc => {
+                rc.addEventListener('click', () => openModal(parseInt(rc.dataset.ri)));
+            });
+
+            // Fav in modal
+            modal.querySelectorAll('.card-fav').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    toggleFav(btn.dataset.word);
+                    btn.classList.toggle('active');
+                });
+            });
+
+            // Tag click in modal
+            modal.querySelectorAll('.modal-tag').forEach(tag => {
+                tag.addEventListener('click', () => {
+                    closeModal();
+                    document.getElementById('searchInput').value = tag.textContent;
+                    searchQuery = tag.textContent;
+                    document.getElementById('searchClear').classList.add('show');
+                    render();
+                });
+            });
+        }
+
+        function closeModal() {
+            document.getElementById('modalOverlay').classList.remove('show');
+            document.body.style.overflow = '';
+        }
+
+        document.getElementById('modalOverlay').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('modalOverlay')) closeModal();
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+            if (document.getElementById('modalOverlay').classList.contains('show')) {
+                if (e.key === 'ArrowLeft') document.getElementById('modalPrev')?.click();
+                if (e.key === 'ArrowRight') document.getElementById('modalNext')?.click();
+            }
+        });
+
+        // Search
+        const searchInput = document.getElementById('searchInput');
+        const searchClear = document.getElementById('searchClear');
+        searchInput.addEventListener('input', (e) => {
+            searchQuery = e.target.value.trim();
+            searchClear.classList.toggle('show', searchQuery.length > 0);
+            render();
+        });
+        searchClear.addEventListener('click', () => {
+            searchInput.value = '';
+            searchQuery = '';
+            searchClear.classList.remove('show');
+            searchInput.focus();
+            render();
+        });
+
+        // View toggle
+        document.querySelectorAll('.view-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                viewMode = btn.dataset.view;
+                render();
+            });
+        });
+
+        // Back to top
+        const backTop = document.getElementById('backTop');
+        window.addEventListener('scroll', () => {
+            backTop.classList.toggle('show', window.scrollY > 400);
+        });
+        backTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Keyboard shortcut
+        document.addEventListener('keydown', (e) => {
+            if (e.key === '/' && !document.getElementById('modalOverlay').classList.contains('show')) {
+                e.preventDefault();
+                searchInput.focus();
+            }
+        });
+
+        // Init
+        updateStats();
+        renderFilters();
+        render();
+    </script>
+</body>
+
+</html>

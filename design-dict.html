@@ -1,0 +1,4105 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Design Prompt Dictionary — AIにデザインを伝える言葉辞典 v2</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+JP:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+    :root {
+      --bg: #08090d;
+      --surface: #11131a;
+      --card: #161822;
+      --card-hover: #1c1f2e;
+      --border: #252838;
+      --accent: #7c6aff;
+      --accent2: #00e8b8;
+      --accent3: #ff6ba6;
+      --text: #e4e4f0;
+      --text-dim: #7e80a0;
+      --text-bright: #ffffff;
+      --radius: 16px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box
+    }
+
+    body {
+      font-family: 'Inter', 'Noto Sans JP', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .hero {
+      background: linear-gradient(180deg, #12102a 0%, var(--bg) 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 28px 20px 14px;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(20px);
+    }
+
+    .hero-title {
+      font-size: 1.6em;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, var(--accent), var(--accent3), var(--accent2));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-sub {
+      color: var(--text-dim);
+      font-size: 0.78em;
+      margin: 4px 0 14px;
+      font-weight: 400
+    }
+
+    .search-wrap {
+      max-width: 640px;
+      margin: 0 auto;
+      position: relative
+    }
+
+    .search-wrap svg {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-dim)
+    }
+
+    #search {
+      width: 100%;
+      padding: 12px 18px 12px 48px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: var(--surface);
+      color: var(--text);
+      font-size: 0.92em;
+      outline: none;
+      transition: border .3s, box-shadow .3s;
+      font-family: inherit;
+    }
+
+    #search:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(124, 106, 255, .15)
+    }
+
+    #search::placeholder {
+      color: var(--text-dim)
+    }
+
+    .meta-bar {
+      max-width: 640px;
+      margin: 8px auto 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.73em;
+      color: var(--text-dim);
+    }
+
+    .action-btns {
+      display: flex;
+      gap: 6px
+    }
+
+    .action-btn {
+      padding: 4px 10px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-dim);
+      font-size: 0.92em;
+      cursor: pointer;
+      transition: all .25s;
+      font-family: inherit;
+    }
+
+    .action-btn:hover {
+      border-color: var(--accent);
+      color: var(--text)
+    }
+
+    .action-btn.on {
+      background: var(--accent3);
+      border-color: var(--accent3);
+      color: #fff
+    }
+
+    .tab-scroll {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      padding: 10px 20px 2px;
+      max-width: 1100px;
+      margin: 0 auto;
+      scrollbar-width: none;
+    }
+
+    .tab-scroll::-webkit-scrollbar {
+      display: none
+    }
+
+    .tabs {
+      display: flex;
+      gap: 6px;
+      width: max-content
+    }
+
+    .tab {
+      padding: 5px 13px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-dim);
+      font-size: 0.74em;
+      cursor: pointer;
+      transition: all .25s;
+      white-space: nowrap;
+      font-family: inherit;
+      font-weight: 500;
+    }
+
+    .tab:hover {
+      border-color: var(--accent);
+      color: var(--text)
+    }
+
+    .tab.on {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+      font-weight: 600
+    }
+
+    .view-bar {
+      max-width: 1100px;
+      margin: 10px auto 0;
+      padding: 0 20px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .view-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-dim);
+      cursor: pointer;
+      transition: all .25s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .view-btn.on {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff
+    }
+
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 14px 16px 80px
+    }
+
+    .section-title {
+      font-size: 1.02em;
+      font-weight: 700;
+      margin-bottom: 10px;
+      padding-left: 14px;
+      border-left: 4px solid var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-badge {
+      font-size: 0.62em;
+      padding: 2px 9px;
+      border-radius: 10px;
+      color: #fff;
+      font-weight: 600;
+    }
+
+    .section {
+      margin-bottom: 30px
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 12px;
+    }
+
+    .list .card {
+      display: flex;
+      align-items: stretch;
+      gap: 0
+    }
+
+    .list .card-body {
+      flex: 1
+    }
+
+    .list .card-preview {
+      width: 140px;
+      min-height: 80px;
+      flex-shrink: 0;
+      border-radius: 10px;
+      order: -1;
+      margin: 12px 0 12px 12px;
+      height: auto
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      cursor: pointer;
+      transition: all .3s;
+      position: relative;
+    }
+
+    .card:hover {
+      background: var(--card-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, .35);
+    }
+
+    .card-accent {
+      height: 3px;
+      width: 100%
+    }
+
+    .card-body {
+      padding: 14px 16px 12px
+    }
+
+    .card-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 3px
+    }
+
+    .card-word {
+      font-size: 0.95em;
+      font-weight: 700;
+      color: var(--text-bright);
+      line-height: 1.3
+    }
+
+    .card-en {
+      font-size: 0.7em;
+      color: var(--text-dim);
+      margin-bottom: 5px;
+      font-weight: 400
+    }
+
+    .card-eff {
+      font-size: 0.62em;
+      padding: 2px 7px;
+      border-radius: 8px;
+      background: rgba(0, 232, 184, .12);
+      color: var(--accent2);
+      white-space: nowrap;
+      flex-shrink: 0;
+      margin-left: 8px;
+      font-weight: 600;
+    }
+
+    .card-sum {
+      font-size: 0.78em;
+      color: var(--text-dim);
+      line-height: 1.55;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 7px
+    }
+
+    .card-tag {
+      font-size: 0.62em;
+      padding: 2px 7px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, .05);
+      color: var(--text-dim);
+    }
+
+    .card-fav {
+      position: absolute;
+      top: 8px;
+      right: 10px;
+      font-size: 1em;
+      z-index: 5;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: rgba(255, 255, 255, .15);
+      transition: all .25s;
+      line-height: 1;
+    }
+
+    .card-fav:hover,
+    .card-fav.on {
+      color: var(--accent3)
+    }
+
+    .card-preview {
+      height: 120px;
+      margin: 0 12px 0;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7em;
+      color: var(--text-dim);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .card-preview-inner {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+      padding: 8px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Animated previews */
+    .preview-shimmer {
+      background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+    }
+
+    @keyframes shimmer {
+      0% {
+        background-position: 200% 0
+      }
+
+      100% {
+        background-position: -200% 0
+      }
+    }
+
+    .preview-pulse {
+      animation: pulse 2s infinite ease-in-out
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1
+      }
+
+      50% {
+        opacity: .6
+      }
+    }
+
+    .preview-float {
+      animation: float 3s infinite ease-in-out
+    }
+
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translateY(0)
+      }
+
+      50% {
+        transform: translateY(-6px)
+      }
+    }
+
+    .preview-glow-anim {
+      animation: glowPulse 2s infinite ease-in-out
+    }
+
+    @keyframes glowPulse {
+
+      0%,
+      100% {
+        filter: drop-shadow(0 0 4px currentColor)
+      }
+
+      50% {
+        filter: drop-shadow(0 0 16px currentColor)
+      }
+    }
+
+    .preview-rotate {
+      animation: slowRotate 8s infinite linear
+    }
+
+    @keyframes slowRotate {
+      from {
+        transform: rotate(0deg)
+      }
+
+      to {
+        transform: rotate(360deg)
+      }
+    }
+
+    .preview-typing::after {
+      content: '|';
+      animation: blink 1s step-end infinite
+    }
+
+    @keyframes blink {
+
+      0%,
+      100% {
+        opacity: 1
+      }
+
+      50% {
+        opacity: 0
+      }
+    }
+
+    .preview-gradient-move {
+      background-size: 200% 200%;
+      animation: gradMove 4s ease infinite
+    }
+
+    @keyframes gradMove {
+      0% {
+        background-position: 0% 50%
+      }
+
+      50% {
+        background-position: 100% 50%
+      }
+
+      100% {
+        background-position: 0% 50%
+      }
+    }
+
+    .preview-bounce:hover .bounce-target {
+      animation: bounce .5s
+    }
+
+    @keyframes bounce {
+
+      0%,
+      100% {
+        transform: scale(1)
+      }
+
+      50% {
+        transform: scale(1.3)
+      }
+    }
+
+    .preview-ripple {
+      position: relative;
+      overflow: hidden
+    }
+
+    .ripple-ring {
+      position: absolute;
+      border: 2px solid rgba(124, 106, 255, .3);
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      animation: rippleOut 2s infinite ease-out;
+    }
+
+    .ripple-ring:nth-child(2) {
+      animation-delay: .6s
+    }
+
+    .ripple-ring:nth-child(3) {
+      animation-delay: 1.2s
+    }
+
+    @keyframes rippleOut {
+      0% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 1
+      }
+
+      100% {
+        transform: translate(-50%, -50%) scale(1.5);
+        opacity: 0
+      }
+    }
+
+    .preview-scanline::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 0, 0, .15) 2px, rgba(0, 0, 0, .15) 4px);
+      pointer-events: none;
+    }
+
+    .preview-grid-bg {
+      background-image: linear-gradient(rgba(124, 106, 255, .1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(124, 106, 255, .1) 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
+
+    .card-more {
+      position: absolute;
+      bottom: 6px;
+      right: 12px;
+      font-size: 0.68em;
+      color: var(--text-dim);
+    }
+
+    /* Playground Overlay */
+    .playground-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 500;
+      background: var(--bg);
+      animation: pgIn .4s ease;
+    }
+
+    .playground-overlay.show {
+      display: block
+    }
+
+    @keyframes pgIn {
+      from {
+        opacity: 0
+      }
+
+      to {
+        opacity: 1
+      }
+    }
+
+    .pg-close {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      z-index: 510;
+      background: rgba(0, 0, 0, .6);
+      border: 1px solid var(--border);
+      color: #fff;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      font-size: 1.3em;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(8px);
+      transition: all .3s;
+    }
+
+    .pg-close:hover {
+      background: var(--accent);
+      border-color: var(--accent)
+    }
+
+    .pg-info {
+      position: fixed;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 510;
+      background: rgba(0, 0, 0, .7);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 8px 20px;
+      border-radius: 12px;
+      font-size: 0.8em;
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      max-width: 90%;
+    }
+
+    .pg-info-title {
+      font-weight: 700;
+      color: #fff
+    }
+
+    .pg-info-hint {
+      color: var(--text-dim);
+      font-size: .9em
+    }
+
+    .pg-content {
+      width: 100%;
+      height: 100%;
+      overflow: auto
+    }
+
+    /* Interactive playground specific */
+    .pg-interact-hint {
+      position: fixed;
+      top: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 510;
+      background: rgba(124, 106, 255, .2);
+      border: 1px solid rgba(124, 106, 255, .3);
+      color: var(--accent);
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 0.72em;
+      font-weight: 500;
+      animation: hintPulse 3s ease infinite;
+    }
+
+    @keyframes hintPulse {
+
+      0%,
+      100% {
+        opacity: 1
+      }
+
+      50% {
+        opacity: .6
+      }
+    }
+
+    /* Prompt Builder */
+    .builder-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 400;
+      background: rgba(0, 0, 0, .75);
+      backdrop-filter: blur(6px);
+      justify-content: center;
+      align-items: center;
+      padding: 16px;
+    }
+
+    .builder-overlay.show {
+      display: flex
+    }
+
+    .builder {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      max-width: 800px;
+      width: 100%;
+      max-height: 88vh;
+      overflow-y: auto;
+      padding: 32px;
+      position: relative;
+      animation: mIn .3s ease;
+    }
+
+    .builder h2 {
+      font-size: 1.2em;
+      font-weight: 800;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 12px;
+    }
+
+    .builder-cat {
+      margin-bottom: 16px
+    }
+
+    .builder-cat h3 {
+      font-size: .78em;
+      color: var(--accent);
+      font-weight: 700;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: .5px
+    }
+
+    .builder-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px
+    }
+
+    .builder-chip {
+      font-size: 0.72em;
+      padding: 5px 12px;
+      border-radius: 10px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      cursor: pointer;
+      transition: all .25s;
+      user-select: none;
+    }
+
+    .builder-chip:hover {
+      border-color: var(--accent);
+      color: var(--text)
+    }
+
+    .builder-chip.on {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff
+    }
+
+    .builder-output {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    .builder-output h3 {
+      font-size: .78em;
+      color: var(--accent2);
+      font-weight: 700;
+      margin-bottom: 8px
+    }
+
+    .builder-prompt {
+      background: rgba(0, 0, 0, .35);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8em;
+      color: var(--accent2);
+      line-height: 1.7;
+      min-height: 80px;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+
+    .builder-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px
+    }
+
+    .builder-btn {
+      padding: 8px 18px;
+      border-radius: 10px;
+      border: none;
+      font-size: 0.78em;
+      cursor: pointer;
+      font-family: inherit;
+      font-weight: 600;
+      transition: all .3s;
+    }
+
+    .builder-btn-primary {
+      background: var(--accent);
+      color: #fff
+    }
+
+    .builder-btn-primary:hover {
+      background: #6a58e8
+    }
+
+    .builder-btn-secondary {
+      background: var(--card);
+      color: var(--text);
+      border: 1px solid var(--border)
+    }
+
+    .builder-btn-secondary:hover {
+      border-color: var(--accent)
+    }
+
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .75);
+      z-index: 300;
+      justify-content: center;
+      align-items: center;
+      padding: 16px;
+      backdrop-filter: blur(6px);
+    }
+
+    .overlay.show {
+      display: flex
+    }
+
+    .modal {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      max-width: 740px;
+      width: 100%;
+      max-height: 88vh;
+      overflow-y: auto;
+      padding: 32px;
+      position: relative;
+      animation: mIn .3s ease;
+    }
+
+    @keyframes mIn {
+      from {
+        opacity: 0;
+        transform: scale(.96) translateY(12px)
+      }
+
+      to {
+        opacity: 1;
+        transform: none
+      }
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 14px;
+      right: 16px;
+      background: none;
+      border: none;
+      color: var(--text-dim);
+      font-size: 1.5em;
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      color: #fff
+    }
+
+    .modal-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.1em;
+      transition: all .25s;
+    }
+
+    .modal-nav:hover {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent)
+    }
+
+    .modal-nav.prev {
+      left: -50px
+    }
+
+    .modal-nav.next {
+      right: -50px
+    }
+
+    @media(max-width:860px) {
+      .modal-nav.prev {
+        left: 12px;
+        top: auto;
+        bottom: 12px;
+        transform: none
+      }
+
+      .modal-nav.next {
+        right: 12px;
+        top: auto;
+        bottom: 12px;
+        transform: none
+      }
+    }
+
+    .modal-cat {
+      display: inline-block;
+      font-size: 0.7em;
+      padding: 3px 11px;
+      border-radius: 10px;
+      color: #fff;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .modal h2 {
+      font-size: 1.35em;
+      font-weight: 800;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 2px;
+    }
+
+    .modal-en {
+      color: var(--text-dim);
+      font-size: 0.82em;
+      margin-bottom: 3px
+    }
+
+    .modal-eff {
+      color: var(--accent2);
+      font-size: 0.82em;
+      margin-bottom: 14px
+    }
+
+    .modal-sect {
+      margin-bottom: 18px
+    }
+
+    .modal-sect h3 {
+      font-size: 0.78em;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: .6px;
+      margin-bottom: 5px;
+      font-weight: 700;
+    }
+
+    .modal-sect p {
+      font-size: 0.84em;
+      color: var(--text-dim);
+      line-height: 1.75
+    }
+
+    .modal-sect pre {
+      background: rgba(0, 0, 0, .35);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-break: break-all;
+      font-family: 'JetBrains Mono', 'Consolas', monospace;
+      font-size: 0.8em;
+      color: var(--accent2);
+      line-height: 1.6;
+    }
+
+    .modal-preview {
+      border-radius: 14px;
+      overflow: hidden;
+      margin-bottom: 14px;
+      height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-preview-inner {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      border-radius: 14px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .modal-css {
+      margin-top: 10px
+    }
+
+    .modal-css summary {
+      font-size: 0.78em;
+      color: var(--accent);
+      cursor: pointer;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .modal-css pre {
+      font-size: 0.75em;
+      padding: 10px
+    }
+
+    .copy-btn,
+    .try-btn {
+      display: inline-block;
+      margin-top: 6px;
+      padding: 6px 14px;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 0.75em;
+      cursor: pointer;
+      transition: background .3s;
+      font-family: inherit;
+      font-weight: 600;
+    }
+
+    .copy-btn {
+      background: var(--accent)
+    }
+
+    .copy-btn:hover {
+      background: #6a58e8
+    }
+
+    .try-btn {
+      background: var(--accent2);
+      color: #000;
+      margin-left: 6px
+    }
+
+    .try-btn:hover {
+      background: #00c9a0
+    }
+
+    .modal-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 12px
+    }
+
+    .modal-tag {
+      font-size: 0.7em;
+      padding: 3px 10px;
+      border-radius: 8px;
+      background: rgba(124, 106, 255, .12);
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    .modal-related {
+      margin-top: 18px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border)
+    }
+
+    .modal-related h3 {
+      font-size: 0.78em;
+      color: var(--accent);
+      margin-bottom: 8px;
+      font-weight: 700
+    }
+
+    .related-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px
+    }
+
+    .related-chip {
+      font-size: 0.72em;
+      padding: 4px 12px;
+      border-radius: 10px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      cursor: pointer;
+      transition: all .25s;
+    }
+
+    .related-chip:hover {
+      border-color: var(--accent);
+      color: var(--text)
+    }
+
+    .no-result {
+      text-align: center;
+      color: var(--text-dim);
+      padding: 60px 20px;
+      font-size: 0.92em
+    }
+
+    ::-webkit-scrollbar {
+      width: 5px
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 3px
+    }
+
+    @media(max-width:640px) {
+      .hero-title {
+        font-size: 1.2em
+      }
+
+      .grid {
+        grid-template-columns: 1fr
+      }
+
+      .modal {
+        padding: 20px 16px
+      }
+
+      .card-preview {
+        height: 90px;
+        margin: 0 10px
+      }
+
+      .list .card {
+        flex-direction: column
+      }
+
+      .list .card-preview {
+        width: auto;
+        margin: 10px 10px 0;
+        min-height: 60px
+      }
+
+      .builder {
+        padding: 20px 16px
+      }
+    }
+
+    /* Playground Styles */
+    .pg-glass-demo {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 30%, #f093fb 60%, #f5576c 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pg-glass-demo::before {
+      content: '';
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      background: rgba(255, 200, 50, .35);
+      border-radius: 50%;
+      top: -80px;
+      right: -60px;
+    }
+
+    .pg-glass-demo::after {
+      content: '';
+      position: absolute;
+      width: 250px;
+      height: 250px;
+      background: rgba(50, 200, 255, .3);
+      border-radius: 50%;
+      bottom: -80px;
+      left: -40px;
+    }
+
+    .pg-glass-card {
+      backdrop-filter: blur(24px);
+      background: rgba(255, 255, 255, .15);
+      border: 1px solid rgba(255, 255, 255, .3);
+      border-radius: 24px;
+      padding: 40px;
+      max-width: 420px;
+      width: 100%;
+      color: #fff;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, .1);
+      position: relative;
+      z-index: 1;
+    }
+
+    .pg-glass-card h3 {
+      font-size: 1.8em;
+      font-weight: 700;
+      margin-bottom: 8px
+    }
+
+    .pg-glass-card p {
+      opacity: .85;
+      line-height: 1.7;
+      margin-bottom: 20px
+    }
+
+    .pg-glass-input {
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, .2);
+      background: rgba(255, 255, 255, .1);
+      color: #fff;
+      font-size: 1em;
+      outline: none;
+      margin-bottom: 12px;
+      font-family: inherit;
+    }
+
+    .pg-glass-input::placeholder {
+      color: rgba(255, 255, 255, .5)
+    }
+
+    .pg-glass-btn {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, .25);
+      color: #fff;
+      font-size: 1em;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all .3s;
+      font-family: inherit;
+    }
+
+    .pg-glass-btn:hover {
+      background: rgba(255, 255, 255, .35)
+    }
+
+    .pg-glass-stats {
+      display: flex;
+      gap: 16px;
+      margin-top: 20px
+    }
+
+    .pg-glass-stat {
+      flex: 1;
+      text-align: center;
+      padding: 12px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, .08);
+    }
+
+    .pg-glass-stat .num {
+      font-size: 1.5em;
+      font-weight: 800
+    }
+
+    .pg-glass-stat .label {
+      font-size: .75em;
+      opacity: .7;
+      margin-top: 2px
+    }
+
+    /* Neumorphism playground */
+    .pg-neu-demo {
+      min-height: 100vh;
+      background: #e0e5ec;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+    }
+
+    .pg-neu-calculator {
+      max-width: 320px;
+      width: 100%
+    }
+
+    .pg-neu-display {
+      background: #e0e5ec;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: inset 4px 4px 8px #b8bec7, inset -4px -4px 8px #fff;
+      font-size: 2em;
+      text-align: right;
+      color: #555;
+      font-weight: 300;
+      margin-bottom: 20px;
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .pg-neu-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px
+    }
+
+    .pg-neu-btn {
+      aspect-ratio: 1;
+      border: none;
+      border-radius: 16px;
+      background: #e0e5ec;
+      box-shadow: 6px 6px 12px #b8bec7, -6px -6px 12px #fff;
+      font-size: 1.2em;
+      color: #555;
+      cursor: pointer;
+      transition: all .15s;
+      font-family: inherit;
+      font-weight: 500;
+    }
+
+    .pg-neu-btn:active {
+      box-shadow: inset 4px 4px 8px #b8bec7, inset -4px -4px 8px #fff;
+    }
+
+    .pg-neu-btn.op {
+      color: #7c6aff;
+      font-weight: 700
+    }
+
+    .pg-neu-btn.eq {
+      background: #7c6aff;
+      color: #fff;
+      box-shadow: 6px 6px 12px #b8bec7, -6px -6px 12px #fff, 0 4px 15px rgba(124, 106, 255, .3)
+    }
+
+    /* Cyberpunk playground */
+    .pg-cyber-demo {
+      min-height: 100vh;
+      background: #0a0014;
+      position: relative;
+      overflow: hidden;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .pg-cyber-demo .scanlines {
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 245, 255, .03) 2px, rgba(0, 245, 255, .03) 4px);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .pg-cyber-title {
+      font-family: monospace;
+      font-size: clamp(2rem, 8vw, 5rem);
+      font-weight: 900;
+      color: #fff;
+      position: relative;
+      z-index: 2;
+      text-align: center;
+    }
+
+    .pg-cyber-title .glitch-text {
+      position: relative;
+      display: inline-block
+    }
+
+    .pg-cyber-title .glitch-text::before,
+    .pg-cyber-title .glitch-text::after {
+      content: attr(data-text);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+    }
+
+    .pg-cyber-title .glitch-text::before {
+      color: #ff006e;
+      z-index: -1;
+      animation: cyberGlitch1 3s infinite;
+    }
+
+    .pg-cyber-title .glitch-text::after {
+      color: #00f5ff;
+      z-index: -2;
+      animation: cyberGlitch2 3s infinite;
+    }
+
+    @keyframes cyberGlitch1 {
+
+      0%,
+      100% {
+        clip-path: inset(0);
+        transform: translate(0)
+      }
+
+      5% {
+        clip-path: inset(20% 0 60% 0);
+        transform: translate(-4px, 2px)
+      }
+
+      10% {
+        clip-path: inset(0);
+        transform: translate(0)
+      }
+
+      40% {
+        clip-path: inset(50% 0 20% 0);
+        transform: translate(3px, -1px)
+      }
+
+      45% {
+        clip-path: inset(0);
+        transform: translate(0)
+      }
+    }
+
+    @keyframes cyberGlitch2 {
+
+      0%,
+      100% {
+        clip-path: inset(0);
+        transform: translate(0)
+      }
+
+      15% {
+        clip-path: inset(60% 0 10% 0);
+        transform: translate(4px, 1px)
+      }
+
+      20% {
+        clip-path: inset(0);
+        transform: translate(0)
+      }
+
+      50% {
+        clip-path: inset(10% 0 70% 0);
+        transform: translate(-3px, 2px)
+      }
+
+      55% {
+        clip-path: inset(0);
+        transform: translate(0)
+      }
+    }
+
+    .pg-cyber-sub {
+      font-family: monospace;
+      font-size: clamp(.8rem, 2vw, 1.2rem);
+      color: #00f5ff;
+      text-shadow: 0 0 10px #00f5ff;
+      margin-top: 12px;
+      position: relative;
+      z-index: 2;
+      letter-spacing: 4px;
+    }
+
+    .pg-cyber-cards {
+      display: flex;
+      gap: 16px;
+      margin-top: 40px;
+      position: relative;
+      z-index: 2;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .pg-cyber-card {
+      background: rgba(0, 245, 255, .05);
+      border: 1px solid rgba(0, 245, 255, .2);
+      border-radius: 8px;
+      padding: 20px;
+      width: 200px;
+      transition: all .3s;
+    }
+
+    .pg-cyber-card:hover {
+      background: rgba(0, 245, 255, .1);
+      border-color: #00f5ff;
+      box-shadow: 0 0 20px rgba(0, 245, 255, .2), inset 0 0 20px rgba(0, 245, 255, .05);
+    }
+
+    .pg-cyber-card .num {
+      font-family: monospace;
+      font-size: 2em;
+      font-weight: 700;
+      color: #00f5ff;
+      text-shadow: 0 0 10px #00f5ff
+    }
+
+    .pg-cyber-card .lbl {
+      color: rgba(255, 255, 255, .5);
+      font-size: .8em;
+      margin-top: 4px;
+      font-family: monospace
+    }
+
+    .pg-cyber-bar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: #ff006e;
+      box-shadow: 0 0 10px #ff006e;
+      z-index: 3;
+    }
+
+    /* Minimal playground */
+    .pg-min-demo {
+      min-height: 100vh;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 20px;
+    }
+
+    .pg-min-content {
+      max-width: 600px;
+      width: 100%;
+      color: #111
+    }
+
+    .pg-min-content h2 {
+      font-size: 2.5em;
+      font-weight: 300;
+      letter-spacing: .02em;
+      line-height: 1.2;
+      margin-bottom: 24px
+    }
+
+    .pg-min-content p {
+      font-size: 1em;
+      color: #666;
+      line-height: 1.9;
+      margin-bottom: 32px;
+      font-weight: 300
+    }
+
+    .pg-min-divider {
+      width: 40px;
+      height: 2px;
+      background: #111;
+      margin-bottom: 32px
+    }
+
+    .pg-min-items {
+      display: flex;
+      flex-direction: column;
+      gap: 16px
+    }
+
+    .pg-min-item {
+      padding: 20px;
+      border: 1px solid #eee;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all .3s;
+      cursor: pointer;
+    }
+
+    .pg-min-item:hover {
+      border-color: #111;
+      transform: translateX(4px)
+    }
+
+    .pg-min-item .title {
+      font-weight: 500;
+      font-size: .95em
+    }
+
+    .pg-min-item .arrow {
+      color: #999;
+      transition: transform .3s
+    }
+
+    .pg-min-item:hover .arrow {
+      transform: translateX(4px);
+      color: #111
+    }
+
+    /* Retro playground */
+    .pg-retro-demo {
+      min-height: 100vh;
+      background: #1a0533;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pg-retro-demo::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 0, 0, .3) 2px, rgba(0, 0, 0, .3) 4px);
+      pointer-events: none;
+    }
+
+    .pg-retro-screen {
+      background: #0a001a;
+      border: 4px solid #ff6b35;
+      border-radius: 4px;
+      padding: 32px;
+      max-width: 500px;
+      width: 100%;
+      position: relative;
+      box-shadow: 0 0 30px rgba(255, 107, 53, .3), inset 0 0 60px rgba(255, 107, 53, .05);
+    }
+
+    .pg-retro-header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .pg-retro-header h2 {
+      font-family: monospace;
+      font-size: 2em;
+      font-weight: 900;
+      background: linear-gradient(180deg, #ff6b35, #f7c59f);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+    }
+
+    .pg-retro-header .subtitle {
+      color: #ff6b35;
+      font-family: monospace;
+      font-size: .8em;
+      opacity: .7;
+      margin-top: 4px;
+    }
+
+    .pg-retro-scores {
+      display: flex;
+      flex-direction: column;
+      gap: 8px
+    }
+
+    .pg-retro-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 12px;
+      border: 1px solid rgba(255, 107, 53, .2);
+      font-family: monospace;
+      color: #f7c59f;
+      font-size: .9em;
+    }
+
+    .pg-retro-row .rank {
+      color: #ff6b35;
+      font-weight: 700;
+      width: 30px
+    }
+
+    .pg-retro-row .name {
+      flex: 1
+    }
+
+    .pg-retro-row .score {
+      color: #ff6b35;
+      font-weight: 700;
+      text-shadow: 0 0 8px rgba(255, 107, 53, .5)
+    }
+
+    .pg-retro-row:first-child {
+      background: rgba(255, 107, 53, .1);
+      border-color: #ff6b35
+    }
+
+    /* Luxury playground */
+    .pg-lux-demo {
+      min-height: 100vh;
+      background: #0a0a0a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 20px;
+    }
+
+    .pg-lux-content {
+      text-align: center;
+      max-width: 600px
+    }
+
+    .pg-lux-content .brand {
+      font-family: Georgia, serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      color: #c9a96e;
+      font-weight: 300;
+      letter-spacing: .2em;
+    }
+
+    .pg-lux-content .line {
+      width: 80px;
+      height: 1px;
+      margin: 20px auto;
+      background: linear-gradient(90deg, transparent, #c9a96e, transparent);
+    }
+
+    .pg-lux-content .tagline {
+      color: #555;
+      font-family: Georgia, serif;
+      font-size: .9em;
+      letter-spacing: .15em;
+      font-style: italic;
+    }
+
+    .pg-lux-content .cta {
+      margin-top: 40px;
+      display: inline-block;
+      padding: 14px 40px;
+      border: 1px solid #c9a96e;
+      color: #c9a96e;
+      font-size: .85em;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all .3s;
+      font-family: inherit;
+      background: transparent;
+    }
+
+    .pg-lux-content .cta:hover {
+      background: #c9a96e;
+      color: #0a0a0a
+    }
+
+    /* Bento playground */
+    .pg-bento-demo {
+      min-height: 100vh;
+      background: #0f0f1a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+
+    .pg-bento-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(3, 140px);
+      gap: 12px;
+      max-width: 800px;
+      width: 100%;
+    }
+
+    .pg-bento-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      transition: all .3s;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .pg-bento-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, .3);
+      border-color: var(--accent)
+    }
+
+    .pg-bento-item.big {
+      grid-column: span 2;
+      grid-row: span 2
+    }
+
+    .pg-bento-item.wide {
+      grid-column: span 2
+    }
+
+    .pg-bento-item .icon {
+      font-size: 1.8em;
+      margin-bottom: 8px
+    }
+
+    .pg-bento-item h4 {
+      color: #fff;
+      font-size: .9em;
+      font-weight: 600
+    }
+
+    .pg-bento-item p {
+      color: var(--text-dim);
+      font-size: .72em;
+      margin-top: 4px;
+      line-height: 1.5
+    }
+
+    .pg-bento-item.accent {
+      background: linear-gradient(135deg, #7c6aff, #a78bfa)
+    }
+
+    .pg-bento-item.accent h4,
+    .pg-bento-item.accent p {
+      color: #fff
+    }
+
+    .pg-bento-item.accent p {
+      opacity: .8
+    }
+
+    @media(max-width:640px) {
+      .pg-bento-grid {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto
+      }
+    }
+
+    /* Warm playground */
+    .pg-warm-demo {
+      min-height: 100vh;
+      background: #faf3e8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+
+    .pg-warm-card {
+      max-width: 400px;
+      width: 100%;
+      background: #fff;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 2px solid #e8d5c0;
+    }
+
+    .pg-warm-img {
+      height: 200px;
+      background: linear-gradient(135deg, #c67a4b, #d4a574);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3em
+    }
+
+    .pg-warm-body {
+      padding: 24px
+    }
+
+    .pg-warm-body h3 {
+      color: #3d2b1f;
+      font-size: 1.3em;
+      margin-bottom: 8px
+    }
+
+    .pg-warm-body p {
+      color: #7a5f4a;
+      line-height: 1.8;
+      margin-bottom: 16px;
+      font-size: .9em
+    }
+
+    .pg-warm-tags {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 16px
+    }
+
+    .pg-warm-tag {
+      padding: 4px 12px;
+      border-radius: 20px;
+      background: #f5eadb;
+      color: #8a6f55;
+      font-size: .75em;
+    }
+
+    .pg-warm-btn {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 12px;
+      background: #c67a4b;
+      color: #fff;
+      font-size: 1em;
+      cursor: pointer;
+      font-family: inherit;
+      font-weight: 600;
+      transition: all .3s;
+    }
+
+    .pg-warm-btn:hover {
+      background: #a8623a
+    }
+
+    /* Dark neon playground */
+    .pg-darkneon-demo {
+      min-height: 100vh;
+      background: #0a0f0d;
+      padding: 40px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .pg-darkneon-dashboard {
+      max-width: 700px;
+      width: 100%
+    }
+
+    .pg-darkneon-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 32px;
+    }
+
+    .pg-darkneon-header h2 {
+      color: #e0e0e0;
+      font-size: 1.5em;
+      font-weight: 600
+    }
+
+    .pg-darkneon-header .live {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #00ff88;
+      font-size: .8em;
+      font-weight: 500;
+    }
+
+    .pg-darkneon-header .live::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #00ff88;
+      box-shadow: 0 0 8px #00ff88;
+      animation: pulse 2s infinite;
+    }
+
+    .pg-darkneon-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 24px
+    }
+
+    .pg-darkneon-stat {
+      background: rgba(0, 255, 136, .03);
+      border: 1px solid rgba(0, 255, 136, .12);
+      border-radius: 12px;
+      padding: 16px;
+    }
+
+    .pg-darkneon-stat .val {
+      font-size: 1.8em;
+      font-weight: 700;
+      color: #00ff88;
+      text-shadow: 0 0 8px rgba(0, 255, 136, .3);
+      font-family: 'JetBrains Mono', monospace
+    }
+
+    .pg-darkneon-stat .lbl {
+      color: #777;
+      font-size: .75em;
+      margin-top: 4px
+    }
+
+    .pg-darkneon-chart {
+      background: rgba(0, 255, 136, .02);
+      border: 1px solid rgba(0, 255, 136, .08);
+      border-radius: 12px;
+      padding: 20px;
+      height: 160px;
+      display: flex;
+      align-items: flex-end;
+      gap: 8px;
+    }
+
+    .pg-darkneon-bar {
+      flex: 1;
+      background: linear-gradient(180deg, #00ff88, rgba(0, 255, 136, .2));
+      border-radius: 4px 4px 0 0;
+      transition: height .5s ease;
+      box-shadow: 0 0 8px rgba(0, 255, 136, .15);
+      min-height: 8px;
+    }
+  </style>
+  <link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%237c6aff'/%3E%3Cstop offset='50%25' stop-color='%23ff6ba6'/%3E%3Cstop offset='100%25' stop-color='%2300e8b8'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='8' fill='%2308090d'/%3E%3Ccircle cx='11' cy='16' r='5' fill='%237c6aff' opacity='.8'/%3E%3Ccircle cx='21' cy='13' r='4' fill='%23ff6ba6' opacity='.7'/%3E%3Ccircle cx='18' cy='21' r='4.5' fill='%2300e8b8' opacity='.7'/%3E%3C/svg%3E">
+</head>
+
+<body>
+
+  <div class="hero">
+    <div class="hero-title">AI Design Prompt Dictionary</div>
+    <div class="hero-sub">AIにデザイン・UI/UXを伝えるための言葉辞典 — 指示一つで見た目が劇的に変わる</div>
+    <div style="display:flex;gap:8px;justify-content:center;margin:8px 0 4px;flex-wrap:wrap">
+      <a href="index.html"
+        style="display:inline-flex;align-items:center;gap:4px;padding:4px 12px;border-radius:20px;background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.7);text-decoration:none;font-size:0.72em;font-weight:600;border:1px solid rgba(255,255,255,0.1);transition:all 0.2s">
+        📚 Web UIコンポーネント辞典
+      </a>
+      <a href="prompt-dict.html"
+        style="display:inline-flex;align-items:center;gap:4px;padding:4px 12px;border-radius:20px;background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.7);text-decoration:none;font-size:0.72em;font-weight:600;border:1px solid rgba(255,255,255,0.1);transition:all 0.2s">
+        🤖 AI Coding Prompt辞典
+      </a>
+    </div>
+
+    <div class="search-wrap">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8" />
+        <line x1="21" y1="21" x2="16.65" y2="16.65" />
+      </svg>
+      <input type="text" id="search" placeholder="キーワード検索 — 例: グラス、ネオン、ミニマル、カード、余白...">
+    </div>
+    <div class="meta-bar">
+      <span id="count">-</span>
+      <div class="action-btns">
+        <button class="action-btn" id="randBtn" title="ランダム表示">🎲 ランダム</button>
+        <button class="action-btn" id="favBtn" title="お気に入りだけ表示">♥ お気に入り</button>
+        <button class="action-btn" id="buildBtn" title="プロンプトを組み立てる">🔧 プロンプトビルダー</button>
+      </div>
+    </div>
+    <div class="tab-scroll">
+      <div class="tabs" id="tabs"></div>
+    </div>
+  </div>
+
+  <div class="view-bar">
+    <button class="view-btn on" data-v="grid" title="グリッド表示">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+        <rect x="3" y="3" width="7" height="7" rx="1.5" />
+        <rect x="14" y="3" width="7" height="7" rx="1.5" />
+        <rect x="3" y="14" width="7" height="7" rx="1.5" />
+        <rect x="14" y="14" width="7" height="7" rx="1.5" />
+      </svg>
+    </button>
+    <button class="view-btn" data-v="list" title="リスト表示">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+        <rect x="3" y="4" width="18" height="4" rx="1" />
+        <rect x="3" y="10" width="18" height="4" rx="1" />
+        <rect x="3" y="16" width="18" height="4" rx="1" />
+      </svg>
+    </button>
+  </div>
+
+  <div class="container" id="main"></div>
+  <div class="overlay" id="overlay">
+    <div class="modal" id="modal"></div>
+  </div>
+
+  <!-- Playground fullscreen -->
+  <div class="playground-overlay" id="playground"></div>
+
+  <!-- Prompt Builder -->
+  <div class="builder-overlay" id="builderOverlay">
+    <div class="builder" id="builder"></div>
+  </div>
+
+  <script>
+    const CATS = [
+      { id: "style", name: "デザインスタイル", color: "#7c6aff" },
+      { id: "layout", name: "レイアウト", color: "#00e8b8" },
+      { id: "color", name: "配色・カラー", color: "#ff6ba6" },
+      { id: "typo", name: "タイポグラフィ", color: "#ffb347" },
+      { id: "motion", name: "アニメーション・動き", color: "#47b3ff" },
+      { id: "mood", name: "雰囲気・トーン", color: "#e06aff" },
+      { id: "component", name: "UIコンポーネント", color: "#ff6b6b" },
+      { id: "pattern", name: "UIパターン・装飾", color: "#6bffa6" },
+      { id: "responsive", name: "レスポンシブ・適応", color: "#ffd76b" },
+      { id: "trend", name: "トレンド・リファレンス", color: "#6bd4ff" },
+      { id: "effect", name: "視覚エフェクト", color: "#ff8f6b" },
+      { id: "density", name: "密度・余白", color: "#a78bfa" },
+      { id: "a11y", name: "アクセシビリティ", color: "#34d399" },
+      { id: "image", name: "画像・メディア", color: "#f472b6" },
+    ];
+
+    const DATA = [
+      // ===== デザインスタイル =====
+      {
+        word: "ミニマルデザイン", en: "Minimal / Minimalist design", category: "style", effectiveness: "★★★★★",
+        summary: "余計な装飾を排除し、必要最低限の要素だけで構成。洗練された印象を生む。",
+        detail: "AIに最も確実に伝わるデザインスタイルの一つです。無駄な装飾、影、グラデーションを省き、十分なホワイトスペース、シンプルなアイコン、限られたカラーパレットで構成されます。Apple、Notion、Stripeのようなイメージを想起させます。",
+        example: 'ミニマルデザインで、白背景ベースのTodoアプリを作成してください。\n装飾は最小限に、余白を十分にとり、1色のアクセントカラーのみ使用してください。',
+        cssHint: 'background: #fff; color: #111; font-weight: 300; letter-spacing: 0.02em; /* 余白を広くとる */',
+        tags: ["シンプル", "洗練", "ホワイトスペース", "Apple風"],
+        related: ["フラットデザイン", "余白を十分に", "クリーン / プロフェッショナル"],
+        preview: { type: "minimal" },
+        playground: "minimal"
+      },
+
+      {
+        word: "グラスモーフィズム", en: "Glassmorphism", category: "style", effectiveness: "★★★★★",
+        summary: "すりガラスのような半透明・ぼかし効果のUI。奥行きと現代感を演出。",
+        detail: "backdrop-filter: blur()と半透明背景を組み合わせた、ガラスのような透明感のあるデザインです。AIはこのキーワードで正確にCSS実装できます。背景に鮮やかなグラデーションやイラストを配置し、その上にガラス風カードを重ねるのが典型パターンです。",
+        example: 'グラスモーフィズムのデザインで、ダッシュボードUIを作成してください。\n背景にカラフルなグラデーション、カードはbackdrop-filter: blur(20px)と\n半透明白背景(rgba(255,255,255,0.15))、細い白ボーダーを使用してください。',
+        cssHint: 'backdrop-filter: blur(20px);\nbackground: rgba(255,255,255,0.15);\nborder: 1px solid rgba(255,255,255,0.3);\nborder-radius: 16px;',
+        tags: ["透明", "ぼかし", "モダン", "backdrop-filter"],
+        related: ["ぼかし / ブラー効果", "グラデーション背景", "ダークモード"],
+        preview: { type: "glass" },
+        playground: "glass"
+      },
+
+      {
+        word: "ニューモーフィズム", en: "Neumorphism", category: "style", effectiveness: "★★★★★",
+        summary: "柔らかい凹凸のある立体感を表現するデザイン。押し出し・窪みの質感が特徴。",
+        detail: "同系色の背景に対し、明るい影と暗い影を組み合わせて立体感を出します。box-shadowの2重指定で実装され、AIはこのキーワード単体で正確に再現できます。ボタンの押下状態をinset shadowで表現するのも典型パターンです。",
+        example: 'ニューモーフィズムのデザインで、電卓アプリを作成してください。\n背景色#e0e5ec、ボタンは押し出し状態、押下時はinsetで凹む表現にしてください。',
+        cssHint: 'background: #e0e5ec;\nbox-shadow: 8px 8px 16px #b8bec7, -8px -8px 16px #ffffff;\nborder-radius: 18px;',
+        tags: ["立体", "ソフト", "凹凸", "box-shadow"],
+        related: ["マテリアルデザイン", "カードに影 / エレベーション"],
+        preview: { type: "neumorphism" },
+        playground: "neumorphism"
+      },
+
+      {
+        word: "フラットデザイン", en: "Flat design", category: "style", effectiveness: "★★★★☆",
+        summary: "影や立体感を排除し、平面的でカラフルな要素で構成するデザイン。",
+        detail: "グラデーション、影、テクスチャを使わず、明快な色使いとシンプルなアイコンで構成されます。Metro UI（Windows 8）が代表例。視認性が高く読み込みも軽い。「完全なフラットデザイン」と指示するとより忠実になります。",
+        example: 'フラットデザインで、天気予報アプリのUIを作成してください。\nbox-shadowは使わず、太めのボーダーとソリッドカラーで構成してください。',
+        cssHint: '/* 影なし、ボーダーなし、グラデーションなし */\nbackground: #3498db;\ncolor: #fff;\nborder: none;\nbox-shadow: none;',
+        tags: ["平面", "カラフル", "シンプル", "影なし"],
+        related: ["ミニマルデザイン", "ブルータリズム", "ビビッドカラー"],
+        preview: { type: "flat" }
+      },
+
+      {
+        word: "ブルータリズム", en: "Brutalism", category: "style", effectiveness: "★★★★☆",
+        summary: "生々しく大胆なデザイン。太いボーダー、非対称レイアウト、生のHTML感。",
+        detail: "洗練とは対極にある、あえて粗く力強いデザインです。太い黒ボーダー、モノスペースフォント、鮮烈な配色、非対称なレイアウトが特徴。ポートフォリオやアート系サイトで効果的です。AIはこの用語を正しく理解します。",
+        example: 'ブルータリズムスタイルで、ポートフォリオサイトを作成してください。\n太い黒ボーダー(3px以上)、モノスペースフォント、黄色と黒の配色、\n意図的に非対称なレイアウトにしてください。',
+        cssHint: 'font-family: monospace;\nborder: 4px solid #000;\nbackground: #ff0;\ntext-transform: uppercase;',
+        tags: ["大胆", "太枠", "モノスペース", "非対称"],
+        related: ["モノスペースフォント", "ビビッドカラー"],
+        preview: { type: "brutalism" }
+      },
+
+      {
+        word: "マテリアルデザイン", en: "Material Design", category: "style", effectiveness: "★★★★★",
+        summary: "Googleが提唱するデザインシステム。影の階層、リップル、カードUIが特徴。",
+        detail: "elevation（影の高さ）で奥行きを表現し、紙が重なるメタファーに基づいています。FAB（フローティングアクションボタン）、リップルエフェクト、8dpグリッドなどの具体的な要素をAIは正確に実装できます。",
+        example: 'マテリアルデザインに従って、メモアプリを作成してください。\nカードにelevation、FABボタン、リップルエフェクト、\n8pxグリッドシステムを使用してください。',
+        cssHint: 'box-shadow: 0 2px 4px rgba(0,0,0,0.1), 0 8px 16px rgba(0,0,0,0.1);\nborder-radius: 8px;\n/* 8px grid system */',
+        tags: ["Google", "カード", "elevation", "リップル"],
+        related: ["カードに影 / エレベーション", "フローティングアクションボタン", "リップルエフェクト"],
+        preview: { type: "material" }
+      },
+
+      {
+        word: "ダークモード / ダークテーマ", en: "Dark mode / Dark theme", category: "style", effectiveness: "★★★★★",
+        summary: "暗い背景色ベースのデザイン。目に優しく、モダンで高級感のある印象。",
+        detail: "背景を#0a0a0a〜#1a1a2eなどの暗色にし、テキストを明色にします。純黒(#000)よりやや明るいダークグレーが推奨。コントラスト比、アクセントカラーの映え方、ボーダーの視認性にAIは注意を払います。",
+        example: 'ダークモードのデザインで、音楽プレーヤーアプリを作成してください。\n背景は#0f0f1a、テキストは#e0e0e8、アクセントカラーは紫(#8b5cf6)にしてください。',
+        cssHint: 'background: #0f0f1a;\ncolor: #e0e0e8;\nborder-color: rgba(255,255,255,0.08);',
+        tags: ["ダーク", "暗色", "モダン", "目に優しい"],
+        related: ["グロー効果", "サイバーパンク風", "Vercel/Next.js風"],
+        preview: { type: "dark" }
+      },
+
+      {
+        word: "和風 / 和テイスト", en: "Japanese style / Wa-style", category: "style", effectiveness: "★★★★☆",
+        summary: "日本の伝統美を取り入れたデザイン。余白の美、和色、縦書きなどが特徴。",
+        detail: "和色パレット（藍色、朱色、抹茶色、金色など）、余白を活かした構成、ゴシック体ではなく明朝体の使用、和柄の装飾などが含まれます。「旅館のWebサイト風」のように具体例を添えるとさらに正確になります。",
+        example: '和風テイストで、日本料理店のランディングページを作成してください。\n色は藍色(#264653)と金色(#d4a574)、フォントは明朝体系、\n十分な余白と縦書きの見出しを取り入れてください。',
+        cssHint: 'font-family: "游明朝", "YuMincho", serif;\ncolor: #264653;\nborder-left: 3px solid #d4a574;\nletter-spacing: 0.1em;',
+        tags: ["日本", "和色", "余白", "明朝体"],
+        related: ["セリフ体 / 明朝体", "アースカラー", "余白を十分に"],
+        preview: { type: "japanese" }
+      },
+
+      {
+        word: "サイバーパンク風", en: "Cyberpunk style", category: "style", effectiveness: "★★★★☆",
+        summary: "ネオンカラー、暗い背景、未来的で退廃的な雰囲気のデザイン。",
+        detail: "黒や濃紺の背景にネオンピンク、シアン、パープルのグローエフェクト。グリッチエフェクト、走査線、モノスペースフォントなどSF映画的要素が加わります。ゲーム系・テック系のランディングページに最適です。",
+        example: 'サイバーパンク風のデザインで、イベント告知ページを作成してください。\n背景は黒、ネオンピンク(#ff006e)とシアン(#00f5ff)のグロー、\nグリッチ風テキストアニメーション、モノスペースフォントを使用してください。',
+        cssHint: 'background: #0a0014;\ncolor: #00f5ff;\ntext-shadow: 0 0 10px #00f5ff, 0 0 40px #00f5ff;\nfont-family: monospace;',
+        tags: ["ネオン", "SF", "グロー", "グリッチ"],
+        related: ["グロー効果", "モノスペースフォント", "未来的"],
+        preview: { type: "cyberpunk" },
+        playground: "cyberpunk"
+      },
+
+      {
+        word: "レトロ / ヴィンテージ", en: "Retro / Vintage", category: "style", effectiveness: "★★★★☆",
+        summary: "1960〜90年代の雰囲気を再現するデザイン。ノスタルジックで温かみがある。",
+        detail: "セピア調の色合い、丸みのあるフォント、テクスチャ背景、グレイン効果などが特徴。年代を指定すると精度が上がります：「70年代ディスコ風」「80年代アーケード風」「90年代Webデザイン風」など。",
+        example: '80年代レトロ風のデザインで、アーケードゲームのスコアボードUIを作成してください。\nネオンカラーのグラデーション、ピクセルフォント風の文字、\nグリッド背景、CRTモニター風のスキャンライン効果を含めてください。',
+        cssHint: 'background: linear-gradient(135deg, #ff6b35, #f7c59f);\nfont-weight: 800;\nborder: 3px solid #2d1b00;\nborder-radius: 0;',
+        tags: ["レトロ", "ノスタルジック", "年代", "テクスチャ"],
+        related: ["グレイン / ノイズテクスチャ", "サイバーパンク風"],
+        preview: { type: "retro" },
+        playground: "retro"
+      },
+
+      {
+        word: "イソメトリック / アイソメトリック", en: "Isometric design", category: "style", effectiveness: "★★★★☆",
+        summary: "等角投影法による立体的なイラストやUIデザイン。テック系のLPで人気。",
+        detail: "3Dオブジェクトを等角投影(30度の角度)で描画するスタイルです。CSS transformのrotateX/rotateY/skewで擬似的な表現も可能。アイコンやヒーローイラストに使われ、奥行きのある楽しい雰囲気を作れます。",
+        example: 'イソメトリックスタイルで、クラウドサービスのLPを作成してください。\nCSSのtransformを使って、カードをイソメトリック角度(rotateX(60deg) rotateZ(-45deg))で表示し、\n積み重なった立体的なUIにしてください。',
+        cssHint: 'transform: rotateX(60deg) rotateZ(-45deg);\ntransform-style: preserve-3d;\nbox-shadow: -10px 10px 0 rgba(0,0,0,0.1);',
+        tags: ["3D", "等角", "立体", "テック"],
+        related: ["マテリアルデザイン", "未来的"],
+        preview: { type: "isometric" }
+      },
+
+      {
+        word: "クレイモーフィズム", en: "Claymorphism", category: "style", effectiveness: "★★★★☆",
+        summary: "粘土やクレイのような柔らかい3D質感のデザイン。遊び心と親しみやすさ。",
+        detail: "パステルカラーに内側の影(inset shadow)と外側の影を組み合わせ、丸みのある3Dの粘土風の質感を出します。背景色と同系色で明暗をつけるのがポイント。子供向け、ゲーム、クリエイティブ系に最適。",
+        example: 'クレイモーフィズムのデザインで、子供向け学習アプリを作成してください。\nパステルカラー、border-radius: 24px以上、\ninset shadowで内側にハイライト、外側に柔らかいドロップシャドウ。',
+        cssHint: 'background: #f5d0fe;\nborder-radius: 24px;\nbox-shadow: -6px -6px 12px rgba(255,255,255,0.8),\n           6px 6px 12px rgba(0,0,0,0.1),\n           inset -2px -2px 4px rgba(0,0,0,0.05),\n           inset 2px 2px 4px rgba(255,255,255,0.9);',
+        tags: ["粘土", "3D", "パステル", "柔らかい"],
+        related: ["ニューモーフィズム", "パステルカラー", "ポップ / 楽しい"],
+        preview: { type: "claymorphism" }
+      },
+
+      {
+        word: "グラデーションメッシュ", en: "Gradient Mesh", category: "style", effectiveness: "★★★★☆",
+        summary: "複数の色が有機的に溶け合うメッシュ状のグラデーション。Apple風の背景演出。",
+        detail: "複数のradial-gradientを重ねて、色が有機的に溶け合うような背景を作ります。CSSのみで実装可能。3〜5色を配置し、それぞれ異なるサイズ・位置にすると美しい結果に。Apple iOSの壁紙のような雰囲気が得られます。",
+        example: 'グラデーションメッシュの背景を持つLPを作成してください。\n紫(#a855f7)、ピンク(#ec4899)、青(#3b82f6)、緑(#10b981)の4色を\nradial-gradientで重ねて有機的なメッシュにし、その上にコンテンツを配置。',
+        cssHint: 'background: \n  radial-gradient(at 20% 30%, #a855f7 0%, transparent 50%),\n  radial-gradient(at 80% 20%, #ec4899 0%, transparent 50%),\n  radial-gradient(at 50% 80%, #3b82f6 0%, transparent 50%),\n  radial-gradient(at 70% 60%, #10b981 0%, transparent 40%);',
+        tags: ["メッシュ", "グラデーション", "背景", "有機的"],
+        related: ["グラデーション背景", "グラデーションブロブ", "グラスモーフィズム"],
+        preview: { type: "mesh" }
+      },
+
+      // ===== レイアウト =====
+      {
+        word: "カードレイアウト", en: "Card layout", category: "layout", effectiveness: "★★★★★",
+        summary: "情報をカード型のボックスで並べるレイアウト。最も汎用的で万能。",
+        detail: "Pinterest、Trello、各種ダッシュボードで使われる定番レイアウトです。CSS GridやFlexboxで実装され、各カードに画像、タイトル、概要、アクションボタンを含めるのが典型パターン。レスポンシブ対応も容易です。",
+        example: 'カードレイアウトで、レシピ一覧ページを作成してください。\n各カードに画像エリア、料理名、調理時間、難易度バッジを含め、\nCSS Gridのauto-fillで画面幅に応じて列数が変わるようにしてください。',
+        cssHint: 'display: grid;\ngrid-template-columns: repeat(auto-fill, minmax(280px, 1fr));\ngap: 16px;',
+        tags: ["カード", "グリッド", "一覧", "定番"],
+        related: ["Bentoグリッド", "メイソンリーレイアウト", "角丸"],
+        preview: { type: "cardlayout" }
+      },
+
+      {
+        word: "ヒーローセクション", en: "Hero section / Hero banner", category: "layout", effectiveness: "★★★★★",
+        summary: "ページ冒頭の大型ビジュアルエリア。第一印象を決める最重要セクション。",
+        detail: "全画面または大型の背景画像/動画の上に、キャッチコピーとCTAボタンを配置するパターン。100vhの高さ、背景のoverlay、中央揃えのテキストが典型。ランディングページの起点として不可欠です。",
+        example: 'フルスクリーンのヒーローセクションを作成してください。\nグラデーション背景(暗めの紫→濃紺)、中央にキャッチコピー(大きめ)、\nサブテキスト、2つのCTAボタン(プライマリとセカンダリ)を配置してください。',
+        cssHint: 'min-height: 100vh;\ndisplay: flex;\nalign-items: center;\njustify-content: center;\ntext-align: center;',
+        tags: ["ヒーロー", "LP", "ファーストビュー", "CTA"],
+        related: ["大きな見出し", "スプリットスクリーン", "パララックス効果"],
+        preview: { type: "hero" }
+      },
+
+      {
+        word: "サイドバーレイアウト", en: "Sidebar layout", category: "layout", effectiveness: "★★★★☆",
+        summary: "左または右に固定ナビを配置し、残りをメインコンテンツにするレイアウト。",
+        detail: "管理画面、ダッシュボード、ドキュメントサイトの定番。固定幅のサイドバー(220-280px)とflexまたはgridで隣接するメインエリアで構成。折りたたみ機能付きと指示するとレスポンシブ対応になります。",
+        example: '左サイドバーレイアウトの管理画面を作成してください。\nサイドバーは幅250px固定、ダークカラー、アイコン+テキストのナビ項目、\n折りたたみボタン付き。メインエリアにカードのダッシュボードを配置してください。',
+        cssHint: 'display: grid;\ngrid-template-columns: 250px 1fr;\nmin-height: 100vh;',
+        tags: ["サイドバー", "管理画面", "ナビゲーション"],
+        related: ["ボトムナビゲーション", "Notion風"],
+        preview: { type: "sidebar" }
+      },
+
+      {
+        word: "Bentoグリッド", en: "Bento grid layout", category: "layout", effectiveness: "★★★★★",
+        summary: "異なるサイズのボックスを弁当箱のように組み合わせるモダンなレイアウト。",
+        detail: "Apple公式サイトで有名になった、大小様々なサイズのカードをグリッドに配置するレイアウト。CSS Gridのgrid-template-areasやspan指定で実装。視覚的リズムと情報の階層化が美しく表現できます。",
+        example: 'Bentoグリッドレイアウトで、SaaS製品の機能紹介セクションを作成してください。\n大(2x2)、中(2x1)、小(1x1)のカードを組み合わせ、\n各カードにアイコン、機能名、説明文を含めてください。CSS Gridで実装してください。',
+        cssHint: 'display: grid;\ngrid-template-columns: repeat(4, 1fr);\ngrid-auto-rows: 180px;\ngap: 12px;\n/* span で大小のサイズ指定 */',
+        tags: ["Bento", "Apple風", "グリッド", "モダン"],
+        related: ["カードレイアウト", "Apple風", "CSS Grid"],
+        preview: { type: "bento" },
+        playground: "bento"
+      },
+
+      {
+        word: "スプリットスクリーン", en: "Split screen layout", category: "layout", effectiveness: "★★★★☆",
+        summary: "画面を左右2分割するレイアウト。ビジュアルと情報の対比に効果的。",
+        detail: "画面を50:50や60:40で分割し、片方にビジュアル（画像・イラスト）、もう片方にテキストコンテンツを配置します。LP、ログインページ、ポートフォリオでよく使われます。",
+        example: 'スプリットスクリーンレイアウトで、ログインページを作成してください。\n左半分にブランドカラーのグラデーション背景＋ロゴ＋キャッチコピー、\n右半分にログインフォームを配置してください。',
+        cssHint: 'display: grid;\ngrid-template-columns: 1fr 1fr;\nmin-height: 100vh;',
+        tags: ["分割", "2カラム", "対比", "ログイン"],
+        related: ["ヒーローセクション", "レスポンシブデザイン"],
+        preview: { type: "split" }
+      },
+
+      {
+        word: "メイソンリーレイアウト", en: "Masonry layout", category: "layout", effectiveness: "★★★★☆",
+        summary: "高さが不揃いのカードをレンガ積みのように詰めるレイアウト。Pinterest風。",
+        detail: "通常のグリッドと異なり、各アイテムの高さが可変で、隙間なく詰められます。CSS columns、またはJavaScriptライブラリ（Masonry.js）で実装。画像ギャラリーやポートフォリオに最適です。",
+        example: 'メイソンリーレイアウトで、写真ギャラリーページを作成してください。\nCSS columnsを使い、各写真カードに画像、タイトル、いいねボタンを含めてください。\nホバー時にオーバーレイ表示してください。',
+        cssHint: 'columns: 3;\ncolumn-gap: 16px;\n/* 各アイテムに break-inside: avoid; */',
+        tags: ["Pinterest風", "レンガ積み", "ギャラリー", "columns"],
+        related: ["カードレイアウト", "画像ギャラリー"],
+        preview: { type: "masonry" }
+      },
+
+      {
+        word: "スティッキーヘッダー", en: "Sticky header", category: "layout", effectiveness: "★★★★★",
+        summary: "スクロールしても上部に固定されるヘッダー。ナビゲーションの常時アクセスを確保。",
+        detail: "position: stickyまたはfixedで上部に固定。スクロール時に背景がぼける(backdrop-filter: blur)、コンパクト化する、影が付くなどの変化を加えるとリッチなUXに。最も基本的かつ重要なレイアウトパターンの一つです。",
+        example: 'スティッキーヘッダーを実装してください。\nスクロール時にbackdrop-filter: blur(12px)で背景がぼけ、\n高さが80px→60pxにコンパクト化し、box-shadowが付く。\nロゴ、ナビリンク、CTAボタンを含めてください。',
+        cssHint: 'position: sticky;\ntop: 0;\nz-index: 100;\nbackdrop-filter: blur(12px);\ntransition: all 0.3s ease;',
+        tags: ["固定", "ナビ", "スクロール", "header"],
+        related: ["ぼかし / ブラー効果", "グラスモーフィズム"],
+        preview: { type: "sticky" }
+      },
+
+      {
+        word: "フッターデザイン", en: "Footer design", category: "layout", effectiveness: "★★★★☆",
+        summary: "ページ最下部の情報エリア。リンク集、SNS、コピーライトなどを配置。",
+        detail: "4〜5カラムのリンクグループ、ニュースレター登録フォーム、SNSアイコン、コピーライト表記が典型構成。ダークカラーの背景に白テキストが一般的。「メガフッター」と指定するとリッチな構成になります。",
+        example: 'メガフッターを作成してください。\nダーク背景に4カラムのリンクグループ(製品、サポート、会社概要、法的情報)、\n上部にニュースレター登録フォーム、下部にSNSアイコンとコピーライト。',
+        cssHint: 'background: #0f0f1a;\npadding: 60px 0 30px;\ndisplay: grid;\ngrid-template-columns: repeat(4, 1fr);\ngap: 32px;',
+        tags: ["フッター", "リンク", "SNS", "構成"],
+        related: ["サイドバーレイアウト", "スティッキーヘッダー"],
+        preview: { type: "footer" }
+      },
+
+      // ===== 配色・カラー =====
+      {
+        word: "モノクロ / モノトーン", en: "Monochrome / Monotone", category: "color", effectiveness: "★★★★☆",
+        summary: "単色の濃淡のみで構成するカラースキーム。シックで洗練された印象に。",
+        detail: "黒・白・グレーの無彩色、または一色の濃淡で全体を構成します。アクセントカラーを1色だけ加えるバリエーションも効果的。写真やタイポグラフィが引き立ちます。",
+        example: 'モノクロ配色で、写真ポートフォリオサイトを作成してください。\n白・黒・グレーの3色のみ使用し、ホバー時だけ写真がカラーになるように。',
+        cssHint: '/* 全て灰色の濃淡で構成 */\ncolor: #1a1a1a;\nbackground: #f5f5f5;\nborder-color: #e0e0e0;',
+        tags: ["単色", "無彩色", "シック", "グレー"],
+        related: ["ミニマルデザイン", "クリーン / プロフェッショナル"],
+        preview: { type: "mono" }
+      },
+
+      {
+        word: "パステルカラー", en: "Pastel colors", category: "color", effectiveness: "★★★★★",
+        summary: "淡く柔らかい色合い。優しく親しみやすい印象で、女性向け・子供向けに最適。",
+        detail: "彩度を下げ、明度を上げた色の組み合わせです。ピンク(#ffd6e0)、ラベンダー(#e8d5f5)、ミントグリーン(#d5f5e3)、ベビーブルー(#d5e8f5)などが典型。ふんわりとした印象を与えます。",
+        example: 'パステルカラーの配色で、育児記録アプリのUIを作成してください。\nメインカラーはパステルピンク(#ffd6e0)、サブにラベンダーとミントグリーン、\n角は十分に丸く(border-radius: 16px以上)、全体的にやわらかい印象にしてください。',
+        cssHint: '/* パステルパレット */\n--pink: #ffd6e0;\n--lavender: #e8d5f5;\n--mint: #d5f5e3;\n--blue: #d5e8f5;',
+        tags: ["パステル", "淡い", "柔らかい", "明るい"],
+        related: ["クレイモーフィズム", "ポップ / 楽しい", "角丸"],
+        preview: { type: "pastel" }
+      },
+
+      {
+        word: "ビビッドカラー / 鮮やかな配色", en: "Vivid colors", category: "color", effectiveness: "★★★★☆",
+        summary: "高彩度で鮮やかな色使い。エネルギッシュで目を引くデザインに。",
+        detail: "赤、黄、青などの原色に近い、彩度の高い色の組み合わせです。ポップでエネルギッシュな印象を与え、若年層向けやエンタメ系に効果的。ただし使いすぎると疲れる点に注意。",
+        example: 'ビビッドカラーで、音楽フェスティバルの告知サイトを作成してください。\n鮮やかな黄色、ピンク、シアンを大胆に使い、\nエネルギッシュで楽しい雰囲気にしてください。',
+        cssHint: '--vivid-yellow: #ffe100;\n--vivid-pink: #ff006e;\n--vivid-cyan: #00d4ff;',
+        tags: ["鮮やか", "高彩度", "ポップ", "エネルギー"],
+        related: ["ブルータリズム", "ポップ / 楽しい"],
+        preview: { type: "vivid" }
+      },
+
+      {
+        word: "グラデーション背景", en: "Gradient background", category: "color", effectiveness: "★★★★★",
+        summary: "2色以上の色が滑らかに変化する背景。深みとリッチ感を演出。",
+        detail: "linear-gradient、radial-gradient、conic-gradientで実装。方向（135deg、to right）や色のポイント指定も可能。メッシュグラデーション（複数のradial-gradientの重ね合わせ）を指示するとさらに高度な表現に。",
+        example: 'メッシュグラデーション背景のランディングページを作成してください。\n紫(#7c3aed)、ピンク(#ec4899)、オレンジ(#f59e0b)の3色を使った\n柔らかいメッシュグラデーションで、上にグラスモーフィズムのカードを重ねてください。',
+        cssHint: 'background: linear-gradient(135deg, #7c3aed, #ec4899, #f59e0b);',
+        tags: ["グラデーション", "背景", "linear-gradient", "リッチ"],
+        related: ["グラデーションメッシュ", "グラスモーフィズム", "テキストグラデーション"],
+        preview: { type: "gradient" }
+      },
+
+      {
+        word: "アースカラー / ナチュラルカラー", en: "Earth tones / Natural colors", category: "color", effectiveness: "★★★★☆",
+        summary: "茶色、ベージュ、深緑、テラコッタなど自然由来の色合い。落ち着きと温もり。",
+        detail: "土、石、木、葉など自然界に存在する色で構成します。カフェ、アウトドア、オーガニック系のサイトに最適。ベージュ(#f5f0e8)、テラコッタ(#c67a4b)、フォレストグリーン(#2d5a3d)などが典型色です。",
+        example: 'アースカラーの配色で、オーガニックコーヒーショップのサイトを作成してください。\nベージュベース、テラコッタのアクセント、ダークブラウンのテキスト。',
+        cssHint: '--beige: #f5f0e8;\n--terracotta: #c67a4b;\n--forest: #2d5a3d;\n--dark-brown: #3d2b1f;',
+        tags: ["自然", "茶", "ベージュ", "温かみ"],
+        related: ["温かみのある", "和風"],
+        preview: { type: "earth" }
+      },
+
+      {
+        word: "ダーク×ネオンアクセント", en: "Dark with neon accent", category: "color", effectiveness: "★★★★★",
+        summary: "暗い背景に1〜2色のネオンカラーを差し色に。視線誘導と現代感を両立。",
+        detail: "ほぼモノトーンのダーク背景(#0a-#1a台)に、ネオングリーン(#00ff88)、ネオンブルー(#00d4ff)、ネオンパープル(#a855f7)などを限定的に使用。CTAボタン、アクティブ状態、重要指標などに使うと効果的。",
+        example: 'ダーク背景にネオングリーン(#00ff88)の1色アクセントで\nダッシュボードUIを作成してください。グラフのハイライト、\nアクティブなナビ項目、ボタンにのみネオンカラーを使用。',
+        cssHint: 'background: #0a0f0d;\ncolor: #e0e0e0;\n--neon: #00ff88;\n/* ネオンはbox-shadowのglowと合わせて */',
+        tags: ["ダーク", "ネオン", "アクセント", "コントラスト"],
+        related: ["ダークモード", "グロー効果", "サイバーパンク風"],
+        preview: { type: "darkneon" },
+        playground: "darkneon"
+      },
+
+      // ===== タイポグラフィ =====
+      {
+        word: "大きな見出し / ヒーロータイポグラフィ", en: "Large / Hero typography", category: "typo", effectiveness: "★★★★★",
+        summary: "超大型フォントサイズの見出し。インパクトと存在感を最大化する。",
+        detail: "48px〜120px以上の大きなフォントサイズで見出しを表示するテクニック。font-weight: 800-900の太字、letter-spacing: -2px程度の詰め、clamp()での可変サイズ指定が効果的。現代的なLPデザインの主流です。",
+        example: '大きなヒーロータイポグラフィで、ブランドサイトのファーストビューを作成してください。\n見出しはclamp(2.5rem, 8vw, 7rem)、font-weight: 900、\nletter-spacing: -0.03em、行間は1.05にしてください。',
+        cssHint: 'font-size: clamp(2.5rem, 8vw, 7rem);\nfont-weight: 900;\nletter-spacing: -0.03em;\nline-height: 1.05;',
+        tags: ["大見出し", "インパクト", "LP", "clamp"],
+        related: ["テキストグラデーション", "Apple風", "ヒーローセクション"],
+        preview: { type: "herotype" }
+      },
+
+      {
+        word: "セリフ体 / 明朝体", en: "Serif font", category: "typo", effectiveness: "★★★★☆",
+        summary: "セリフ（ひげ飾り）のあるフォント。格式高く、エレガントな印象。",
+        detail: "Georgia、Times New Roman、Playfair Display、Noto Serif JPなどを使用。新聞、法律事務所、高級ブランド、文学系のデザインに適しています。sans-serifとの組み合わせ（見出しセリフ+本文サンセリフ）も効果的です。",
+        example: '見出しにPlayfair Displayのセリフ体、本文にInterのサンセリフ体を使い、\n高級ホテルの予約サイトを作成してください。',
+        cssHint: 'font-family: "Playfair Display", Georgia, serif;\nfont-style: italic;\nletter-spacing: 0.02em;',
+        tags: ["セリフ", "明朝", "エレガント", "上品"],
+        related: ["高級感のある", "和風"],
+        preview: { type: "serif" }
+      },
+
+      {
+        word: "モノスペースフォント", en: "Monospace font", category: "typo", effectiveness: "★★★★☆",
+        summary: "等幅フォント。テック系、ターミナル風、コーディング感のあるデザインに。",
+        detail: "Fira Code、JetBrains Mono、SF Mono、Consolas等。開発ツール、テック企業のサイト、ハッカー感のあるデザインに最適。UI全体に使うことでユニークな雰囲気が出せます。",
+        example: 'モノスペースフォント(JetBrains Mono)をUI全体に使い、\nターミナル風のポートフォリオサイトを作成してください。\n背景は黒、テキストは緑(#00ff41)で、タイピングアニメーション付き。',
+        cssHint: 'font-family: "JetBrains Mono", "Fira Code", monospace;\nfont-size: 14px;\nletter-spacing: 0;',
+        tags: ["等幅", "テック", "ターミナル", "コード"],
+        related: ["ブルータリズム", "サイバーパンク風", "Vercel/Next.js風"],
+        preview: { type: "monospace" }
+      },
+
+      {
+        word: "テキストグラデーション", en: "Gradient text", category: "typo", effectiveness: "★★★★☆",
+        summary: "テキスト自体にグラデーションを適用する装飾。見出しに華やかさを加える。",
+        detail: "background: linear-gradient() + -webkit-background-clip: text + -webkit-text-fill-color: transparentで実装。ヘッダーやヒーローテキストに使うと華やかでモダンな印象に。",
+        example: 'テキストグラデーションを使った見出しを含むSaaSのLPを作成してください。\n見出しに紫→ピンク→オレンジのグラデーションテキスト。',
+        cssHint: 'background: linear-gradient(90deg, #7c6aff, #ff6ba6, #ffb347);\n-webkit-background-clip: text;\n-webkit-text-fill-color: transparent;',
+        tags: ["グラデーション", "テキスト", "装飾", "CSS"],
+        related: ["大きな見出し", "グラデーション背景"],
+        preview: { type: "textgradient" }
+      },
+
+      {
+        word: "可変フォントサイズ (clamp)", en: "Fluid typography (clamp)", category: "typo", effectiveness: "★★★★★",
+        summary: "画面幅に応じてフォントサイズが滑らかに変化する設定。レスポンシブ必須テク。",
+        detail: "clamp(最小値, 推奨値, 最大値)で指定。vw単位を推奨値に使うことで、メディアクエリなしでスマホ〜PCまで最適なサイズに自動調整されます。見出し、本文、キャプションなど全てに適用すると統一感が出ます。",
+        example: '可変フォントサイズで全体を構成してください。\n見出し: clamp(1.8rem, 5vw, 4rem)\n小見出し: clamp(1.2rem, 3vw, 2rem)\n本文: clamp(0.9rem, 1.5vw, 1.1rem)',
+        cssHint: 'h1 { font-size: clamp(1.8rem, 5vw, 4rem); }\nh2 { font-size: clamp(1.2rem, 3vw, 2rem); }\np  { font-size: clamp(0.9rem, 1.5vw, 1.1rem); }',
+        tags: ["clamp", "可変", "レスポンシブ", "vw"],
+        related: ["大きな見出し", "レスポンシブデザイン"],
+        preview: { type: "clamp" }
+      },
+
+      {
+        word: "文字間・行間の調整", en: "Letter-spacing & Line-height", category: "typo", effectiveness: "★★★★★",
+        summary: "文字と行の間隔を調整するだけで印象が劇的に変わる最重要テクニック。",
+        detail: "letter-spacing: -0.02emで詰めると力強く現代的に、0.05em以上で広げると上品・高級に。line-height: 1.6〜1.8で本文の可読性が大幅に向上。見出しはline-height: 1.1〜1.2で引き締めるのが定番です。",
+        example: '以下のタイポグラフィ設定でLPを作成してください。\n見出し: letter-spacing: -0.02em, line-height: 1.1\n小見出し: letter-spacing: 0, line-height: 1.3\n本文: letter-spacing: 0.01em, line-height: 1.75\nキャプション: letter-spacing: 0.05em, line-height: 1.5',
+        cssHint: 'h1 { letter-spacing: -0.02em; line-height: 1.1; }\np  { letter-spacing: 0.01em; line-height: 1.75; }\n.caption { letter-spacing: 0.05em; text-transform: uppercase; }',
+        tags: ["letter-spacing", "line-height", "可読性", "詰め"],
+        related: ["大きな見出し", "セリフ体", "余白を十分に"],
+        preview: { type: "spacing" }
+      },
+
+      // ===== アニメーション・動き =====
+      {
+        word: "スクロールアニメーション", en: "Scroll animation", category: "motion", effectiveness: "★★★★★",
+        summary: "スクロールに連動して要素がフェードイン・スライドインするアニメーション。",
+        detail: "Intersection Observer APIで要素が画面内に入った時にアニメーションを発火させます。fade-in、slide-up、scale-inなどが定番。スクロール量に応じた連続的なアニメーション(parallax)も指定可能です。",
+        example: 'スクロールアニメーション付きのLPを作成してください。\nIntersection Observerを使い、各セクションが画面に入る時に\nフェードイン+下から上にスライド(translateY 30px→0)。\ntransition-duration: 0.6s、easing: ease-out。',
+        cssHint: '.reveal { opacity: 0; transform: translateY(30px); transition: all 0.6s ease-out; }\n.reveal.visible { opacity: 1; transform: translateY(0); }',
+        tags: ["スクロール", "フェードイン", "Intersection Observer"],
+        related: ["パララックス効果", "スムーズトランジション"],
+        preview: { type: "scroll" }
+      },
+
+      {
+        word: "ホバーエフェクト", en: "Hover effect", category: "motion", effectiveness: "★★★★★",
+        summary: "マウスオーバー時の視覚的変化。インタラクティブ性と気持ちよさを演出。",
+        detail: "transform: scale(1.03)、box-shadow増加、背景色変化、画像zoom、オーバーレイ表示など多種多様。transition: all 0.3s easeを付けるのが基本。カード、ボタン、画像それぞれに適した効果があります。",
+        example: 'カード型UIにリッチなホバーエフェクトを付けてください。\nホバー時: 上方向に4px移動、影の拡大、ボーダー色がアクセントカラーに変化、\n画像は1.05倍にズーム。全てtransition: 0.3sで滑らかに。',
+        cssHint: '.card:hover {\n  transform: translateY(-4px);\n  box-shadow: 0 12px 40px rgba(0,0,0,0.2);\n  border-color: var(--accent);\n}',
+        tags: ["ホバー", "インタラクション", "transform", "transition"],
+        related: ["マイクロインタラクション", "スムーズトランジション"],
+        preview: { type: "hover" }
+      },
+
+      {
+        word: "マイクロインタラクション", en: "Micro interaction", category: "motion", effectiveness: "★★★★★",
+        summary: "小さなUI操作に対する繊細なフィードバックアニメーション。完成度を大きく高める。",
+        detail: "ボタンクリック時のリップル、トグルスイッチの切り替え、いいねボタンのハートアニメーション、入力フォームのフォーカス時の変化など。小さいけれど体験を大きく向上させる重要な要素です。",
+        example: 'マイクロインタラクション付きのSNS風UIを作成してください。\n- いいねボタン: クリックでハートがバウンド+色変化\n- 送信ボタン: クリックでチェックマークに変形\n- テキスト入力: フォーカスでラベルが上に移動(floating label)\n- トグル: 滑らかなスライド+色変化',
+        cssHint: '/* いいねボタンのバウンス */\n@keyframes heartBounce {\n  0%,100% { transform: scale(1); }\n  50% { transform: scale(1.3); }\n}',
+        tags: ["マイクロ", "フィードバック", "UX", "細部"],
+        related: ["ホバーエフェクト", "リップルエフェクト", "トースト通知"],
+        preview: { type: "micro" }
+      },
+
+      {
+        word: "スムーズトランジション", en: "Smooth transition", category: "motion", effectiveness: "★★★★☆",
+        summary: "状態変化を滑らかに補間するアニメーション。全体の品質感を底上げ。",
+        detail: "CSS transitionで色、サイズ、位置、透明度の変化を滑らかにします。全体的に「全てのインタラクティブ要素にtransition: all 0.3s easeを付けて」と指示するだけで大幅に品質が向上します。",
+        example: '全てのインタラクティブ要素にスムーズトランジションを適用してください。\n- ボタン、リンク: transition: all 0.25s ease\n- カード: transition: transform 0.3s, box-shadow 0.3s\n- 色変化: transition: color 0.2s, background-color 0.2s',
+        cssHint: '*, *::before, *::after {\n  transition: color 0.2s, background-color 0.2s, \n              border-color 0.2s, box-shadow 0.3s,\n              transform 0.3s, opacity 0.3s;\n}',
+        tags: ["トランジション", "滑らか", "ease", "品質"],
+        related: ["ホバーエフェクト", "マイクロインタラクション"],
+        preview: { type: "smooth" }
+      },
+
+      {
+        word: "パララックス効果", en: "Parallax effect", category: "motion", effectiveness: "★★★★☆",
+        summary: "スクロール時に背景と前景が異なる速度で動く視差効果。奥行きと没入感。",
+        detail: "background-attachment: fixedの簡易版から、transform: translateZ()やJavaScriptでのスクロール量連動まで様々。LPやストーリーテリング型のページで劇的な効果を発揮します。",
+        example: 'パララックス効果を使った、製品紹介のLPを作成してください。\n各セクション間にパララックス背景画像を配置し、\nスクロール速度の差で奥行きを演出してください。',
+        cssHint: 'background-attachment: fixed;\n/* またはJS: transform: translateY(scrollY * 0.5) */',
+        tags: ["パララックス", "視差", "奥行き", "スクロール"],
+        related: ["スクロールアニメーション", "ヒーローセクション"],
+        preview: { type: "parallax" }
+      },
+
+      {
+        word: "ローディングアニメーション", en: "Loading animation / Skeleton", category: "motion", effectiveness: "★★★★☆",
+        summary: "読み込み中の表示。スケルトンスクリーンやスピナーで体感速度を向上。",
+        detail: "スケルトンスクリーン（コンテンツの形状をグレーのプレースホルダーで表示）は現代的で推奨。shimmerアニメーション（左から右に光が走る）を付けると高品質な印象に。",
+        example: 'スケルトンスクリーンのローディングを実装してください。\nカード型のプレースホルダーに、左から右に光が流れるshimmerアニメーション\n(linear-gradient + @keyframes)を付けてください。',
+        cssHint: '@keyframes shimmer {\n  0% { background-position: -200% 0; }\n  100% { background-position: 200% 0; }\n}\n.skeleton {\n  background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%);\n  background-size: 200% 100%;\n  animation: shimmer 1.5s infinite;\n}',
+        tags: ["ローディング", "スケルトン", "shimmer", "UX"],
+        related: ["スムーズトランジション"],
+        preview: { type: "skeleton" }
+      },
+
+      {
+        word: "リップルエフェクト", en: "Ripple effect", category: "motion", effectiveness: "★★★★☆",
+        summary: "クリック地点から波紋が広がるアニメーション。マテリアルデザインの代表的要素。",
+        detail: "ボタンやクリッカブル要素をクリックした時、タッチ地点から円形の波紋が広がるエフェクト。CSS + JavaScriptで実装。position: relativeの要素内にabsoluteの円を生成し、scaleアニメーションで拡大します。",
+        example: 'リップルエフェクト付きのボタンコンポーネントを作成してください。\nクリック位置からrgba(255,255,255,0.3)の円が広がり、0.6秒で消える。\noverflow: hiddenでボタン外にはみ出さないように。',
+        cssHint: '.ripple {\n  position: absolute;\n  border-radius: 50%;\n  background: rgba(255,255,255,0.3);\n  animation: ripple 0.6s ease-out;\n}\n@keyframes ripple {\n  to { transform: scale(4); opacity: 0; }\n}',
+        tags: ["リップル", "波紋", "クリック", "マテリアル"],
+        related: ["マテリアルデザイン", "マイクロインタラクション"],
+        preview: { type: "ripple" }
+      },
+
+      {
+        word: "タイピングアニメーション", en: "Typing animation", category: "motion", effectiveness: "★★★★☆",
+        summary: "文字が一文字ずつ打ち出されるタイプライター風の演出。ターミナルやAI風に。",
+        detail: "CSSのstepsとwidth/border-right、またはJavaScriptのsetInterval/requestAnimationFrameで実装。チャットAI風、ターミナル風、ストーリーテリングでの順次表示に効果的。カーソル点滅もセットで指示しましょう。",
+        example: 'タイピングアニメーション付きのヒーローセクションを作成してください。\n「未来を、つくる。」が1文字ずつ表示され、\n点滅するカーソル(border-right)付き。表示完了後にサブテキストがフェードイン。',
+        cssHint: '.typing {\n  border-right: 2px solid;\n  white-space: nowrap;\n  overflow: hidden;\n  animation: typing 2s steps(8) forwards, blink 0.5s step-end infinite;\n}\n@keyframes typing { from { width: 0 } to { width: 8ch } }',
+        tags: ["タイピング", "タイプライター", "カーソル", "順次表示"],
+        related: ["モノスペースフォント", "サイバーパンク風"],
+        preview: { type: "typing" }
+      },
+
+      // ===== 雰囲気・トーン =====
+      {
+        word: "高級感のある / プレミアム", en: "Luxurious / Premium", category: "mood", effectiveness: "★★★★★",
+        summary: "高級ブランドのような上質で洗練された雰囲気。金・黒・白を基調に。",
+        detail: "黒背景に金のアクセント、セリフ体の繊細なフォント、十分な余白、控えめなアニメーション、高解像度な写真が特徴。letter-spacingを広めに取り、font-weightは軽めにすると高級感が増します。",
+        example: '高級感のあるデザインで、腕時計ブランドのLPを作成してください。\n背景は黒(#0a0a0a)、アクセントは金(#c9a96e)、\nフォントはセリフ体、letter-spacing広め、十分な余白。',
+        cssHint: 'background: #0a0a0a;\ncolor: #c9a96e;\nfont-family: Georgia, serif;\nletter-spacing: 0.15em;\nfont-weight: 300;',
+        tags: ["高級", "プレミアム", "金", "黒"],
+        related: ["セリフ体", "余白を十分に", "モノクロ"],
+        preview: { type: "luxury" },
+        playground: "luxury"
+      },
+
+      {
+        word: "ポップ / 楽しい / 遊び心のある", en: "Pop / Playful / Fun", category: "mood", effectiveness: "★★★★☆",
+        summary: "カラフルで親しみやすく、エネルギッシュな雰囲気。若年層向けに最適。",
+        detail: "ビビッドカラー、丸みのあるフォント、大きめのborder-radius、イラスト・絵文字の活用、バウンスアニメーション、影やドロップシャドウの多用が特徴。",
+        example: 'ポップで遊び心のあるデザインで、クイズアプリを作成してください。\n鮮やかな黄色、ピンク、水色の3色使い、border-radius: 20px以上、\n正解時にバウンスアニメーション、絵文字をアクセントに使ってください。',
+        cssHint: 'border-radius: 20px;\nbackground: linear-gradient(135deg, #fff3e0, #fce4ec);\nfont-weight: 800;\n/* バウンスアニメーション付き */',
+        tags: ["ポップ", "カラフル", "楽しい", "丸み"],
+        related: ["パステルカラー", "ビビッドカラー", "クレイモーフィズム"],
+        preview: { type: "playful" }
+      },
+
+      {
+        word: "クリーン / プロフェッショナル", en: "Clean / Professional", category: "mood", effectiveness: "★★★★★",
+        summary: "清潔感があり信頼性の高い、ビジネス向けの端正なデザイン。",
+        detail: "白ベースの背景、適切なグリッドシステム、控えめな色使い（青系が多い）、十分な行間と余白、読みやすいフォントサイズ。企業サイト、SaaS、B2Bサービスで最も求められるデザインです。",
+        example: 'クリーンでプロフェッショナルなデザインで、BtoB向けSaaSのLPを作成してください。\n白ベースに青(#2563eb)のアクセント、Interフォント、\n十分な余白、信頼性を感じるレイアウトにしてください。',
+        cssHint: 'background: #fff;\ncolor: #1a1a2e;\nfont-family: "Inter", sans-serif;\nborder-left: 3px solid #2563eb;',
+        tags: ["クリーン", "ビジネス", "信頼", "プロ"],
+        related: ["ミニマルデザイン", "Stripe風", "余白を十分に"],
+        preview: { type: "clean" }
+      },
+
+      {
+        word: "温かみのある / ぬくもり", en: "Warm / Cozy", category: "mood", effectiveness: "★★★★☆",
+        summary: "暖色系で優しく居心地の良い雰囲気。カフェ、ベーカリー、福祉系に。",
+        detail: "ベージュ、クリーム、テラコッタ、ダークブラウンなどの暖色パレット。丸みのあるUI、手書き風フォント、テクスチャ背景が効果的です。",
+        example: '温かみのあるデザインで、ベーカリーショップのサイトを作成してください。\nクリーム色(#faf3e8)の背景、テラコッタ(#c67a4b)のアクセント、丸みのあるUI。',
+        cssHint: 'background: #faf3e8;\ncolor: #5a3e28;\nborder-radius: 12px;\nborder: 2px solid #e8d5c0;',
+        tags: ["暖色", "優しい", "居心地", "温もり"],
+        related: ["アースカラー", "パステルカラー", "角丸"],
+        preview: { type: "warm" },
+        playground: "warm"
+      },
+
+      {
+        word: "未来的 / フューチャリスティック", en: "Futuristic", category: "mood", effectiveness: "★★★★☆",
+        summary: "テクノロジー感あふれる未来的なデザイン。AI、宇宙、テック系に。",
+        detail: "ダークベースにネオンカラーのアクセント、幾何学的な図形、グラデーション、グロー効果、グリッドライン、粒子エフェクトなどが特徴。細いフォントウェイト(200-300)も未来感を演出します。",
+        example: '未来的なデザインで、AIサービスのダッシュボードを作成してください。\n暗い背景に青〜紫のグラデーションアクセント、\n細いフォント(font-weight: 300)、グローするボーダー。',
+        cssHint: 'background: #05051a;\ncolor: #4dc9f6;\nfont-weight: 200;\nletter-spacing: 4px;\ntext-shadow: 0 0 10px rgba(77,201,246,0.5);',
+        tags: ["未来", "テック", "グロー", "幾何学"],
+        related: ["サイバーパンク風", "グロー効果", "ダーク×ネオンアクセント"],
+        preview: { type: "futuristic" }
+      },
+
+      {
+        word: "エレガント / 上品", en: "Elegant / Sophisticated", category: "mood", effectiveness: "★★★★☆",
+        summary: "繊細で品のあるデザイン。ファッション、ジュエリー、ウェディング向け。",
+        detail: "セリフ体のイタリック、淡いカラー(アイボリー、ローズ、シャンパンゴールド)、極細のライン装飾、大きな余白、写真のフルブリード表示が特徴。フォントウェイトは300-400の軽めが上品さを強調します。",
+        example: 'エレガントなデザインで、ウェディングプランナーのサイトを作成してください。\nアイボリー(#faf8f0)背景、ローズゴールド(#b76e79)のアクセント、\nPlayfair Displayのイタリック見出し、極細の線装飾。',
+        cssHint: 'background: #faf8f0;\ncolor: #3a3a3a;\nfont-family: "Playfair Display", serif;\nfont-style: italic;\nborder-bottom: 1px solid #b76e79;',
+        tags: ["エレガント", "上品", "繊細", "ファッション"],
+        related: ["セリフ体", "高級感のある", "余白を十分に"],
+        preview: { type: "elegant" }
+      },
+
+      // ===== UIコンポーネント =====
+      {
+        word: "フローティングアクションボタン (FAB)", en: "Floating Action Button", category: "component", effectiveness: "★★★★☆",
+        summary: "画面右下に常時表示される丸い主要アクションボタン。マテリアルデザインの定番。",
+        detail: "position: fixed、right: 24px、bottom: 24px、border-radius: 50%、box-shadowで浮遊感を出すのが基本実装。ホバーでscale拡大、クリックでサブアクションが展開するパターンも指示可能です。",
+        example: 'フローティングアクションボタンを実装してください。\n右下固定、丸形(56px)、アクセントカラー、影付き、\nクリックで3つのサブアクションが扇状に展開するアニメーション付き。',
+        cssHint: 'position: fixed;\nright: 24px;\nbottom: 24px;\nwidth: 56px;\nheight: 56px;\nborder-radius: 50%;\nbox-shadow: 0 4px 12px rgba(124,106,255,0.4);',
+        tags: ["FAB", "ボタン", "固定", "アクション"],
+        related: ["マテリアルデザイン", "マイクロインタラクション"],
+        preview: { type: "fab" }
+      },
+
+      {
+        word: "ボトムナビゲーション", en: "Bottom navigation", category: "component", effectiveness: "★★★★☆",
+        summary: "モバイル画面下部に固定するタブ型ナビゲーション。アプリ風UIの必須要素。",
+        detail: "position: fixed、bottom: 0で画面下部に固定。3〜5個のアイコン+ラベルのタブで構成。safe-area-inset-bottomにも対応すると完成度が高まります。",
+        example: 'モバイル向けのボトムナビゲーションを作成してください。\nホーム、検索、追加、通知、プロフィールの5タブ、\nSVGアイコン付き、アクティブタブはアクセントカラー。',
+        cssHint: 'position: fixed;\nbottom: 0;\nleft: 0;\nright: 0;\npadding-bottom: env(safe-area-inset-bottom);\ndisplay: flex;\njustify-content: space-around;',
+        tags: ["ナビ", "モバイル", "タブ", "固定"],
+        related: ["スティッキーヘッダー", "モバイルファースト"],
+        preview: { type: "bottomnav" }
+      },
+
+      {
+        word: "トースト通知 / スナックバー", en: "Toast notification / Snackbar", category: "component", effectiveness: "★★★★☆",
+        summary: "画面端に一時的に表示される通知メッセージ。操作結果のフィードバックに。",
+        detail: "画面上部または下部からスライドインし、3〜5秒後に自動で消える通知UI。成功（緑）、エラー（赤）、警告（黄）、情報（青）の4種類が基本。",
+        example: '4種類のトースト通知コンポーネントを作成してください。\nSuccess(緑), Error(赤), Warning(黄), Info(青)の4タイプ、\n右上からスライドイン、3秒後に自動消去、閉じるボタン付き。',
+        cssHint: '.toast {\n  position: fixed;\n  top: 20px;\n  right: 20px;\n  padding: 12px 20px;\n  border-radius: 12px;\n  animation: slideIn 0.3s ease;\n}',
+        tags: ["通知", "フィードバック", "一時表示", "スナックバー"],
+        related: ["マイクロインタラクション", "モーダル"],
+        preview: { type: "toast" }
+      },
+
+      {
+        word: "モーダル / ダイアログ", en: "Modal / Dialog", category: "component", effectiveness: "★★★★☆",
+        summary: "画面の上に重ねて表示される対話型UI。確認、入力、詳細表示に使用。",
+        detail: "背景のオーバーレイ(暗転)、中央配置、開閉アニメーション(scale+fade)、ESCキーで閉じる、背景クリックで閉じるなどの機能セット。",
+        example: 'アクセシブルなモーダルを作成してください。\n背景暗転、中央配置、fade+scaleアニメーション、\nESCキーで閉じる、背景クリックで閉じる、フォーカストラップ付き。',
+        cssHint: '.overlay {\n  position: fixed;\n  inset: 0;\n  background: rgba(0,0,0,0.5);\n  backdrop-filter: blur(4px);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}',
+        tags: ["モーダル", "ダイアログ", "オーバーレイ", "a11y"],
+        related: ["ぼかし / ブラー効果", "スムーズトランジション"],
+        preview: { type: "modal" }
+      },
+
+      {
+        word: "ツールチップ", en: "Tooltip", category: "component", effectiveness: "★★★★☆",
+        summary: "要素にホバーした時に追加情報を小さく表示するUI。補足説明に最適。",
+        detail: "ホバーまたはフォーカスで表示される小さなポップアップ。矢印（三角形）付き、フェードインアニメーション、適切なz-index管理が重要。上下左右の表示位置を指定できると汎用性が高まります。",
+        example: 'ツールチップコンポーネントを作成してください。\n上下左右の4方向対応、矢印付き、フェードインアニメーション、\nダーク背景に白テキスト、border-radius: 8px。',
+        cssHint: '.tooltip {\n  position: absolute;\n  background: #1a1a2e;\n  color: #fff;\n  padding: 6px 12px;\n  border-radius: 8px;\n  font-size: 0.8em;\n  opacity: 0;\n  transition: opacity 0.2s;\n}\n.tooltip::after { /* 矢印 */ }',
+        tags: ["ツールチップ", "ホバー", "補足", "ポップアップ"],
+        related: ["ホバーエフェクト", "マイクロインタラクション"],
+        preview: { type: "tooltip" }
+      },
+
+      {
+        word: "アコーディオン / FAQ", en: "Accordion / FAQ", category: "component", effectiveness: "★★★★☆",
+        summary: "クリックで内容が展開・収納されるUI。FAQセクションの定番。",
+        detail: "details/summaryタグまたはJavaScriptで実装。max-heightとtransitionの組み合わせで滑らかに開閉。アイコンの回転(+ → ×)もセットで。1つ開くと他が閉じる「排他モード」も指定可能。",
+        example: 'FAQアコーディオンを作成してください。\n5つの質問と回答、クリックでスムーズに展開、\n開閉アイコン(+/−)の回転アニメーション付き、\n1つ開くと他が閉じる排他モード。',
+        cssHint: '.accordion-content {\n  max-height: 0;\n  overflow: hidden;\n  transition: max-height 0.3s ease;\n}\n.accordion-item.open .accordion-content {\n  max-height: 500px;\n}',
+        tags: ["アコーディオン", "FAQ", "展開", "折りたたみ"],
+        related: ["スムーズトランジション", "マイクロインタラクション"],
+        preview: { type: "accordion" }
+      },
+
+      {
+        word: "タブUI", en: "Tab UI / Tabbed interface", category: "component", effectiveness: "★★★★☆",
+        summary: "複数のコンテンツを同じ領域でタブ切り替えで表示するUI。情報整理に必須。",
+        detail: "タブバー(ボタン群)とコンテンツパネルで構成。アクティブタブのインジケーター(下線やハイライト)がスライドするアニメーション、コンテンツのフェード切り替えを含めると高品質に。",
+        example: 'タブUIコンポーネントを作成してください。\n3つのタブ、アクティブインジケーター(下線)がスライド移動、\nコンテンツはフェードで切り替わり、\nキーボードの左右矢印キーでタブ移動可能に。',
+        cssHint: '.tab-indicator {\n  position: absolute;\n  bottom: 0;\n  height: 2px;\n  background: var(--accent);\n  transition: left 0.3s ease, width 0.3s ease;\n}',
+        tags: ["タブ", "切り替え", "パネル", "整理"],
+        related: ["アコーディオン", "モーダル"],
+        preview: { type: "tabui" }
+      },
+
+      {
+        word: "プログレスバー / ステッパー", en: "Progress bar / Stepper", category: "component", effectiveness: "★★★★☆",
+        summary: "進捗状況やステップを視覚的に表示するUI。フォーム、オンボーディングに。",
+        detail: "水平バー、円形プログレス、ステップインジケーター(1→2→3)など。アニメーションで数値が増加する演出、グラデーションの適用、完了ステップのチェックマーク表示などのバリエーションがあります。",
+        example: '3ステップのステッパーUIと水平プログレスバーを作成してください。\nステップ間はラインで接続、完了ステップにチェックマーク、\n現在ステップはパルスアニメーション、プログレスバーはグラデーション付き。',
+        cssHint: '.progress-bar {\n  height: 6px;\n  border-radius: 3px;\n  background: #e0e0e0;\n}\n.progress-fill {\n  height: 100%;\n  border-radius: 3px;\n  background: linear-gradient(90deg, #7c6aff, #00e8b8);\n  transition: width 0.5s ease;\n}',
+        tags: ["プログレス", "ステップ", "進捗", "フォーム"],
+        related: ["マイクロインタラクション", "スムーズトランジション"],
+        preview: { type: "progress" }
+      },
+
+      // ===== UIパターン・装飾 =====
+      {
+        word: "角丸 / border-radius大きめ", en: "Rounded corners", category: "pattern", effectiveness: "★★★★★",
+        summary: "角を丸くして柔らかい印象を出す。現代的なUIでは必須の指定。",
+        detail: "border-radius: 12px〜24pxで柔らかく親しみやすいUIに。ボタンはborder-radius: 9999pxで完全な丸形（ピル型）に。数値を具体的に指定すると統一感が出ます。",
+        example: '全てのUI要素のborder-radiusを16pxで統一した、\nチャットアプリのUIを作成してください。\nボタンはpill型(border-radius: 9999px)にしてください。',
+        cssHint: '--radius: 16px;\n.card { border-radius: var(--radius); }\n.btn { border-radius: 9999px; }',
+        tags: ["角丸", "柔らかい", "現代的", "pill"],
+        related: ["パステルカラー", "クレイモーフィズム"],
+        preview: { type: "rounded" }
+      },
+
+      {
+        word: "カードに影 / エレベーション", en: "Card shadow / Elevation", category: "pattern", effectiveness: "★★★★★",
+        summary: "box-shadowで浮遊感と階層を表現。奥行きのあるUIに必須。",
+        detail: "影の強さで要素の重要度や階層を表現します。弱い影(0 1px 3px)=背景に近い、中(0 4px 12px)=通常カード、強い影(0 12px 40px)=モーダル。ホバー時に影を強くする変化も効果的。",
+        example: '3段階のエレベーション(影の階層)を使ったUIを作成してください。\n- Level 1: 0 1px 3px rgba(0,0,0,0.08)\n- Level 2: 0 4px 12px rgba(0,0,0,0.12)\n- Level 3: 0 12px 40px rgba(0,0,0,0.2)',
+        cssHint: '--shadow-sm: 0 1px 3px rgba(0,0,0,0.08);\n--shadow-md: 0 4px 12px rgba(0,0,0,0.12);\n--shadow-lg: 0 12px 40px rgba(0,0,0,0.2);',
+        tags: ["影", "box-shadow", "階層", "奥行き"],
+        related: ["マテリアルデザイン", "ニューモーフィズム", "ホバーエフェクト"],
+        preview: { type: "elevation" }
+      },
+
+      {
+        word: "グラデーションボーダー", en: "Gradient border", category: "pattern", effectiveness: "★★★★☆",
+        summary: "ボーダーにグラデーションを適用する高度な装飾テクニック。",
+        detail: "border-imageまたはbackground(gradient)+padding+内側要素のbackgroundで実現。カードの縁がグラデーションで光るようなエフェクトに。",
+        example: 'グラデーションボーダーを持つカードを作成してください。\n紫→ピンク→オレンジのグラデーション、\nhover時にグラデーションが動くアニメーション付き。',
+        cssHint: '.gradient-border {\n  background: linear-gradient(#161822, #161822) padding-box,\n             linear-gradient(135deg, #7c6aff, #ff6ba6, #ffb347) border-box;\n  border: 2px solid transparent;\n  border-radius: 16px;\n}',
+        tags: ["グラデーション", "ボーダー", "装飾", "光る"],
+        related: ["グロー効果", "グラデーション背景"],
+        preview: { type: "gradientborder" }
+      },
+
+      {
+        word: "アイコンを使って", en: "With icons", category: "pattern", effectiveness: "★★★★★",
+        summary: "テキストだけでなくアイコンを組み合わせて視認性と美しさを向上させる。",
+        detail: "Lucide Icons、Heroicons、Phosphor Iconsなどを指定可能。SVGインラインで出力させるか、CDNリンクを含めるか指定するのが効果的。ナビ、ボタン、統計カードなどで必須です。",
+        example: 'Lucide Icons（SVGインライン）を使って、サイドバーナビゲーションを作成してください。\nホーム、ユーザー、設定、通知、ログアウトの各項目に適切なアイコン+テキスト。',
+        cssHint: '/* SVGインラインまたは */\n/* CDN: https://unpkg.com/lucide-static/icons/ */\n.icon { width: 20px; height: 20px; stroke: currentColor; }',
+        tags: ["アイコン", "SVG", "視認性", "Lucide"],
+        related: ["サイドバーレイアウト", "ボトムナビゲーション"],
+        preview: { type: "icons" }
+      },
+
+      {
+        word: "区切り線 / ディバイダー", en: "Divider / Separator", category: "pattern", effectiveness: "★★★★☆",
+        summary: "セクションや要素を区切る線。影の代わりに使うとミニマルでフラットな印象に。",
+        detail: "hrタグまたはborder-bottom: 1pxで実装。装飾的なディバイダー(中央にテキストやアイコン)、グラデーションディバイダー、ドット線なども指定可能。ダークモードではrgba(255,255,255,0.08)が定番。",
+        example: '装飾的なディバイダーを3種類作成してください。\n1. 中央に「OR」テキスト付き横線\n2. グラデーション(両端が透明になる)横線\n3. ドット状のディバイダー',
+        cssHint: '.divider-gradient {\n  height: 1px;\n  background: linear-gradient(90deg, transparent, var(--border), transparent);\n}',
+        tags: ["ボーダー", "線", "ミニマル", "区切り"],
+        related: ["ミニマルデザイン", "フラットデザイン"],
+        preview: { type: "divider" }
+      },
+
+      {
+        word: "バッジ / ラベル / タグ", en: "Badge / Label / Tag", category: "pattern", effectiveness: "★★★★☆",
+        summary: "小さなラベル要素で状態や分類を表示。情報の分類と視覚的な整理に。",
+        detail: "小さなpill型のspan要素。色で状態を分ける(緑=成功、赤=エラー、黄=注意、青=情報)。通知数のバッジ(アイコン右上の赤丸)も含まれます。font-sizeは0.7〜0.8em、padding: 2px 8pxが標準。",
+        example: 'バッジ/ラベルのコンポーネントセットを作成してください。\nステータスバッジ(成功/エラー/警告/情報)、\nカウントバッジ(通知アイコンの右上に赤丸)、\nタグ(削除ボタン付き)の3種類。',
+        cssHint: '.badge {\n  display: inline-flex;\n  padding: 2px 10px;\n  border-radius: 9999px;\n  font-size: 0.75em;\n  font-weight: 600;\n}\n.badge-success { background: #dcfce7; color: #166534; }',
+        tags: ["バッジ", "ラベル", "ステータス", "分類"],
+        related: ["カードレイアウト", "トースト通知"],
+        preview: { type: "badge" }
+      },
+
+      // ===== レスポンシブ =====
+      {
+        word: "レスポンシブデザイン", en: "Responsive design", category: "responsive", effectiveness: "★★★★★",
+        summary: "スマホ・タブレット・PCの全画面幅に対応するデザイン。現代Webの必須要件。",
+        detail: "メディアクエリ(@media)でブレークポイントごとにレイアウトを変更。mobile-first設計が推奨。具体的なブレークポイント（640px, 768px, 1024px, 1280px）を指定すると統一性が出ます。",
+        example: 'モバイルファーストのレスポンシブデザインで、ポートフォリオサイトを作成してください。\nブレークポイント: 640px(SM), 768px(MD), 1024px(LG)\nモバイル: 1列、タブレット: 2列、デスクトップ: 3列のグリッド。',
+        cssHint: '/* Mobile first */\n.grid { display: grid; gap: 16px; }\n@media (min-width: 640px) { .grid { grid-template-columns: 1fr 1fr; } }\n@media (min-width: 1024px) { .grid { grid-template-columns: repeat(3, 1fr); } }',
+        tags: ["レスポンシブ", "モバイル", "メディアクエリ"],
+        related: ["モバイルファースト", "可変フォントサイズ"],
+        preview: { type: "responsive" }
+      },
+
+      {
+        word: "モバイルファースト", en: "Mobile-first", category: "responsive", effectiveness: "★★★★★",
+        summary: "スマホ向けを基本として設計し、大画面向けに拡張していく設計思想。",
+        detail: "min-widthのメディアクエリを使い、小さい画面のスタイルを基準にします。タッチフレンドリーな大きめのボタン(44px以上)、スタック型レイアウトから設計をスタートし、大画面で拡張します。",
+        example: 'モバイルファーストで、ニュースアプリのUIを作成してください。\nスマホ: ハンバーガーメニュー、1列カード、下部タブナビ\nタブレット: 2列グリッド、上部ナビ展開\nPC: 3列グリッド+サイドバー',
+        cssHint: '/* min-width でモバイルから上へ拡張 */\n.btn { min-height: 44px; /* タッチターゲット */ }\n@media (min-width: 768px) { /* タブレット以上の追加スタイル */ }',
+        tags: ["モバイルファースト", "min-width", "タッチ"],
+        related: ["レスポンシブデザイン", "ボトムナビゲーション"],
+        preview: { type: "mobilefirst" }
+      },
+
+      {
+        word: "コンテナクエリ", en: "Container queries", category: "responsive", effectiveness: "★★★★☆",
+        summary: "親要素のサイズに応じてスタイルを変更する次世代レスポンシブ手法。",
+        detail: "@containerルールで、画面幅ではなくコンポーネントの親コンテナの幅に基づいてスタイルを変更します。カードがサイドバー内では縦型、メインエリアでは横型に自動切り替えるような、真にコンポーネント指向のレスポンシブが実現できます。",
+        example: 'コンテナクエリを使って、自動でレイアウトが変わるカードを作成してください。\n親コンテナが400px以下: 縦型(画像上、テキスト下)\n400px以上: 横型(画像左、テキスト右)\ncontainer-type: inline-size を指定してください。',
+        cssHint: '.card-wrapper { container-type: inline-size; }\n@container (min-width: 400px) {\n  .card { display: flex; flex-direction: row; }\n}',
+        tags: ["コンテナクエリ", "@container", "コンポーネント", "次世代"],
+        related: ["レスポンシブデザイン", "カードレイアウト"],
+        preview: { type: "container" }
+      },
+
+      // ===== トレンド =====
+      {
+        word: "Apple風 / Apple.com風", en: "Apple-style", category: "trend", effectiveness: "★★★★★",
+        summary: "Appleの公式サイトを参考にしたデザイン。AIに最も正確に伝わるリファレンスの一つ。",
+        detail: "黒/白の高コントラスト、巨大タイポグラフィ、控えめなナビ、製品画像中心、スクロール連動アニメーション、十分すぎる余白、セクションごとの背景色変化が特徴。非常に再現性が高いキーワード。",
+        example: 'Apple.com風のデザインで、ワイヤレスイヤホンの製品紹介ページを作成してください。\n黒背景、巨大な白テキストの見出し、セクションごとに背景色変化、\n大きな製品画像の中央配置、スクロールで要素がフェードイン。',
+        cssHint: 'background: #000;\ncolor: #fff;\nfont-size: clamp(3rem, 8vw, 7rem);\nfont-weight: 700;\nletter-spacing: -0.02em;\npadding: 120px 0;',
+        tags: ["Apple", "トレンド", "大企業", "製品ページ"],
+        related: ["大きな見出し", "スクロールアニメーション", "余白を十分に"],
+        preview: { type: "apple" }
+      },
+
+      {
+        word: "Stripe風 / SaaS LP風", en: "Stripe-style", category: "trend", effectiveness: "★★★★★",
+        summary: "Stripeのような洗練されたSaaS系ランディングページのデザイン。",
+        detail: "淡いグラデーション背景、クリアなタイポグラフィ、コードスニペットの表示、信頼性バッジ（企業ロゴ一覧）、料金プランの比較表が特徴。テック系スタートアップのスタンダード。",
+        example: 'Stripe風のデザインで、決済APIのランディングページを作成してください。\n薄い紫〜青のグラデーション背景、コードスニペット表示エリア、\n導入企業ロゴ一覧セクション、3プランの料金比較表。',
+        cssHint: 'background: linear-gradient(135deg, #f5f3ff, #ede9fe, #e0f2fe);\nfont-family: "Inter", system-ui, sans-serif;\nmax-width: 1200px;\nmargin: 0 auto;',
+        tags: ["Stripe", "SaaS", "LP", "テック"],
+        related: ["クリーン / プロフェッショナル", "グラデーション背景"],
+        preview: { type: "stripe" }
+      },
+
+      {
+        word: "Notion風", en: "Notion-style", category: "trend", effectiveness: "★★★★☆",
+        summary: "Notionのようなクリーンで機能的なドキュメント/ツールのUI。",
+        detail: "白ベースに極薄のボーダー、モノスペースと通常フォントの混在、ブロック単位の構成、ホバーで表示されるツールバー、サイドバーのツリー構造などが特徴。",
+        example: 'Notion風のデザインで、マークダウンメモアプリを作成してください。\n白背景、極薄ボーダー、左にページツリーのサイドバー、\nコンテンツエリアはブロック単位、ホバーで⊕が表示。',
+        cssHint: 'background: #fff;\ncolor: #37352f;\nfont-family: system-ui, sans-serif;\nborder: 1px solid #e8e7e4;',
+        tags: ["Notion", "ドキュメント", "ツール", "クリーン"],
+        related: ["サイドバーレイアウト", "ミニマルデザイン"],
+        preview: { type: "notion" }
+      },
+
+      {
+        word: "Vercel/Next.js風", en: "Vercel-style", category: "trend", effectiveness: "★★★★☆",
+        summary: "Vercelのようなモダンでシャープなテック系ダークデザイン。",
+        detail: "純黒(#000)背景、白テキスト、微細なボーダー(rgba(255,255,255,0.1))、グラデーションのアクセント、モノスペースフォント、コンパクトなUI。開発者向けツールのスタンダード。",
+        example: 'Vercel風のダークデザインで、APIドキュメントサイトを作成してください。\n背景#000、テキスト#fff、ボーダーrgba(255,255,255,0.1)、\nコードブロック付き、左サイドバーにドキュメントナビ。',
+        cssHint: 'background: #000;\ncolor: #fff;\nborder: 1px solid rgba(255,255,255,0.1);\nfont-family: system-ui;',
+        tags: ["Vercel", "開発者", "ダーク", "シャープ"],
+        related: ["ダークモード", "モノスペースフォント"],
+        preview: { type: "vercel" }
+      },
+
+      {
+        word: "Spotify風", en: "Spotify-style", category: "trend", effectiveness: "★★★★☆",
+        summary: "Spotifyのような暗い背景×鮮やかなグリーンのアクセント、カード型メディアUI。",
+        detail: "深いダーク背景(#121212)、白テキスト、グリーン(#1DB954)のアクセント、丸いプロフィール画像、横スクロールのカードカルーセル、再生バーなどの音楽アプリ特有のUIパターン。",
+        example: 'Spotify風のデザインで、音楽ストリーミングアプリのUIを作成してください。\n背景#121212、グリーン(#1DB954)のアクセント、\n横スクロールのプレイリストカード、下部に再生コントロールバー。',
+        cssHint: 'background: #121212;\ncolor: #fff;\n--spotify-green: #1DB954;\n.card { border-radius: 8px; background: #181818; }',
+        tags: ["Spotify", "音楽", "ダーク", "グリーン"],
+        related: ["ダークモード", "カードレイアウト", "ボトムナビゲーション"],
+        preview: { type: "spotify" }
+      },
+
+      // ===== 視覚エフェクト =====
+      {
+        word: "グロー効果 / 発光", en: "Glow effect", category: "effect", effectiveness: "★★★★☆",
+        summary: "要素が発光しているような視覚効果。ダークモードで映える。",
+        detail: "box-shadow: 0 0 20px rgba(color, 0.5)やtext-shadowで実装。ボタン、ボーダー、テキスト、アイコンに適用可能。ネオンサインのような複数重ねのグローも指示できます。",
+        example: 'グロー効果を使ったダークテーマのボタンセットを作成してください。\n青、緑、紫の3種類、hover時にグロー強度が増すアニメーション付き。',
+        cssHint: 'box-shadow: 0 0 10px rgba(124,106,255,0.4),\n           0 0 40px rgba(124,106,255,0.2);\ntext-shadow: 0 0 10px currentColor;',
+        tags: ["グロー", "発光", "ネオン", "shadow"],
+        related: ["サイバーパンク風", "ダーク×ネオンアクセント"],
+        preview: { type: "glow" }
+      },
+
+      {
+        word: "ぼかし / ブラー効果", en: "Blur effect", category: "effect", effectiveness: "★★★★☆",
+        summary: "要素の背景やオーバーレイにブラーを適用。奥行きとフォーカス感を演出。",
+        detail: "backdrop-filter: blur()で背景をぼかす（ナビバー、モーダルオーバーレイ）、filter: blur()で要素自体をぼかす（背景画像のデフォーカス）が主な使い方。グラスモーフィズムの基礎となる重要テクニックです。",
+        example: 'ぼかし効果を活用したUIを作成してください。\n- ナビバー: backdrop-filter: blur(20px)で半透明\n- モーダル背景: backdrop-filter: blur(8px)\n- 背景装飾: 大きな円形のグラデーションブロブをblur(80px)でぼかす',
+        cssHint: 'backdrop-filter: blur(20px);\n-webkit-backdrop-filter: blur(20px);\nbackground: rgba(255,255,255,0.1);',
+        tags: ["ブラー", "ぼかし", "backdrop-filter", "奥行き"],
+        related: ["グラスモーフィズム", "グラデーションブロブ", "スティッキーヘッダー"],
+        preview: { type: "blur" }
+      },
+
+      {
+        word: "グラデーションブロブ / 背景装飾", en: "Gradient blob", category: "effect", effectiveness: "★★★★☆",
+        summary: "大きなぼかしたグラデーション円を背景に配置する装飾。モダンLPの定番。",
+        detail: "position: absoluteで大きな円（300px〜800px）にgradientを適用し、filter: blur(80px〜120px)でぼかして配置。z-indexで背景に。3色程度を散らすとリッチな雰囲気に。",
+        example: 'グラデーションブロブの背景装飾を含むLPを作成してください。\n紫のブロブ(左上)、ピンクのブロブ(右中央)、青のブロブ(左下)を\nそれぞれfilter: blur(100px)で配置。overflow: hidden。',
+        cssHint: '.blob {\n  position: absolute;\n  width: 400px;\n  height: 400px;\n  border-radius: 50%;\n  filter: blur(100px);\n  opacity: 0.5;\n  z-index: -1;\n}',
+        tags: ["ブロブ", "装飾", "背景", "モダン"],
+        related: ["グラデーション背景", "グラデーションメッシュ", "ぼかし / ブラー効果"],
+        preview: { type: "blob" }
+      },
+
+      {
+        word: "グレイン / ノイズテクスチャ", en: "Grain / Noise texture", category: "effect", effectiveness: "★★★★☆",
+        summary: "フィルムの粒子感のようなノイズを画面に重ねる。有機的で高級な質感に。",
+        detail: "SVGのfeTurbulenceフィルタまたはCSS backgroundのrepeating-conic-gradientで実装。opacity: 0.03〜0.08程度で薄く重ねるのが自然。レトロ感やアナログ感、高級感の演出に効果的。",
+        example: 'グレイン(ノイズ)テクスチャを背景に重ねたLPを作成してください。\nSVGフィルタのfeTurbulenceでノイズを生成し、\nopacity: 0.04で全画面に重ねてください。背景はダークグラデーション。',
+        cssHint: '/* SVG noise overlay */\n.grain::after {\n  content: "";\n  position: fixed;\n  inset: 0;\n  opacity: 0.04;\n  background: url("data:image/svg+xml,...");\n  pointer-events: none;\n}',
+        tags: ["グレイン", "ノイズ", "テクスチャ", "フィルム"],
+        related: ["レトロ / ヴィンテージ", "高級感のある"],
+        preview: { type: "grain" }
+      },
+
+      {
+        word: "グリッチエフェクト", en: "Glitch effect", category: "effect", effectiveness: "★★★★☆",
+        summary: "画面がバグったような視覚的な乱れの演出。サイバー感やインパクトに。",
+        detail: "テキストのclipやtranslateをランダムにずらすキーフレームアニメーションで実装。RGBのずれ(色収差)を組み合わせると本格的に。ゲーム、テック、音楽系サイトのヒーローテキストに効果的。",
+        example: 'グリッチエフェクト付きのヒーローテキストを作成してください。\nテキストが定期的にRGBずれ＋位置ずれでグリッチし、\n::before/::afterの擬似要素で色収差を表現してください。',
+        cssHint: '@keyframes glitch {\n  0%, 100% { clip-path: inset(0 0 0 0); transform: translate(0); }\n  20% { clip-path: inset(20% 0 60% 0); transform: translate(-3px, 2px); }\n  40% { clip-path: inset(60% 0 10% 0); transform: translate(3px, -1px); }\n}',
+        tags: ["グリッチ", "バグ", "ノイズ", "サイバー"],
+        related: ["サイバーパンク風", "タイピングアニメーション"],
+        preview: { type: "glitch" }
+      },
+
+      {
+        word: "パーティクル / 粒子エフェクト", en: "Particle effect", category: "effect", effectiveness: "★★★★☆",
+        summary: "画面上を漂う小さな粒子のアニメーション。幻想的・テック感を演出。",
+        detail: "Canvas APIやCSS animationで小さな円(粒子)を多数生成し、浮遊させます。マウス追従、接続線(constellation)、雪、星、ホタルなど多様な表現が可能。背景のアクセントとして軽く使うのがポイント。",
+        example: 'パーティクルエフェクトの背景を持つヒーローセクションを作成してください。\nCanvas APIで50個の小さな白い粒子がゆっくり浮遊し、\n近い粒子同士が線で接続される(constellation)エフェクト。',
+        cssHint: '/* Canvas上にJSで描画 */\ncanvas {\n  position: absolute;\n  inset: 0;\n  z-index: 0;\n  pointer-events: none;\n}',
+        tags: ["パーティクル", "粒子", "Canvas", "幻想的"],
+        related: ["未来的", "サイバーパンク風", "パララックス効果"],
+        preview: { type: "particles" }
+      },
+
+      // ===== 密度・余白 =====
+      {
+        word: "余白を十分に / ゆったりと", en: "Plenty of whitespace", category: "density", effectiveness: "★★★★★",
+        summary: "要素間の余白を広く取り、ゆったりとした高級感のあるレイアウトに。",
+        detail: "padding: 60px〜120px、gap: 24px〜48px、line-height: 1.7〜1.9など。余白が広いほど高級感・洗練さが増します。「セクション間は100px以上の余白」のように数値指定するとAIは正確に再現します。",
+        example: '余白を十分にとった、ゆったりとしたLPを作成してください。\nセクション間のpadding: 100px 0、要素間のgap: 32px、\n本文のline-height: 1.8、コンテンツの最大幅: 720px。',
+        cssHint: 'section { padding: 100px 0; }\n.content { max-width: 720px; margin: 0 auto; }\np { line-height: 1.8; }',
+        tags: ["余白", "ホワイトスペース", "ゆったり", "高級"],
+        related: ["ミニマルデザイン", "高級感のある", "Apple風"],
+        preview: { type: "spacious" }
+      },
+
+      {
+        word: "コンパクト / 密度の高い", en: "Compact / Dense", category: "density", effectiveness: "★★★★☆",
+        summary: "限られたスペースに多くの情報を詰め込む密度の高いレイアウト。管理画面向け。",
+        detail: "padding: 4px〜8px、font-size: 12px〜13px、gap: 4px〜8px。管理画面、データテーブル、ターミナルUIなど多くの情報を一覧する必要がある場面で有効。",
+        example: 'コンパクトで密度の高いデザインで、データ管理画面を作成してください。\nfont-size: 13px、行の高さ: 36px、padding: 8px 12px、\nデータテーブル、フィルター、ページネーションをコンパクトに配置。',
+        cssHint: 'font-size: 13px;\n.row { height: 36px; padding: 4px 12px; }\n.table { border-collapse: collapse; width: 100%; }',
+        tags: ["コンパクト", "密度", "管理画面", "テーブル"],
+        related: ["サイドバーレイアウト", "Notion風"],
+        preview: { type: "dense" }
+      },
+
+      {
+        word: "8pxグリッドシステム", en: "8px grid system", category: "density", effectiveness: "★★★★★",
+        summary: "全ての余白・サイズを8の倍数で統一する設計手法。整然とした美しいUIに。",
+        detail: "padding、margin、gap、height、widthなど全てを8の倍数(8, 16, 24, 32, 40, 48...)で指定。4の倍数を許容する4px/8pxハイブリッドも。デザインに統一感とリズムが生まれ、開発効率も向上します。",
+        example: '8pxグリッドシステムに従い、全ての間隔を8の倍数で統一したダッシュボードを作成してください。\nCSS変数で --space-1: 8px, --space-2: 16px, --space-3: 24px, --space-4: 32px, --space-5: 40px を定義。',
+        cssHint: ':root {\n  --sp-1: 8px;\n  --sp-2: 16px;\n  --sp-3: 24px;\n  --sp-4: 32px;\n  --sp-5: 40px;\n  --sp-6: 48px;\n}',
+        tags: ["8px", "グリッド", "統一", "リズム"],
+        related: ["マテリアルデザイン", "クリーン / プロフェッショナル"],
+        preview: { type: "grid8" }
+      },
+
+      // ===== アクセシビリティ =====
+      {
+        word: "アクセシブルなデザイン", en: "Accessible design / a11y", category: "a11y", effectiveness: "★★★★★",
+        summary: "誰もが使えるデザイン。色覚多様性、スクリーンリーダー、キーボード操作への対応。",
+        detail: "WCAG 2.1準拠を意識し、色だけに頼らない情報伝達、十分なコントラスト比(4.5:1以上)、適切なaria属性、キーボードナビゲーション、フォーカスインジケーターなどを含みます。「アクセシブルに」と一言添えるだけで品質が向上。",
+        example: 'アクセシブルなデザインで、予約フォームを作成してください。\nWCAG AA準拠のコントラスト比、全要素にキーボードアクセス、\naria-label付きのアイコンボタン、エラーは色+テキスト+アイコンで表示、\nフォーカスリング(outline)を見やすく。',
+        cssHint: ':focus-visible {\n  outline: 2px solid #7c6aff;\n  outline-offset: 2px;\n}\n/* コントラスト比 4.5:1 以上を確保 */',
+        tags: ["a11y", "WCAG", "コントラスト", "キーボード"],
+        related: ["クリーン / プロフェッショナル", "フォーカスインジケーター"],
+        preview: { type: "a11y" }
+      },
+
+      {
+        word: "フォーカスインジケーター", en: "Focus indicator / Focus ring", category: "a11y", effectiveness: "★★★★★",
+        summary: "キーボード操作時にフォーカスされた要素を視覚的に示す枠線。a11yの基本。",
+        detail: ":focus-visibleでキーボード操作時のみフォーカスリングを表示(マウスクリック時は非表示)。outline: 2px solid color + outline-offset: 2pxが標準。ブランドカラーに合わせたカスタムフォーカスリングも効果的。",
+        example: 'カスタムフォーカスインジケーターを実装してください。\n:focus-visible で紫(#7c6aff)のアウトライン(2px solid)、\noutline-offset: 2px、ボタンは追加でbox-shadowのグロー、\n:focus:not(:focus-visible)ではoutline: noneに。',
+        cssHint: ':focus-visible {\n  outline: 2px solid #7c6aff;\n  outline-offset: 2px;\n}\nbutton:focus-visible {\n  box-shadow: 0 0 0 4px rgba(124,106,255,0.3);\n}',
+        tags: ["フォーカス", "outline", "キーボード", "a11y"],
+        related: ["アクセシブルなデザイン", "スムーズトランジション"],
+        preview: { type: "focus" }
+      },
+
+      {
+        word: "ダークモード切り替え", en: "Dark mode toggle / Theme switch", category: "a11y", effectiveness: "★★★★★",
+        summary: "ライトモードとダークモードをユーザーが切り替えられる機能。現代のUI標準。",
+        detail: "prefers-color-schemeメディアクエリでOSのテーマを検出し、トグルボタンで手動切り替えも可能に。CSS変数(カスタムプロパティ)でテーマカラーを管理し、data属性やclass切り替えでテーマを適用します。",
+        example: 'ダークモード切り替え機能を実装してください。\nCSS変数で全カラーを管理、トグルボタン(太陽/月アイコン)、\nprefers-color-schemeでOSテーマを初期値に、\nlocalStorageで選択を保存、テーマ変更時はtransition付き。',
+        cssHint: ':root { --bg: #fff; --text: #1a1a1a; }\n[data-theme="dark"] { --bg: #0f0f1a; --text: #e0e0e8; }\nbody { background: var(--bg); color: var(--text); transition: background 0.3s, color 0.3s; }',
+        tags: ["ダークモード", "トグル", "テーマ", "CSS変数"],
+        related: ["ダークモード", "マイクロインタラクション"],
+        preview: { type: "themetoggle" }
+      },
+
+      // ===== 画像・メディア =====
+      {
+        word: "画像のアスペクト比固定", en: "Fixed aspect ratio image", category: "image", effectiveness: "★★★★★",
+        summary: "画像やサムネイルの縦横比を統一して揃える。カード一覧の見た目を整える。",
+        detail: "aspect-ratio: 16/9やobject-fit: coverを使い、様々なサイズの画像でもコンテナ内で統一された比率で表示します。カードレイアウトでは必須のテクニック。1:1、4:3、16:9、3:2が主要な比率。",
+        example: '画像カードの一覧を作成してください。\n全て aspect-ratio: 16/9 で統一、object-fit: cover で切り抜き、\nborder-radius: 12pxで角丸、ホバーで1.05倍にズーム。',
+        cssHint: '.card-image {\n  aspect-ratio: 16 / 9;\n  object-fit: cover;\n  width: 100%;\n  border-radius: 12px;\n}',
+        tags: ["aspect-ratio", "object-fit", "16:9", "サムネイル"],
+        related: ["カードレイアウト", "ホバーエフェクト"],
+        preview: { type: "aspectratio" }
+      },
+
+      {
+        word: "画像オーバーレイ", en: "Image overlay", category: "image", effectiveness: "★★★★★",
+        summary: "画像の上に半透明の色やグラデーションを重ねてテキストを読みやすくする。",
+        detail: "::afterまたはdiv要素で画像上に半透明のオーバーレイを配置。黒の半透明(rgba(0,0,0,0.4))が基本。グラデーションオーバーレイ(下から黒)にするとより自然にテキストを載せられます。",
+        example: '画像オーバーレイのヒーローセクションを作成してください。\n背景画像の上に下から黒のグラデーション\n(linear-gradient(transparent, rgba(0,0,0,0.7)))を重ね、\n下部に白テキストの見出しとCTAボタンを配置。',
+        cssHint: '.hero::after {\n  content: "";\n  position: absolute;\n  inset: 0;\n  background: linear-gradient(transparent 40%, rgba(0,0,0,0.7));\n}',
+        tags: ["オーバーレイ", "画像", "半透明", "テキスト"],
+        related: ["ヒーローセクション", "ぼかし / ブラー効果"],
+        preview: { type: "overlay" }
+      },
+
+      {
+        word: "遅延読み込み / Lazy loading", en: "Lazy loading", category: "image", effectiveness: "★★★★☆",
+        summary: "画面に表示される直前まで画像の読み込みを遅延させる。パフォーマンス最適化。",
+        detail: "loading='lazy'属性で簡単に実装可能。Intersection Observerで独自実装すると、プレースホルダー表示やフェードインアニメーションの追加も可能。画像が多いページでは体感速度が大幅に向上します。",
+        example: '画像の遅延読み込みを実装してください。\nimgタグにloading=\"lazy\"属性、表示前はグレーの\nプレースホルダー(アスペクト比維持)、\n読み込み完了後にフェードインアニメーション。',
+        cssHint: 'img[loading="lazy"] {\n  opacity: 0;\n  transition: opacity 0.5s ease;\n}\nimg.loaded {\n  opacity: 1;\n}',
+        tags: ["遅延読み込み", "パフォーマンス", "lazy", "最適化"],
+        related: ["画像のアスペクト比固定", "ローディングアニメーション"],
+        preview: { type: "lazy" }
+      },
+
+      {
+        word: "画像ギャラリー / ライトボックス", en: "Image gallery / Lightbox", category: "image", effectiveness: "★★★★☆",
+        summary: "画像をクリックで拡大表示するギャラリーUI。写真サイトの定番機能。",
+        detail: "サムネイルグリッドとクリック時のフルスクリーン表示(ライトボックス)の組み合わせ。左右の矢印ナビゲーション、キーボード操作(左右キー、ESCで閉じる)、スワイプ対応、画像カウンター表示などを含めます。",
+        example: '画像ギャラリーをライトボックス付きで作成してください。\n3列のサムネイルグリッド、クリックでフルスクリーン拡大、\n左右の矢印ナビ、ESCで閉じる、背景暗転(backdrop-filter: blur)、\n画像カウンター「3 / 12」表示。',
+        cssHint: '.lightbox {\n  position: fixed;\n  inset: 0;\n  background: rgba(0,0,0,0.9);\n  backdrop-filter: blur(8px);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}',
+        tags: ["ギャラリー", "ライトボックス", "拡大", "写真"],
+        related: ["メイソンリーレイアウト", "画像のアスペクト比固定", "モーダル"],
+        preview: { type: "lightbox" }
+      },
+    ];
+
+    // ======================== RENDERING ========================
+    let filter = 'all', query = '', view = 'grid', favOnly = false;
+    const favs = new Set(JSON.parse(localStorage.getItem('dpd_favs') || '[]'));
+    function saveFavs() { localStorage.setItem('dpd_favs', JSON.stringify([...favs])) }
+
+    const getCat = id => CATS.find(c => c.id === id) || CATS[0];
+
+    function buildPreviewHTML(p, word) {
+      if (!p || !p.type) return '';
+      const t = p.type;
+      let inner = '';
+
+      const previewStyles = {
+        minimal: `<div style="background:#fff;width:100%;height:100%;display:flex;align-items:center;justify-content:center;border-radius:10px;padding:16px">
+      <div style="text-align:center">
+        <div style="font-weight:300;font-size:1.15em;color:#111;letter-spacing:2px">Less is More</div>
+        <div style="width:30px;height:2px;background:#111;margin:8px auto"></div>
+        <div style="font-size:.6em;color:#999;letter-spacing:1px">MINIMAL</div>
+      </div></div>`,
+
+        glass: `<div style="background:linear-gradient(135deg,#667eea,#764ba2,#f093fb);width:100%;height:100%;display:flex;align-items:center;justify-content:center;border-radius:10px;position:relative;overflow:hidden">
+      <div style="position:absolute;width:80px;height:80px;background:rgba(255,200,50,.4);border-radius:50%;top:-20px;right:-10px"></div>
+      <div style="position:absolute;width:60px;height:60px;background:rgba(50,200,255,.3);border-radius:50%;bottom:-15px;left:-10px"></div>
+      <div style="backdrop-filter:blur(12px);background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);border-radius:14px;padding:14px 20px;text-align:center;color:#fff;position:relative">
+        <div style="font-size:.85em;font-weight:600">Glass Card</div>
+        <div style="font-size:.6em;opacity:.8;margin-top:2px">backdrop-filter: blur</div>
+      </div></div>`,
+
+        neumorphism: `<div style="background:#e0e5ec;width:100%;height:100%;display:flex;align-items:center;justify-content:center;border-radius:10px;gap:10px">
+      <div style="width:52px;height:52px;border-radius:14px;box-shadow:6px 6px 12px #b8bec7,-6px -6px 12px #fff;display:flex;align-items:center;justify-content:center;color:#6b7b8d;font-size:1.1em;font-weight:600">1</div>
+      <div style="width:52px;height:52px;border-radius:14px;box-shadow:6px 6px 12px #b8bec7,-6px -6px 12px #fff;display:flex;align-items:center;justify-content:center;color:#6b7b8d;font-size:1.1em;font-weight:600">2</div>
+      <div style="width:52px;height:52px;border-radius:14px;box-shadow:inset 4px 4px 8px #b8bec7,inset -4px -4px 8px #fff;display:flex;align-items:center;justify-content:center;color:#7c6aff;font-size:1.1em;font-weight:700">3</div></div>`,
+
+        flat: `<div style="background:#3498db;width:100%;height:100%;display:flex;align-items:center;justify-content:center;border-radius:10px;gap:8px;padding:12px">
+      <div style="background:#e74c3c;color:#fff;padding:8px 14px;font-weight:700;font-size:.75em">FLAT</div>
+      <div style="background:#2ecc71;color:#fff;padding:8px 14px;font-weight:700;font-size:.75em">DESIGN</div>
+      <div style="background:#f1c40f;color:#fff;padding:8px 14px;font-weight:700;font-size:.75em">STYLE</div></div>`,
+
+        brutalism: `<div style="background:#ffff00;width:100%;height:100%;display:flex;align-items:center;justify-content:center;border-radius:10px;position:relative;overflow:hidden">
+      <div style="font-family:monospace;font-weight:900;font-size:1.5em;color:#000;border:4px solid #000;padding:6px 14px;transform:rotate(-2deg)">RAW.</div>
+      <div style="position:absolute;bottom:6px;right:8px;font-family:monospace;font-size:.55em;color:#000;text-decoration:underline">click_here.exe</div></div>`,
+
+        material: `<div style="background:#fafafa;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:10px;gap:8px;position:relative">
+      <div style="background:#fff;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.12);padding:10px 20px;font-size:.8em;color:#333">Material Card</div>
+      <div style="position:absolute;bottom:10px;right:12px;width:36px;height:36px;background:#6200ea;border-radius:50%;box-shadow:0 3px 8px rgba(98,0,234,.35);display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.2em">+</div></div>`,
+
+        dark: `<div style="background:#0f0f1a;width:100%;height:100%;display:flex;align-items:center;justify-content:center;border-radius:10px;padding:16px">
+      <div style="text-align:center">
+        <div style="color:#e0e0e8;font-size:.95em;font-weight:500">Dark Mode</div>
+        <div style="margin-top:6px;display:flex;gap:6px;justify-content:center">
+          <div style="width:10px;height:10px;border-radius:50%;background:#8b5cf6"></div>
+          <div style="width:10px;height:10px;border-radius:50%;background:#252540;border:1px solid #3a3a5a"></div>
+          <div style="width:10px;height:10px;border-radius:50%;background:#0f0f1a;border:1px solid #252540"></div>
+        </div>
+      </div></div>`,
+
+        japanese: `<div style="background:#f5f0e8;width:100%;height:100%;display:flex;align-items:center;justify-content:center;border-radius:10px;padding:16px">
+      <div style="border-left:3px solid #d4a574;padding-left:12px">
+        <div style="font-family:Georgia,serif;font-size:1.1em;color:#264653;letter-spacing:3px">和の美</div>
+        <div style="font-size:.55em;color:#8a7a6a;margin-top:4px;letter-spacing:1px">Japanese Style</div>
+      </div></div>`,
+
+        cyberpunk: `<div style="background:#0a0014;width:100%;height:100%;display:flex;align-items:center;justify-content:center;border-radius:10px;position:relative;overflow:hidden">
+      <div style="position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,245,255,.03) 2px,rgba(0,245,255,.03) 4px)"></div>
+      <div style="font-family:monospace;font-size:1em;color:#00f5ff;text-shadow:0 0 10px #00f5ff,0 0 30px #00f5ff;position:relative">NEON_CITY</div>
+      <div style="position:absolute;bottom:6px;left:8px;width:20px;height:3px;background:#ff006e;box-shadow:0 0 8px #ff006e"></div></div>`,
+
+        retro: `<div style="background:linear-gradient(135deg,#ff6b35,#f7c59f);width:100%;height:100%;display:flex;align-items:center;justify-content:center;border-radius:10px">
+      <div style="font-weight:900;font-size:1.2em;color:#2d1b00;border:3px solid #2d1b00;padding:8px 16px;letter-spacing:2px">RETRO</div></div>`,
+
+        isometric: `<div style="background:#f0f4ff;width:100%;height:100%;display:flex;align-items:center;justify-content:center;border-radius:10px">
+      <div style="transform:rotateX(55deg) rotateZ(-45deg);transform-style:preserve-3d">
+        <div style="width:50px;height:50px;background:#7c6aff;border-radius:6px;box-shadow:-4px 4px 0 rgba(0,0,0,.1);margin-bottom:-8px;position:relative;z-index:2;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.6em;font-weight:700">ISO</div>
+        <div style="width:50px;height:50px;background:#a78bfa;border-radius:6px;box-shadow:-4px 4px 0 rgba(0,0,0,.08);display:flex;align-items:center;justify-content:center;color:#fff;font-size:.5em">3D</div>
+      </div></div>`,
+
+        claymorphism: `<div style="background:linear-gradient(135deg,#fce4ec,#e8d5f5);width:100%;height:100%;display:flex;align-items:center;justify-content:center;border-radius:10px">
+      <div style="background:#f5d0fe;border-radius:20px;padding:14px 22px;box-shadow:-4px -4px 8px rgba(255,255,255,.8),4px 4px 8px rgba(0,0,0,.08),inset -2px -2px 4px rgba(0,0,0,.03),inset 2px 2px 4px rgba(255,255,255,.9);color:#7c3aed;font-weight:700;font-size:.85em">Clay UI</div></div>`,
+
+        mesh: `<div class="preview-gradient-move" style="background:radial-gradient(at 20% 30%,rgba(168,85,247,.6) 0%,transparent 50%),radial-gradient(at 80% 20%,rgba(236,72,153,.5) 0%,transparent 50%),radial-gradient(at 50% 80%,rgba(59,130,246,.5) 0%,transparent 50%),radial-gradient(at 70% 60%,rgba(16,185,129,.4) 0%,transparent 40%),#0f0f1a;width:100%;height:100%;display:flex;align-items:center;justify-content:center;border-radius:10px;color:rgba(255,255,255,.9);font-size:.85em;font-weight:500">Mesh</div>`,
+
+        cardlayout: `<div style="background:#f5f5f5;width:100%;height:100%;display:grid;grid-template-columns:1fr 1fr;gap:5px;padding:8px;border-radius:10px;font-size:.55em;color:#333">
+      <div style="background:#fff;border-radius:6px;padding:6px;box-shadow:0 1px 3px rgba(0,0,0,.08)"><div style="background:#e0e0e0;height:20px;border-radius:3px;margin-bottom:4px"></div>Card</div>
+      <div style="background:#fff;border-radius:6px;padding:6px;box-shadow:0 1px 3px rgba(0,0,0,.08)"><div style="background:#e0e0e0;height:20px;border-radius:3px;margin-bottom:4px"></div>Card</div>
+      <div style="background:#fff;border-radius:6px;padding:6px;box-shadow:0 1px 3px rgba(0,0,0,.08)"><div style="background:#e0e0e0;height:20px;border-radius:3px;margin-bottom:4px"></div>Card</div>
+      <div style="background:#fff;border-radius:6px;padding:6px;box-shadow:0 1px 3px rgba(0,0,0,.08)"><div style="background:#e0e0e0;height:20px;border-radius:3px;margin-bottom:4px"></div>Card</div></div>`,
+
+        hero: `<div style="background:linear-gradient(135deg,#1a0533,#0a192f);width:100%;height:100%;display:flex;align-items:center;justify-content:center;border-radius:10px;text-align:center;padding:14px">
+      <div><div style="color:#fff;font-size:1em;font-weight:700">Build Amazing</div>
+      <div style="color:rgba(255,255,255,.5);font-size:.55em;margin:4px 0 8px">Subtext goes here</div>
+      <div style="display:flex;gap:6px;justify-content:center">
+        <div style="background:#7c6aff;color:#fff;padding:4px 12px;border-radius:6px;font-size:.55em">Get Started</div>
+        <div style="border:1px solid rgba(255,255,255,.3);color:#fff;padding:4px 12px;border-radius:6px;font-size:.55em">Learn More</div>
+      </div></div></div>`,
+
+        sidebar: `<div style="background:#f0f2f5;width:100%;height:100%;display:flex;gap:3px;padding:4px;border-radius:10px;font-size:.55em">
+      <div style="background:#1e1e2d;color:#fff;padding:6px;border-radius:6px;width:32%;display:flex;flex-direction:column;gap:3px">
+        <div style="font-weight:600;font-size:1.1em;margin-bottom:2px">☰</div>
+        <div style="padding:2px 4px;border-radius:3px;background:rgba(124,106,255,.3)">● Home</div>
+        <div style="padding:2px 4px;opacity:.6">● Users</div>
+        <div style="padding:2px 4px;opacity:.6">● Settings</div>
+      </div>
+      <div style="flex:1;background:#fff;border-radius:6px;padding:6px">
+        <div style="font-weight:600;margin-bottom:4px">Dashboard</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:3px">
+          <div style="background:#f5f5ff;border-radius:4px;padding:4px;text-align:center">248</div>
+          <div style="background:#f0fff5;border-radius:4px;padding:4px;text-align:center">+12%</div>
+        </div>
+      </div></div>`,
+
+        bento: `<div style="background:#f5f5f5;width:100%;height:100%;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:4px;padding:6px;border-radius:10px;font-size:.5em;color:#333">
+      <div style="background:#fff;border-radius:6px;padding:6px;grid-row:span 2;box-shadow:0 1px 3px rgba(0,0,0,.06);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:1.2em">Big Feature</div>
+      <div style="background:#fff;border-radius:6px;padding:6px;box-shadow:0 1px 3px rgba(0,0,0,.06);display:flex;align-items:center;justify-content:center">Small A</div>
+      <div style="background:#fff;border-radius:6px;padding:6px;box-shadow:0 1px 3px rgba(0,0,0,.06);display:flex;align-items:center;justify-content:center">Small B</div></div>`,
+
+        split: `<div style="width:100%;height:100%;display:flex;border-radius:10px;overflow:hidden;font-size:.6em">
+      <div style="background:linear-gradient(135deg,#667eea,#764ba2);flex:1;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:600">Visual</div>
+      <div style="flex:1;display:flex;align-items:center;justify-content:center;background:#fafafa;color:#333">
+        <div style="text-align:center"><div style="font-weight:600;margin-bottom:4px">Login</div>
+          <div style="background:#fff;border:1px solid #ddd;border-radius:4px;padding:3px 8px;margin-bottom:3px;font-size:.9em;color:#aaa">email</div>
+          <div style="background:#667eea;color:#fff;border-radius:4px;padding:3px 8px;font-size:.9em">Sign In</div>
+        </div></div></div>`,
+
+        masonry: `<div style="background:#f0f0f0;width:100%;height:100%;columns:2;column-gap:4px;padding:6px;border-radius:10px;font-size:.5em;color:#555">
+      <div style="background:#fff;margin-bottom:4px;padding:14px 6px;border-radius:4px;break-inside:avoid;text-align:center">Tall</div>
+      <div style="background:#fff;margin-bottom:4px;padding:6px;border-radius:4px;break-inside:avoid;text-align:center">S</div>
+      <div style="background:#fff;margin-bottom:4px;padding:20px 6px;border-radius:4px;break-inside:avoid;text-align:center">Med</div>
+      <div style="background:#fff;margin-bottom:4px;padding:8px 6px;border-radius:4px;break-inside:avoid;text-align:center">Sm</div></div>`,
+
+        sticky: `<div style="background:#0f1117;width:100%;height:100%;border-radius:10px;overflow:hidden;position:relative;font-size:.55em">
+      <div style="background:rgba(15,17,23,.8);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,.08);padding:6px 10px;display:flex;justify-content:space-between;align-items:center;color:#fff">
+        <span style="font-weight:700">Logo</span>
+        <div style="display:flex;gap:6px;color:rgba(255,255,255,.5)"><span>Home</span><span>About</span><span style="background:#7c6aff;color:#fff;padding:2px 8px;border-radius:4px">CTA</span></div>
+      </div>
+      <div style="padding:10px;color:rgba(255,255,255,.3);text-align:center;padding-top:20px">↓ Scroll content</div></div>`,
+
+        footer: `<div style="background:#0f0f1a;width:100%;height:100%;border-radius:10px;padding:8px 10px;font-size:.5em;color:rgba(255,255,255,.5);display:flex;flex-direction:column;justify-content:space-between">
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:4px">
+        <div><div style="color:#fff;font-weight:600;margin-bottom:2px">Product</div>Features<br>Pricing</div>
+        <div><div style="color:#fff;font-weight:600;margin-bottom:2px">Company</div>About<br>Blog</div>
+        <div><div style="color:#fff;font-weight:600;margin-bottom:2px">Legal</div>Privacy<br>Terms</div>
+      </div>
+      <div style="border-top:1px solid rgba(255,255,255,.08);padding-top:4px;text-align:center">© 2026</div></div>`,
+
+        mono: `<div style="background:#1a1a1a;width:100%;height:100%;display:flex;align-items:center;justify-content:center;border-radius:10px;gap:8px;padding:12px">
+      <div style="width:40px;height:40px;background:#333;border-radius:4px"></div>
+      <div style="width:40px;height:40px;background:#666;border-radius:4px"></div>
+      <div style="width:40px;height:40px;background:#999;border-radius:4px"></div>
+      <div style="width:40px;height:40px;background:#ccc;border-radius:4px"></div>
+      <div style="width:40px;height:40px;background:#fff;border-radius:4px"></div></div>`,
+
+        pastel: `<div style="background:linear-gradient(135deg,#ffd6e0,#e8d5f5,#d5f5e3,#d5e8f5);width:100%;height:100%;display:flex;align-items:center;justify-content:center;border-radius:10px;gap:8px;padding:12px">
+      <div style="background:rgba(255,255,255,.7);border-radius:14px;padding:10px 16px;color:#6b5b7b;font-size:.8em;font-weight:500;box-shadow:0 2px 8px rgba(0,0,0,.05)">Pastel</div></div>`,
+
+        vivid: `<div style="background:#ffe100;width:100%;height:100%;display:flex;align-items:center;justify-content:center;border-radius:10px">
+      <div style="font-weight:900;font-size:1.3em;color:#1a0050">VIVID!</div></div>`,
+
+        gradient: `<div class="preview-gradient-move" style="background:linear-gradient(135deg,#7c3aed,#ec4899,#f59e0b,#7c3aed);background-size:300% 300%;width:100%;height:100%;display:flex;align-items:center;justify-content:center;border-radius:10px;color:#fff;font-size:.95em;font-weight:600">Gradient</div>`,
+
+        earth: `<div style="background:#f5f0e8;width:100%;height:100%;display:flex;align-items:center;justify-content:center;border-radius:10px;gap:8px;padding:12px">
+      <div style="width:28px;height:28px;border-radius:50%;background:#c67a4b"></div>
+      <div style="width:28px;height:28px;border-radius:50%;background:#2d5a3d"></div>
+      <div style="width:28px;height:28px;border-radius:50%;background:#3d2b1f"></div>
+      <div style="width:28px;height:28px;border-radius:50%;background:#d4a574"></div></div>`,
+
+        darkneon: `<div style="background:#0a0f0d;width:100%;height:100%;display:flex;align-items:center;justify-content:center;border-radius:10px;padding:12px">
+      <div style="color:#00ff88;font-family:monospace;font-size:.85em;text-shadow:0 0 8px #00ff88;border:1px solid rgba(0,255,136,.2);padding:8px 14px;border-radius:8px">Active <span style="opacity:.3;color:#e0e0e0;text-shadow:none">| Inactive</span></div></div>`,
+
+        herotype: `<div style="background:#0a0a0a;width:100%;height:100%;display:flex;align-items:center;justify-content:center;border-radius:10px;padding:10px">
+      <div style="color:#fff;font-size:1.8em;font-weight:900;letter-spacing:-1.5px;line-height:.95;text-align:center">BOLD<span style="color:#7c6aff">.</span></div></div>`,
+
+        serif: `<div style="background:#faf8f5;width:100%;height:100%;display:flex;align-items:center;justify-content:center;border-radius:10px;padding:14px">
+      <div style="text-align:center"><div style="font-family:'Playfair Display',Georgia,serif;font-size:1.15em;font-style:italic;color:#2c2c2c">Elegance</div>
+      <div style="font-size:.55em;color:#999;font-family:Inter,sans-serif;margin-top:2px;letter-spacing:2px">SERIF × SANS</div></div></div>`,
+
+        monospace: `<div style="background:#0a0a0a;width:100%;height:100%;display:flex;align-items:center;justify-content:center;border-radius:10px;padding:14px;border:1px solid #1a3a1a">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.82em;color:#00ff41" class="preview-typing">> terminal_</div></div>`,
+
+        textgradient: `<div style="background:#0f0f1a;width:100%;height:100%;display:flex;align-items:center;justify-content:center;border-radius:10px;padding:12px">
+      <div style="font-size:1.2em;font-weight:800;background:linear-gradient(90deg,#7c6aff,#ff6ba6,#ffb347);-webkit-background-clip:text;-webkit-text-fill-color:transparent">Gradient</div></div>`,
+
+        clamp: `<div style="background:#0f1117;width:100%;height:100%;display:flex;align-items:center;justify-content:center;border-radius:10px;padding:8px;flex-direction:column;gap:2px">
+      <div style="color:#fff;font-size:1.2em;font-weight:800">Big</div>
+      <div style="color:rgba(255,255,255,.6);font-size:.7em;font-weight:500">Medium</div>
+      <div style="color:rgba(255,255,255,.35);font-size:.5em">Small text auto-scales</div></div>`,
+
+        spacing: `<div style="background:#fafafa;width:100%;height:100%;display:flex;align-items:center;justify-content:center;border-radius:10px;padding:12px">
+      <div style="text-align:center"><div style="font-size:1em;font-weight:700;letter-spacing:-0.02em;line-height:1.1;color:#111">Tight Head</div>
+      <div style="font-size:.55em;color:#999;letter-spacing:0.15em;text-transform:uppercase;margin-top:6px;line-height:1.5">W I D E &nbsp; C A P T I O N</div></div></div>`,
+
+        scroll: `<div style="background:#0f1117;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:10px;gap:6px;padding:12px">
+      <div style="color:rgba(124,106,255,.5);font-size:.7em" class="preview-float">↓</div>
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:6px 14px;color:var(--text-dim);font-size:.65em;opacity:.5">Scroll to reveal</div>
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:6px 14px;color:#fff;font-size:.65em">Visible!</div></div>`,
+
+        hover: `<div style="background:var(--card);width:100%;height:100%;display:flex;align-items:center;justify-content:center;border-radius:10px;padding:12px;border:1px solid var(--border)">
+      <div style="background:var(--accent);color:#fff;padding:8px 18px;border-radius:10px;font-size:.75em;font-weight:600;cursor:pointer;transition:all .3s;box-shadow:0 4px 12px rgba(124,106,255,.3)" onmouseover="this.style.transform='translateY(-3px) scale(1.05)';this.style.boxShadow='0 8px 24px rgba(124,106,255,.4)'" onmouseout="this.style.transform='';this.style.boxShadow='0 4px 12px rgba(124,106,255,.3)'">Hover me ↑</div></div>`,
+
+        micro: `<div style="background:var(--surface);width:100%;height:100%;display:flex;align-items:center;justify-content:center;border-radius:10px;gap:16px;padding:12px;border:1px solid var(--border)" class="preview-bounce">
+      <div class="bounce-target" style="font-size:1.5em;cursor:pointer;color:var(--accent3)">♥</div>
+      <div style="width:36px;height:20px;border-radius:10px;background:var(--accent);position:relative;cursor:pointer"><div style="width:16px;height:16px;border-radius:50%;background:#fff;position:absolute;top:2px;right:2px;transition:all .3s;box-shadow:0 1px 3px rgba(0,0,0,.2)"></div></div>
+      <div style="color:var(--text-dim);font-size:.65em">micro ✓</div></div>`,
+
+        smooth: `<div style="background:var(--card);width:100%;height:100%;display:flex;align-items:center;justify-content:center;border-radius:10px;padding:12px;border:1px solid var(--border)">
+      <div style="color:var(--accent);font-size:.85em;font-weight:500">Smooth <span style="display:inline-block;transition:transform .3s" onmouseover="this.style.transform='translateX(6px)'" onmouseout="this.style.transform=''">→</span></div></div>`,
+
+        parallax: `<div style="background:linear-gradient(180deg,#1a1040,#0a192f);width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:10px;position:relative;overflow:hidden;padding:12px">
+      <div style="position:absolute;top:10px;opacity:.15;font-size:2em;color:#fff" class="preview-float">◇</div>
+      <div style="color:rgba(255,255,255,.7);font-size:.8em;letter-spacing:1px;position:relative">PARALLAX</div>
+      <div style="color:rgba(255,255,255,.3);font-size:.55em;position:relative;margin-top:4px">layers at different speeds</div></div>`,
+
+        skeleton: `<div style="background:#f5f5f5;width:100%;height:100%;display:flex;flex-direction:column;gap:6px;padding:10px;border-radius:10px">
+      <div class="preview-shimmer" style="height:40%;border-radius:6px"></div>
+      <div class="preview-shimmer" style="height:10px;border-radius:3px;width:70%"></div>
+      <div class="preview-shimmer" style="height:10px;border-radius:3px;width:50%"></div></div>`,
+
+        ripple: `<div style="background:var(--surface);width:100%;height:100%;display:flex;align-items:center;justify-content:center;border-radius:10px;border:1px solid var(--border)" class="preview-ripple">
+      <div class="ripple-ring"></div><div class="ripple-ring"></div><div class="ripple-ring"></div>
+      <div style="color:var(--accent);font-size:.8em;font-weight:500;position:relative;z-index:1">Ripple</div></div>`,
+
+        typing: `<div style="background:#0a0a0a;width:100%;height:100%;display:flex;align-items:center;justify-content:center;border-radius:10px;padding:14px">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.8em;color:#fff;border-right:2px solid #7c6aff;padding-right:4px;animation:blink 1s step-end infinite;white-space:nowrap;overflow:hidden;max-width:90%">未来を、つくる。</div></div>`,
+
+        luxury: `<div style="background:#0a0a0a;width:100%;height:100%;display:flex;align-items:center;justify-content:center;border-radius:10px;padding:14px;border:1px solid #2a2520">
+      <div style="text-align:center"><div style="font-family:Georgia,serif;font-size:1em;color:#c9a96e;letter-spacing:4px;font-weight:300">LUXURY</div>
+      <div style="width:40px;height:1px;background:linear-gradient(90deg,transparent,#c9a96e,transparent);margin:6px auto"></div>
+      <div style="font-size:.5em;color:#555;letter-spacing:2px">SINCE 1890</div></div></div>`,
+
+        playful: `<div style="background:linear-gradient(135deg,#fff3e0,#fce4ec);width:100%;height:100%;display:flex;align-items:center;justify-content:center;border-radius:10px;padding:12px">
+      <div style="font-weight:800;font-size:1.1em;color:#e91e63;border:3px solid #e91e63;border-radius:20px;padding:6px 16px" class="preview-float">Fun! ✨</div></div>`,
+
+        clean: `<div style="background:#fff;width:100%;height:100%;display:flex;align-items:center;justify-content:center;border-radius:10px;padding:14px;border:1px solid #e5e7eb">
+      <div style="border-left:3px solid #2563eb;padding-left:10px"><div style="font-size:.85em;font-weight:600;color:#1a1a2e">Professional</div>
+      <div style="font-size:.55em;color:#6b7280;margin-top:2px">Clean, trustworthy, reliable</div></div></div>`,
+
+        warm: `<div style="background:#faf3e8;width:100%;height:100%;display:flex;align-items:center;justify-content:center;border-radius:10px;padding:12px;border:2px solid #e8d5c0">
+      <div style="text-align:center"><div style="font-size:.9em;color:#5a3e28;font-weight:500">Warm & Cozy</div>
+      <div style="font-size:1.2em;margin-top:4px">🍞☕🌿</div></div></div>`,
+
+        futuristic: `<div style="background:#05051a;width:100%;height:100%;display:flex;align-items:center;justify-content:center;border-radius:10px;padding:14px;border:1px solid rgba(77,201,246,.15)" class="preview-grid-bg">
+      <div style="color:#4dc9f6;font-weight:200;font-size:1em;letter-spacing:4px;text-shadow:0 0 10px rgba(77,201,246,.5);position:relative">FUTURE</div></div>`,
+
+        elegant: `<div style="background:#faf8f0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;border-radius:10px;padding:14px">
+      <div style="text-align:center"><div style="font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:1.05em;color:#3a3a3a">Elegant</div>
+      <div style="width:50px;height:1px;background:#b76e79;margin:6px auto"></div>
+      <div style="font-size:.5em;color:#b76e79;letter-spacing:2px">SOPHISTICATED</div></div></div>`,
+
+        fab: `<div style="background:var(--surface);width:100%;height:100%;border-radius:10px;position:relative;border:1px solid var(--border)">
+      <div style="position:absolute;right:10px;bottom:10px;width:38px;height:38px;background:#7c6aff;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(124,106,255,.4);color:#fff;font-size:1.3em;cursor:pointer;transition:transform .3s" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform=''">+</div></div>`,
+
+        bottomnav: `<div style="background:var(--surface);width:100%;height:100%;border-radius:10px;display:flex;flex-direction:column;justify-content:flex-end;border:1px solid var(--border);overflow:hidden">
+      <div style="height:60%;"></div>
+      <div style="display:flex;justify-content:space-around;background:var(--card);padding:8px 4px;border-top:1px solid var(--border);font-size:.5em;color:var(--text-dim)">
+        <div style="text-align:center;color:var(--accent)"><div>⌂</div>Home</div>
+        <div style="text-align:center"><div>⚲</div>Search</div>
+        <div style="text-align:center"><div style="background:var(--accent);color:#fff;width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:1.3em">+</div><br>Add</div>
+        <div style="text-align:center"><div>♡</div>Likes</div>
+        <div style="text-align:center"><div>◉</div>Me</div></div></div>`,
+
+        toast: `<div style="background:var(--surface);width:100%;height:100%;border-radius:10px;padding:8px;display:flex;flex-direction:column;gap:4px;justify-content:center;border:1px solid var(--border)">
+      <div style="background:#22c55e;padding:5px 10px;border-radius:8px;font-size:.6em;color:#fff;display:flex;justify-content:space-between;align-items:center"><span>✓ 保存しました</span><span style="opacity:.6">×</span></div>
+      <div style="background:#ef4444;padding:5px 10px;border-radius:8px;font-size:.6em;color:#fff;display:flex;justify-content:space-between;align-items:center"><span>✕ エラーが発生</span><span style="opacity:.6">×</span></div>
+      <div style="background:#f59e0b;padding:5px 10px;border-radius:8px;font-size:.6em;color:#fff;display:flex;justify-content:space-between;align-items:center"><span>⚠ 注意</span><span style="opacity:.6">×</span></div></div>`,
+
+        modal: `<div style="background:rgba(0,0,0,.5);width:100%;height:100%;display:flex;align-items:center;justify-content:center;border-radius:10px;backdrop-filter:blur(2px)">
+      <div style="background:var(--card);padding:12px 16px;border-radius:12px;border:1px solid var(--border);width:75%;text-align:center">
+        <div style="font-size:.75em;color:#fff;font-weight:600;margin-bottom:4px">Modal Title</div>
+        <div style="font-size:.55em;color:var(--text-dim);margin-bottom:8px">Content goes here</div>
+        <div style="display:flex;gap:4px;justify-content:center">
+          <div style="background:var(--accent);color:#fff;padding:3px 10px;border-radius:6px;font-size:.55em">Confirm</div>
+          <div style="border:1px solid var(--border);color:var(--text-dim);padding:3px 10px;border-radius:6px;font-size:.55em">Cancel</div></div></div></div>`,
+
+        tooltip: `<div style="background:var(--surface);width:100%;height:100%;display:flex;align-items:center;justify-content:center;border-radius:10px;padding:16px;border:1px solid var(--border);position:relative">
+      <div style="position:relative;display:inline-block">
+        <div style="background:#1a1a2e;color:#fff;padding:4px 10px;border-radius:6px;font-size:.65em;position:absolute;bottom:100%;left:50%;transform:translateX(-50%);margin-bottom:6px;white-space:nowrap">Tooltip text<div style="position:absolute;top:100%;left:50%;transform:translateX(-50%);border:4px solid transparent;border-top-color:#1a1a2e"></div></div>
+        <div style="color:var(--text-dim);font-size:.75em;cursor:help;text-decoration:underline dotted">hover me</div></div></div>`,
+
+        accordion: `<div style="background:var(--surface);width:100%;height:100%;display:flex;flex-direction:column;gap:3px;padding:8px;border-radius:10px;border:1px solid var(--border);justify-content:center;font-size:.55em">
+      <div style="background:var(--card);border-radius:6px;overflow:hidden">
+        <div style="padding:5px 8px;display:flex;justify-content:space-between;color:var(--accent);font-weight:600">Q: What is this? <span>−</span></div>
+        <div style="padding:0 8px 5px;color:var(--text-dim)">Answer is visible here</div></div>
+      <div style="background:var(--card);border-radius:6px;padding:5px 8px;display:flex;justify-content:space-between;color:var(--text-dim)">Q: Another question <span>+</span></div>
+      <div style="background:var(--card);border-radius:6px;padding:5px 8px;display:flex;justify-content:space-between;color:var(--text-dim)">Q: Third question <span>+</span></div></div>`,
+
+        tabui: `<div style="background:var(--surface);width:100%;height:100%;display:flex;flex-direction:column;border-radius:10px;border:1px solid var(--border);overflow:hidden;font-size:.55em">
+      <div style="display:flex;border-bottom:1px solid var(--border)">
+        <div style="padding:6px 12px;color:var(--accent);border-bottom:2px solid var(--accent);font-weight:600">Tab 1</div>
+        <div style="padding:6px 12px;color:var(--text-dim)">Tab 2</div>
+        <div style="padding:6px 12px;color:var(--text-dim)">Tab 3</div></div>
+      <div style="flex:1;display:flex;align-items:center;justify-content:center;color:var(--text-dim);padding:8px">Panel content for Tab 1</div></div>`,
+
+        progress: `<div style="background:var(--surface);width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;border-radius:10px;padding:14px;border:1px solid var(--border)">
+      <div style="display:flex;align-items:center;gap:8px;font-size:.55em">
+        <div style="width:20px;height:20px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.9em">✓</div>
+        <div style="width:24px;height:2px;background:var(--accent)"></div>
+        <div style="width:20px;height:20px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700" class="preview-pulse">2</div>
+        <div style="width:24px;height:2px;background:var(--border)"></div>
+        <div style="width:20px;height:20px;border-radius:50%;border:2px solid var(--border);color:var(--text-dim);display:flex;align-items:center;justify-content:center;font-weight:700">3</div></div>
+      <div style="width:80%;height:5px;border-radius:3px;background:var(--border)"><div style="width:60%;height:100%;border-radius:3px;background:linear-gradient(90deg,#7c6aff,#00e8b8)"></div></div></div>`,
+
+        rounded: `<div style="background:var(--surface);width:100%;height:100%;display:flex;align-items:center;justify-content:center;gap:8px;border-radius:10px;padding:12px;border:1px solid var(--border)">
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:20px;padding:8px 14px;font-size:.7em;color:var(--text)">Rounded</div>
+      <div style="background:var(--accent);color:#fff;border-radius:9999px;padding:6px 14px;font-size:.65em;font-weight:600">Pill</div></div>`,
+
+        elevation: `<div style="background:#f5f5f5;width:100%;height:100%;display:flex;align-items:center;justify-content:center;gap:10px;border-radius:10px;padding:12px">
+      <div style="background:#fff;border-radius:10px;padding:10px;font-size:.55em;color:#666;box-shadow:0 1px 3px rgba(0,0,0,.08);text-align:center">L1</div>
+      <div style="background:#fff;border-radius:10px;padding:10px;font-size:.55em;color:#666;box-shadow:0 4px 12px rgba(0,0,0,.12);text-align:center">L2</div>
+      <div style="background:#fff;border-radius:10px;padding:10px;font-size:.55em;color:#666;box-shadow:0 12px 40px rgba(0,0,0,.18);text-align:center">L3</div></div>`,
+
+        gradientborder: `<div style="background:#0f1117;width:100%;height:100%;display:flex;align-items:center;justify-content:center;border-radius:10px;padding:12px">
+      <div style="background:linear-gradient(135deg,#7c6aff,#ff6ba6,#ffb347);padding:2px;border-radius:14px"><div style="background:#161822;border-radius:12px;padding:10px 18px;color:#fff;font-size:.8em">Glow Border</div></div></div>`,
+
+        icons: `<div style="background:var(--card);width:100%;height:100%;display:flex;align-items:center;justify-content:center;border-radius:10px;padding:12px;border:1px solid var(--border);gap:16px">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:3px;font-size:.55em;color:var(--text-dim)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Home</div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:3px;font-size:.55em;color:var(--text-dim)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>User</div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:3px;font-size:.55em;color:var(--text-dim)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>Settings</div></div>`,
+
+        divider: `<div style="background:var(--surface);width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;border-radius:10px;padding:16px;border:1px solid var(--border)">
+      <div style="width:80%;height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent)"></div>
+      <div style="display:flex;align-items:center;gap:8px;width:80%"><div style="flex:1;height:1px;background:var(--border)"></div><span style="font-size:.55em;color:var(--text-dim)">OR</span><div style="flex:1;height:1px;background:var(--border)"></div></div>
+      <div style="width:80%;border-bottom:2px dotted var(--border)"></div></div>`,
+
+        badge: `<div style="background:var(--surface);width:100%;height:100%;display:flex;align-items:center;justify-content:center;gap:6px;border-radius:10px;padding:12px;border:1px solid var(--border);flex-wrap:wrap">
+      <span style="background:#dcfce7;color:#166534;padding:2px 10px;border-radius:9999px;font-size:.6em;font-weight:600">Success</span>
+      <span style="background:#fee2e2;color:#991b1b;padding:2px 10px;border-radius:9999px;font-size:.6em;font-weight:600">Error</span>
+      <span style="background:#fef3c7;color:#92400e;padding:2px 10px;border-radius:9999px;font-size:.6em;font-weight:600">Warning</span>
+      <span style="background:#dbeafe;color:#1e40af;padding:2px 10px;border-radius:9999px;font-size:.6em;font-weight:600">Info</span></div>`,
+
+        responsive: `<div style="background:var(--surface);width:100%;height:100%;display:flex;align-items:end;justify-content:center;gap:6px;border-radius:10px;padding:12px 16px 14px;border:1px solid var(--border)">
+      <div style="background:var(--accent);border-radius:4px;padding:4px 6px;color:#fff;font-size:.55em;width:20%">📱</div>
+      <div style="background:var(--accent);border-radius:4px;padding:6px 8px;color:#fff;font-size:.6em;width:30%">📱 Tab</div>
+      <div style="background:var(--accent);border-radius:4px;padding:8px 10px;color:#fff;font-size:.65em;flex:1">💻 Desktop</div></div>`,
+
+        mobilefirst: `<div style="background:var(--card);width:100%;height:100%;display:flex;align-items:center;justify-content:center;border-radius:10px;padding:12px;border:1px solid var(--border)">
+      <div style="font-size:.8em;text-align:center"><span style="font-size:1.5em">📱</span><span style="color:var(--text-dim);margin:0 6px">→</span><span style="font-size:1.2em">💻</span>
+      <div style="font-size:.65em;color:var(--text-dim);margin-top:4px">min-width: mobile → up</div></div></div>`,
+
+        container: `<div style="background:var(--surface);width:100%;height:100%;display:flex;align-items:center;justify-content:center;gap:8px;border-radius:10px;padding:10px;border:1px solid var(--border)">
+      <div style="width:35%;border:1px dashed var(--accent);border-radius:6px;padding:4px;font-size:.45em;color:var(--text-dim);text-align:center"><div style="background:var(--card);border-radius:4px;padding:4px;margin-bottom:2px">img</div>text</div>
+      <div style="flex:1;border:1px dashed var(--accent2);border-radius:6px;padding:4px;font-size:.45em;color:var(--text-dim);display:flex;gap:4px;align-items:center"><div style="background:var(--card);border-radius:4px;padding:6px 8px">img</div><div>text expands here →</div></div></div>`,
+
+        apple: `<div style="background:#000;width:100%;height:100%;display:flex;align-items:center;justify-content:center;border-radius:10px;padding:14px;text-align:center">
+      <div><div style="color:#fff;font-size:1.2em;font-weight:700;letter-spacing:-0.5px">Think different.</div>
+      <div style="color:rgba(255,255,255,.4);font-size:.55em;margin-top:6px">scroll for more ↓</div></div></div>`,
+
+        stripe: `<div style="background:linear-gradient(135deg,#f5f3ff,#ede9fe,#e0f2fe);width:100%;height:100%;display:flex;align-items:center;justify-content:center;border-radius:10px;padding:12px">
+      <div style="text-align:center"><div style="font-size:.9em;font-weight:700;color:#1e1b4b">SaaS Landing</div>
+      <div style="display:flex;gap:4px;margin-top:6px;justify-content:center">
+        <div style="background:#fff;border:1px solid #e0e0e0;border-radius:6px;padding:4px 8px;font-size:.5em;color:#555">Free</div>
+        <div style="background:#7c6aff;border-radius:6px;padding:4px 8px;font-size:.5em;color:#fff;font-weight:600">Pro ★</div>
+        <div style="background:#fff;border:1px solid #e0e0e0;border-radius:6px;padding:4px 8px;font-size:.5em;color:#555">Team</div></div></div></div>`,
+
+        notion: `<div style="background:#fff;width:100%;height:100%;display:flex;border-radius:10px;overflow:hidden;font-size:.55em;border:1px solid #e8e7e4">
+      <div style="width:30%;border-right:1px solid #e8e7e4;padding:6px;color:#37352f">
+        <div style="font-weight:600;margin-bottom:4px">📋 Pages</div>
+        <div style="padding:2px 4px;border-radius:3px;background:#f0f0ee">📝 Notes</div>
+        <div style="padding:2px 4px;color:#999">📊 Tasks</div></div>
+      <div style="flex:1;padding:8px;color:#37352f"><div style="font-size:1.3em;font-weight:700;margin-bottom:4px">Untitled</div><div style="color:#999">Start writing...</div></div></div>`,
+
+        vercel: `<div style="background:#000;width:100%;height:100%;display:flex;align-items:center;justify-content:center;border-radius:10px;padding:14px;border:1px solid rgba(255,255,255,.12)">
+      <div style="text-align:center"><div style="color:#fff;font-size:.9em;font-weight:400;font-family:system-ui">▲ Vercel Style</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.5em;color:rgba(255,255,255,.4);margin-top:6px;background:rgba(255,255,255,.05);padding:3px 8px;border-radius:4px;border:1px solid rgba(255,255,255,.08)">npx deploy</div></div></div>`,
+
+        spotify: `<div style="background:#121212;width:100%;height:100%;display:flex;flex-direction:column;border-radius:10px;overflow:hidden">
+      <div style="flex:1;display:flex;gap:5px;padding:8px;align-items:start">
+        <div style="width:36px;height:36px;background:#282828;border-radius:4px;flex-shrink:0"></div>
+        <div style="width:36px;height:36px;background:#282828;border-radius:4px;flex-shrink:0"></div>
+        <div style="width:36px;height:36px;background:#282828;border-radius:4px;flex-shrink:0"></div></div>
+      <div style="background:#181818;border-top:1px solid #282828;padding:6px 10px;display:flex;align-items:center;gap:6px;font-size:.5em">
+        <div style="width:16px;height:16px;background:#333;border-radius:3px"></div>
+        <div style="flex:1"><div style="color:#fff;font-weight:500">Song Title</div><div style="color:#999;font-size:.9em">Artist</div></div>
+        <div style="color:#1DB954;font-size:1.3em">▶</div></div></div>`,
+
+        glow: `<div style="background:#0a0a1a;width:100%;height:100%;display:flex;align-items:center;justify-content:center;gap:10px;border-radius:10px;padding:12px">
+      <div style="color:#4dc9f6;font-size:.9em;text-shadow:0 0 8px #4dc9f6,0 0 24px rgba(77,201,246,.4)" class="preview-glow-anim">✦</div>
+      <div style="color:#a855f7;font-size:.9em;text-shadow:0 0 8px #a855f7,0 0 24px rgba(168,85,247,.4);animation-delay:.3s" class="preview-glow-anim">✦</div>
+      <div style="color:#00ff88;font-size:.9em;text-shadow:0 0 8px #00ff88,0 0 24px rgba(0,255,136,.4);animation-delay:.6s" class="preview-glow-anim">✦</div></div>`,
+
+        blur: `<div style="background:linear-gradient(135deg,#667eea,#764ba2);width:100%;height:100%;display:flex;align-items:center;justify-content:center;border-radius:10px;position:relative;overflow:hidden">
+      <div style="position:absolute;width:70px;height:70px;background:rgba(255,100,200,.5);border-radius:50%;top:-10px;left:-10px;filter:blur(20px)"></div>
+      <div style="backdrop-filter:blur(6px);background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:10px;padding:10px 16px;color:#fff;font-size:.8em;position:relative">Blur ◌</div></div>`,
+
+        blob: `<div style="background:#0f0f1a;width:100%;height:100%;display:flex;align-items:center;justify-content:center;border-radius:10px;position:relative;overflow:hidden;border:1px solid var(--border)">
+      <div style="position:absolute;width:60px;height:60px;background:#7c6aff;border-radius:50%;filter:blur(25px);top:-10px;left:-10px;opacity:.6"></div>
+      <div style="position:absolute;width:50px;height:50px;background:#ff6ba6;border-radius:50%;filter:blur(25px);bottom:-10px;right:-5px;opacity:.5"></div>
+      <div style="position:absolute;width:40px;height:40px;background:#00e8b8;border-radius:50%;filter:blur(20px);top:50%;left:60%;opacity:.4"></div>
+      <span style="position:relative;color:rgba(255,255,255,.8);font-size:.8em">Blobs</span></div>`,
+
+        grain: `<div style="background:#1a1a2e;width:100%;height:100%;display:flex;align-items:center;justify-content:center;border-radius:10px;padding:14px;position:relative;overflow:hidden;border:1px solid #2a2a40">
+      <div style="position:absolute;inset:0;opacity:.12;background:url('data:image/svg+xml,<svg viewBox=&quot;0 0 256 256&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;><filter id=&quot;n&quot;><feTurbulence type=&quot;fractalNoise&quot; baseFrequency=&quot;0.9&quot;/></filter><rect width=&quot;100%25&quot; height=&quot;100%25&quot; filter=&quot;url(%23n)&quot;/></svg>');background-size:100px"></div>
+      <span style="color:rgba(255,255,255,.7);font-size:.85em;position:relative">Grain ░▒▓</span></div>`,
+
+        glitch: `<div style="background:#0a0a0a;width:100%;height:100%;display:flex;align-items:center;justify-content:center;border-radius:10px;padding:14px;position:relative;overflow:hidden">
+      <div style="color:#fff;font-size:1em;font-weight:800;position:relative">
+        <span style="position:relative;z-index:1">GLITCH</span>
+        <span style="position:absolute;left:2px;top:1px;color:#ff006e;z-index:0;clip-path:inset(10% 0 60% 0)">GLITCH</span>
+        <span style="position:absolute;left:-2px;top:-1px;color:#00f5ff;z-index:0;clip-path:inset(60% 0 10% 0)">GLITCH</span></div></div>`,
+
+        particles: `<div style="background:#05051a;width:100%;height:100%;display:flex;align-items:center;justify-content:center;border-radius:10px;position:relative;overflow:hidden;border:1px solid rgba(77,201,246,.1)">
+      <div style="position:absolute;width:3px;height:3px;background:rgba(255,255,255,.4);border-radius:50%;top:20%;left:30%" class="preview-float"></div>
+      <div style="position:absolute;width:2px;height:2px;background:rgba(255,255,255,.3);border-radius:50%;top:60%;left:70%;animation-delay:.5s" class="preview-float"></div>
+      <div style="position:absolute;width:3px;height:3px;background:rgba(255,255,255,.5);border-radius:50%;top:40%;left:50%;animation-delay:1s" class="preview-float"></div>
+      <div style="position:absolute;width:2px;height:2px;background:rgba(255,255,255,.2);border-radius:50%;top:75%;left:20%;animation-delay:1.5s" class="preview-float"></div>
+      <div style="position:absolute;width:2px;height:2px;background:rgba(255,255,255,.3);border-radius:50%;top:15%;left:80%;animation-delay:2s" class="preview-float"></div>
+      <div style="color:rgba(255,255,255,.6);font-size:.75em;position:relative">✦ Particles ✦</div></div>`,
+
+        spacious: `<div style="background:#fff;width:100%;height:100%;display:flex;align-items:center;justify-content:center;border-radius:10px;padding:24px;border:1px solid #f0f0f0">
+      <div style="text-align:center"><div style="font-size:.85em;font-weight:500;color:#1a1a1a;letter-spacing:.5px;line-height:1.9">Breathe.</div>
+      <div style="font-size:.5em;color:#bbb;margin-top:8px;letter-spacing:1px">space creates elegance</div></div></div>`,
+
+        dense: `<div style="background:var(--surface);width:100%;height:100%;display:flex;flex-direction:column;border-radius:10px;padding:4px;border:1px solid var(--border);font-size:.48em;color:var(--text-dim);overflow:hidden">
+      <div style="display:flex;background:var(--card);padding:3px 6px;border-bottom:1px solid var(--border);font-weight:600;color:var(--text)"><span style="flex:1">Name</span><span style="width:40px">Type</span><span style="width:30px;text-align:right">Val</span></div>
+      <div style="display:flex;padding:3px 6px;border-bottom:1px solid rgba(255,255,255,.03)"><span style="flex:1">Alpha</span><span style="width:40px">str</span><span style="width:30px;text-align:right;color:var(--accent2)">128</span></div>
+      <div style="display:flex;padding:3px 6px;border-bottom:1px solid rgba(255,255,255,.03)"><span style="flex:1">Beta</span><span style="width:40px">int</span><span style="width:30px;text-align:right;color:var(--accent2)">256</span></div>
+      <div style="display:flex;padding:3px 6px;border-bottom:1px solid rgba(255,255,255,.03)"><span style="flex:1">Gamma</span><span style="width:40px">bool</span><span style="width:30px;text-align:right;color:var(--accent2)">true</span></div>
+      <div style="display:flex;padding:3px 6px"><span style="flex:1">Delta</span><span style="width:40px">float</span><span style="width:30px;text-align:right;color:var(--accent2)">3.14</span></div></div>`,
+
+        grid8: `<div style="background:var(--surface);width:100%;height:100%;display:flex;align-items:center;justify-content:center;border-radius:10px;padding:12px;border:1px solid var(--border);position:relative;overflow:hidden" class="preview-grid-bg">
+      <div style="display:flex;gap:8px;position:relative">
+        <div style="width:32px;height:32px;background:var(--accent);border-radius:8px;opacity:.8"></div>
+        <div style="width:16px;height:32px;background:var(--accent2);border-radius:4px;opacity:.6"></div>
+        <div style="width:48px;height:32px;background:var(--accent3);border-radius:8px;opacity:.7;display:flex;align-items:center;justify-content:center;font-size:.5em;color:#fff">8px</div></div></div>`,
+
+        a11y: `<div style="background:#fff;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;border-radius:10px;padding:12px;border:1px solid #e0e0e0">
+      <div style="display:flex;gap:6px;align-items:center;font-size:.6em">
+        <div style="background:#166534;color:#dcfce7;padding:3px 8px;border-radius:6px;font-weight:600">AA ✓</div>
+        <div style="background:#1e40af;color:#dbeafe;padding:3px 8px;border-radius:6px;font-weight:600">4.5:1</div></div>
+      <div style="font-size:.5em;color:#555;text-align:center">Color contrast · Keyboard nav · ARIA</div></div>`,
+
+        focus: `<div style="background:var(--surface);width:100%;height:100%;display:flex;align-items:center;justify-content:center;gap:10px;border-radius:10px;padding:12px;border:1px solid var(--border)">
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:6px 12px;font-size:.7em;color:var(--text-dim)">Normal</div>
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:6px 12px;font-size:.7em;color:var(--text);outline:2px solid #7c6aff;outline-offset:2px">Focused</div></div>`,
+
+        themetoggle: `<div style="width:100%;height:100%;display:flex;border-radius:10px;overflow:hidden">
+      <div style="flex:1;background:#fff;display:flex;align-items:center;justify-content:center;font-size:.85em">☀️</div>
+      <div style="flex:1;background:#0f0f1a;display:flex;align-items:center;justify-content:center;font-size:.85em">🌙</div></div>`,
+
+        aspectratio: `<div style="background:#f5f5f5;width:100%;height:100%;display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;padding:6px;border-radius:10px;font-size:.45em;color:#fff">
+      <div style="background:#667eea;border-radius:4px;aspect-ratio:1;display:flex;align-items:center;justify-content:center">1:1</div>
+      <div style="background:#764ba2;border-radius:4px;aspect-ratio:4/3;display:flex;align-items:center;justify-content:center">4:3</div>
+      <div style="background:#ec4899;border-radius:4px;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center">16:9</div></div>`,
+
+        overlay: `<div style="width:100%;height:100%;border-radius:10px;position:relative;overflow:hidden;background:linear-gradient(135deg,#667eea,#764ba2)">
+      <div style="position:absolute;inset:0;background:linear-gradient(transparent 30%,rgba(0,0,0,.7))"></div>
+      <div style="position:absolute;bottom:10px;left:12px;right:12px;color:#fff">
+        <div style="font-size:.8em;font-weight:700">Image Title</div>
+        <div style="font-size:.5em;opacity:.7;margin-top:2px">Overlay makes text readable</div></div></div>`,
+
+        lazy: `<div style="background:#f5f5f5;width:100%;height:100%;display:flex;align-items:center;justify-content:center;gap:6px;border-radius:10px;padding:10px;font-size:.5em;color:#999">
+      <div style="width:40%;aspect-ratio:1;border-radius:6px;display:flex;align-items:center;justify-content:center" class="preview-shimmer">loading</div>
+      <div style="width:40%;aspect-ratio:1;background:#667eea;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#fff">loaded ✓</div></div>`,
+
+        lightbox: `<div style="background:#1a1a1a;width:100%;height:100%;display:flex;align-items:center;justify-content:center;border-radius:10px;position:relative;overflow:hidden">
+      <div style="width:60%;aspect-ratio:4/3;background:linear-gradient(135deg,#667eea,#764ba2);border-radius:6px;box-shadow:0 8px 32px rgba(0,0,0,.5)"></div>
+      <div style="position:absolute;left:10px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,.5);font-size:1.2em;cursor:pointer">‹</div>
+      <div style="position:absolute;right:10px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,.5);font-size:1.2em;cursor:pointer">›</div>
+      <div style="position:absolute;bottom:8px;color:rgba(255,255,255,.4);font-size:.55em">3 / 12</div></div>`,
+      };
+
+      inner = previewStyles[t] || `<div style="background:var(--card);width:100%;height:100%;display:flex;align-items:center;justify-content:center;border-radius:10px;color:var(--text-dim);font-size:.7em">${t}</div>`;
+
+      return `<div class="card-preview"><div class="card-preview-inner" style="padding:0;border-radius:10px;overflow:hidden">${inner}</div></div>`;
+    }
+
+    function initTabs() {
+      const t = document.getElementById('tabs');
+      let h = `<button class="tab on" data-c="all">すべて (${DATA.length})</button>`;
+      CATS.forEach(c => {
+        const n = DATA.filter(d => d.category === c.id).length;
+        if (n) h += `<button class="tab" data-c="${c.id}">${c.name} (${n})</button>`;
+      });
+      t.innerHTML = h;
+      t.querySelectorAll('.tab').forEach(b => b.addEventListener('click', () => {
+        t.querySelectorAll('.tab').forEach(x => x.classList.remove('on'));
+        b.classList.add('on'); filter = b.dataset.c; render();
+      }));
+    }
+
+    function getItems() {
+      let items = DATA;
+      if (favOnly) items = items.filter((_, i) => favs.has(i));
+      if (filter !== 'all') items = items.filter(d => d.category === filter);
+      if (query) {
+        const q = query.toLowerCase();
+        items = items.filter(d =>
+          d.word.toLowerCase().includes(q) || d.en.toLowerCase().includes(q) ||
+          d.summary.toLowerCase().includes(q) || d.detail.toLowerCase().includes(q) ||
+          d.tags.some(t => t.toLowerCase().includes(q)) ||
+          (d.cssHint && d.cssHint.toLowerCase().includes(q))
+        );
+      }
+      return items;
+    }
+
+    function hl(text) {
+      if (!query) return text;
+      const r = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+      return text.replace(r, '<mark style="background:rgba(124,106,255,.3);color:#fff;border-radius:2px;padding:0 2px">$1</mark>');
+    }
+
+    function render() {
+      const c = document.getElementById('main');
+      const items = getItems();
+      document.getElementById('count').textContent = `${items.length} / ${DATA.length} 件表示中`;
+      if (!items.length) { c.innerHTML = '<div class="no-result">該当する用語が見つかりません。<br>検索キーワードやフィルターを変えてみてください。</div>'; return }
+
+      const grouped = {};
+      if (filter === 'all') {
+        CATS.forEach(cat => {
+          const its = items.filter(d => d.category === cat.id);
+          if (its.length) grouped[cat.id] = its;
+        });
+      } else {
+        grouped[filter] = items.filter(d => d.category === filter);
+      }
+
+      let h = '';
+      for (const [catId, its] of Object.entries(grouped)) {
+        const cat = getCat(catId);
+        h += `<div class="section">`;
+        h += `<div class="section-title" style="border-left-color:${cat.color}">${cat.name}<span class="section-badge" style="background:${cat.color}">${its.length}</span></div>`;
+        h += `<div class="${view === 'grid' ? 'grid' : 'list'}">`;
+        its.forEach(term => {
+          const idx = DATA.indexOf(term);
+          const isFav = favs.has(idx);
+          h += `<div class="card" data-i="${idx}">
+        <div class="card-accent" style="background:${cat.color}"></div>
+        <button class="card-fav ${isFav ? 'on' : ''}" data-fi="${idx}" title="お気に入り">♥</button>
+        ${buildPreviewHTML(term.preview, term.word)}
+        <div class="card-body">
+          <div class="card-head">
+            <span class="card-word">${hl(term.word)}</span>
+            <span class="card-eff">${term.effectiveness}</span>
+          </div>
+          <div class="card-en">${hl(term.en)}</div>
+          <div class="card-sum">${hl(term.summary)}</div>
+          <div class="card-tags">${term.tags.map(t => `<span class="card-tag">${t}</span>`).join('')}</div>
+        </div>
+        <div class="card-more">▼ 詳細</div>
+      </div>`;
+        });
+        h += `</div></div>`;
+      }
+      c.innerHTML = h;
+      c.querySelectorAll('.card').forEach(card => {
+        card.addEventListener('click', e => {
+          if (e.target.closest('.card-fav')) return;
+          openModal(+card.dataset.i);
+        });
+      });
+      c.querySelectorAll('.card-fav').forEach(btn => {
+        btn.addEventListener('click', e => {
+          e.stopPropagation();
+          const fi = +btn.dataset.fi;
+          if (favs.has(fi)) { favs.delete(fi); btn.classList.remove('on') }
+          else { favs.add(fi); btn.classList.add('on') }
+          saveFavs();
+        });
+      });
+    }
+
+    let currentModalIdx = -1;
+    function getVisibleIndices() { return getItems().map(d => DATA.indexOf(d)) }
+
+    function openModal(i) {
+      currentModalIdx = i;
+      const t = DATA[i], cat = getCat(t.category), m = document.getElementById('modal');
+      const visIdx = getVisibleIndices();
+      const posInVis = visIdx.indexOf(i);
+      const hasPrev = posInVis > 0;
+      const hasNext = posInVis < visIdx.length - 1;
+
+      const pv = t.preview ? `<div class="modal-preview"><div class="modal-preview-inner" style="padding:0;border-radius:14px;overflow:hidden">${buildPreviewHTML(t.preview, t.word).replace(/<\/?div class="card-preview[^"]*">/g, '')}</div></div>` : '';
+
+      const playgroundBtn = t.playground ? `<button class="try-btn" id="tryBtn">🖥 フルスクリーンで体感</button>` : '';
+
+      const relatedHTML = (t.related && t.related.length) ? `<div class="modal-related"><h3>関連する用語</h3><div class="related-list">${t.related.map(r => {
+        const ri = DATA.findIndex(d => d.word === r);
+        return ri >= 0 ? `<span class="related-chip" data-ri="${ri}">${r}</span>` : `<span class="related-chip" style="opacity:.4">${r}</span>`;
+      }).join('')}</div></div>` : '';
+
+      const cssHintHTML = t.cssHint ? `<div class="modal-css"><details><summary>CSSヒント (主要プロパティ)</summary><pre>${t.cssHint}</pre></details></div>` : '';
+
+      m.innerHTML = `
+    <button class="modal-close" id="mc">&times;</button>
+    ${hasPrev ? `<button class="modal-nav prev" id="mprev">‹</button>` : ''}
+    ${hasNext ? `<button class="modal-nav next" id="mnext">›</button>` : ''}
+    <span class="modal-cat" style="background:${cat.color}">${cat.name}</span>
+    <h2>${t.word}</h2>
+    <div class="modal-en">${t.en}</div>
+    <div class="modal-eff">効果度: ${t.effectiveness}</div>
+    ${pv}
+    <div class="modal-sect"><h3>概要</h3><p>${t.summary}</p></div>
+    <div class="modal-sect"><h3>詳しい説明</h3><p>${t.detail}</p></div>
+    <div class="modal-sect"><h3>使用例（プロンプト例）</h3><pre id="ex">${t.example}</pre><button class="copy-btn" id="cp">📋 コピーする</button>${playgroundBtn}</div>
+    ${cssHintHTML}
+    <div class="modal-tags">${t.tags.map(x => `<span class="modal-tag">${x}</span>`).join('')}</div>
+    ${relatedHTML}`;
+      document.getElementById('overlay').classList.add('show');
+      document.body.style.overflow = 'hidden';
+      document.getElementById('mc').addEventListener('click', closeModal);
+      document.getElementById('cp').addEventListener('click', () => {
+        navigator.clipboard.writeText(t.example).then(() => {
+          const b = document.getElementById('cp'); b.textContent = '✓ コピーしました!';
+          setTimeout(() => b.textContent = '📋 コピーする', 1500);
+        });
+      });
+      if (t.playground) {
+        document.getElementById('tryBtn').addEventListener('click', () => {
+          closeModal();
+          openPlayground(t.playground, t.word);
+        });
+      }
+      if (hasPrev) document.getElementById('mprev').addEventListener('click', e => { e.stopPropagation(); openModal(visIdx[posInVis - 1]) });
+      if (hasNext) document.getElementById('mnext').addEventListener('click', e => { e.stopPropagation(); openModal(visIdx[posInVis + 1]) });
+      m.querySelectorAll('.related-chip[data-ri]').forEach(chip => chip.addEventListener('click', () => openModal(+chip.dataset.ri)));
+    }
+    function closeModal() { document.getElementById('overlay').classList.remove('show'); document.body.style.overflow = ''; currentModalIdx = -1 }
+    document.getElementById('overlay').addEventListener('click', e => { if (e.target === document.getElementById('overlay')) closeModal() });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        const pg = document.getElementById('playground');
+        if (pg.classList.contains('show')) { closePlayground(); return }
+        const bl = document.getElementById('builderOverlay');
+        if (bl.classList.contains('show')) { bl.classList.remove('show'); document.body.style.overflow = ''; return }
+        closeModal();
+      }
+      if (currentModalIdx >= 0) {
+        const visIdx = getVisibleIndices();
+        const pos = visIdx.indexOf(currentModalIdx);
+        if (e.key === 'ArrowLeft' && pos > 0) openModal(visIdx[pos - 1]);
+        if (e.key === 'ArrowRight' && pos < visIdx.length - 1) openModal(visIdx[pos + 1]);
+      }
+    });
+
+    // ======================== PLAYGROUND ========================
+    function openPlayground(type, word) {
+      const pg = document.getElementById('playground');
+      let html = `<button class="pg-close" onclick="closePlayground()">&times;</button>`;
+      html += `<div class="pg-interact-hint">🎯 インタラクティブ体験 — 実際に触って体感してください</div>`;
+
+      const playgrounds = {
+        glass: `<div class="pg-content"><div class="pg-glass-demo">
+      <div class="pg-glass-card">
+        <h3>Glassmorphism</h3>
+        <p>すりガラスのような透明感のあるUIデザイン。背景の鮮やかなグラデーションが透けて見えます。</p>
+        <input class="pg-glass-input" placeholder="メールアドレス" type="email">
+        <input class="pg-glass-input" placeholder="パスワード" type="password">
+        <button class="pg-glass-btn">サインイン</button>
+        <div class="pg-glass-stats">
+          <div class="pg-glass-stat"><div class="num">2.4K</div><div class="label">Users</div></div>
+          <div class="pg-glass-stat"><div class="num">98%</div><div class="label">Uptime</div></div>
+          <div class="pg-glass-stat"><div class="num">4.9</div><div class="label">Rating</div></div>
+        </div>
+      </div>
+    </div></div>`,
+
+        neumorphism: `<div class="pg-content"><div class="pg-neu-demo">
+      <div class="pg-neu-calculator">
+        <div class="pg-neu-display" id="neuDisplay">0</div>
+        <div class="pg-neu-grid">
+          <button class="pg-neu-btn" onclick="neuCalc('C')">C</button>
+          <button class="pg-neu-btn op" onclick="neuCalc('±')">±</button>
+          <button class="pg-neu-btn op" onclick="neuCalc('%')">%</button>
+          <button class="pg-neu-btn op" onclick="neuCalc('÷')">÷</button>
+          <button class="pg-neu-btn" onclick="neuCalc('7')">7</button>
+          <button class="pg-neu-btn" onclick="neuCalc('8')">8</button>
+          <button class="pg-neu-btn" onclick="neuCalc('9')">9</button>
+          <button class="pg-neu-btn op" onclick="neuCalc('×')">×</button>
+          <button class="pg-neu-btn" onclick="neuCalc('4')">4</button>
+          <button class="pg-neu-btn" onclick="neuCalc('5')">5</button>
+          <button class="pg-neu-btn" onclick="neuCalc('6')">6</button>
+          <button class="pg-neu-btn op" onclick="neuCalc('-')">−</button>
+          <button class="pg-neu-btn" onclick="neuCalc('1')">1</button>
+          <button class="pg-neu-btn" onclick="neuCalc('2')">2</button>
+          <button class="pg-neu-btn" onclick="neuCalc('3')">3</button>
+          <button class="pg-neu-btn op" onclick="neuCalc('+')">+</button>
+          <button class="pg-neu-btn" onclick="neuCalc('0')" style="grid-column:span 2">0</button>
+          <button class="pg-neu-btn" onclick="neuCalc('.')">.</button>
+          <button class="pg-neu-btn eq" onclick="neuCalc('=')">=</button>
+        </div>
+      </div>
+    </div></div>`,
+
+        cyberpunk: `<div class="pg-content"><div class="pg-cyber-demo">
+      <div class="scanlines"></div>
+      <div class="pg-cyber-title"><span class="glitch-text" data-text="NEON_CITY">NEON_CITY</span></div>
+      <div class="pg-cyber-sub">// SYSTEM ONLINE</div>
+      <div class="pg-cyber-cards">
+        <div class="pg-cyber-card"><div class="num" id="cyberNum1">0</div><div class="lbl">CONNECTIONS</div></div>
+        <div class="pg-cyber-card"><div class="num" id="cyberNum2">0</div><div class="lbl">DATA_STREAMS</div></div>
+        <div class="pg-cyber-card"><div class="num" id="cyberNum3">0</div><div class="lbl">NEURAL_LINKS</div></div>
+      </div>
+      <div class="pg-cyber-bar"></div>
+    </div></div>`,
+
+        minimal: `<div class="pg-content"><div class="pg-min-demo">
+      <div class="pg-min-content">
+        <h2>Simple, not simpler.</h2>
+        <div class="pg-min-divider"></div>
+        <p>ミニマルデザインの本質は「引き算」にあります。不要なものを削ぎ落とし、本当に大切な情報だけを残す。そこに生まれる余白こそが、洗練の証です。</p>
+        <div class="pg-min-items">
+          <div class="pg-min-item"><span class="title">デザインの原則を学ぶ</span><span class="arrow">→</span></div>
+          <div class="pg-min-item"><span class="title">余白の効果を理解する</span><span class="arrow">→</span></div>
+          <div class="pg-min-item"><span class="title">色を最小限にする技術</span><span class="arrow">→</span></div>
+          <div class="pg-min-item"><span class="title">タイポグラフィで語る</span><span class="arrow">→</span></div>
+        </div>
+      </div>
+    </div></div>`,
+
+        retro: `<div class="pg-content"><div class="pg-retro-demo">
+      <div class="pg-retro-screen">
+        <div class="pg-retro-header">
+          <h2>HIGH SCORES</h2>
+          <div class="subtitle">- ARCADE MASTERS -</div>
+        </div>
+        <div class="pg-retro-scores">
+          <div class="pg-retro-row"><span class="rank">1ST</span><span class="name">ACE</span><span class="score">999,999</span></div>
+          <div class="pg-retro-row"><span class="rank">2ND</span><span class="name">MAX</span><span class="score">854,200</span></div>
+          <div class="pg-retro-row"><span class="rank">3RD</span><span class="name">ZAP</span><span class="score">721,800</span></div>
+          <div class="pg-retro-row"><span class="rank">4TH</span><span class="name">NEO</span><span class="score">698,450</span></div>
+          <div class="pg-retro-row"><span class="rank">5TH</span><span class="name">RAY</span><span class="score">543,100</span></div>
+          <div class="pg-retro-row"><span class="rank">6TH</span><span class="name">DOT</span><span class="score">421,900</span></div>
+          <div class="pg-retro-row"><span class="rank">7TH</span><span class="name">BIT</span><span class="score">388,750</span></div>
+        </div>
+      </div>
+    </div></div>`,
+
+        luxury: `<div class="pg-content"><div class="pg-lux-demo">
+      <div class="pg-lux-content">
+        <div class="brand">MAISON</div>
+        <div class="line"></div>
+        <div class="tagline">Where timeless elegance meets modern sophistication</div>
+        <button class="cta">EXPLORE COLLECTION</button>
+      </div>
+    </div></div>`,
+
+        bento: `<div class="pg-content"><div class="pg-bento-demo">
+      <div class="pg-bento-grid">
+        <div class="pg-bento-item big accent"><div class="icon">⚡</div><h4>Lightning Fast</h4><p>最適化されたパフォーマンスで、瞬時にレスポンスを返します。</p></div>
+        <div class="pg-bento-item"><div class="icon">🔒</div><h4>Secure</h4><p>エンドツーエンド暗号化</p></div>
+        <div class="pg-bento-item"><div class="icon">🌐</div><h4>Global CDN</h4><p>世界中にエッジノード</p></div>
+        <div class="pg-bento-item wide"><div class="icon">📊</div><h4>Real-time Analytics</h4><p>リアルタイムでデータを可視化し、インサイトを獲得。</p></div>
+        <div class="pg-bento-item"><div class="icon">🔧</div><h4>API</h4><p>柔軟なAPIで統合</p></div>
+        <div class="pg-bento-item"><div class="icon">💬</div><h4>Support</h4><p>24/7 サポート対応</p></div>
+      </div>
+    </div></div>`,
+
+        warm: `<div class="pg-content"><div class="pg-warm-demo">
+      <div class="pg-warm-card">
+        <div class="pg-warm-img">🍞</div>
+        <div class="pg-warm-body">
+          <h3>焼きたてクロワッサン</h3>
+          <p>毎朝5時から仕込む、バターの香り豊かなクロワッサン。外はサクサク、中はふわっと。至福の朝食をお届けします。</p>
+          <div class="pg-warm-tags">
+            <span class="pg-warm-tag">焼きたて</span>
+            <span class="pg-warm-tag">バター100%</span>
+            <span class="pg-warm-tag">人気No.1</span>
+          </div>
+          <button class="pg-warm-btn">カートに追加 — ¥320</button>
+        </div>
+      </div>
+    </div></div>`,
+
+        darkneon: `<div class="pg-content"><div class="pg-darkneon-demo">
+      <div class="pg-darkneon-dashboard">
+        <div class="pg-darkneon-header">
+          <h2>Dashboard</h2>
+          <div class="live">LIVE</div>
+        </div>
+        <div class="pg-darkneon-stats">
+          <div class="pg-darkneon-stat"><div class="val" id="neonVal1">0</div><div class="lbl">Active Users</div></div>
+          <div class="pg-darkneon-stat"><div class="val" id="neonVal2">0</div><div class="lbl">Requests/sec</div></div>
+          <div class="pg-darkneon-stat"><div class="val" id="neonVal3">0</div><div class="lbl">Uptime %</div></div>
+        </div>
+        <div class="pg-darkneon-chart" id="neonChart"></div>
+      </div>
+    </div></div>`,
+      };
+
+      html += playgrounds[type] || `<div class="pg-content" style="display:flex;align-items:center;justify-content:center;min-height:100vh;color:var(--text-dim)">Playground: ${type}</div>`;
+
+      html += `<div class="pg-info"><span class="pg-info-title">${word}</span><span class="pg-info-hint">ESC で閉じる</span></div>`;
+
+      pg.innerHTML = html;
+      pg.classList.add('show');
+      document.body.style.overflow = 'hidden';
+
+      // Post-render animations
+      if (type === 'cyberpunk') startCyberAnimation();
+      if (type === 'darkneon') startNeonDashboard();
+    }
+
+    function closePlayground() {
+      const pg = document.getElementById('playground');
+      pg.classList.remove('show');
+      pg.innerHTML = '';
+      document.body.style.overflow = '';
+      if (window._pgAnimId) cancelAnimationFrame(window._pgAnimId);
+      if (window._pgInterval) clearInterval(window._pgInterval);
+    }
+
+    // Neumorphism calculator
+    let neuVal = '0', neuOp = '', neuPrev = 0, neuFresh = true;
+    function neuCalc(v) {
+      const d = document.getElementById('neuDisplay');
+      if (!d) return;
+      if (v === 'C') { neuVal = '0'; neuOp = ''; neuPrev = 0; neuFresh = true; }
+      else if (v === '±') { neuVal = String(-parseFloat(neuVal)); }
+      else if (v === '%') { neuVal = String(parseFloat(neuVal) / 100); }
+      else if (['+', '-', '×', '÷'].includes(v)) { neuPrev = parseFloat(neuVal); neuOp = v; neuFresh = true; }
+      else if (v === '=') {
+        const cur = parseFloat(neuVal);
+        if (neuOp === '+') neuVal = String(neuPrev + cur);
+        else if (neuOp === '-') neuVal = String(neuPrev - cur);
+        else if (neuOp === '×') neuVal = String(neuPrev * cur);
+        else if (neuOp === '÷') neuVal = cur !== 0 ? String(neuPrev / cur) : 'Error';
+        neuOp = ''; neuFresh = true;
+      } else {
+        if (neuFresh) { neuVal = v; neuFresh = false; }
+        else neuVal += v;
+      }
+      d.textContent = neuVal.length > 12 ? parseFloat(neuVal).toExponential(4) : neuVal;
+    }
+
+    // Cyberpunk counter animation
+    function startCyberAnimation() {
+      const targets = [
+        { el: 'cyberNum1', target: 8472, prefix: '' },
+        { el: 'cyberNum2', target: 2341, prefix: '' },
+        { el: 'cyberNum3', target: 947, prefix: '' }
+      ];
+      let frame = 0;
+      function tick() {
+        frame++;
+        targets.forEach(t => {
+          const el = document.getElementById(t.el);
+          if (!el) return;
+          const progress = Math.min(frame / 60, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          el.textContent = t.prefix + Math.floor(t.target * eased).toLocaleString();
+        });
+        if (frame < 60) window._pgAnimId = requestAnimationFrame(tick);
+      }
+      tick();
+    }
+
+    // Dark Neon dashboard animation
+    function startNeonDashboard() {
+      const chart = document.getElementById('neonChart');
+      if (chart) {
+        let bars = '';
+        for (let i = 0; i < 20; i++) {
+          const h = 20 + Math.random() * 80;
+          bars += `<div class="pg-darkneon-bar" style="height:${h}%"></div>`;
+        }
+        chart.innerHTML = bars;
+      }
+      let count = 0;
+      function animateNeonVals() {
+        const el1 = document.getElementById('neonVal1');
+        const el2 = document.getElementById('neonVal2');
+        const el3 = document.getElementById('neonVal3');
+        if (!el1) return;
+        count++;
+        const p = Math.min(count / 40, 1);
+        const e = 1 - Math.pow(1 - p, 3);
+        el1.textContent = Math.floor(12847 * e).toLocaleString();
+        el2.textContent = Math.floor(3421 * e).toLocaleString();
+        el3.textContent = (99.97 * e).toFixed(2);
+        if (count < 40) window._pgAnimId = requestAnimationFrame(animateNeonVals);
+        else {
+          // Live update simulation
+          window._pgInterval = setInterval(() => {
+            if (!document.getElementById('neonVal1')) return clearInterval(window._pgInterval);
+            document.getElementById('neonVal1').textContent = (12847 + Math.floor(Math.random() * 200 - 100)).toLocaleString();
+            document.getElementById('neonVal2').textContent = (3421 + Math.floor(Math.random() * 100 - 50)).toLocaleString();
+            // Animate chart bars
+            if (chart) {
+              chart.querySelectorAll('.pg-darkneon-bar').forEach(bar => {
+                bar.style.height = (20 + Math.random() * 80) + '%';
+              });
+            }
+          }, 1500);
+        }
+      }
+      animateNeonVals();
+    }
+
+    // ======================== PROMPT BUILDER ========================
+    function openBuilder() {
+      const bl = document.getElementById('builderOverlay');
+      const bd = document.getElementById('builder');
+      const builderCats = [
+        { label: 'デザインスタイル', items: DATA.filter(d => d.category === 'style').map(d => d.word) },
+        { label: '配色', items: DATA.filter(d => d.category === 'color').map(d => d.word) },
+        { label: 'レイアウト', items: DATA.filter(d => d.category === 'layout').map(d => d.word) },
+        { label: 'タイポグラフィ', items: DATA.filter(d => d.category === 'typo').map(d => d.word) },
+        { label: 'アニメーション', items: DATA.filter(d => d.category === 'motion').map(d => d.word) },
+        { label: '雰囲気', items: DATA.filter(d => d.category === 'mood').map(d => d.word) },
+        { label: 'コンポーネント', items: DATA.filter(d => d.category === 'component').map(d => d.word) },
+        { label: 'エフェクト', items: DATA.filter(d => d.category === 'effect').map(d => d.word) },
+        { label: 'リファレンス', items: DATA.filter(d => d.category === 'trend').map(d => d.word) },
+      ];
+      let h = `<button class="modal-close" onclick="document.getElementById('builderOverlay').classList.remove('show');document.body.style.overflow=''">&times;</button>`;
+      h += `<h2>🔧 プロンプトビルダー</h2>`;
+      h += `<p style="font-size:.82em;color:var(--text-dim);margin-bottom:16px">デザイン要素を選んで組み合わせると、AIに渡せるプロンプトが自動生成されます。</p>`;
+      h += `<div><label style="font-size:.78em;color:var(--accent);font-weight:700">何を作りますか？</label><br>
+    <input type="text" id="builderTarget" placeholder="例: ポートフォリオサイト、Todoアプリ、LP..." style="width:100%;padding:10px 14px;margin:6px 0 16px;border:1px solid var(--border);border-radius:10px;background:var(--card);color:var(--text);font-size:.88em;outline:none;font-family:inherit"></div>`;
+
+      builderCats.forEach(cat => {
+        h += `<div class="builder-cat"><h3>${cat.label}</h3><div class="builder-chips">`;
+        cat.items.forEach(item => {
+          h += `<button class="builder-chip" data-term="${item}">${item}</button>`;
+        });
+        h += `</div></div>`;
+      });
+
+      h += `<div class="builder-output"><h3>生成されたプロンプト</h3><div class="builder-prompt" id="builderResult">上のチップを選択してください...</div>
+    <div class="builder-actions">
+      <button class="builder-btn builder-btn-primary" id="builderCopy">📋 プロンプトをコピー</button>
+      <button class="builder-btn builder-btn-secondary" id="builderClear">リセット</button>
+    </div></div>`;
+
+      bd.innerHTML = h;
+      bl.classList.add('show');
+      document.body.style.overflow = 'hidden';
+
+      const selectedTerms = new Set();
+
+      bd.querySelectorAll('.builder-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+          const term = chip.dataset.term;
+          if (selectedTerms.has(term)) { selectedTerms.delete(term); chip.classList.remove('on') }
+          else { selectedTerms.add(term); chip.classList.add('on') }
+          updateBuilderResult();
+        });
+      });
+
+      function updateBuilderResult() {
+        const target = document.getElementById('builderTarget').value.trim() || 'Webアプリ';
+        const r = document.getElementById('builderResult');
+        if (selectedTerms.size === 0) { r.textContent = '上のチップを選択してください...'; return }
+        const terms = [...selectedTerms];
+        const styles = terms.filter(t => DATA.find(d => d.word === t && (d.category === 'style' || d.category === 'trend')));
+        const colors = terms.filter(t => DATA.find(d => d.word === t && d.category === 'color'));
+        const layouts = terms.filter(t => DATA.find(d => d.word === t && d.category === 'layout'));
+        const typos = terms.filter(t => DATA.find(d => d.word === t && d.category === 'typo'));
+        const motions = terms.filter(t => DATA.find(d => d.word === t && (d.category === 'motion' || d.category === 'effect')));
+        const moods = terms.filter(t => DATA.find(d => d.word === t && d.category === 'mood'));
+        const comps = terms.filter(t => DATA.find(d => d.word === t && d.category === 'component'));
+
+        let prompt = `以下の要件で「${target}」のUIを作成してください。\n\n`;
+        if (styles.length) prompt += `【デザインスタイル】${styles.join('、')}\n`;
+        if (moods.length) prompt += `【雰囲気】${moods.join('、')}\n`;
+        if (colors.length) prompt += `【配色】${colors.join('、')}\n`;
+        if (layouts.length) prompt += `【レイアウト】${layouts.join('、')}\n`;
+        if (typos.length) prompt += `【タイポグラフィ】${typos.join('、')}\n`;
+        if (motions.length) prompt += `【アニメーション・エフェクト】${motions.join('、')}\n`;
+        if (comps.length) prompt += `【UIコンポーネント】${comps.join('、')}\n`;
+        prompt += `\nHTML/CSS/JavaScriptで実装し、レスポンシブ対応にしてください。`;
+        r.textContent = prompt;
+      }
+
+      document.getElementById('builderTarget').addEventListener('input', updateBuilderResult);
+
+      document.getElementById('builderCopy').addEventListener('click', () => {
+        const text = document.getElementById('builderResult').textContent;
+        navigator.clipboard.writeText(text).then(() => {
+          const btn = document.getElementById('builderCopy');
+          btn.textContent = '✓ コピーしました!';
+          setTimeout(() => btn.textContent = '📋 プロンプトをコピー', 1500);
+        });
+      });
+
+      document.getElementById('builderClear').addEventListener('click', () => {
+        selectedTerms.clear();
+        bd.querySelectorAll('.builder-chip').forEach(c => c.classList.remove('on'));
+        document.getElementById('builderTarget').value = '';
+        document.getElementById('builderResult').textContent = '上のチップを選択してください...';
+      });
+    }
+
+    // ======================== EVENT LISTENERS ========================
+    document.getElementById('search').addEventListener('input', e => { query = e.target.value.trim(); render() });
+
+    document.querySelectorAll('.view-btn').forEach(b => b.addEventListener('click', () => {
+      document.querySelectorAll('.view-btn').forEach(x => x.classList.remove('on'));
+      b.classList.add('on'); view = b.dataset.v; render();
+    }));
+
+    document.getElementById('randBtn').addEventListener('click', () => {
+      const i = Math.floor(Math.random() * DATA.length);
+      openModal(i);
+    });
+
+    document.getElementById('favBtn').addEventListener('click', function () {
+      favOnly = !favOnly;
+      this.classList.toggle('on', favOnly);
+      render();
+    });
+
+    document.getElementById('buildBtn').addEventListener('click', openBuilder);
+
+    initTabs(); render();
+  </script>
+</body>
+
+</html>
