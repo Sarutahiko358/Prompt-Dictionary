@@ -1,19 +1,16 @@
 /**
- * Web UIコンポーネント辞典 — メインアプリケーション v2.0
- * 全改善統合版
+ * Web UIコンポーネント辞典 — メインアプリケーション v2.1
+ * サイドバーナビゲーション修正版
  */
 const App = (() => {
-    // ===== 状態管理 =====
     let DATA = [];
     let allCards = [];
     let activeCategory = 'all';
     let activeLabel = 'all';
 
-    // ===== DOM参照 =====
     const $ = (sel) => document.querySelector(sel);
     const $$ = (sel) => document.querySelectorAll(sel);
 
-    // ===== 初期化 =====
     async function init() {
         showLoading(true);
         initTheme();
@@ -37,24 +34,21 @@ const App = (() => {
         handleInitialHash();
     }
 
-    // ===== ローディング表示 =====
     function showLoading(show) {
         const el = $('#loadingIndicator');
         if (el) el.style.display = show ? 'flex' : 'none';
     }
 
-    // ===== テーマ（ライト/ダーク）=====
+    // ===== テーマ =====
     function initTheme() {
         const saved = localStorage.getItem('ui-dict-theme');
         const preferDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        const theme = saved || (preferDark ? 'dark' : 'light');
-        applyTheme(theme);
+        applyTheme(saved || (preferDark ? 'dark' : 'light'));
 
         const btn = $('#themeToggle');
         if (btn) {
             btn.addEventListener('click', () => {
-                const current = document.documentElement.getAttribute('data-theme');
-                const next = current === 'dark' ? 'light' : 'dark';
+                const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
                 applyTheme(next);
                 localStorage.setItem('ui-dict-theme', next);
             });
@@ -67,12 +61,12 @@ const App = (() => {
         if (btn) btn.textContent = theme === 'dark' ? '☀️' : '🌙';
     }
 
-    // ===== サイドバー目次構築 =====
+    // ===== サイドバー構築 =====
     function buildSidebar() {
         const nav = $('#sidebarNav');
         if (!nav) return;
 
-        let total = DATA.reduce((s, c) => s + (c.items ? c.items.length : 0), 0);
+        const total = DATA.reduce((s, c) => s + (c.items ? c.items.length : 0), 0);
         let html = `<a href="#" class="sidebar-link active" data-cat="all">
             <span>📚</span> すべて
             <span class="cat-count">${total}</span>
@@ -93,26 +87,36 @@ const App = (() => {
             if (!link) return;
             e.preventDefault();
 
+            // アクティブ更新
             nav.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
             link.classList.add('active');
 
             activeCategory = link.dataset.cat;
+
+            // まずサイドバーを閉じる（モバイル）
+            closeSidebar();
+
+            // フィルタ実行
             filterCards();
 
+            // スクロール（フィルタ後に少し待ってから）
             if (activeCategory !== 'all') {
                 const href = link.getAttribute('href');
                 if (href && href !== '#') {
-                    const section = $(href);
-                    if (section) {
-                        const y = section.getBoundingClientRect().top + window.scrollY - 180;
-                        window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
-                    }
+                    // requestAnimationFrame で DOM更新後にスクロール
+                    requestAnimationFrame(() => {
+                        requestAnimationFrame(() => {
+                            const section = $(href);
+                            if (section) {
+                                const y = section.getBoundingClientRect().top + window.scrollY - 180;
+                                window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+                            }
+                        });
+                    });
                 }
             } else {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
-
-            closeSidebar();
 
             // URLハッシュ更新
             const idx = DATA.findIndex(c => c.cat === activeCategory);
@@ -133,9 +137,8 @@ const App = (() => {
 
         window.addEventListener('resize', () => {
             if (window.innerWidth > 1024) {
-                const sidebar = $('#sidebar');
-                if (sidebar) sidebar.classList.remove('open');
-                if (overlay) overlay.classList.remove('open');
+                $('#sidebar')?.classList.remove('open');
+                $('#sidebarOverlay')?.classList.remove('open');
                 document.body.style.overflow = '';
             }
         });
@@ -153,7 +156,7 @@ const App = (() => {
         document.body.style.overflow = '';
     }
 
-    // ===== スクロール連動でサイドバーのアクティブ更新 =====
+    // ===== スクロールスパイ =====
     function setupScrollSpy() {
         const sections = $$('.category-section');
         if (!sections.length) return;
@@ -171,15 +174,12 @@ const App = (() => {
                     }
                 }
             });
-        }, {
-            rootMargin: '-20% 0px -70% 0px',
-            threshold: 0
-        });
+        }, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
 
         sections.forEach(s => observer.observe(s));
     }
 
-    // ===== ラベルフィルタ (HTML/CSS/JS) =====
+    // ===== ラベルフィルタ =====
     function buildLabelFilter() {
         const container = $('#labelFilter');
         if (!container) return;
@@ -224,7 +224,7 @@ const App = (() => {
         }
     }
 
-    // ===== カード構築（折りたたみ対応） =====
+    // ===== カード構築 =====
     function buildCards() {
         const main = $('#mainContent');
         if (!main) return;
@@ -239,41 +239,35 @@ const App = (() => {
             html += `<div class="category-desc">${esc(cat.catDesc)}</div>`;
             html += `<div class="cards-grid">`;
             (cat.items || []).forEach((item, idx) => {
-                const cardId = `card-${catIdx}-${idx}`;
-                html += buildCardHTML(item, cardId);
+                html += buildCardHTML(item, `card-${catIdx}-${idx}`);
             });
             html += `</div></div>`;
         });
         main.innerHTML = html;
         allCards = Array.from($$('.component-card'));
 
-        // カードヘッダーのクリックでアコーディオン開閉
+        // アコーディオン
 
         $$('.card-header').forEach(header => {
             header.addEventListener('click', (e) => {
                 if (e.target.closest('.mdn-link') || e.target.closest('.card-label')) return;
-                const card = header.closest('.component-card');
-                card.classList.toggle('open');
+                header.closest('.component-card').classList.toggle('open');
             });
         });
 
-        // スクロールスパイ開始
         setupScrollSpy();
     }
 
-    // ===== 個別カードHTML生成（折りたたみ構造） =====
     function buildCardHTML(item, cardId) {
         const tagsHTML = (item.tags || []).map(t =>
             `<span class="item-tag">${esc(t)}</span>`
         ).join('');
 
         const browserHTML = item.browser
-            ? `<span class="browser-badge">${esc(item.browser)}</span>`
-            : '';
+            ? `<span class="browser-badge">${esc(item.browser)}</span>` : '';
 
         const mdnHTML = item.mdn
-            ? `<a href="${esc(item.mdn)}" target="_blank" rel="noopener" class="mdn-link" onclick="event.stopPropagation()">MDN ↗</a>`
-            : '';
+            ? `<a href="${esc(item.mdn)}" target="_blank" rel="noopener" class="mdn-link" onclick="event.stopPropagation()">MDN ↗</a>` : '';
 
         const propsContent = item.props && item.props.length
             ? '<h4>プロパティ / 属性</h4><div class="prop-list">' +
@@ -315,11 +309,10 @@ const App = (() => {
                     ${propsContent}
                 </div>
             </div>
-        </div>
-        `;
+        </div>`;
     }
 
-    // ===== コード表示トグル =====
+    // ===== トグル =====
     function toggleCode(cardId) {
         const codeEl = $(`#${cardId}-code`);
         const propsEl = $(`#${cardId}-props`);
@@ -334,7 +327,6 @@ const App = (() => {
         }
     }
 
-    // ===== プロパティ表示トグル =====
     function toggleProps(cardId) {
         const codeEl = $(`#${cardId}-code`);
         const propsEl = $(`#${cardId}-props`);
@@ -349,7 +341,7 @@ const App = (() => {
         }
     }
 
-    // ===== コピー（改善版） =====
+    // ===== コピー =====
     function copyCode(btn) {
         const pre = btn.closest('.card-code')?.querySelector('pre');
         if (!pre) return;
@@ -357,12 +349,8 @@ const App = (() => {
         navigator.clipboard.writeText(text).then(() => {
             btn.textContent = '✅ コピー完了';
             btn.style.background = '#16a34a';
-            setTimeout(() => {
-                btn.textContent = '📋 コピー';
-                btn.style.background = '';
-            }, 2000);
+            setTimeout(() => { btn.textContent = '📋 コピー'; btn.style.background = ''; }, 2000);
         }).catch(() => {
-            // フォールバック
             const ta = document.createElement('textarea');
             ta.value = text;
             ta.style.cssText = 'position:fixed;opacity:0';
@@ -379,12 +367,11 @@ const App = (() => {
     function setupSearch() {
         const input = $('#searchInput');
         if (!input) return;
-        let debounceTimer;
+        let timer;
         input.addEventListener('input', () => {
-            clearTimeout(debounceTimer);
-            debounceTimer = setTimeout(() => {
+            clearTimeout(timer);
+            timer = setTimeout(() => {
                 filterCards();
-                // 検索中はマッチしたカードを自動展開
                 const query = input.value.trim();
                 if (query) {
                     allCards.forEach(card => {
@@ -397,7 +384,7 @@ const App = (() => {
         });
     }
 
-    // ===== フィルター統合 =====
+    // ===== フィルター =====
     function filterCards() {
         const query = ($('#searchInput')?.value || '').toLowerCase().trim();
         const sections = $$('.category-section');
@@ -405,48 +392,42 @@ const App = (() => {
 
         sections.forEach(section => {
             const sectionCat = section.dataset.cat;
-            let sectionVisible = false;
 
+            // カテゴリフィルタ: 該当しないセクションを隠す
             if (activeCategory !== 'all' && sectionCat !== activeCategory) {
                 section.classList.add('hidden');
+                section.style.display = 'none';
                 return;
             }
             section.classList.remove('hidden');
+            section.style.display = '';
 
+            let sectionVisible = false;
             const cards = section.querySelectorAll('.component-card');
             cards.forEach(card => {
                 const searchText = (card.dataset.search || '').toLowerCase();
                 const label = card.dataset.label;
-
                 const matchLabel = activeLabel === 'all' || label === activeLabel;
                 const matchSearch = !query || searchText.includes(query);
-
                 const visible = matchLabel && matchSearch;
                 card.style.display = visible ? '' : 'none';
-                if (visible) {
-                    sectionVisible = true;
-                    visibleCount++;
-                }
+                if (visible) { sectionVisible = true; visibleCount++; }
             });
 
-            section.style.display = sectionVisible ? '' : 'none';
+            if (!sectionVisible) {
+                section.style.display = 'none';
+            }
         });
 
         const noResult = $('#noResult');
-        if (noResult) {
-            noResult.style.display = visibleCount === 0 ? 'block' : 'none';
-        }
+        if (noResult) noResult.style.display = visibleCount === 0 ? 'block' : 'none';
     }
 
     // ===== スクロールトップ =====
     function setupScrollTop() {
         const btn = $('#scrollTop');
         if (!btn) return;
-
-        btn.addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-
+        btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
         window.addEventListener('scroll', () => {
             btn.classList.toggle('visible', window.scrollY > 400);
         }, { passive: true });
@@ -458,9 +439,7 @@ const App = (() => {
     }
 
     function handleInitialHash() {
-        if (window.location.hash) {
-            setTimeout(() => handleHash(), 200);
-        }
+        if (window.location.hash) setTimeout(() => handleHash(), 300);
     }
 
     function handleHash() {
@@ -470,26 +449,25 @@ const App = (() => {
         if (!target) return;
 
         if (target.classList.contains('category-section')) {
-            const catName = target.dataset.cat;
-            activeCategory = catName;
+            activeCategory = target.dataset.cat;
 
             $$('.sidebar-link').forEach(l => l.classList.remove('active'));
-            const link = Array.from($$('.sidebar-link')).find(l => l.dataset.cat === catName);
+            const link = Array.from($$('.sidebar-link')).find(l => l.dataset.cat === activeCategory);
             if (link) link.classList.add('active');
             filterCards();
         }
 
-        if (target.classList.contains('component-card')) {
-            target.classList.add('open');
-        }
+        if (target.classList.contains('component-card')) target.classList.add('open');
 
-        setTimeout(() => {
-            const y = target.getBoundingClientRect().top + window.scrollY - 180;
-            window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
-        }, 100);
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                const y = target.getBoundingClientRect().top + window.scrollY - 180;
+                window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+            });
+        });
     }
 
-    // ===== キーボードショートカット =====
+    // ===== キーボード =====
     function setupKeyboardShortcuts() {
         document.addEventListener('keydown', (e) => {
             if ((e.ctrlKey && e.key === 'k') || (e.key === '/' && !isInputFocused())) {
@@ -520,28 +498,14 @@ const App = (() => {
         const canvas = document.getElementById('demoCanvas');
         if (canvas) {
             const ctx = canvas.getContext('2d');
-            ctx.fillStyle = '#2563eb';
-            ctx.fillRect(10, 15, 60, 50);
-            ctx.fillStyle = '#7c3aed';
-            ctx.beginPath();
-            ctx.arc(130, 40, 30, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.fillStyle = '#16a34a';
-            ctx.beginPath();
-            ctx.moveTo(75, 15);
-            ctx.lineTo(105, 60);
-            ctx.lineTo(75, 60);
-            ctx.closePath();
-            ctx.fill();
+            ctx.fillStyle = '#2563eb'; ctx.fillRect(10, 15, 60, 50);
+            ctx.fillStyle = '#7c3aed'; ctx.beginPath(); ctx.arc(130, 40, 30, 0, Math.PI * 2); ctx.fill();
+            ctx.fillStyle = '#16a34a'; ctx.beginPath(); ctx.moveTo(75, 15); ctx.lineTo(105, 60); ctx.lineTo(75, 60); ctx.closePath(); ctx.fill();
         }
-
         const evtBtn = document.getElementById('evtBtn');
         if (evtBtn) {
             let count = 0;
-            evtBtn.addEventListener('click', () => {
-                count++;
-                evtBtn.textContent = `クリックカウント: ${count}`;
-            });
+            evtBtn.addEventListener('click', () => { count++; evtBtn.textContent = `クリックカウント: ${count}`; });
         }
     }
 
@@ -558,15 +522,7 @@ const App = (() => {
         return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
     }
 
-    // ===== 公開API =====
-    return {
-        init,
-        toggleCode,
-        toggleProps,
-        copyCode,
-        filterCards
-    };
+    return { init, toggleCode, toggleProps, copyCode, filterCards };
 })();
 
-// 起動
 document.addEventListener('DOMContentLoaded', () => App.init());
