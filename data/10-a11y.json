@@ -1,0 +1,398 @@
+{
+    "cat": "アクセシビリティ",
+    "catIcon": "♿",
+    "catDesc": "すべてのユーザーがWebコンテンツを利用できるようにするための技術。WAI-ARIA、セマンティクス、キーボード操作、スクリーンリーダー対応など。",
+    "items": [
+        {
+            "name": "ARIA role 属性",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "要素のセマンティックな役割をスクリーンリーダー等の支援技術に伝える。ネイティブHTMLで表現できない場合に使用し、button/dialog/alert/navigation/tabなど多数のロールが定義されている。",
+            "demo": "<div style=\"font-size:0.85rem;display:flex;flex-direction:column;gap:8px\"><nav role=\"navigation\" aria-label=\"メインメニュー\" style=\"padding:8px 12px;background:#eff6ff;border-radius:6px;border:1px solid #bfdbfe\"><span style=\"color:#3b82f6;font-weight:700\">role=\"navigation\"</span> — ナビゲーション領域</nav><div role=\"alert\" style=\"padding:8px 12px;background:#fef2f2;border-radius:6px;border:1px solid #fecaca\"><span style=\"color:#dc2626;font-weight:700\">role=\"alert\"</span> — 重要な通知（自動読み上げ）</div><div role=\"status\" style=\"padding:8px 12px;background:#f0fdf4;border-radius:6px;border:1px solid #bbf7d0\"><span style=\"color:#16a34a;font-weight:700\">role=\"status\"</span> — ステータス情報</div></div>",
+            "code": "<!-- ランドマーク -->\n<header role=\"banner\">...</header>\n<nav role=\"navigation\" aria-label=\"メイン\">...</nav>\n<main role=\"main\">...</main>\n<aside role=\"complementary\">...</aside>\n<footer role=\"contentinfo\">...</footer>\n\n<!-- ウィジェット -->\n<div role=\"button\" tabindex=\"0\"\n     onclick=\"handleClick()\"\n     onkeydown=\"if(event.key==='Enter') handleClick()\">\n  カスタムボタン\n</div>\n\n<!-- ライブリージョン -->\n<div role=\"alert\">エラーが発生しました</div>\n<div role=\"status\">3件の結果</div>\n\n<!-- ⚠️ ネイティブ要素を優先 -->\n<!-- ❌ <div role=\"button\"> -->\n<!-- ✅ <button> -->",
+            "props": [
+                {
+                    "name": "banner / navigation / main",
+                    "desc": "ランドマークロール"
+                },
+                {
+                    "name": "button / link / checkbox",
+                    "desc": "ウィジェットロール"
+                },
+                {
+                    "name": "alert / status / log",
+                    "desc": "ライブリージョンロール"
+                },
+                {
+                    "name": "dialog / alertdialog",
+                    "desc": "ダイアログ系ロール"
+                },
+                {
+                    "name": "tab / tabpanel / tablist",
+                    "desc": "タブUIロール"
+                },
+                {
+                    "name": "presentation / none",
+                    "desc": "セマンティクスを除去"
+                }
+            ],
+            "tags": [
+                "ARIA",
+                "セマンティクス",
+                "スクリーンリーダー"
+            ],
+            "browser": "全ブラウザ対応（支援技術の対応度に依存）",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/Accessibility/ARIA/Roles"
+        },
+        {
+            "name": "aria-label / aria-labelledby / aria-describedby",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "要素にアクセシブルな名前や説明を付与するARIA属性群。aria-labelはテキストを直接指定、aria-labelledbyは別要素のidで参照、aria-describedbyは補足説明を関連付ける。",
+            "demo": "<div style=\"font-size:0.85rem;display:flex;flex-direction:column;gap:8px\"><button aria-label=\"メニューを開く\" style=\"padding:8px;background:#f1f5f9;border:1px solid #cbd5e1;border-radius:6px;cursor:pointer;font-size:1.2rem\">☰ <span style=\"font-size:0.7rem;color:#64748b\">（aria-label=\"メニューを開く\"）</span></button><div><label id=\"al-label\" style=\"font-weight:700;color:#334155\">メールアドレス</label><input type=\"email\" aria-labelledby=\"al-label\" aria-describedby=\"al-desc\" style=\"display:block;margin-top:4px;padding:6px 10px;border:1px solid #cbd5e1;border-radius:6px;width:200px;font-size:0.85rem\"><span id=\"al-desc\" style=\"font-size:0.75rem;color:#64748b\">例: user@example.com</span></div></div>",
+            "code": "<!-- アイコンボタン（視覚テキストなし） -->\n<button aria-label=\"閉じる\">\n  <svg><!-- × アイコン --></svg>\n</button>\n\n<!-- 別要素で名前付け -->\n<h2 id=\"section-title\">設定</h2>\n<form aria-labelledby=\"section-title\">\n  ...\n</form>\n\n<!-- 補足説明 -->\n<input type=\"password\"\n       aria-describedby=\"pw-hint\">\n<p id=\"pw-hint\">\n  8文字以上、英数字混在\n</p>\n\n<!-- 複数IDの参照 -->\n<input aria-labelledby=\"label1 label2\">\n<span id=\"label1\">姓</span>\n<span id=\"label2\">（必須）</span>",
+            "props": [
+                {
+                    "name": "aria-label",
+                    "desc": "アクセシブルな名前を直接指定"
+                },
+                {
+                    "name": "aria-labelledby",
+                    "desc": "別要素のidでラベルを参照"
+                },
+                {
+                    "name": "aria-describedby",
+                    "desc": "補足説明を関連付け"
+                },
+                {
+                    "name": "aria-details",
+                    "desc": "詳細な説明のある要素を参照"
+                }
+            ],
+            "tags": [
+                "ARIA",
+                "ラベル",
+                "フォーム"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/Accessibility/ARIA/Attributes/aria-label"
+        },
+        {
+            "name": "aria-hidden / aria-live",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "aria-hiddenは要素を支援技術から隠す（視覚的には表示されたまま）。aria-liveは動的に変化するコンテンツの変更を自動的に通知する。通知バナーやエラーメッセージに必須。",
+            "demo": "<div style=\"font-size:0.85rem;display:flex;flex-direction:column;gap:8px\"><div style=\"display:flex;gap:8px;align-items:center\"><span aria-hidden=\"true\" style=\"font-size:1.5rem\">🔔</span><span>装飾アイコンは <code>aria-hidden=\"true\"</code> で隠す</span></div><div aria-live=\"polite\" id=\"aliveDemo\" style=\"padding:8px 12px;background:#eff6ff;border-radius:6px;border:1px solid #bfdbfe;min-height:32px\">ここの更新がスクリーンリーダーに読み上げられます</div><button onclick=\"document.getElementById('aliveDemo').textContent='更新: '+new Date().toLocaleTimeString()\" style=\"padding:6px 12px;background:#3b82f6;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem;align-self:flex-start\">コンテンツを更新</button></div>",
+            "code": "<!-- 支援技術から隠す -->\n<span aria-hidden=\"true\">🎉</span>\n<span aria-hidden=\"true\" class=\"icon-star\"></span>\n\n<!-- ⚠️ フォーカス可能な要素に使わない -->\n<!-- ❌ <button aria-hidden=\"true\"> -->\n\n<!-- ライブリージョン: 更新を自動通知 -->\n<div aria-live=\"polite\">\n  <!-- polite: 現在の読み上げ後に通知 -->\n  検索結果: <span id=\"count\">0</span>件\n</div>\n\n<div aria-live=\"assertive\">\n  <!-- assertive: 即座に割り込み通知 -->\n  エラー: 入力値が不正です\n</div>\n\n<!-- role=\"status\" は aria-live=\"polite\" を暗黙的に含む -->\n<div role=\"status\">保存しました</div>\n\n<!-- role=\"alert\" は aria-live=\"assertive\" を含む -->\n<div role=\"alert\">セッションが切れました</div>",
+            "props": [
+                {
+                    "name": "aria-hidden=\"true\"",
+                    "desc": "支援技術から非表示にする"
+                },
+                {
+                    "name": "aria-live=\"polite\"",
+                    "desc": "丁寧に（現在の読み上げ後に）通知"
+                },
+                {
+                    "name": "aria-live=\"assertive\"",
+                    "desc": "即座に割り込み通知"
+                },
+                {
+                    "name": "aria-live=\"off\"",
+                    "desc": "通知しない（デフォルト）"
+                },
+                {
+                    "name": "aria-atomic",
+                    "desc": "true: 変更時に領域全体を読み上げ"
+                }
+            ],
+            "tags": [
+                "ARIA",
+                "ライブリージョン",
+                "通知"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/Accessibility/ARIA/Attributes/aria-live"
+        },
+        {
+            "name": "aria-expanded / aria-selected / aria-checked",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "インタラクティブ要素の状態を支援技術に伝えるARIA属性群。開閉状態、選択状態、チェック状態などをJavaScriptで動的に切り替えて、現在のUI状態を正確に伝達する。",
+            "demo": "<div style=\"font-size:0.85rem;display:flex;flex-direction:column;gap:8px\"><button id=\"aExpBtn\" aria-expanded=\"false\" aria-controls=\"aExpPanel\" onclick=\"var p=document.getElementById('aExpPanel');var b=document.getElementById('aExpBtn');var open=b.getAttribute('aria-expanded')==='true';b.setAttribute('aria-expanded',!open);p.style.display=open?'none':'block'\" style=\"padding:8px 16px;background:#f1f5f9;border:1px solid #cbd5e1;border-radius:6px;cursor:pointer;font-size:0.85rem;text-align:left\"><span style=\"font-weight:700\">▶ メニューを展開</span> <span style=\"color:#64748b\">(aria-expanded)</span></button><div id=\"aExpPanel\" style=\"display:none;padding:8px 16px;background:#eff6ff;border-radius:6px;border:1px solid #bfdbfe\">展開されたコンテンツ</div></div>",
+            "code": "<!-- アコーディオン -->\n<button aria-expanded=\"false\"\n        aria-controls=\"panel1\"\n        onclick=\"togglePanel(this)\">\n  セクション1\n</button>\n<div id=\"panel1\" hidden>内容...</div>\n\n<script>\nfunction togglePanel(btn) {\n  const expanded = btn.getAttribute('aria-expanded') === 'true';\n  btn.setAttribute('aria-expanded', !expanded);\n  const panel = document.getElementById(\n    btn.getAttribute('aria-controls')\n  );\n  panel.hidden = expanded;\n}\n</script>\n\n<!-- タブUI -->\n<div role=\"tablist\">\n  <button role=\"tab\" aria-selected=\"true\"\n          aria-controls=\"tab-1\">タブ1</button>\n  <button role=\"tab\" aria-selected=\"false\"\n          aria-controls=\"tab-2\">タブ2</button>\n</div>\n\n<!-- カスタムチェックボックス -->\n<div role=\"checkbox\" aria-checked=\"false\"\n     tabindex=\"0\" onclick=\"toggleCheck(this)\">\n  利用規約に同意\n</div>",
+            "props": [
+                {
+                    "name": "aria-expanded",
+                    "desc": "要素の開閉状態（true/false）"
+                },
+                {
+                    "name": "aria-selected",
+                    "desc": "選択状態（タブ等）"
+                },
+                {
+                    "name": "aria-checked",
+                    "desc": "チェック状態（true/false/mixed）"
+                },
+                {
+                    "name": "aria-pressed",
+                    "desc": "トグルボタンの押下状態"
+                },
+                {
+                    "name": "aria-controls",
+                    "desc": "制御対象の要素IDを指定"
+                },
+                {
+                    "name": "aria-disabled",
+                    "desc": "無効状態（true/false）"
+                }
+            ],
+            "tags": [
+                "ARIA",
+                "状態",
+                "ウィジェット"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/Accessibility/ARIA/Attributes/aria-expanded"
+        },
+        {
+            "name": "セマンティックHTML（&lt;nav&gt; / &lt;main&gt; / &lt;article&gt;等）",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "コンテンツの意味と構造を正しく伝えるHTML要素。divの代わりに適切なセマンティック要素を使うことで、スクリーンリーダーのランドマークナビゲーションが可能になり、SEOにも好影響。",
+            "demo": "<div style=\"font-size:0.75rem;border:2px solid #e2e8f0;border-radius:8px;overflow:hidden\"><div style=\"padding:6px 12px;background:#dbeafe;border-bottom:1px solid #bfdbfe\"><strong>&lt;header&gt;</strong> ヘッダー / バナー</div><div style=\"display:flex\"><div style=\"flex:1;padding:6px 12px;background:#f0fdf4;border-right:1px solid #e2e8f0\"><strong>&lt;nav&gt;</strong><br>ナビゲーション</div><div style=\"flex:3;padding:6px 12px\"><strong>&lt;main&gt;</strong><div style=\"padding:4px 8px;margin:4px 0;background:#fef3c7;border-radius:4px\"><strong>&lt;article&gt;</strong> 記事<div style=\"padding:2px 6px;margin:2px 0;background:#fefce8;border-radius:3px\">&lt;section&gt; セクション</div></div></div><div style=\"flex:1;padding:6px 12px;background:#f5f3ff;border-left:1px solid #e2e8f0\"><strong>&lt;aside&gt;</strong><br>サイドバー</div></div><div style=\"padding:6px 12px;background:#fce7f3;border-top:1px solid #e2e8f0\"><strong>&lt;footer&gt;</strong> フッター</div></div>",
+            "code": "<!DOCTYPE html>\n<html lang=\"ja\">\n<head>...</head>\n<body>\n  <header>\n    <h1>サイト名</h1>\n    <nav aria-label=\"メインメニュー\">\n      <ul>\n        <li><a href=\"/\">ホーム</a></li>\n        <li><a href=\"/about\">概要</a></li>\n      </ul>\n    </nav>\n  </header>\n\n  <main>\n    <article>\n      <h2>記事タイトル</h2>\n      <section>\n        <h3>セクション見出し</h3>\n        <p>本文...</p>\n      </section>\n    </article>\n  </main>\n\n  <aside>\n    <h2>関連リンク</h2>\n  </aside>\n\n  <footer>\n    <p>&copy; 2026</p>\n  </footer>\n</body>\n</html>",
+            "props": [
+                {
+                    "name": "<header>",
+                    "desc": "ページやセクションのヘッダー"
+                },
+                {
+                    "name": "<nav>",
+                    "desc": "ナビゲーションリンク群"
+                },
+                {
+                    "name": "<main>",
+                    "desc": "ページの主要コンテンツ（1つのみ）"
+                },
+                {
+                    "name": "<article>",
+                    "desc": "自己完結した記事やコンテンツ"
+                },
+                {
+                    "name": "<section>",
+                    "desc": "テーマ的にまとまったセクション"
+                },
+                {
+                    "name": "<aside>",
+                    "desc": "補足・関連コンテンツ"
+                },
+                {
+                    "name": "<footer>",
+                    "desc": "フッター情報"
+                }
+            ],
+            "tags": [
+                "セマンティクス",
+                "ランドマーク",
+                "SEO"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element#content_sectioning"
+        },
+        {
+            "name": "alt属性（画像の代替テキスト）",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "画像が表示できない場合やスクリーンリーダー使用時に代替として提供されるテキスト。意味のある画像には説明を、装飾画像にはalt=\"\"（空）を指定する。Webアクセシビリティの最も基本的な要素。",
+            "demo": "<div style=\"font-size:0.85rem;display:flex;flex-direction:column;gap:8px\"><div style=\"display:flex;align-items:center;gap:8px\"><div style=\"width:48px;height:48px;background:#dbeafe;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:1.2rem\">📷</div><div><code>alt=\"企業ロゴ\"</code><br><span style=\"color:#16a34a;font-size:0.8rem\">✅ 意味のある画像 → 説明を記述</span></div></div><div style=\"display:flex;align-items:center;gap:8px\"><div style=\"width:48px;height:48px;background:#f1f5f9;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:1.2rem\">🎨</div><div><code>alt=\"\"</code><br><span style=\"color:#3b82f6;font-size:0.8rem\">✅ 装飾画像 → 空のalt</span></div></div><div style=\"display:flex;align-items:center;gap:8px\"><div style=\"width:48px;height:48px;background:#fef2f2;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:1.2rem\">⚠️</div><div><span style=\"text-decoration:line-through\">alt属性なし</span><br><span style=\"color:#dc2626;font-size:0.8rem\">❌ alt省略はNG</span></div></div></div>",
+            "code": "<!-- 意味のある画像: 内容を説明 -->\n<img src=\"chart.png\" \n     alt=\"2024年の売上推移グラフ。1月は100万円、12月は300万円\">\n\n<!-- リンク内の画像: リンク先を説明 -->\n<a href=\"/home\">\n  <img src=\"logo.svg\" alt=\"ホームに戻る\">\n</a>\n\n<!-- 装飾画像: alt を空に -->\n<img src=\"decoration.svg\" alt=\"\">\n\n<!-- 複雑な画像: 詳細な説明を別途用意 -->\n<figure>\n  <img src=\"infographic.png\" \n       alt=\"年間レポートの概要\"\n       aria-describedby=\"desc\">\n  <figcaption id=\"desc\">\n    詳細な説明文...\n  </figcaption>\n</figure>\n\n<!-- CSSの背景画像は alt を持てない -->\n<!-- 装飾目的のみに使用すること -->",
+            "props": [
+                {
+                    "name": "alt=\"説明文\"",
+                    "desc": "画像の内容を説明するテキスト"
+                },
+                {
+                    "name": "alt=\"\"",
+                    "desc": "装飾画像用（読み飛ばされる）"
+                },
+                {
+                    "name": "role=\"presentation\"",
+                    "desc": "装飾画像のARIA代替手段"
+                }
+            ],
+            "tags": [
+                "基本",
+                "画像",
+                "必須"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/img#alt"
+        },
+        {
+            "name": "スキップリンク（Skip Navigation）",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "キーボードユーザーがナビゲーションをスキップして本文に直接移動できるリンク。通常は非表示で、フォーカス時のみ表示される。WCAG 2.4.1「ブロックスキップ」の要件を満たす基本的な手法。",
+            "demo": "<div style=\"font-size:0.85rem;position:relative\"><style>.skip-demo{position:absolute;left:-9999px;top:0;background:#1e293b;color:#fff;padding:8px 16px;border-radius:0 0 8px 0;font-weight:700;text-decoration:none;z-index:100;font-size:0.85rem}.skip-demo:focus{left:0}</style><a href=\"#main-content\" class=\"skip-demo\">メインコンテンツへスキップ</a><div style=\"padding:12px;background:#f1f5f9;border-radius:8px;text-align:center;color:#64748b\">Tabキーを押すとスキップリンクが表示されます</div></div>",
+            "code": "<!-- HTML: body の最初に配置 -->\n<body>\n  <a href=\"#main\" class=\"skip-link\">\n    メインコンテンツへスキップ\n  </a>\n  <header>...</header>\n  <nav>...</nav>\n  <main id=\"main\">\n    ...\n  </main>\n</body>\n\n<!-- CSS -->\n<style>\n.skip-link {\n  position: absolute;\n  left: -9999px;\n  top: auto;\n  width: 1px;\n  height: 1px;\n  overflow: hidden;\n  z-index: 9999;\n  background: #1e293b;\n  color: #fff;\n  padding: 12px 24px;\n  font-weight: 700;\n  text-decoration: none;\n  border-radius: 0 0 8px 0;\n}\n.skip-link:focus {\n  position: fixed;\n  top: 0;\n  left: 0;\n  width: auto;\n  height: auto;\n  overflow: visible;\n}\n</style>",
+            "props": [
+                {
+                    "name": "href=\"#id\"",
+                    "desc": "ジャンプ先の要素ID"
+                },
+                {
+                    "name": ":focus",
+                    "desc": "フォーカス時に表示するスタイル"
+                },
+                {
+                    "name": "position: absolute",
+                    "desc": "通常は画面外に配置"
+                }
+            ],
+            "tags": [
+                "キーボード",
+                "ナビゲーション",
+                "WCAG"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/a"
+        },
+        {
+            "name": ":focus-visible",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "キーボード操作など、フォーカスリングが視覚的に有用な場合にのみ適用される疑似クラス。マウスクリック時のフォーカスリングを消しつつ、キーボード操作時には適切に表示する。",
+            "demo": "<div style=\"font-size:0.85rem;display:flex;gap:12px;flex-wrap:wrap\"><style>.fv-btn{padding:10px 20px;background:#3b82f6;color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:0.85rem;font-weight:600;outline:none}.fv-btn:focus-visible{outline:3px solid #1d4ed8;outline-offset:2px;box-shadow:0 0 0 6px rgba(59,130,246,0.3)}</style><button class=\"fv-btn\">クリック＆Tabで試す</button><a href=\"#\" class=\"fv-btn\" style=\"text-decoration:none;display:inline-block\" onclick=\"return false\">リンク要素</a></div>",
+            "code": "/* マウスクリック時はフォーカスリングなし\n   キーボード操作時のみ表示 */\nbutton:focus-visible {\n  outline: 3px solid #3b82f6;\n  outline-offset: 2px;\n}\n\n/* :focus は全トリガーで発火 */\nbutton:focus {\n  /* マウスでもキーボードでも */\n}\n\n/* :focus-visible はキーボード等のみ */\nbutton:focus-visible {\n  /* キーボードや支援技術のみ */\n}\n\n/* 推奨パターン */\n:focus {\n  outline: none; /* デフォルトを消す */\n}\n:focus-visible {\n  outline: 2px solid #3b82f6;\n  outline-offset: 2px;\n}\n\n/* ⚠️ outline: none だけは絶対NG */\n/* 必ず :focus-visible の代替を用意 */",
+            "props": [
+                {
+                    "name": ":focus-visible",
+                    "desc": "キーボードフォーカス時に適用"
+                },
+                {
+                    "name": ":focus",
+                    "desc": "全てのフォーカス方法で適用"
+                },
+                {
+                    "name": ":focus-within",
+                    "desc": "子孫にフォーカスがある時に適用"
+                }
+            ],
+            "tags": [
+                "疑似クラス",
+                "フォーカス",
+                "アクセシビリティ"
+            ],
+            "browser": "Chrome 86+, Edge 86+, Firefox 85+, Safari 15.4+",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/:focus-visible"
+        },
+        {
+            "name": "visually-hidden（SR専用テキスト）",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "視覚的に非表示にしつつスクリーンリーダーには読み上げさせるCSSテクニック。display:noneやvisibility:hiddenは支援技術からも隠してしまうため、専用のクラスが必要。",
+            "demo": "<div style=\"font-size:0.85rem\"><div style=\"display:flex;gap:12px;flex-wrap:wrap\"><div style=\"padding:8px 12px;background:#fef2f2;border-radius:6px;border:1px solid #fecaca\"><code>display: none</code><br><span style=\"color:#dc2626\">❌ SRからも隠れる</span></div><div style=\"padding:8px 12px;background:#fef2f2;border-radius:6px;border:1px solid #fecaca\"><code>visibility: hidden</code><br><span style=\"color:#dc2626\">❌ SRからも隠れる</span></div><div style=\"padding:8px 12px;background:#f0fdf4;border-radius:6px;border:1px solid #bbf7d0\"><code>.visually-hidden</code><br><span style=\"color:#16a34a\">✅ 視覚のみ隠す</span></div></div></div>",
+            "code": "/* 推奨: visually-hidden クラス */\n.visually-hidden {\n  position: absolute;\n  width: 1px;\n  height: 1px;\n  padding: 0;\n  margin: -1px;\n  overflow: hidden;\n  clip: rect(0, 0, 0, 0);\n  white-space: nowrap;\n  border: 0;\n}\n\n/* フォーカス時に表示（スキップリンク等） */\n.visually-hidden:focus {\n  position: static;\n  width: auto;\n  height: auto;\n  overflow: visible;\n  clip: auto;\n  white-space: normal;\n}\n\n<!-- 使用例 -->\n<button>\n  <svg aria-hidden=\"true\"><!-- アイコン --></svg>\n  <span class=\"visually-hidden\">メニューを開く</span>\n</button>\n\n<table>\n  <caption class=\"visually-hidden\">\n    2024年の売上データ\n  </caption>\n  ...\n</table>",
+            "props": [
+                {
+                    "name": "position: absolute",
+                    "desc": "フローから除去"
+                },
+                {
+                    "name": "clip: rect(0,0,0,0)",
+                    "desc": "クリッピングで非表示"
+                },
+                {
+                    "name": "width/height: 1px",
+                    "desc": "最小サイズ"
+                },
+                {
+                    "name": "overflow: hidden",
+                    "desc": "はみ出しを隠す"
+                },
+                {
+                    "name": "white-space: nowrap",
+                    "desc": "折り返し防止"
+                }
+            ],
+            "tags": [
+                "スクリーンリーダー",
+                "テクニック",
+                "WCAG"
+            ],
+            "browser": "全ブラウザ対応（CSS手法）",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/position"
+        },
+        {
+            "name": "&lt;label&gt; と for 属性",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "フォームコントロールにアクセシブルなラベルを関連付ける。for属性でinputのidを指定するか、labelでinputを囲む。ラベルクリックでフォーカスが移動し、操作領域が広がる。",
+            "demo": "<div style=\"font-size:0.85rem;display:flex;flex-direction:column;gap:12px\"><div><label for=\"demo-name\" style=\"font-weight:700;color:#334155;display:block;margin-bottom:4px\">名前（ラベルをクリック→フォーカス）</label><input type=\"text\" id=\"demo-name\" placeholder=\"入力してください\" style=\"padding:6px 10px;border:1px solid #cbd5e1;border-radius:6px;font-size:0.85rem;width:200px\"></div><label style=\"display:flex;align-items:center;gap:8px;cursor:pointer\"><input type=\"checkbox\" style=\"width:16px;height:16px\"><span>暗黙的ラベル（inputを囲む方法）</span></label></div>",
+            "code": "<!-- 明示的ラベル（for で紐付け） -->\n<label for=\"email\">メールアドレス</label>\n<input type=\"email\" id=\"email\" \n       placeholder=\"user@example.com\">\n\n<!-- 暗黙的ラベル（label で囲む） -->\n<label>\n  <input type=\"checkbox\">\n  利用規約に同意する\n</label>\n\n<!-- ⚠️ placeholder はラベルの代替にならない -->\n<!-- ❌ -->\n<input placeholder=\"名前\">\n<!-- ✅ -->\n<label for=\"name\">名前</label>\n<input id=\"name\" placeholder=\"例: 田中太郎\">\n\n<!-- 必須表示 -->\n<label for=\"phone\">\n  電話番号 <span aria-hidden=\"true\">*</span>\n  <span class=\"visually-hidden\">（必須）</span>\n</label>\n<input id=\"phone\" required \n       aria-required=\"true\">",
+            "props": [
+                {
+                    "name": "for",
+                    "desc": "関連付けるフォーム要素のid"
+                },
+                {
+                    "name": "暗黙的ラベル",
+                    "desc": "labelで入力要素を囲む方法"
+                },
+                {
+                    "name": "クリック範囲",
+                    "desc": "ラベルクリックで対象にフォーカス"
+                }
+            ],
+            "tags": [
+                "フォーム",
+                "基本",
+                "必須"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/label"
+        },
+        {
+            "name": "キーボードナビゲーション パターン",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "カスタムウィジェットで適切なキーボード操作を実装するためのパターン。矢印キーでの選択移動、Escapeでの閉じ操作、Enter/Spaceでの実行など、WAI-ARIAオーサリング・プラクティスに準拠した実装が求められる。",
+            "demo": "<div style=\"font-size:0.85rem\"><div role=\"listbox\" aria-label=\"フルーツ選択\" style=\"border:1px solid #cbd5e1;border-radius:8px;overflow:hidden;max-width:200px\" id=\"kbList\"><style>.kb-opt{padding:8px 12px;cursor:pointer;outline:none;transition:background 0.1s}.kb-opt:focus,.kb-opt[aria-selected=true]{background:#dbeafe;color:#1d4ed8;font-weight:700}.kb-opt:hover{background:#f1f5f9}</style><div role=\"option\" class=\"kb-opt\" tabindex=\"0\" aria-selected=\"true\">🍎 りんご</div><div role=\"option\" class=\"kb-opt\" tabindex=\"-1\" aria-selected=\"false\">🍊 みかん</div><div role=\"option\" class=\"kb-opt\" tabindex=\"-1\" aria-selected=\"false\">🍇 ぶどう</div></div><span style=\"color:#64748b;font-size:0.75rem\">↑↓キーで移動、Enter で選択</span><script>(function(){try{var items=document.querySelectorAll('#kbList .kb-opt');items.forEach(function(item,i){item.addEventListener('keydown',function(e){var idx=-1;if(e.key==='ArrowDown'){idx=Math.min(i+1,items.length-1)}else if(e.key==='ArrowUp'){idx=Math.max(i-1,0)}if(idx>=0){items.forEach(function(el){el.setAttribute('tabindex','-1');el.setAttribute('aria-selected','false')});items[idx].setAttribute('tabindex','0');items[idx].setAttribute('aria-selected','true');items[idx].focus();e.preventDefault()}});})}catch(e){}})()</script></div>",
+            "code": "// ロービング tabindex パターン\n// （リスト/タブ/メニューで使用）\nconst items = document.querySelectorAll('[role=\"tab\"]');\nlet currentIndex = 0;\n\nfunction focusItem(index) {\n  items.forEach((item, i) => {\n    item.setAttribute('tabindex', i === index ? '0' : '-1');\n    item.setAttribute('aria-selected', i === index);\n  });\n  items[index].focus();\n  currentIndex = index;\n}\n\nitems.forEach((item, i) => {\n  item.addEventListener('keydown', (e) => {\n    switch (e.key) {\n      case 'ArrowRight':\n      case 'ArrowDown':\n        e.preventDefault();\n        focusItem((i + 1) % items.length);\n        break;\n      case 'ArrowLeft':\n      case 'ArrowUp':\n        e.preventDefault();\n        focusItem((i - 1 + items.length) % items.length);\n        break;\n      case 'Home':\n        e.preventDefault();\n        focusItem(0);\n        break;\n      case 'End':\n        e.preventDefault();\n        focusItem(items.length - 1);\n        break;\n      case 'Enter':\n      case ' ':\n        e.preventDefault();\n        activateItem(i);\n        break;\n    }\n  });\n});",
+            "props": [
+                {
+                    "name": "Arrow Keys",
+                    "desc": "項目間のフォーカス移動"
+                },
+                {
+                    "name": "Enter / Space",
+                    "desc": "選択・実行"
+                },
+                {
+                    "name": "Escape",
+                    "desc": "メニュー/ダイアログを閉じる"
+                },
+                {
+                    "name": "Home / End",
+                    "desc": "最初/最後の項目へ移動"
+                },
+                {
+                    "name": "Tab",
+                    "desc": "ウィジェット間のフォーカス移動"
+                },
+                {
+                    "name": "ロービングtabindex",
+                    "desc": "グループ内で1つだけtabindex=0にする手法"
+                }
+            ],
+            "tags": [
+                "キーボード",
+                "ARIA",
+                "パターン"
+            ],
+            "browser": "全ブラウザ対応（JavaScript実装）",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/Accessibility/ARIA/Roles/tab_role"
+        }
+    ]
+}

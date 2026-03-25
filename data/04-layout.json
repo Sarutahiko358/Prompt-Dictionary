@@ -1,0 +1,434 @@
+{
+    "cat": "レイアウト・構造",
+    "catIcon": "🏗️",
+    "catDesc": "ページの骨格を構築するHTML要素とCSSレイアウト手法。セマンティックな文書構造とFlexbox/Gridによる柔軟な配置を提供する。",
+    "items": [
+        {
+            "name": "&lt;div&gt;",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "汎用のブロックレベルコンテナ。意味を持たず、CSSレイアウトやJSの操作対象として使用する。セマンティックな代替要素（header, main, section 等）がある場合はそちらを優先する。",
+            "demo": "<div style=\"font-size:0.85rem\"><div style=\"background:#dbeafe;padding:12px;border-radius:8px;border:2px dashed #3b82f6;text-align:center\">div コンテナ</div></div>",
+            "code": "<div class=\"container\">\n  <div class=\"card\">\n    <h2>カードタイトル</h2>\n    <p>カードの内容</p>\n  </div>\n</div>",
+            "props": [
+                {
+                    "name": "class / id",
+                    "desc": "スタイリングやJS操作の対象指定"
+                },
+                {
+                    "name": "role",
+                    "desc": "必要に応じてARIAロールを付与"
+                }
+            ],
+            "tags": [
+                "基本",
+                "ブロック",
+                "コンテナ"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/div"
+        },
+        {
+            "name": "&lt;header&gt;",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "ページや各セクションの導入部分を示すセマンティック要素。通常、ロゴ・サイト名・ナビゲーション・検索バーなどを含む。body 直下で使えばサイトヘッダー、article/section 内で使えばそのセクションの見出し部分となる。",
+            "demo": "<header style=\"font-size:0.85rem;background:#1e293b;color:#fff;padding:12px 16px;border-radius:8px;display:flex;justify-content:space-between;align-items:center\"><span style=\"font-weight:700\">🌐 MyApp</span><nav style=\"display:flex;gap:12px\"><a href=\"#\" onclick=\"return false\" style=\"color:#94a3b8;text-decoration:none\">Home</a><a href=\"#\" onclick=\"return false\" style=\"color:#94a3b8;text-decoration:none\">About</a></nav></header>",
+            "code": "<header>\n  <h1>サイト名</h1>\n  <nav>\n    <a href=\"/\">ホーム</a>\n    <a href=\"/about\">概要</a>\n  </nav>\n</header>",
+            "props": [
+                {
+                    "name": "role=\"banner\"",
+                    "desc": "body直下の場合は暗黙的にbannerロール"
+                }
+            ],
+            "tags": [
+                "セマンティック",
+                "構造",
+                "ヘッダー"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/header"
+        },
+        {
+            "name": "&lt;main&gt;",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "文書のメインコンテンツ領域。ページに1つだけ配置する。スクリーンリーダーがメインコンテンツへ直接ジャンプするためのランドマークとなる。ヘッダーやフッター、サイドバーは含めない。",
+            "demo": "<div style=\"font-size:0.85rem;border:2px solid #10b981;border-radius:8px;overflow:hidden\"><div style=\"background:#d1fae5;padding:6px 12px;font-weight:600;color:#065f46\">main</div><div style=\"padding:12px\">メインコンテンツ領域。ページの主要な情報がここに入ります。</div></div>",
+            "code": "<body>\n  <header>...</header>\n  <main>\n    <h1>ページタイトル</h1>\n    <article>...</article>\n  </main>\n  <footer>...</footer>\n</body>",
+            "props": [
+                {
+                    "name": "role=\"main\"",
+                    "desc": "暗黙的にmainランドマークロール"
+                }
+            ],
+            "tags": [
+                "セマンティック",
+                "構造",
+                "ランドマーク"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/main"
+        },
+        {
+            "name": "&lt;footer&gt;",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "ページまたはセクションのフッター部分。著作権表示、関連リンク、連絡先情報などを含む。body 直下で使えばサイトフッター、section/article 内で使えばそのセクションの補足情報となる。",
+            "demo": "<footer style=\"font-size:0.8rem;background:#f1f5f9;padding:12px 16px;border-radius:8px;text-align:center;color:#64748b;border:1px solid #e2e8f0\"><p style=\"margin:0\">© 2025 MyApp. All rights reserved.</p><div style=\"margin-top:6px;display:flex;justify-content:center;gap:12px\"><a href=\"#\" onclick=\"return false\" style=\"color:#64748b;text-decoration:none\">利用規約</a><a href=\"#\" onclick=\"return false\" style=\"color:#64748b;text-decoration:none\">プライバシー</a></div></footer>",
+            "code": "<footer>\n  <p>&copy; 2025 MyApp. All rights reserved.</p>\n  <nav>\n    <a href=\"/terms\">利用規約</a>\n    <a href=\"/privacy\">プライバシー</a>\n  </nav>\n</footer>",
+            "props": [
+                {
+                    "name": "role=\"contentinfo\"",
+                    "desc": "body直下の場合は暗黙的にcontentinfoロール"
+                }
+            ],
+            "tags": [
+                "セマンティック",
+                "構造",
+                "フッター"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/footer"
+        },
+        {
+            "name": "&lt;section&gt;",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "文書内の主題的なまとまりを示すセクション要素。通常は見出し（h2〜h6）を伴う。汎用コンテナとして使うなら div を選択する。aria-labelledby で見出しと紐づけるとアクセシビリティが向上する。",
+            "demo": "<section style=\"font-size:0.85rem;border:1px solid #e2e8f0;border-radius:8px;padding:12px;background:#fafafa\"><h3 style=\"font-size:0.95rem;margin:0 0 6px 0;color:#1e293b\">セクション見出し</h3><p style=\"margin:0;color:#64748b\">このセクションのコンテンツ。テーマ的にまとまった内容を格納する。</p></section>",
+            "code": "<section aria-labelledby=\"features-heading\">\n  <h2 id=\"features-heading\">機能紹介</h2>\n  <p>サービスの主な機能を紹介します。</p>\n</section>",
+            "props": [
+                {
+                    "name": "aria-labelledby",
+                    "desc": "見出し要素のidを指定して紐づけ"
+                },
+                {
+                    "name": "aria-label",
+                    "desc": "見出しがない場合のラベル"
+                }
+            ],
+            "tags": [
+                "セマンティック",
+                "構造",
+                "セクション"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/section"
+        },
+        {
+            "name": "&lt;article&gt;",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "自己完結した独立コンテンツを示す。ブログ記事、ニュース記事、コメント、カード型UIなどに適する。article 内に header / footer を含めることで構造を明確にできる。",
+            "demo": "<article style=\"font-size:0.85rem;border:1px solid #e2e8f0;border-radius:8px;overflow:hidden;max-width:260px\"><div style=\"padding:12px\"><h3 style=\"margin:0 0 4px;font-size:0.95rem\">記事タイトル</h3><time style=\"color:#94a3b8;font-size:0.75rem\">2025-01-15</time><p style=\"margin:8px 0 0;color:#475569\">記事の本文テキスト。自己完結した内容…</p></div></article>",
+            "code": "<article>\n  <header>\n    <h2>ブログ記事のタイトル</h2>\n    <time datetime=\"2025-01-15\">2025年1月15日</time>\n  </header>\n  <p>記事の本文...</p>\n  <footer>\n    <p>著者: 山田太郎</p>\n  </footer>\n</article>",
+            "props": [
+                {
+                    "name": "role=\"article\"",
+                    "desc": "暗黙的にarticleロール"
+                }
+            ],
+            "tags": [
+                "セマンティック",
+                "構造",
+                "コンテンツ"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/article"
+        },
+        {
+            "name": "&lt;aside&gt;",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "メインコンテンツに間接的に関連するサイドコンテンツを示す。サイドバー、補足情報、広告、関連リンクなどに使用する。スクリーンリーダーでは complementary ランドマークとして認識される。",
+            "demo": "<div style=\"font-size:0.85rem;display:flex;gap:8px\"><div style=\"flex:2;background:#f8fafc;padding:10px;border-radius:6px;border:1px solid #e2e8f0\"><strong>メインコンテンツ</strong><p style=\"margin:4px 0 0;color:#64748b\">記事本文...</p></div><aside style=\"flex:1;background:#fefce8;padding:10px;border-radius:6px;border:1px solid #fde68a\"><strong>サイドバー</strong><p style=\"margin:4px 0 0;color:#92400e;font-size:0.8rem\">関連リンク</p></aside></div>",
+            "code": "<main>\n  <article>メインコンテンツ</article>\n</main>\n<aside aria-label=\"サイドバー\">\n  <h2>関連記事</h2>\n  <ul>\n    <li><a href=\"#\">記事A</a></li>\n    <li><a href=\"#\">記事B</a></li>\n  </ul>\n</aside>",
+            "props": [
+                {
+                    "name": "role=\"complementary\"",
+                    "desc": "暗黙的にcomplementaryロール"
+                },
+                {
+                    "name": "aria-label",
+                    "desc": "サイドバーの目的を説明"
+                }
+            ],
+            "tags": [
+                "セマンティック",
+                "構造",
+                "サイドバー"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/aside"
+        },
+        {
+            "name": "CSS Flexbox",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "1次元レイアウト（横並び or 縦並び）を柔軟に制御するCSS手法。display: flex を親要素に指定し、子要素の配置・整列・折返しを直感的にコントロールする。レスポンシブ対応にも不可欠。",
+            "demo": "<div style=\"font-size:0.8rem\"><div style=\"display:flex;gap:6px;margin-bottom:8px\"><div style=\"flex:1;background:#dbeafe;padding:8px;border-radius:6px;text-align:center\">flex:1</div><div style=\"flex:2;background:#bfdbfe;padding:8px;border-radius:6px;text-align:center\">flex:2</div><div style=\"flex:1;background:#dbeafe;padding:8px;border-radius:6px;text-align:center\">flex:1</div></div><div style=\"display:flex;justify-content:space-between;align-items:center;background:#f1f5f9;padding:8px;border-radius:6px\"><span>左</span><span>中央</span><span>右</span></div></div>",
+            "code": ".flex-container {\n  display: flex;\n  gap: 1rem;\n  flex-wrap: wrap;\n  justify-content: space-between;\n  align-items: center;\n}\n\n.flex-item {\n  flex: 1 1 200px; /* grow shrink basis */\n}\n\n/* 縦並び */\n.flex-column {\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n}",
+            "props": [
+                {
+                    "name": "display: flex",
+                    "desc": "Flexコンテナを有効化"
+                },
+                {
+                    "name": "flex-direction",
+                    "desc": "主軸の方向（row / column）"
+                },
+                {
+                    "name": "justify-content",
+                    "desc": "主軸方向の配置（center, space-between 等）"
+                },
+                {
+                    "name": "align-items",
+                    "desc": "交差軸方向の配置（center, stretch 等）"
+                },
+                {
+                    "name": "flex-wrap",
+                    "desc": "折り返しの制御（wrap / nowrap）"
+                },
+                {
+                    "name": "gap",
+                    "desc": "アイテム間の隙間"
+                },
+                {
+                    "name": "flex (短縮形)",
+                    "desc": "grow / shrink / basis を一括指定"
+                }
+            ],
+            "tags": [
+                "CSS",
+                "レイアウト",
+                "Flexbox"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/CSS_flexible_box_layout"
+        },
+        {
+            "name": "CSS Grid",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "2次元レイアウト（行と列の両方）を制御するCSS手法。display: grid で有効化し、grid-template-columns / rows でグリッド構造を定義する。複雑なページレイアウトやカードグリッドに最適。",
+            "demo": "<div style=\"font-size:0.8rem;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:auto auto;gap:6px\"><div style=\"grid-column:1/4;background:#d1fae5;padding:8px;border-radius:6px;text-align:center\">header（3列結合）</div><div style=\"grid-column:1/3;background:#dbeafe;padding:8px;border-radius:6px;text-align:center\">main（2列）</div><div style=\"background:#fef3c7;padding:8px;border-radius:6px;text-align:center\">aside</div></div>",
+            "code": ".grid-layout {\n  display: grid;\n  grid-template-columns: repeat(3, 1fr);\n  grid-template-rows: auto 1fr auto;\n  gap: 1rem;\n  min-height: 100vh;\n}\n\n.header { grid-column: 1 / -1; }\n.main   { grid-column: 1 / 3; }\n.aside  { grid-column: 3; }\n.footer { grid-column: 1 / -1; }\n\n/* レスポンシブカードグリッド */\n.card-grid {\n  display: grid;\n  grid-template-columns: repeat(\n    auto-fill, minmax(250px, 1fr)\n  );\n  gap: 1rem;\n}",
+            "props": [
+                {
+                    "name": "display: grid",
+                    "desc": "Gridコンテナを有効化"
+                },
+                {
+                    "name": "grid-template-columns",
+                    "desc": "列の定義（repeat, fr, minmax 等）"
+                },
+                {
+                    "name": "grid-template-rows",
+                    "desc": "行の定義"
+                },
+                {
+                    "name": "grid-column / grid-row",
+                    "desc": "アイテムの配置・結合"
+                },
+                {
+                    "name": "gap",
+                    "desc": "セル間の隙間"
+                },
+                {
+                    "name": "grid-template-areas",
+                    "desc": "名前付きエリアでの配置"
+                }
+            ],
+            "tags": [
+                "CSS",
+                "レイアウト",
+                "Grid"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/CSS_grid_layout"
+        },
+        {
+            "name": "CSS Grid: grid-template-areas",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "グリッドエリアに名前をつけて直感的にレイアウトを定義する手法。テンプレートリテラル風の文字列で視覚的にレイアウトを表現できる。レスポンシブ対応でメディアクエリごとに配置を変更しやすい。",
+            "demo": "<div style=\"font-size:0.75rem;display:grid;grid-template-areas:'hd hd hd' 'mn mn sb' 'ft ft ft';grid-template-columns:1fr 1fr 1fr;grid-template-rows:auto 1fr auto;gap:4px;height:120px\"><div style=\"grid-area:hd;background:#d1fae5;padding:6px;border-radius:4px;text-align:center\">header</div><div style=\"grid-area:mn;background:#dbeafe;padding:6px;border-radius:4px;text-align:center\">main</div><div style=\"grid-area:sb;background:#fef3c7;padding:6px;border-radius:4px;text-align:center\">sidebar</div><div style=\"grid-area:ft;background:#e2e8f0;padding:6px;border-radius:4px;text-align:center\">footer</div></div>",
+            "code": ".layout {\n  display: grid;\n  grid-template-areas:\n    \"header header  header\"\n    \"main   main    sidebar\"\n    \"footer footer  footer\";\n  grid-template-columns: 1fr 1fr 200px;\n  grid-template-rows: auto 1fr auto;\n  min-height: 100vh;\n}\n\n.header  { grid-area: header; }\n.main    { grid-area: main; }\n.sidebar { grid-area: sidebar; }\n.footer  { grid-area: footer; }\n\n@media (max-width: 768px) {\n  .layout {\n    grid-template-areas:\n      \"header\"\n      \"main\"\n      \"sidebar\"\n      \"footer\";\n    grid-template-columns: 1fr;\n  }\n}",
+            "props": [
+                {
+                    "name": "grid-template-areas",
+                    "desc": "文字列でエリア配置を定義"
+                },
+                {
+                    "name": "grid-area",
+                    "desc": "子要素にエリア名を割り当て"
+                },
+                {
+                    "name": "\".\" (ドット)",
+                    "desc": "空きセルを示す"
+                }
+            ],
+            "tags": [
+                "CSS",
+                "Grid",
+                "レイアウト"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/grid-template-areas"
+        },
+        {
+            "name": "CSS position",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "要素の配置方法を制御するプロパティ。static（通常フロー）、relative（相対位置）、absolute（絶対位置）、fixed（画面固定）、sticky（スクロール追従）の5種類がある。",
+            "demo": "<div style=\"font-size:0.8rem;position:relative;background:#f1f5f9;border-radius:8px;padding:12px;height:90px;border:1px solid #e2e8f0\"><span style=\"position:absolute;top:6px;right:8px;background:#ef4444;color:#fff;padding:2px 8px;border-radius:9999px;font-size:0.7rem\">absolute</span><span style=\"position:relative;top:20px;left:10px;background:#3b82f6;color:#fff;padding:2px 8px;border-radius:4px;font-size:0.7rem\">relative (top:20, left:10)</span><div style=\"position:absolute;bottom:6px;left:8px;background:#10b981;color:#fff;padding:2px 8px;border-radius:4px;font-size:0.7rem\">absolute bottom-left</div></div>",
+            "code": "/* 相対位置（自身の元の位置から移動） */\n.relative { position: relative; top: 10px; }\n\n/* 絶対位置（最寄りの positioned 祖先基準） */\n.parent { position: relative; }\n.child  { position: absolute; top: 0; right: 0; }\n\n/* 固定位置（ビューポート基準） */\n.fixed-header {\n  position: fixed;\n  top: 0; left: 0; right: 0;\n  z-index: 100;\n}\n\n/* スティッキー（スクロール追従） */\n.sticky-nav {\n  position: sticky;\n  top: 0;\n}",
+            "props": [
+                {
+                    "name": "static",
+                    "desc": "通常フロー（デフォルト）"
+                },
+                {
+                    "name": "relative",
+                    "desc": "自身の元の位置基準で移動"
+                },
+                {
+                    "name": "absolute",
+                    "desc": "最寄りのpositioned祖先基準"
+                },
+                {
+                    "name": "fixed",
+                    "desc": "ビューポート基準で固定"
+                },
+                {
+                    "name": "sticky",
+                    "desc": "スクロールで指定位置に達すると固定"
+                },
+                {
+                    "name": "z-index",
+                    "desc": "重なり順序"
+                }
+            ],
+            "tags": [
+                "CSS",
+                "レイアウト",
+                "配置"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/position"
+        },
+        {
+            "name": "CSS display プロパティ",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "要素の表示形式を制御する基本プロパティ。block / inline / inline-block / none / flex / grid / contents など多くの値がある。要素の内部・外部の表示タイプを決定する。",
+            "demo": "<div style=\"font-size:0.8rem;display:flex;flex-direction:column;gap:6px\"><div><span style=\"display:inline;background:#dbeafe;padding:2px 6px;border-radius:3px\">inline</span> <span style=\"display:inline;background:#dbeafe;padding:2px 6px;border-radius:3px\">inline</span></div><div style=\"display:inline-block;background:#d1fae5;padding:6px 12px;border-radius:4px;margin-right:6px\">inline-block</div><div style=\"display:inline-block;background:#d1fae5;padding:6px 12px;border-radius:4px\">inline-block</div><div style=\"background:#fef3c7;padding:6px 12px;border-radius:4px\">block（幅いっぱい）</div></div>",
+            "code": "/* ブロック要素 */\n.block { display: block; }\n\n/* インライン要素 */\n.inline { display: inline; }\n\n/* インラインブロック（幅・高さ指定可） */\n.inline-block { display: inline-block; }\n\n/* 非表示（DOMから消去） */\n.hidden { display: none; }\n\n/* Flexbox / Grid */\n.flex { display: flex; }\n.grid { display: grid; }\n\n/* 要素自体を消しつつ子を維持 */\n.contents { display: contents; }",
+            "props": [
+                {
+                    "name": "block",
+                    "desc": "ブロックレベル。前後に改行"
+                },
+                {
+                    "name": "inline",
+                    "desc": "インライン。幅・高さ指定不可"
+                },
+                {
+                    "name": "inline-block",
+                    "desc": "インラインだが幅・高さ指定可"
+                },
+                {
+                    "name": "none",
+                    "desc": "要素を非表示（スペースも消える）"
+                },
+                {
+                    "name": "flex / grid",
+                    "desc": "Flexbox / Gridコンテナ"
+                },
+                {
+                    "name": "contents",
+                    "desc": "ボックスを生成せず子をそのまま配置"
+                }
+            ],
+            "tags": [
+                "CSS",
+                "基本",
+                "レイアウト"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/display"
+        },
+        {
+            "name": "CSS overflow",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "要素からはみ出したコンテンツの表示方法を制御する。visible（はみ出し表示）、hidden（非表示）、scroll（常にスクロールバー）、auto（必要時のみスクロール）を指定する。overflow-x / overflow-y で軸ごとに制御可能。",
+            "demo": "<div style=\"font-size:0.8rem;display:flex;gap:8px\"><div style=\"width:120px;height:60px;overflow:hidden;background:#fef3c7;padding:6px;border-radius:6px;border:1px solid #fde68a\"><strong>hidden</strong><br/>このテキストは長いですがはみ出した部分は見えません。隠れます。</div><div style=\"width:120px;height:60px;overflow:auto;background:#dbeafe;padding:6px;border-radius:6px;border:1px solid #bfdbfe\"><strong>auto</strong><br/>このテキストは長いですがスクロールで読めます。便利です。</div></div>",
+            "code": "/* はみ出しを隠す */\n.clip { overflow: hidden; }\n\n/* 必要時のみスクロール */\n.scroll { overflow: auto; }\n\n/* 横スクロールのみ */\n.scroll-x {\n  overflow-x: auto;\n  overflow-y: hidden;\n  white-space: nowrap;\n}\n\n/* テキスト省略 */\n.truncate {\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}",
+            "props": [
+                {
+                    "name": "visible",
+                    "desc": "はみ出しを表示（デフォルト）"
+                },
+                {
+                    "name": "hidden",
+                    "desc": "はみ出しを非表示"
+                },
+                {
+                    "name": "scroll",
+                    "desc": "常にスクロールバー表示"
+                },
+                {
+                    "name": "auto",
+                    "desc": "必要時のみスクロールバー"
+                },
+                {
+                    "name": "clip",
+                    "desc": "hiddenと似るがスクロール不可"
+                }
+            ],
+            "tags": [
+                "CSS",
+                "レイアウト",
+                "スクロール"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/overflow"
+        },
+        {
+            "name": "センタリング手法まとめ",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "要素を水平・垂直に中央揃えするCSSテクニック集。Flexbox の place-items、Grid の place-items、margin: auto、transform など複数の手法がある。状況に応じて最適な方法を選択する。",
+            "demo": "<div style=\"font-size:0.8rem;display:grid;grid-template-columns:1fr 1fr;gap:6px\"><div style=\"display:flex;justify-content:center;align-items:center;background:#dbeafe;height:60px;border-radius:6px\"><span style=\"background:#3b82f6;color:#fff;padding:3px 8px;border-radius:4px\">Flex</span></div><div style=\"display:grid;place-items:center;background:#d1fae5;height:60px;border-radius:6px\"><span style=\"background:#10b981;color:#fff;padding:3px 8px;border-radius:4px\">Grid</span></div></div>",
+            "code": "/* Flexbox（最も汎用的） */\n.center-flex {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n\n/* Grid（最短） */\n.center-grid {\n  display: grid;\n  place-items: center;\n}\n\n/* margin auto（水平のみ、幅必須） */\n.center-margin {\n  width: fit-content;\n  margin-inline: auto;\n}\n\n/* 絶対配置 + transform */\n.center-absolute {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n}",
+            "props": [
+                {
+                    "name": "justify-content: center",
+                    "desc": "Flex/Grid 主軸の中央揃え"
+                },
+                {
+                    "name": "align-items: center",
+                    "desc": "Flex/Grid 交差軸の中央揃え"
+                },
+                {
+                    "name": "place-items: center",
+                    "desc": "Grid の水平・垂直一括中央揃え"
+                },
+                {
+                    "name": "margin-inline: auto",
+                    "desc": "ブロック要素の水平中央揃え"
+                }
+            ],
+            "tags": [
+                "CSS",
+                "レイアウト",
+                "センタリング",
+                "Tips"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/CSS_box_alignment"
+        }
+    ]
+}

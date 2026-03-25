@@ -1,0 +1,516 @@
+{
+    "cat": "インタラクティブ要素",
+    "catIcon": "🖱️",
+    "catDesc": "ユーザーの操作に応じて状態が変化するHTML要素やAPI。折りたたみ、ダイアログ、ポップオーバー、ドラッグ＆ドロップなど。",
+    "items": [
+        {
+            "name": "&lt;details&gt; / &lt;summary&gt;",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "開閉可能なディスクロージャーウィジェットを作る。summaryが常に表示される見出し部分で、クリックするとdetails内の残りコンテンツが展開・折りたたみされる。JavaScriptなしでアコーディオンUIを実現できる。",
+            "demo": "<details style=\"border:1px solid #94a3b8;border-radius:8px;padding:8px;font-size:0.85rem;background:#f8fafc\"><summary style=\"cursor:pointer;font-weight:700;color:#334155\">クリックで詳細を表示</summary><p style=\"margin:8px 0 0;color:#475569\">ここに折りたたまれた詳細コンテンツが表示されます。JavaScript不要で開閉できます。</p></details>",
+            "code": "<details>\n  <summary>よくある質問</summary>\n  <p>ここに回答を記述します。</p>\n</details>\n\n<!-- 初期状態で開いておく -->\n<details open>\n  <summary>開いた状態</summary>\n  <p>open属性で初期表示を開いた状態にできます。</p>\n</details>",
+            "props": [
+                {
+                    "name": "open",
+                    "desc": "この属性があると初期状態で開いた状態になる"
+                },
+                {
+                    "name": "name",
+                    "desc": "同じname値のdetails同士で排他的アコーディオンを形成（実験的）"
+                },
+                {
+                    "name": "toggle イベント",
+                    "desc": "開閉時に発火するイベント"
+                }
+            ],
+            "tags": [
+                "基本",
+                "アコーディオン",
+                "JavaScript不要"
+            ],
+            "browser": "全モダンブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/details"
+        },
+        {
+            "name": "&lt;dialog&gt;",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "モーダルまたは非モーダルのダイアログボックスを表す。showModal()で背景を暗くするモーダル表示、show()で非モーダル表示ができる。::backdrop疑似要素でオーバーレイのスタイリングも可能。",
+            "demo": "<div style=\"font-size:0.85rem\"><button onclick=\"this.nextElementSibling.showModal()\" style=\"padding:6px 16px;border-radius:6px;background:#3b82f6;color:#fff;border:none;cursor:pointer;font-size:0.85rem\">ダイアログを開く</button><dialog style=\"border:none;border-radius:12px;padding:24px;box-shadow:0 8px 32px rgba(0,0,0,0.2);max-width:320px\"><h3 style=\"margin:0 0 8px;font-size:1rem\">確認</h3><p style=\"margin:0 0 16px;color:#475569\">この操作を実行しますか？</p><form method=\"dialog\" style=\"text-align:right\"><button style=\"padding:6px 16px;border-radius:6px;background:#3b82f6;color:#fff;border:none;cursor:pointer\">閉じる</button></form></dialog></div>",
+            "code": "<dialog id=\"myDialog\">\n  <h2>タイトル</h2>\n  <p>ダイアログの内容</p>\n  <form method=\"dialog\">\n    <button value=\"cancel\">キャンセル</button>\n    <button value=\"ok\">OK</button>\n  </form>\n</dialog>\n\n<button onclick=\"document.getElementById('myDialog').showModal()\">\n  ダイアログを開く\n</button>\n\n<script>\n  const dialog = document.getElementById('myDialog');\n  dialog.addEventListener('close', () => {\n    console.log(dialog.returnValue); // \"cancel\" or \"ok\"\n  });\n</script>",
+            "props": [
+                {
+                    "name": "open",
+                    "desc": "ダイアログが表示中であることを示す属性"
+                },
+                {
+                    "name": "showModal()",
+                    "desc": "モーダルとして表示（背景操作不可）"
+                },
+                {
+                    "name": "show()",
+                    "desc": "非モーダルとして表示"
+                },
+                {
+                    "name": "close()",
+                    "desc": "ダイアログを閉じる"
+                },
+                {
+                    "name": "returnValue",
+                    "desc": "form method=\"dialog\"で送信された値"
+                },
+                {
+                    "name": "::backdrop",
+                    "desc": "モーダル背景のスタイリング用疑似要素"
+                }
+            ],
+            "tags": [
+                "モーダル",
+                "アクセシビリティ",
+                "フォーカストラップ"
+            ],
+            "browser": "Chrome 37+, Edge 79+, Firefox 98+, Safari 15.4+",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/dialog"
+        },
+        {
+            "name": "Popover API (popover属性)",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "HTML属性だけでポップオーバー（ツールチップ・メニュー等）を実現するAPI。popover属性を付けた要素はトップレイヤーに表示され、外部クリックやEscで自動的に閉じる。JavaScriptなしでも動作する。",
+            "demo": "<div style=\"font-size:0.85rem;position:relative\"><button popovertarget=\"pop1\" style=\"padding:6px 16px;border-radius:6px;background:#8b5cf6;color:#fff;border:none;cursor:pointer;font-size:0.85rem\">ポップオーバーを表示</button><div id=\"pop1\" popover style=\"padding:16px;border-radius:8px;border:1px solid #c4b5fd;background:#f5f3ff;box-shadow:0 4px 16px rgba(0,0,0,0.12);font-size:0.85rem\">これはPopover APIで表示されたコンテンツです。外側クリックで閉じます。</div></div>",
+            "code": "<!-- 宣言的な使い方（JS不要） -->\n<button popovertarget=\"mypopover\">メニュー</button>\n<div id=\"mypopover\" popover>\n  <p>ポップオーバーの内容</p>\n</div>\n\n<!-- JSで制御する場合 -->\n<div id=\"tip\" popover=\"manual\">\n  手動制御のポップオーバー\n</div>\n<script>\n  const pop = document.getElementById('tip');\n  pop.showPopover();\n  pop.hidePopover();\n  pop.togglePopover();\n</script>",
+            "props": [
+                {
+                    "name": "popover",
+                    "desc": "auto（デフォルト: 外部クリックで閉じる）またはmanual"
+                },
+                {
+                    "name": "popovertarget",
+                    "desc": "トリガーボタンが対象popoverのidを指定"
+                },
+                {
+                    "name": "popovertargetaction",
+                    "desc": "toggle / show / hide を指定"
+                },
+                {
+                    "name": "showPopover()",
+                    "desc": "JSでポップオーバーを表示"
+                },
+                {
+                    "name": "hidePopover()",
+                    "desc": "JSでポップオーバーを非表示"
+                },
+                {
+                    "name": "togglePopover()",
+                    "desc": "表示/非表示を切り替え"
+                },
+                {
+                    "name": "::backdrop",
+                    "desc": "ポップオーバー背景のスタイリング"
+                }
+            ],
+            "tags": [
+                "モダン",
+                "トップレイヤー",
+                "JavaScript不要"
+            ],
+            "browser": "Chrome 114+, Edge 114+, Firefox 125+, Safari 17+",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/Popover_API"
+        },
+        {
+            "name": "contenteditable 属性",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "任意のHTML要素をユーザーが直接編集できるようにするグローバル属性。リッチテキストエディタやインライン編集UIの基盤として使われる。inputイベントで変更をリアルタイムに取得可能。",
+            "demo": "<div contenteditable=\"true\" style=\"border:2px dashed #94a3b8;border-radius:8px;padding:12px;font-size:0.85rem;min-height:48px;background:#f8fafc;color:#334155;outline:none\" onfocus=\"this.style.borderColor='#3b82f6'\" onblur=\"this.style.borderColor='#94a3b8'\">ここをクリックして自由に編集できます。太字やスタイルも適用されます。</div>",
+            "code": "<!-- 基本的な編集可能要素 -->\n<div contenteditable=\"true\" id=\"editor\">\n  ここを自由に編集できます\n</div>\n\n<!-- plaintext-only: プレーンテキストのみ許可 -->\n<div contenteditable=\"plaintext-only\">\n  リッチテキスト書式なし\n</div>\n\n<script>\n  document.getElementById('editor')\n    .addEventListener('input', (e) => {\n      console.log(e.target.innerHTML);\n    });\n</script>",
+            "props": [
+                {
+                    "name": "true",
+                    "desc": "要素を編集可能にする"
+                },
+                {
+                    "name": "false",
+                    "desc": "編集を無効にする"
+                },
+                {
+                    "name": "plaintext-only",
+                    "desc": "プレーンテキストのみの編集を許可"
+                },
+                {
+                    "name": "input イベント",
+                    "desc": "内容変更時に発火"
+                },
+                {
+                    "name": "execCommand() (非推奨)",
+                    "desc": "太字・斜体等の書式コマンド"
+                }
+            ],
+            "tags": [
+                "編集",
+                "リッチテキスト",
+                "グローバル属性"
+            ],
+            "browser": "全モダンブラウザ対応（plaintext-onlyはChrome/Safari）",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Global_attributes/contenteditable"
+        },
+        {
+            "name": "ドラッグ＆ドロップ API",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "HTML要素をマウスやタッチでドラッグし、別の要素にドロップするAPIセット。draggable属性でドラッグ可能にし、dragstart/dragover/dropなどのイベントでデータ転送を制御する。",
+            "demo": "<div style=\"display:flex;gap:12px;font-size:0.85rem\"><div draggable=\"true\" ondragstart=\"event.dataTransfer.setData('text','dragged')\" style=\"padding:12px 20px;background:#dbeafe;border:2px solid #3b82f6;border-radius:8px;cursor:grab;user-select:none\">ドラッグしてね</div><div ondragover=\"event.preventDefault();this.style.background='#dcfce7'\" ondragleave=\"this.style.background='#f1f5f9'\" ondrop=\"event.preventDefault();this.style.background='#bbf7d0';this.textContent='ドロップ成功!'\" style=\"padding:12px 20px;background:#f1f5f9;border:2px dashed #94a3b8;border-radius:8px;min-width:120px;text-align:center\">ここにドロップ</div></div>",
+            "code": "<div id=\"item\" draggable=\"true\">ドラッグ要素</div>\n<div id=\"dropzone\">ドロップ先</div>\n\n<script>\n  const item = document.getElementById('item');\n  const zone = document.getElementById('dropzone');\n\n  item.addEventListener('dragstart', (e) => {\n    e.dataTransfer.setData('text/plain', e.target.id);\n    e.dataTransfer.effectAllowed = 'move';\n  });\n\n  zone.addEventListener('dragover', (e) => {\n    e.preventDefault(); // ドロップを許可\n    e.dataTransfer.dropEffect = 'move';\n  });\n\n  zone.addEventListener('drop', (e) => {\n    e.preventDefault();\n    const id = e.dataTransfer.getData('text/plain');\n    zone.appendChild(document.getElementById(id));\n  });\n</script>",
+            "props": [
+                {
+                    "name": "draggable=\"true\"",
+                    "desc": "要素をドラッグ可能にする"
+                },
+                {
+                    "name": "dragstart",
+                    "desc": "ドラッグ開始時に発火"
+                },
+                {
+                    "name": "dragover",
+                    "desc": "ドラッグ中に対象上で発火（preventDefaultが必要）"
+                },
+                {
+                    "name": "drop",
+                    "desc": "ドロップ時に発火"
+                },
+                {
+                    "name": "dragend",
+                    "desc": "ドラッグ操作終了時に発火"
+                },
+                {
+                    "name": "dataTransfer",
+                    "desc": "ドラッグ中のデータを保持するオブジェクト"
+                }
+            ],
+            "tags": [
+                "API",
+                "イベント",
+                "ユーザー操作"
+            ],
+            "browser": "全モダンブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/HTML_Drag_and_Drop_API"
+        },
+        {
+            "name": "scroll-snap (CSSスクロールスナップ)",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "スクロール位置を特定のポイントに自動的に吸着させるCSSプロパティ群。カルーセルやページ単位スクロールをJavaScriptなしで実装可能。コンテナにscroll-snap-type、子要素にscroll-snap-alignを指定する。",
+            "demo": "<div style=\"display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;padding:8px;border-radius:8px;background:#f1f5f9;max-width:100%\"><div style=\"scroll-snap-align:start;min-width:200px;height:80px;background:linear-gradient(135deg,#3b82f6,#8b5cf6);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:0.85rem;flex-shrink:0\">スライド 1</div><div style=\"scroll-snap-align:start;min-width:200px;height:80px;background:linear-gradient(135deg,#8b5cf6,#ec4899);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:0.85rem;flex-shrink:0\">スライド 2</div><div style=\"scroll-snap-align:start;min-width:200px;height:80px;background:linear-gradient(135deg,#ec4899,#f97316);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:0.85rem;flex-shrink:0\">スライド 3</div><div style=\"scroll-snap-align:start;min-width:200px;height:80px;background:linear-gradient(135deg,#f97316,#eab308);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:0.85rem;flex-shrink:0\">スライド 4</div></div>",
+            "code": "/* コンテナ */\n.carousel {\n  display: flex;\n  overflow-x: auto;\n  scroll-snap-type: x mandatory;\n  gap: 16px;\n  scroll-padding: 16px;\n}\n\n/* 子要素 */\n.carousel-item {\n  scroll-snap-align: start;\n  flex-shrink: 0;\n  width: 300px;\n}\n\n/* 縦スクロールでページ単位スナップ */\n.page-scroll {\n  overflow-y: auto;\n  scroll-snap-type: y mandatory;\n  height: 100vh;\n}\n.page-scroll section {\n  scroll-snap-align: start;\n  height: 100vh;\n}",
+            "props": [
+                {
+                    "name": "scroll-snap-type",
+                    "desc": "スナップ方向と強制度（x/y mandatory/proximity）"
+                },
+                {
+                    "name": "scroll-snap-align",
+                    "desc": "子要素の吸着位置（start/center/end）"
+                },
+                {
+                    "name": "scroll-padding",
+                    "desc": "スナップ位置のオフセット"
+                },
+                {
+                    "name": "scroll-snap-stop",
+                    "desc": "always: 各要素を確実に停止させる"
+                },
+                {
+                    "name": "scroll-margin",
+                    "desc": "子要素側のスナップマージン"
+                }
+            ],
+            "tags": [
+                "カルーセル",
+                "スクロール",
+                "JavaScript不要"
+            ],
+            "browser": "Chrome 69+, Edge 79+, Firefox 68+, Safari 11+",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/scroll-snap-type"
+        },
+        {
+            "name": "tabindex 属性",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "要素のフォーカス可否とTabキーによるフォーカス順序を制御するグローバル属性。tabindex=\"0\"でフォーカス可能に、tabindex=\"-1\"でプログラムからのみフォーカス可能にする。正の値による順序指定は非推奨。",
+            "demo": "<div style=\"display:flex;gap:8px;flex-wrap:wrap;font-size:0.85rem\"><div tabindex=\"0\" style=\"padding:10px 16px;border:2px solid #94a3b8;border-radius:8px;cursor:pointer;outline:none;transition:all 0.2s\" onfocus=\"this.style.borderColor='#3b82f6';this.style.boxShadow='0 0 0 3px rgba(59,130,246,0.3)'\" onblur=\"this.style.borderColor='#94a3b8';this.style.boxShadow='none'\">tabindex=0 (Tab可)</div><div tabindex=\"-1\" style=\"padding:10px 16px;border:2px solid #94a3b8;border-radius:8px;cursor:default;outline:none;color:#94a3b8;transition:all 0.2s\" onfocus=\"this.style.borderColor='#f97316';this.style.boxShadow='0 0 0 3px rgba(249,115,22,0.3)'\" onblur=\"this.style.borderColor='#94a3b8';this.style.boxShadow='none'\">tabindex=-1 (JS専用)</div><button tabindex=\"0\" style=\"padding:10px 16px;border:2px solid #22c55e;border-radius:8px;background:#f0fdf4;cursor:pointer;font-size:0.85rem\">通常のボタン</button></div>",
+            "code": "<!-- Tabキーでフォーカス可能にする -->\n<div tabindex=\"0\" role=\"button\" \n     onclick=\"handleClick()\"\n     onkeydown=\"if(event.key==='Enter') handleClick()\">\n  カスタムボタン\n</div>\n\n<!-- JSからのみフォーカス可能（Tab順序に含まない） -->\n<div tabindex=\"-1\" id=\"panel\">\n  プログラムからフォーカスされるパネル\n</div>\n<script>\n  document.getElementById('panel').focus();\n</script>\n\n<!-- ⚠️ 正の値は非推奨 -->\n<!-- <div tabindex=\"1\"> 使わないこと </div> -->",
+            "props": [
+                {
+                    "name": "0",
+                    "desc": "Tab順序に追加（DOM順でフォーカス可能に）"
+                },
+                {
+                    "name": "-1",
+                    "desc": "Tab順序から除外、JSのfocus()でのみフォーカス可"
+                },
+                {
+                    "name": "正の整数（非推奨）",
+                    "desc": "明示的な順序指定。保守性が低下するため避ける"
+                }
+            ],
+            "tags": [
+                "アクセシビリティ",
+                "フォーカス",
+                "キーボード操作"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Global_attributes/tabindex"
+        },
+        {
+            "name": "IntersectionObserver",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "ターゲット要素がビューポートや祖先要素と交差する状態を非同期に監視するAPI。遅延読み込み、無限スクロール、スクロール連動アニメーションなどに活用される。scrollイベントより高パフォーマンス。",
+            "demo": "<div style=\"font-size:0.85rem\"><div id=\"ioBox\" style=\"padding:16px;border-radius:8px;background:#f1f5f9;text-align:center;transition:all 0.5s\"><span style=\"font-weight:700;color:#64748b\">このボックスは表示中です</span></div><script>(function(){try{var box=document.getElementById('ioBox');var obs=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){box.style.background='#dcfce7';box.querySelector('span').textContent='✅ ビューポート内に表示中';}else{box.style.background='#fee2e2';box.querySelector('span').textContent='❌ ビューポート外';}});},{threshold:0.5});obs.observe(box);}catch(e){}})()</script></div>",
+            "code": "// 基本的な使い方\nconst observer = new IntersectionObserver(\n  (entries) => {\n    entries.forEach((entry) => {\n      if (entry.isIntersecting) {\n        entry.target.classList.add('visible');\n        // 一度だけ実行する場合\n        observer.unobserve(entry.target);\n      }\n    });\n  },\n  {\n    root: null,        // ビューポート基準\n    rootMargin: '0px', // マージン調整\n    threshold: 0.1     // 10%見えたら発火\n  }\n);\n\n// 複数要素を監視\ndocument.querySelectorAll('.lazy')\n  .forEach(el => observer.observe(el));\n\n// 画像の遅延読み込み\nconst imgObserver = new IntersectionObserver((entries) => {\n  entries.forEach((entry) => {\n    if (entry.isIntersecting) {\n      const img = entry.target;\n      img.src = img.dataset.src;\n      imgObserver.unobserve(img);\n    }\n  });\n});\ndocument.querySelectorAll('img[data-src]')\n  .forEach(img => imgObserver.observe(img));",
+            "props": [
+                {
+                    "name": "root",
+                    "desc": "交差判定の基準要素（null=ビューポート）"
+                },
+                {
+                    "name": "rootMargin",
+                    "desc": "rootの判定範囲を拡大/縮小するマージン"
+                },
+                {
+                    "name": "threshold",
+                    "desc": "コールバック発火の交差率（0.0〜1.0 の配列も可）"
+                },
+                {
+                    "name": "observe()",
+                    "desc": "要素の監視を開始"
+                },
+                {
+                    "name": "unobserve()",
+                    "desc": "特定の要素の監視を停止"
+                },
+                {
+                    "name": "disconnect()",
+                    "desc": "全監視を停止"
+                },
+                {
+                    "name": "isIntersecting",
+                    "desc": "要素がルートと交差しているか"
+                }
+            ],
+            "tags": [
+                "API",
+                "遅延読み込み",
+                "パフォーマンス"
+            ],
+            "browser": "Chrome 51+, Edge 15+, Firefox 55+, Safari 12.1+",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/Intersection_Observer_API"
+        },
+        {
+            "name": ":hover / :focus / :active",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "ユーザー操作に応じて要素のスタイルを変化させる疑似クラス群。:hoverはポインター乗せ、:focusはフォーカス取得時、:activeは押下中に適用される。定義順序は L-V-H-A（LoVe-HAte）が推奨。",
+            "demo": "<div style=\"display:flex;gap:12px;flex-wrap:wrap;font-size:0.85rem\"><style>.int-demo-btn{padding:10px 20px;border:2px solid #3b82f6;border-radius:8px;background:#eff6ff;color:#1d4ed8;cursor:pointer;font-size:0.85rem;font-weight:600;transition:all 0.2s;outline:none}.int-demo-btn:hover{background:#3b82f6;color:#fff}.int-demo-btn:focus{box-shadow:0 0 0 3px rgba(59,130,246,0.4)}.int-demo-btn:active{transform:scale(0.95);background:#1d4ed8;color:#fff}</style><button class=\"int-demo-btn\">ホバー・フォーカス・クリックを試す</button><a href=\"#\" class=\"int-demo-btn\" style=\"text-decoration:none;display:inline-block\" onclick=\"return false\">リンク要素</a></div>",
+            "code": "/* 推奨順序: L-V-H-A（LoVe-HAte） */\na:link    { color: #3b82f6; }\na:visited { color: #7c3aed; }\na:hover   { color: #1d4ed8; text-decoration: underline; }\na:active  { color: #dc2626; }\n\n/* ボタンのインタラクティブ状態 */\n.btn:hover {\n  background: #2563eb;\n  transform: translateY(-1px);\n}\n.btn:focus-visible {\n  outline: 2px solid #3b82f6;\n  outline-offset: 2px;\n}\n.btn:active {\n  transform: scale(0.98);\n}\n\n/* :focus-visible はキーボード操作時のみ */\ninput:focus-visible {\n  border-color: #3b82f6;\n  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);\n}",
+            "props": [
+                {
+                    "name": ":hover",
+                    "desc": "ポインティングデバイスが要素上にある時"
+                },
+                {
+                    "name": ":focus",
+                    "desc": "要素がフォーカスを受けた時"
+                },
+                {
+                    "name": ":focus-visible",
+                    "desc": "キーボード操作等でフォーカスが目立つべき時"
+                },
+                {
+                    "name": ":focus-within",
+                    "desc": "子孫要素にフォーカスがある時"
+                },
+                {
+                    "name": ":active",
+                    "desc": "要素が押下されている間"
+                }
+            ],
+            "tags": [
+                "疑似クラス",
+                "ユーザー操作",
+                "基本"
+            ],
+            "browser": "全ブラウザ対応（:focus-visible: Chrome 86+, FF 85+, Safari 15.4+）",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/:hover"
+        },
+        {
+            "name": "CSS transition",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "プロパティの値が変化する際にアニメーション効果を付与する。hover時の色変更やサイズ変更を滑らかに遷移させる。対象プロパティ・duration・timing-function・delayの4値を指定可能。",
+            "demo": "<div style=\"display:flex;gap:16px;align-items:center;flex-wrap:wrap\"><style>.tr-box{width:80px;height:80px;background:#3b82f6;border-radius:8px;transition:all 0.3s ease;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.7rem;font-weight:700}.tr-box:hover{background:#8b5cf6;border-radius:50%;transform:scale(1.2) rotate(10deg)}.tr-btn{padding:10px 24px;background:#10b981;color:#fff;border:none;border-radius:8px;font-size:0.85rem;cursor:pointer;transition:background 0.2s,transform 0.15s}.tr-btn:hover{background:#059669;transform:translateY(-2px)}.tr-btn:active{transform:translateY(0)}</style><div class=\"tr-box\">Hover!</div><button class=\"tr-btn\">ボタン効果</button></div>",
+            "code": "/* 基本構文 */\n.element {\n  transition: property duration timing-function delay;\n}\n\n/* 具体例 */\n.card {\n  background: #fff;\n  transform: translateY(0);\n  box-shadow: 0 1px 3px rgba(0,0,0,0.1);\n  transition: transform 0.2s ease, box-shadow 0.2s ease;\n}\n.card:hover {\n  transform: translateY(-4px);\n  box-shadow: 0 8px 25px rgba(0,0,0,0.15);\n}\n\n/* 複数プロパティ */\n.btn {\n  transition: background 0.2s ease,\n              color 0.2s ease,\n              transform 0.15s ease;\n}\n\n/* timing-function の種類 */\n/* ease | linear | ease-in | ease-out |\n   ease-in-out | cubic-bezier(n,n,n,n) */",
+            "props": [
+                {
+                    "name": "transition-property",
+                    "desc": "アニメーション対象のCSSプロパティ"
+                },
+                {
+                    "name": "transition-duration",
+                    "desc": "遷移にかかる時間（例: 0.3s）"
+                },
+                {
+                    "name": "transition-timing-function",
+                    "desc": "イージング関数（ease, linear等）"
+                },
+                {
+                    "name": "transition-delay",
+                    "desc": "遷移開始の遅延時間"
+                },
+                {
+                    "name": "transition-behavior",
+                    "desc": "display等の離散プロパティもアニメーション可能に（実験的）"
+                }
+            ],
+            "tags": [
+                "アニメーション",
+                "UX",
+                "基本"
+            ],
+            "browser": "全モダンブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/transition"
+        },
+        {
+            "name": "CSS @keyframes / animation",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "キーフレームベースの複雑なアニメーションを定義する。@keyframesでアニメーションの各段階を記述し、animationプロパティで適用する。ループ再生・逆再生・一時停止などの制御が可能。",
+            "demo": "<style>@keyframes intBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}@keyframes intPulse{0%,100%{opacity:1}50%{opacity:0.5}}@keyframes intSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}</style><div style=\"display:flex;gap:20px;align-items:center;flex-wrap:wrap\"><div style=\"width:48px;height:48px;background:#3b82f6;border-radius:8px;animation:intBounce 1s ease infinite;display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.7rem;font-weight:700\">バウンス</div><div style=\"width:48px;height:48px;background:#8b5cf6;border-radius:50%;animation:intSpin 2s linear infinite;display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.7rem;font-weight:700\">回転</div><div style=\"width:48px;height:48px;background:#ec4899;border-radius:8px;animation:intPulse 1.5s ease-in-out infinite;display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.7rem;font-weight:700\">点滅</div></div>",
+            "code": "/* キーフレーム定義 */\n@keyframes slideIn {\n  from {\n    transform: translateX(-100%);\n    opacity: 0;\n  }\n  to {\n    transform: translateX(0);\n    opacity: 1;\n  }\n}\n\n@keyframes fadeInUp {\n  0%   { opacity: 0; transform: translateY(20px); }\n  100% { opacity: 1; transform: translateY(0); }\n}\n\n/* 適用 */\n.element {\n  animation: slideIn 0.5s ease-out forwards;\n}\n\n/* ショートハンド */\n.element {\n  animation: name duration timing-function delay\n             iteration-count direction fill-mode;\n}\n\n/* 複数アニメーション */\n.complex {\n  animation:\n    fadeInUp 0.5s ease-out,\n    pulse 2s ease-in-out 0.5s infinite;\n}",
+            "props": [
+                {
+                    "name": "animation-name",
+                    "desc": "@keyframesで定義した名前"
+                },
+                {
+                    "name": "animation-duration",
+                    "desc": "1サイクルにかかる時間"
+                },
+                {
+                    "name": "animation-timing-function",
+                    "desc": "イージング（ease, steps()等）"
+                },
+                {
+                    "name": "animation-delay",
+                    "desc": "開始までの遅延"
+                },
+                {
+                    "name": "animation-iteration-count",
+                    "desc": "繰り返し回数（infinite可）"
+                },
+                {
+                    "name": "animation-direction",
+                    "desc": "normal / reverse / alternate"
+                },
+                {
+                    "name": "animation-fill-mode",
+                    "desc": "forwards: 終了状態を維持"
+                },
+                {
+                    "name": "animation-play-state",
+                    "desc": "running / paused で制御"
+                }
+            ],
+            "tags": [
+                "アニメーション",
+                "キーフレーム",
+                "UX"
+            ],
+            "browser": "全モダンブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/animation"
+        },
+        {
+            "name": "Fullscreen API",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "特定の要素をブラウザの全画面表示にするAPI。動画プレイヤーやプレゼンテーション、ゲームなどで活用される。requestFullscreen()で全画面化、Escまたはdocument.exitFullscreen()で解除。",
+            "demo": "<div style=\"font-size:0.85rem\"><div id=\"fsTarget\" style=\"background:linear-gradient(135deg,#1e293b,#334155);color:#fff;padding:20px;border-radius:8px;text-align:center\"><p style=\"margin:0 0 12px;font-weight:700\">全画面表示デモ</p><button onclick=\"var t=document.getElementById('fsTarget');if(t.requestFullscreen)t.requestFullscreen();else if(t.webkitRequestFullscreen)t.webkitRequestFullscreen()\" style=\"padding:8px 20px;background:#3b82f6;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem\">全画面にする (Escで戻る)</button></div></div>",
+            "code": "const elem = document.getElementById('player');\n\n// 全画面にする\nasync function openFullscreen() {\n  try {\n    await elem.requestFullscreen();\n  } catch (err) {\n    console.error('全画面化に失敗:', err);\n  }\n}\n\n// 全画面を解除\nasync function closeFullscreen() {\n  if (document.fullscreenElement) {\n    await document.exitFullscreen();\n  }\n}\n\n// 状態変化の検知\ndocument.addEventListener('fullscreenchange', () => {\n  if (document.fullscreenElement) {\n    console.log('全画面モード');\n  } else {\n    console.log('通常表示');\n  }\n});\n\n// 全画面時のスタイル\n/* CSS:\n  #player:fullscreen {\n    background: #000;\n  }\n  #player::backdrop {\n    background: rgba(0, 0, 0, 0.9);\n  }\n*/",
+            "props": [
+                {
+                    "name": "requestFullscreen()",
+                    "desc": "要素を全画面表示にする"
+                },
+                {
+                    "name": "document.exitFullscreen()",
+                    "desc": "全画面を解除"
+                },
+                {
+                    "name": "document.fullscreenElement",
+                    "desc": "現在全画面中の要素（なければnull）"
+                },
+                {
+                    "name": "fullscreenchange",
+                    "desc": "全画面状態が変化した時のイベント"
+                },
+                {
+                    "name": ":fullscreen",
+                    "desc": "全画面中の要素に適用するCSS疑似クラス"
+                }
+            ],
+            "tags": [
+                "API",
+                "全画面",
+                "動画"
+            ],
+            "browser": "全モダンブラウザ対応（一部webkit接頭辞が必要）",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/Fullscreen_API"
+        },
+        {
+            "name": "MutationObserver",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "DOM要素の属性変更・子要素の追加/削除・テキスト変更を非同期に監視するAPI。動的に変化するUIの検知やサードパーティスクリプトとの連携に使われる。廃止されたMutation Eventsの代替。",
+            "demo": "<div style=\"font-size:0.85rem\"><div id=\"moTarget\" style=\"padding:12px;border:2px solid #94a3b8;border-radius:8px;background:#f8fafc;min-height:40px\"><span>初期テキスト</span></div><div style=\"margin-top:8px;display:flex;gap:8px\"><button onclick=\"document.getElementById('moTarget').querySelector('span').textContent='変更されました! ('+new Date().toLocaleTimeString()+')'\" style=\"padding:6px 12px;background:#3b82f6;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.8rem\">テキスト変更</button><button onclick=\"var el=document.createElement('div');el.textContent='追加された子要素';el.style.cssText='margin-top:4px;padding:4px 8px;background:#dcfce7;border-radius:4px;font-size:0.8rem';document.getElementById('moTarget').appendChild(el)\" style=\"padding:6px 12px;background:#10b981;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.8rem\">子要素追加</button></div><div id=\"moLog\" style=\"margin-top:8px;padding:8px;background:#fefce8;border-radius:6px;font-size:0.75rem;color:#854d0e;display:none\"></div><script>(function(){try{var log=document.getElementById('moLog');var obs=new MutationObserver(function(mutations){log.style.display='block';mutations.forEach(function(m){log.textContent='検知: type='+m.type+' ('+new Date().toLocaleTimeString()+')';});});obs.observe(document.getElementById('moTarget'),{childList:true,subtree:true,characterData:true});}catch(e){}})()</script></div>",
+            "code": "const target = document.getElementById('app');\n\nconst observer = new MutationObserver((mutations) => {\n  mutations.forEach((mutation) => {\n    switch (mutation.type) {\n      case 'childList':\n        console.log('子要素の変更:', mutation.addedNodes, mutation.removedNodes);\n        break;\n      case 'attributes':\n        console.log('属性変更:', mutation.attributeName);\n        break;\n      case 'characterData':\n        console.log('テキスト変更:', mutation.target.data);\n        break;\n    }\n  });\n});\n\nobserver.observe(target, {\n  childList: true,      // 子要素の追加/削除\n  attributes: true,     // 属性の変更\n  characterData: true,  // テキストノードの変更\n  subtree: true,        // 子孫要素も対象\n  attributeFilter: ['class', 'style'], // 特定属性のみ\n});\n\n// 監視停止\nobserver.disconnect();",
+            "props": [
+                {
+                    "name": "observe(target, options)",
+                    "desc": "対象要素と監視オプションを指定して開始"
+                },
+                {
+                    "name": "disconnect()",
+                    "desc": "全ての監視を停止"
+                },
+                {
+                    "name": "takeRecords()",
+                    "desc": "未処理の変更レコードを取得"
+                },
+                {
+                    "name": "childList",
+                    "desc": "子要素の追加/削除を監視"
+                },
+                {
+                    "name": "attributes",
+                    "desc": "属性の変更を監視"
+                },
+                {
+                    "name": "characterData",
+                    "desc": "テキストノードの変更を監視"
+                },
+                {
+                    "name": "subtree",
+                    "desc": "子孫要素も監視対象にする"
+                }
+            ],
+            "tags": [
+                "API",
+                "DOM監視",
+                "高度"
+            ],
+            "browser": "全モダンブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/MutationObserver"
+        }
+    ]
+}

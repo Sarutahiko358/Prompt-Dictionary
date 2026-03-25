@@ -1,0 +1,553 @@
+{
+    "cat": "CSSデコレーション・効果",
+    "catIcon": "✨",
+    "catDesc": "影・グラデーション・フィルター・変形など、要素の視覚的な装飾と効果を担うCSSプロパティ群。",
+    "items": [
+        {
+            "name": "box-shadow",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "要素のボックスに影を付ける。X/Yオフセット・ぼかし・広がり・色を指定し、カンマ区切りで複数の影を重ねられる。insetキーワードで内側の影も表現可能。",
+            "demo": "<div style=\"display:flex;gap:16px;flex-wrap:wrap\"><div style=\"width:100px;height:100px;background:#fff;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.15);display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;color:#475569\">外側影</div><div style=\"width:100px;height:100px;background:#fff;border-radius:12px;box-shadow:inset 0 2px 8px rgba(0,0,0,0.2);display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;color:#475569\">内側影</div><div style=\"width:100px;height:100px;background:#fff;border-radius:12px;box-shadow:0 1px 2px rgba(0,0,0,0.07),0 4px 12px rgba(0,0,0,0.05),0 16px 40px rgba(0,0,0,0.08);display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;color:#475569\">多重影</div></div>",
+            "code": "/* 基本 */\n.card {\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);\n}\n\n/* 内側の影 */\n.inset {\n  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.2);\n}\n\n/* 多重影（リアルな影） */\n.realistic {\n  box-shadow:\n    0 1px 2px rgba(0, 0, 0, 0.07),\n    0 4px 12px rgba(0, 0, 0, 0.05),\n    0 16px 40px rgba(0, 0, 0, 0.08);\n}\n\n/* ホバーで影を強調 */\n.card:hover {\n  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);\n}",
+            "props": [
+                {
+                    "name": "offset-x",
+                    "desc": "水平方向のオフセット"
+                },
+                {
+                    "name": "offset-y",
+                    "desc": "垂直方向のオフセット"
+                },
+                {
+                    "name": "blur-radius",
+                    "desc": "ぼかしの半径（大きいほどぼやける）"
+                },
+                {
+                    "name": "spread-radius",
+                    "desc": "影の広がり（負の値で縮小）"
+                },
+                {
+                    "name": "color",
+                    "desc": "影の色（rgba推奨）"
+                },
+                {
+                    "name": "inset",
+                    "desc": "内側の影にする"
+                }
+            ],
+            "tags": [
+                "影",
+                "デコレーション",
+                "基本"
+            ],
+            "browser": "全モダンブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/box-shadow"
+        },
+        {
+            "name": "text-shadow",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "テキストに影を付ける。box-shadowと似た構文だが、spread-radiusとinsetは使用できない。ネオン文字やエンボス効果など装飾的なテキスト表現に活用される。",
+            "demo": "<div style=\"display:flex;flex-direction:column;gap:8px\"><span style=\"font-size:1.3rem;font-weight:700;color:#1e293b;text-shadow:2px 2px 4px rgba(0,0,0,0.2)\">ドロップシャドウ</span><span style=\"font-size:1.3rem;font-weight:700;color:#fff;text-shadow:0 0 10px #3b82f6,0 0 20px #3b82f6,0 0 40px #3b82f6;background:#0f172a;padding:4px 12px;border-radius:6px\">ネオン効果</span><span style=\"font-size:1.3rem;font-weight:700;color:#94a3b8;text-shadow:1px 1px 0 #fff,-1px -1px 0 #64748b\">エンボス効果</span></div>",
+            "code": "/* 基本的な影 */\n.title {\n  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);\n}\n\n/* ネオン効果 */\n.neon {\n  color: #fff;\n  text-shadow:\n    0 0 10px #3b82f6,\n    0 0 20px #3b82f6,\n    0 0 40px #3b82f6;\n}\n\n/* エンボス（浮き出し）効果 */\n.emboss {\n  color: #94a3b8;\n  text-shadow:\n    1px 1px 0 #fff,\n   -1px -1px 0 #64748b;\n}\n\n/* アウトライン風 */\n.outline {\n  color: #fff;\n  text-shadow:\n    -1px -1px 0 #000, 1px -1px 0 #000,\n    -1px  1px 0 #000, 1px  1px 0 #000;\n}",
+            "props": [
+                {
+                    "name": "offset-x",
+                    "desc": "水平方向のオフセット"
+                },
+                {
+                    "name": "offset-y",
+                    "desc": "垂直方向のオフセット"
+                },
+                {
+                    "name": "blur-radius",
+                    "desc": "ぼかしの半径"
+                },
+                {
+                    "name": "color",
+                    "desc": "影の色"
+                }
+            ],
+            "tags": [
+                "テキスト",
+                "影",
+                "デコレーション"
+            ],
+            "browser": "全モダンブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/text-shadow"
+        },
+        {
+            "name": "linear-gradient / radial-gradient",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "グラデーション画像を生成する関数。linear-gradientは直線方向、radial-gradientは中心から放射状に色が変化する。backgroundプロパティに指定して使用する。",
+            "demo": "<div style=\"display:flex;gap:12px;flex-wrap:wrap\"><div style=\"width:100px;height:80px;border-radius:8px;background:linear-gradient(135deg,#3b82f6,#8b5cf6);display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.7rem;font-weight:700\">linear</div><div style=\"width:100px;height:80px;border-radius:8px;background:radial-gradient(circle,#fbbf24,#f97316);display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.7rem;font-weight:700\">radial</div><div style=\"width:100px;height:80px;border-radius:8px;background:conic-gradient(#ec4899,#8b5cf6,#3b82f6,#ec4899);display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.7rem;font-weight:700\">conic</div></div>",
+            "code": "/* 線形グラデーション */\n.bg-gradient {\n  background: linear-gradient(135deg, #3b82f6, #8b5cf6);\n}\n\n/* 方向指定 */\n.bg-right {\n  background: linear-gradient(to right, #000, #fff);\n}\n\n/* 放射状グラデーション */\n.bg-radial {\n  background: radial-gradient(circle at center, #fbbf24, #f97316);\n}\n\n/* 円錐グラデーション */\n.bg-conic {\n  background: conic-gradient(from 0deg, red, yellow, green, blue, red);\n}\n\n/* 多色ストップ */\n.rainbow {\n  background: linear-gradient(\n    90deg,\n    #ef4444 0%, #f97316 17%, #eab308 33%,\n    #22c55e 50%, #3b82f6 67%, #8b5cf6 83%,\n    #ec4899 100%\n  );\n}",
+            "props": [
+                {
+                    "name": "linear-gradient()",
+                    "desc": "直線方向のグラデーション"
+                },
+                {
+                    "name": "radial-gradient()",
+                    "desc": "放射状のグラデーション"
+                },
+                {
+                    "name": "conic-gradient()",
+                    "desc": "円錐（回転）グラデーション"
+                },
+                {
+                    "name": "repeating-*",
+                    "desc": "繰り返しグラデーション（ストライプ等）"
+                },
+                {
+                    "name": "color-stop",
+                    "desc": "色と位置（%またはpx）"
+                }
+            ],
+            "tags": [
+                "グラデーション",
+                "背景",
+                "デコレーション"
+            ],
+            "browser": "全モダンブラウザ対応（conic: Chrome 69+, FF 83+, Safari 12.1+）",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/gradient/linear-gradient"
+        },
+        {
+            "name": "filter",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "要素にぼかし・明度・コントラスト・グレースケールなどの画像フィルターを適用する。blur()やbrightness()などの関数を組み合わせて使用。写真の加工やUI効果に活用される。",
+            "demo": "<div style=\"display:flex;gap:12px;flex-wrap:wrap;align-items:center\"><div style=\"font-size:0.7rem;text-align:center\"><div style=\"width:64px;height:64px;background:linear-gradient(135deg,#3b82f6,#ec4899);border-radius:8px;filter:blur(2px)\"></div><span>blur</span></div><div style=\"font-size:0.7rem;text-align:center\"><div style=\"width:64px;height:64px;background:linear-gradient(135deg,#3b82f6,#ec4899);border-radius:8px;filter:grayscale(100%)\"></div><span>grayscale</span></div><div style=\"font-size:0.7rem;text-align:center\"><div style=\"width:64px;height:64px;background:linear-gradient(135deg,#3b82f6,#ec4899);border-radius:8px;filter:sepia(100%)\"></div><span>sepia</span></div><div style=\"font-size:0.7rem;text-align:center\"><div style=\"width:64px;height:64px;background:linear-gradient(135deg,#3b82f6,#ec4899);border-radius:8px;filter:brightness(1.5)\"></div><span>bright</span></div><div style=\"font-size:0.7rem;text-align:center\"><div style=\"width:64px;height:64px;background:linear-gradient(135deg,#3b82f6,#ec4899);border-radius:8px;filter:drop-shadow(4px 4px 6px rgba(0,0,0,0.4))\"></div><span>drop-shadow</span></div></div>",
+            "code": "/* 個別のフィルター */\n.blur     { filter: blur(4px); }\n.bright   { filter: brightness(1.5); }\n.contrast { filter: contrast(200%); }\n.gray     { filter: grayscale(100%); }\n.sepia    { filter: sepia(100%); }\n.invert   { filter: invert(100%); }\n.saturate { filter: saturate(200%); }\n.hue      { filter: hue-rotate(90deg); }\n\n/* 影（box-shadowと異なり形状に沿う） */\n.shadow   { filter: drop-shadow(4px 4px 6px rgba(0,0,0,0.4)); }\n\n/* 複数組み合わせ */\n.vintage {\n  filter: sepia(30%) contrast(110%) brightness(90%);\n}\n\n/* ホバーで解除 */\nimg {\n  filter: grayscale(100%);\n  transition: filter 0.3s;\n}\nimg:hover {\n  filter: grayscale(0%);\n}",
+            "props": [
+                {
+                    "name": "blur()",
+                    "desc": "ガウスぼかし（px指定）"
+                },
+                {
+                    "name": "brightness()",
+                    "desc": "明度調整（1が基準）"
+                },
+                {
+                    "name": "contrast()",
+                    "desc": "コントラスト調整"
+                },
+                {
+                    "name": "grayscale()",
+                    "desc": "グレースケール変換（0%〜100%）"
+                },
+                {
+                    "name": "sepia()",
+                    "desc": "セピア調変換"
+                },
+                {
+                    "name": "hue-rotate()",
+                    "desc": "色相回転（deg指定）"
+                },
+                {
+                    "name": "drop-shadow()",
+                    "desc": "要素の形状に沿った影"
+                },
+                {
+                    "name": "invert()",
+                    "desc": "色反転"
+                }
+            ],
+            "tags": [
+                "フィルター",
+                "画像効果",
+                "デコレーション"
+            ],
+            "browser": "全モダンブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/filter"
+        },
+        {
+            "name": "backdrop-filter",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "要素の背後にあるコンテンツにフィルターを適用する。すりガラス（フロストガラス）効果を実現するbackdrop-filter: blur()が特に頻用される。要素自体にはsemi-transparentな背景色が必要。",
+            "demo": "<div style=\"position:relative;border-radius:12px;overflow:hidden;height:120px;background:linear-gradient(135deg,#3b82f6,#ec4899,#f97316)\"><div style=\"position:absolute;bottom:0;left:0;right:0;padding:12px 16px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);background:rgba(255,255,255,0.2);border-top:1px solid rgba(255,255,255,0.3)\"><span style=\"color:#fff;font-weight:700;font-size:0.85rem\">すりガラス効果（backdrop-filter: blur）</span></div></div>",
+            "code": "/* すりガラス効果 */\n.glass {\n  background: rgba(255, 255, 255, 0.15);\n  backdrop-filter: blur(12px);\n  -webkit-backdrop-filter: blur(12px);\n  border: 1px solid rgba(255, 255, 255, 0.2);\n  border-radius: 12px;\n}\n\n/* ナビゲーションバーに適用 */\n.navbar {\n  position: sticky;\n  top: 0;\n  background: rgba(255, 255, 255, 0.8);\n  backdrop-filter: blur(10px) saturate(180%);\n  -webkit-backdrop-filter: blur(10px) saturate(180%);\n}\n\n/* ダークモード対応 */\n@media (prefers-color-scheme: dark) {\n  .glass {\n    background: rgba(0, 0, 0, 0.3);\n  }\n}",
+            "props": [
+                {
+                    "name": "blur()",
+                    "desc": "背景のぼかし（すりガラス効果）"
+                },
+                {
+                    "name": "brightness()",
+                    "desc": "背景の明度調整"
+                },
+                {
+                    "name": "saturate()",
+                    "desc": "背景の彩度調整"
+                },
+                {
+                    "name": "contrast()",
+                    "desc": "背景のコントラスト調整"
+                },
+                {
+                    "name": "-webkit-backdrop-filter",
+                    "desc": "Safari用ベンダープレフィックス"
+                }
+            ],
+            "tags": [
+                "フィルター",
+                "すりガラス",
+                "モダン"
+            ],
+            "browser": "Chrome 76+, Edge 79+, Firefox 103+, Safari 9+（-webkit-）",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/backdrop-filter"
+        },
+        {
+            "name": "transform",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "要素を移動・回転・拡縮・傾斜させる。2D/3D変形に対応し、translate/rotate/scaleなどの関数を組み合わせて使用する。レイアウトフローに影響しないため、パフォーマンスの良いアニメーションに適する。",
+            "demo": "<div style=\"display:flex;gap:16px;flex-wrap:wrap;align-items:center;padding:16px\"><style>.tf-box{width:64px;height:64px;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.65rem;font-weight:700;transition:transform 0.3s}</style><div class=\"tf-box\" style=\"background:#3b82f6;transform:rotate(15deg)\">rotate</div><div class=\"tf-box\" style=\"background:#8b5cf6;transform:scale(1.2)\">scale</div><div class=\"tf-box\" style=\"background:#ec4899;transform:skewX(-10deg)\">skew</div><div class=\"tf-box\" style=\"background:#10b981;transform:translateX(8px) translateY(-4px)\">translate</div></div>",
+            "code": "/* 移動 */\n.move { transform: translate(20px, 10px); }\n.moveX { transform: translateX(50%); }\n\n/* 回転 */\n.rotate { transform: rotate(45deg); }\n\n/* 拡縮 */\n.grow  { transform: scale(1.2); }\n.flipX { transform: scaleX(-1); }\n\n/* 傾斜 */\n.skew  { transform: skewX(-10deg); }\n\n/* 複数組み合わせ */\n.card:hover {\n  transform: translateY(-4px) scale(1.02);\n}\n\n/* 3D変形 */\n.flip3d {\n  transform: perspective(600px) rotateY(180deg);\n}\n\n/* 変形の基点変更 */\n.origin {\n  transform-origin: top left;\n  transform: rotate(10deg);\n}",
+            "props": [
+                {
+                    "name": "translate(x, y)",
+                    "desc": "要素を移動"
+                },
+                {
+                    "name": "rotate(angle)",
+                    "desc": "要素を回転"
+                },
+                {
+                    "name": "scale(x, y)",
+                    "desc": "要素を拡縮"
+                },
+                {
+                    "name": "skew(x, y)",
+                    "desc": "要素を傾斜"
+                },
+                {
+                    "name": "perspective()",
+                    "desc": "3D変形の遠近感"
+                },
+                {
+                    "name": "transform-origin",
+                    "desc": "変形の基点"
+                },
+                {
+                    "name": "transform-style",
+                    "desc": "preserve-3d: 子要素の3D位置を保持"
+                }
+            ],
+            "tags": [
+                "変形",
+                "アニメーション",
+                "基本"
+            ],
+            "browser": "全モダンブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/transform"
+        },
+        {
+            "name": "clip-path",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "要素のクリッピング領域を定義し、指定した形状の外側を非表示にする。circle/ellipse/polygon/insetなどの基本図形や、SVGのpathを使って複雑な形状に切り抜ける。",
+            "demo": "<div style=\"display:flex;gap:16px;flex-wrap:wrap;align-items:center\"><div style=\"width:80px;height:80px;background:linear-gradient(135deg,#3b82f6,#8b5cf6);clip-path:circle(50% at 50% 50%)\"></div><div style=\"width:80px;height:80px;background:linear-gradient(135deg,#ec4899,#f97316);clip-path:polygon(50% 0%,100% 38%,82% 100%,18% 100%,0% 38%)\"></div><div style=\"width:80px;height:80px;background:linear-gradient(135deg,#10b981,#3b82f6);clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%)\"></div><div style=\"width:80px;height:80px;background:linear-gradient(135deg,#f97316,#eab308);clip-path:inset(10% round 12px)\"></div></div>",
+            "code": "/* 円形 */\n.circle {\n  clip-path: circle(50% at 50% 50%);\n}\n\n/* 多角形（五角形） */\n.pentagon {\n  clip-path: polygon(\n    50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%\n  );\n}\n\n/* 角丸のinset */\n.rounded {\n  clip-path: inset(5% round 12px);\n}\n\n/* ホバーアニメーション */\n.reveal {\n  clip-path: circle(0% at 50% 50%);\n  transition: clip-path 0.5s ease;\n}\n.reveal:hover {\n  clip-path: circle(100% at 50% 50%);\n}\n\n/* SVGパス */\n.custom {\n  clip-path: path('M10,80 Q95,10 180,80');\n}",
+            "props": [
+                {
+                    "name": "circle()",
+                    "desc": "円形にクリップ"
+                },
+                {
+                    "name": "ellipse()",
+                    "desc": "楕円形にクリップ"
+                },
+                {
+                    "name": "polygon()",
+                    "desc": "多角形にクリップ（座標列を指定）"
+                },
+                {
+                    "name": "inset()",
+                    "desc": "矩形にクリップ（round でborder-radius可）"
+                },
+                {
+                    "name": "path()",
+                    "desc": "SVGパス文字列でクリップ"
+                }
+            ],
+            "tags": [
+                "クリッピング",
+                "図形",
+                "アニメーション"
+            ],
+            "browser": "Chrome 55+, Edge 79+, Firefox 54+, Safari 9.1+（基本図形）",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/clip-path"
+        },
+        {
+            "name": "mix-blend-mode",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "要素のコンテンツと背後のコンテンツのブレンド（混合）方法を指定する。Photoshopの描画モードと同じ概念で、multiply/screen/overlay/differenceなど多数のモードが利用可能。",
+            "demo": "<div style=\"position:relative;background:linear-gradient(135deg,#3b82f6,#ec4899);border-radius:12px;padding:16px;height:80px;display:flex;align-items:center;justify-content:center\"><span style=\"font-size:2rem;font-weight:900;color:#fff;mix-blend-mode:overlay\">BLEND MODE</span></div>",
+            "code": "/* テキストを背景と合成 */\n.blend-text {\n  color: #fff;\n  mix-blend-mode: difference;\n}\n\n/* 画像の合成 */\n.overlay-img {\n  mix-blend-mode: multiply;\n}\n\n/* よく使うモード */\n.multiply   { mix-blend-mode: multiply; }   /* 暗くなる */\n.screen     { mix-blend-mode: screen; }     /* 明るくなる */\n.overlay    { mix-blend-mode: overlay; }    /* コントラスト強調 */\n.difference { mix-blend-mode: difference; }  /* 差分 */\n.luminosity { mix-blend-mode: luminosity; }  /* 輝度のみ */\n\n/* 背景画像同士のブレンド */\n.bg-blend {\n  background: url('photo.jpg'), linear-gradient(#3b82f6, #ec4899);\n  background-blend-mode: overlay;\n}",
+            "props": [
+                {
+                    "name": "normal",
+                    "desc": "ブレンドなし（デフォルト）"
+                },
+                {
+                    "name": "multiply",
+                    "desc": "乗算（暗くなる）"
+                },
+                {
+                    "name": "screen",
+                    "desc": "スクリーン（明るくなる）"
+                },
+                {
+                    "name": "overlay",
+                    "desc": "オーバーレイ"
+                },
+                {
+                    "name": "difference",
+                    "desc": "差分（色を反転）"
+                },
+                {
+                    "name": "darken / lighten",
+                    "desc": "暗い方/明るい方を採用"
+                }
+            ],
+            "tags": [
+                "ブレンド",
+                "合成",
+                "デザイン"
+            ],
+            "browser": "全モダンブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/mix-blend-mode"
+        },
+        {
+            "name": "opacity",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "要素全体の不透明度を0（完全透明）から1（完全不透明）で指定する。子要素も含めて不透明度が適用される。背景だけ透過したい場合はrgba/hslaの色指定を使用する。",
+            "demo": "<div style=\"display:flex;gap:8px;align-items:center;flex-wrap:wrap\"><div style=\"width:60px;height:60px;background:#3b82f6;border-radius:8px;opacity:1;display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.7rem;font-weight:700\">1.0</div><div style=\"width:60px;height:60px;background:#3b82f6;border-radius:8px;opacity:0.7;display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.7rem;font-weight:700\">0.7</div><div style=\"width:60px;height:60px;background:#3b82f6;border-radius:8px;opacity:0.4;display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.7rem;font-weight:700\">0.4</div><div style=\"width:60px;height:60px;background:#3b82f6;border-radius:8px;opacity:0.15;display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.7rem;font-weight:700\">0.15</div></div>",
+            "code": "/* 基本 */\n.transparent {\n  opacity: 0.5; /* 50%透明 */\n}\n\n/* フェードインアニメーション */\n.fade-in {\n  opacity: 0;\n  transition: opacity 0.3s ease;\n}\n.fade-in.visible {\n  opacity: 1;\n}\n\n/* 無効状態の表現 */\n.disabled {\n  opacity: 0.4;\n  pointer-events: none;\n}\n\n/* 注意: 背景だけ透過したい場合 */\n.bg-only {\n  /* opacity はNG（子要素も透過する） */\n  background: rgba(59, 130, 246, 0.5); /* OK */\n}",
+            "props": [
+                {
+                    "name": "0",
+                    "desc": "完全透明"
+                },
+                {
+                    "name": "0.5",
+                    "desc": "半透明"
+                },
+                {
+                    "name": "1",
+                    "desc": "完全不透明（デフォルト）"
+                }
+            ],
+            "tags": [
+                "透明度",
+                "アニメーション",
+                "基本"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/opacity"
+        },
+        {
+            "name": "border-radius",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "要素の角を丸くする。4つの角を個別指定でき、楕円形の丸みも表現可能。50%を指定すると正方形が円になる。モダンUIでは8px〜16px程度の角丸が一般的。",
+            "demo": "<div style=\"display:flex;gap:12px;flex-wrap:wrap;align-items:center\"><div style=\"width:64px;height:64px;background:#3b82f6;border-radius:8px\"></div><div style=\"width:64px;height:64px;background:#8b5cf6;border-radius:50%\"></div><div style=\"width:100px;height:64px;background:#ec4899;border-radius:32px\"></div><div style=\"width:64px;height:64px;background:#10b981;border-radius:16px 0 16px 0\"></div></div>",
+            "code": "/* 均一な角丸 */\n.rounded   { border-radius: 8px; }\n.pill      { border-radius: 9999px; }\n.circle    { border-radius: 50%; }\n\n/* 個別指定: 左上 右上 右下 左下 */\n.custom {\n  border-radius: 16px 0 16px 0;\n}\n\n/* 楕円形の角丸: 水平 / 垂直 */\n.oval {\n  border-radius: 50% / 30%;\n}\n\n/* 各角を個別に */\n.mixed {\n  border-top-left-radius: 20px;\n  border-bottom-right-radius: 20px;\n}",
+            "props": [
+                {
+                    "name": "一括指定",
+                    "desc": "1〜4値で4角を指定"
+                },
+                {
+                    "name": "border-top-left-radius",
+                    "desc": "左上の角丸"
+                },
+                {
+                    "name": "border-top-right-radius",
+                    "desc": "右上の角丸"
+                },
+                {
+                    "name": "border-bottom-right-radius",
+                    "desc": "右下の角丸"
+                },
+                {
+                    "name": "border-bottom-left-radius",
+                    "desc": "左下の角丸"
+                },
+                {
+                    "name": "% / px",
+                    "desc": "割合またはピクセル。50%で円"
+                }
+            ],
+            "tags": [
+                "角丸",
+                "基本",
+                "デコレーション"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/border-radius"
+        },
+        {
+            "name": "outline",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "要素のボックスの外側に表示されるアウトラインを設定する。borderと異なりレイアウトに影響せず、ボックスサイズを変えない。アクセシビリティ上、:focusスタイルの基盤として重要。",
+            "demo": "<div style=\"display:flex;gap:16px;flex-wrap:wrap;align-items:center\"><div style=\"width:80px;height:60px;background:#f1f5f9;border-radius:8px;outline:2px solid #3b82f6;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;color:#475569\">solid</div><div style=\"width:80px;height:60px;background:#f1f5f9;border-radius:8px;outline:2px dashed #8b5cf6;outline-offset:4px;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;color:#475569\">offset</div><div style=\"width:80px;height:60px;background:#f1f5f9;border-radius:8px;outline:3px dotted #ec4899;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;color:#475569\">dotted</div></div>",
+            "code": "/* フォーカスリング（アクセシビリティ重要） */\nbutton:focus-visible {\n  outline: 2px solid #3b82f6;\n  outline-offset: 2px;\n}\n\n/* outline を消す場合は代替を用意 */\n.custom-focus:focus {\n  outline: none;\n  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.4);\n}\n\n/* アウトラインは border-radius に追従 */\n.rounded {\n  border-radius: 12px;\n  outline: 2px solid #3b82f6;\n  outline-offset: 2px;\n}",
+            "props": [
+                {
+                    "name": "outline-style",
+                    "desc": "solid / dashed / dotted / double 等"
+                },
+                {
+                    "name": "outline-width",
+                    "desc": "アウトラインの太さ"
+                },
+                {
+                    "name": "outline-color",
+                    "desc": "アウトラインの色"
+                },
+                {
+                    "name": "outline-offset",
+                    "desc": "要素との間隔（負値も可）"
+                }
+            ],
+            "tags": [
+                "アウトライン",
+                "アクセシビリティ",
+                "フォーカス"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/outline"
+        },
+        {
+            "name": "object-fit",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "置換要素（img, video等）のコンテンツをコンテナにどうフィットさせるかを指定する。coverで領域全体を覆い、containで全体が見えるようにするなど、アスペクト比を保ったまま表示サイズを制御できる。",
+            "demo": "<div style=\"display:flex;gap:12px;flex-wrap:wrap\"><div style=\"font-size:0.7rem;text-align:center\"><div style=\"width:80px;height:60px;border:2px solid #e2e8f0;border-radius:6px;overflow:hidden\"><img src=\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Crect fill='%233b82f6' width='200' height='200'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='40'%3E📷%3C/text%3E%3C/svg%3E\" style=\"width:100%;height:100%;object-fit:cover\" alt=\"cover\"></div><span>cover</span></div><div style=\"font-size:0.7rem;text-align:center\"><div style=\"width:80px;height:60px;border:2px solid #e2e8f0;border-radius:6px;overflow:hidden;background:#f1f5f9\"><img src=\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Crect fill='%238b5cf6' width='200' height='200'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='40'%3E📷%3C/text%3E%3C/svg%3E\" style=\"width:100%;height:100%;object-fit:contain\" alt=\"contain\"></div><span>contain</span></div><div style=\"font-size:0.7rem;text-align:center\"><div style=\"width:80px;height:60px;border:2px solid #e2e8f0;border-radius:6px;overflow:hidden\"><img src=\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Crect fill='%23ec4899' width='200' height='200'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='40'%3E📷%3C/text%3E%3C/svg%3E\" style=\"width:100%;height:100%;object-fit:fill\" alt=\"fill\"></div><span>fill</span></div></div>",
+            "code": "/* 画像をコンテナに合わせる */\n.img-cover {\n  width: 100%;\n  height: 300px;\n  object-fit: cover;   /* トリミングして全体を埋める */\n  object-position: center; /* トリミング位置 */\n}\n\n.img-contain {\n  width: 100%;\n  height: 300px;\n  object-fit: contain; /* 全体を表示（余白が出る） */\n}\n\n/* サムネイル */\n.thumbnail {\n  width: 64px;\n  height: 64px;\n  object-fit: cover;\n  border-radius: 50%;\n}\n\n/* none: 元サイズのまま表示 */\n.original {\n  object-fit: none;\n}\n\n/* scale-down: contain か none の小さい方 */\n.scale-down {\n  object-fit: scale-down;\n}",
+            "props": [
+                {
+                    "name": "fill",
+                    "desc": "アスペクト比を無視して引き伸ばし（デフォルト）"
+                },
+                {
+                    "name": "contain",
+                    "desc": "全体が見えるように縮小（余白あり）"
+                },
+                {
+                    "name": "cover",
+                    "desc": "領域全体を覆う（はみ出しトリミング）"
+                },
+                {
+                    "name": "none",
+                    "desc": "元サイズのまま表示"
+                },
+                {
+                    "name": "scale-down",
+                    "desc": "noneかcontainの小さい方"
+                },
+                {
+                    "name": "object-position",
+                    "desc": "表示位置の調整"
+                }
+            ],
+            "tags": [
+                "画像",
+                "レスポンシブ",
+                "基本"
+            ],
+            "browser": "全モダンブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/object-fit"
+        },
+        {
+            "name": "cursor",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "要素上にマウスポインターがある時のカーソルの外観を指定する。pointer（手のアイコン）やnot-allowed（禁止マーク）など、ユーザーに操作のヒントを与える重要なUX要素。",
+            "demo": "<div style=\"display:flex;gap:8px;flex-wrap:wrap;font-size:0.75rem\"><span style=\"padding:8px 12px;background:#f1f5f9;border-radius:6px;cursor:pointer;border:1px solid #e2e8f0\">pointer 👆</span><span style=\"padding:8px 12px;background:#f1f5f9;border-radius:6px;cursor:grab;border:1px solid #e2e8f0\">grab ✊</span><span style=\"padding:8px 12px;background:#f1f5f9;border-radius:6px;cursor:not-allowed;border:1px solid #e2e8f0\">not-allowed 🚫</span><span style=\"padding:8px 12px;background:#f1f5f9;border-radius:6px;cursor:crosshair;border:1px solid #e2e8f0\">crosshair +</span><span style=\"padding:8px 12px;background:#f1f5f9;border-radius:6px;cursor:text;border:1px solid #e2e8f0\">text I</span><span style=\"padding:8px 12px;background:#f1f5f9;border-radius:6px;cursor:wait;border:1px solid #e2e8f0\">wait ⏳</span></div>",
+            "code": "/* クリック可能な要素 */\n.clickable { cursor: pointer; }\n\n/* 無効な要素 */\n.disabled  { cursor: not-allowed; }\n\n/* ドラッグ可能 */\n.draggable { cursor: grab; }\n.draggable:active { cursor: grabbing; }\n\n/* テキスト選択 */\n.editable { cursor: text; }\n\n/* リサイズ */\n.resize-h { cursor: ew-resize; }\n.resize-v { cursor: ns-resize; }\n\n/* 読み込み中 */\n.loading { cursor: wait; }\n.loading-bg { cursor: progress; }\n\n/* カスタムカーソル */\n.custom {\n  cursor: url('cursor.png') 12 12, auto;\n}",
+            "props": [
+                {
+                    "name": "default",
+                    "desc": "デフォルトカーソル（矢印）"
+                },
+                {
+                    "name": "pointer",
+                    "desc": "リンク/クリック可能（手の形）"
+                },
+                {
+                    "name": "grab / grabbing",
+                    "desc": "ドラッグ可能 / ドラッグ中"
+                },
+                {
+                    "name": "not-allowed",
+                    "desc": "操作不可（禁止マーク）"
+                },
+                {
+                    "name": "text",
+                    "desc": "テキスト選択（I字型）"
+                },
+                {
+                    "name": "wait / progress",
+                    "desc": "読込中 / バックグラウンド処理中"
+                },
+                {
+                    "name": "url()",
+                    "desc": "カスタムカーソル画像"
+                }
+            ],
+            "tags": [
+                "カーソル",
+                "UX",
+                "基本"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/cursor"
+        },
+        {
+            "name": "CSS変数 (Custom Properties)",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "--で始まるカスタムプロパティ（CSS変数）を定義し、var()関数で参照する。テーマカラーの一元管理やJavaScriptからの動的な値変更に活用される。カスケードと継承に対応。",
+            "demo": "<div style=\"--accent:#3b82f6;--radius:8px;display:flex;gap:12px;flex-wrap:wrap\"><div style=\"padding:12px 20px;background:var(--accent);color:#fff;border-radius:var(--radius);font-size:0.85rem;font-weight:700\">テーマカラー</div><div style=\"padding:12px 20px;border:2px solid var(--accent);color:var(--accent);border-radius:var(--radius);font-size:0.85rem;font-weight:700\">アウトライン</div></div>",
+            "code": "/* :root で定義（グローバル） */\n:root {\n  --color-primary: #3b82f6;\n  --color-secondary: #8b5cf6;\n  --radius: 8px;\n  --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);\n}\n\n/* 使用 */\n.card {\n  background: var(--color-primary);\n  border-radius: var(--radius);\n  box-shadow: var(--shadow);\n}\n\n/* フォールバック値 */\n.text {\n  color: var(--color-accent, #333);\n}\n\n/* ダークテーマ */\n[data-theme='dark'] {\n  --color-primary: #60a5fa;\n  --color-bg: #0f172a;\n}\n\n/* JSから動的に変更 */\n// document.documentElement.style\n//   .setProperty('--color-primary', '#ef4444');",
+            "props": [
+                {
+                    "name": "--変数名",
+                    "desc": "カスタムプロパティの定義"
+                },
+                {
+                    "name": "var(--変数名)",
+                    "desc": "変数を参照"
+                },
+                {
+                    "name": "var(--変数, フォールバック)",
+                    "desc": "未定義時のデフォルト値"
+                },
+                {
+                    "name": ":root",
+                    "desc": "グローバルスコープで定義"
+                },
+                {
+                    "name": "カスケード",
+                    "desc": "親要素で上書き可能"
+                }
+            ],
+            "tags": [
+                "変数",
+                "テーマ",
+                "モダン"
+            ],
+            "browser": "全モダンブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/--*"
+        }
+    ]
+}

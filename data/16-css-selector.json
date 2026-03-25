@@ -1,0 +1,697 @@
+{
+    "cat": "CSSセレクタ・疑似クラス",
+    "catIcon": "🎯",
+    "catDesc": "要素を選択するCSSセレクタの全体像。基本セレクタ、結合子、疑似クラス、疑似要素をカバー。",
+    "items": [
+        {
+            "name": "要素 / クラス / IDセレクタ",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "最も基本的なセレクタ群。要素名で型を、.classでクラスを、#idでIDを選択する。IDはページ内で一意、クラスは複数要素に使用可能。",
+            "demo": "<div style=\"font-size:0.8rem\"><p style=\"color:#333\">p { } — 要素セレクタ</p><p style=\"color:#3b82f6;font-weight:700\">.class { } — クラスセレクタ</p><p style=\"color:#dc2626;font-weight:700\">#id { } — IDセレクタ</p></div>",
+            "code": "/* 要素セレクタ */\np { margin-bottom: 1em; }\n\n/* クラスセレクタ */\n.card { border-radius: 8px; }\n\n/* IDセレクタ（詳細度が高いため慎重に使用） */\n#header { position: sticky; top: 0; }",
+            "props": [
+                {
+                    "name": "element",
+                    "desc": "HTML要素名で選択"
+                },
+                {
+                    "name": ".class",
+                    "desc": "class属性の値で選択"
+                },
+                {
+                    "name": "#id",
+                    "desc": "id属性の値で選択（詳細度 1-0-0）"
+                },
+                {
+                    "name": "*",
+                    "desc": "全称セレクタ。すべての要素に一致"
+                }
+            ],
+            "tags": [
+                "基本",
+                "セレクタ"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/CSS_selectors"
+        },
+        {
+            "name": "属性セレクタ [attr]",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "HTML属性の有無や値に基づいて要素を選択する。完全一致、前方一致、部分一致など柔軟なマッチングが可能。",
+            "demo": "<div style=\"font-size:0.8rem\"><span style=\"background:#dbeafe;padding:2px 6px;border-radius:3px\">[href]</span> <span style=\"background:#dcfce7;padding:2px 6px;border-radius:3px\">[type=\"email\"]</span> <span style=\"background:#fef3c7;padding:2px 6px;border-radius:3px\">[class^=\"btn-\"]</span> <span style=\"background:#fecaca;padding:2px 6px;border-radius:3px\">[href$=\".pdf\"]</span></div>",
+            "code": "/* 属性の存在 */\n[disabled] { opacity: 0.5; }\n\n/* 完全一致 */\n[type=\"email\"] { border-color: blue; }\n\n/* 前方一致（〜で始まる） */\n[class^=\"btn-\"] { cursor: pointer; }\n\n/* 後方一致（〜で終わる） */\na[href$=\".pdf\"]::after { content: ' (PDF)'; }\n\n/* 部分一致（〜を含む） */\n[class*=\"grid\"] { display: grid; }",
+            "props": [
+                {
+                    "name": "[attr]",
+                    "desc": "属性が存在する要素"
+                },
+                {
+                    "name": "[attr=val]",
+                    "desc": "属性値が完全一致"
+                },
+                {
+                    "name": "[attr^=val]",
+                    "desc": "属性値がvalで始まる"
+                },
+                {
+                    "name": "[attr$=val]",
+                    "desc": "属性値がvalで終わる"
+                },
+                {
+                    "name": "[attr*=val]",
+                    "desc": "属性値にvalを含む"
+                },
+                {
+                    "name": "[attr~=val]",
+                    "desc": "スペース区切りリストにvalを含む"
+                },
+                {
+                    "name": "[attr|=val]",
+                    "desc": "valまたはval-で始まる（言語コード向け）"
+                }
+            ],
+            "tags": [
+                "セレクタ",
+                "属性"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/Attribute_selectors"
+        },
+        {
+            "name": "結合子（子孫・子・隣接・兄弟）",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "セレクタ間の関係性を示す記号。子孫（空白）、子（>）、隣接兄弟（+）、一般兄弟（~）の4種がある。",
+            "demo": "<div style=\"font-size:0.8rem;line-height:1.8\"><code style=\"background:#f0f0f0;padding:2px 4px\">div p</code> 子孫（divの中のp全て）<br><code style=\"background:#f0f0f0;padding:2px 4px\">div &gt; p</code> 直接の子のみ<br><code style=\"background:#f0f0f0;padding:2px 4px\">h2 + p</code> h2の直後のp<br><code style=\"background:#f0f0f0;padding:2px 4px\">h2 ~ p</code> h2以降の兄弟p全て</div>",
+            "code": "/* 子孫セレクタ（空白） */\nnav a { text-decoration: none; }\n\n/* 子セレクタ */\nul > li { list-style: disc; }\n\n/* 隣接兄弟セレクタ */\nh2 + p { margin-top: 0; }\n\n/* 一般兄弟セレクタ */\n.toggle:checked ~ .content { display: block; }",
+            "props": [
+                {
+                    "name": "A B（空白）",
+                    "desc": "Aの子孫のB"
+                },
+                {
+                    "name": "A > B",
+                    "desc": "Aの直接の子のB"
+                },
+                {
+                    "name": "A + B",
+                    "desc": "Aの直後の兄弟B"
+                },
+                {
+                    "name": "A ~ B",
+                    "desc": "Aより後の兄弟B全て"
+                }
+            ],
+            "tags": [
+                "基本",
+                "セレクタ",
+                "結合子"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/CSS_selectors#combinators"
+        },
+        {
+            "name": ":hover",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "マウスカーソルが要素上にある時にスタイルを適用する疑似クラス。タッチデバイスでは挙動が異なるため、hover依存のUIは避けるべき。",
+            "demo": "<button style=\"padding:6px 16px;background:#3b82f6;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:0.85rem;transition:background 0.2s\" onmouseover=\"this.style.background='#1d4ed8'\" onmouseout=\"this.style.background='#3b82f6'\">ホバーしてください</button>",
+            "code": ".btn:hover {\n  background-color: #1d4ed8;\n  transform: translateY(-1px);\n}\na:hover {\n  text-decoration: underline;\n}\n/* タッチデバイスでhoverを無効化 */\n@media (hover: hover) {\n  .card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.1); }\n}",
+            "props": [
+                {
+                    "name": ":hover",
+                    "desc": "カーソルが要素上にある状態"
+                }
+            ],
+            "tags": [
+                "疑似クラス",
+                "インタラクション",
+                "基本"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/:hover"
+        },
+        {
+            "name": ":focus / :focus-visible / :focus-within",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "フォーカス状態のスタイリング。:focus-visibleはキーボード操作時のみ表示され、:focus-withinは子要素がフォーカスされた親に適用。",
+            "demo": "<div style=\"font-size:0.8rem\"><input type=\"text\" placeholder=\":focus-visible を確認（Tab操作）\" style=\"padding:6px 10px;border:2px solid #d1d5db;border-radius:4px;width:240px;outline:none\" onfocus=\"this.style.borderColor='#3b82f6';this.style.boxShadow='0 0 0 3px rgba(59,130,246,0.3)'\" onblur=\"this.style.borderColor='#d1d5db';this.style.boxShadow='none'\"></div>",
+            "code": "/* キーボードフォーカスのみリング表示 */\nbutton:focus-visible {\n  outline: 2px solid #3b82f6;\n  outline-offset: 2px;\n}\n/* マウスクリック時はリングなし */\nbutton:focus:not(:focus-visible) {\n  outline: none;\n}\n/* 子がフォーカスされた時の親スタイル */\n.form-group:focus-within {\n  border-color: #3b82f6;\n}",
+            "props": [
+                {
+                    "name": ":focus",
+                    "desc": "フォーカスを受けた要素（全てのフォーカス）"
+                },
+                {
+                    "name": ":focus-visible",
+                    "desc": "キーボード等によるフォーカスのみ"
+                },
+                {
+                    "name": ":focus-within",
+                    "desc": "自身または子孫がフォーカスを持つ要素"
+                }
+            ],
+            "tags": [
+                "疑似クラス",
+                "アクセシビリティ",
+                "フォーカス"
+            ],
+            "browser": "全モダンブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/:focus-visible"
+        },
+        {
+            "name": ":active",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "要素がアクティブ化（クリック中/タップ中）されている状態を選択する。ボタンの押下エフェクトに使用する。",
+            "demo": "<button style=\"padding:6px 16px;background:#22c55e;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:0.85rem;transition:transform 0.1s\" onmousedown=\"this.style.transform='scale(0.95)'\" onmouseup=\"this.style.transform='scale(1)'\" onmouseleave=\"this.style.transform='scale(1)'\">クリック（押下）してください</button>",
+            "code": ".btn:active {\n  transform: scale(0.97);\n  box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);\n}\na:active {\n  color: #7c3aed;\n}",
+            "props": [
+                {
+                    "name": ":active",
+                    "desc": "クリック/タップ中の状態"
+                }
+            ],
+            "tags": [
+                "疑似クラス",
+                "インタラクション"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/:active"
+        },
+        {
+            "name": ":first-child / :last-child",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "親要素の最初/最後の子要素を選択する。リストやカードの最初/最後だけスタイルを変えるパターンに頻出。",
+            "demo": "<ul style=\"list-style:none;padding:0;margin:0;font-size:0.8rem\"><li style=\"padding:4px 8px;background:#dbeafe;font-weight:700;border-radius:4px 4px 0 0\">最初の子（:first-child）</li><li style=\"padding:4px 8px;background:#f0f0f0\">中間の子</li><li style=\"padding:4px 8px;background:#f0f0f0\">中間の子</li><li style=\"padding:4px 8px;background:#fecaca;font-weight:700;border-radius:0 0 4px 4px\">最後の子（:last-child）</li></ul>",
+            "code": "li:first-child {\n  border-top: none;\n}\nli:last-child {\n  border-bottom: none;\n}\n.card:first-child {\n  margin-top: 0;\n}",
+            "props": [
+                {
+                    "name": ":first-child",
+                    "desc": "兄弟の中で最初の要素"
+                },
+                {
+                    "name": ":last-child",
+                    "desc": "兄弟の中で最後の要素"
+                },
+                {
+                    "name": ":only-child",
+                    "desc": "兄弟がいない唯一の子要素"
+                }
+            ],
+            "tags": [
+                "疑似クラス",
+                "構造",
+                "基本"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/:first-child"
+        },
+        {
+            "name": ":nth-child()",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "n番目の子要素を選択する強力な疑似クラス。An+B構文で偶数行・奇数行・n番目ごとのパターンを指定できる。",
+            "demo": "<ul style=\"list-style:none;padding:0;margin:0;font-size:0.8rem\"><li style=\"padding:4px 8px;background:#dbeafe\">1番目（odd）</li><li style=\"padding:4px 8px;background:#fff\">2番目（even）</li><li style=\"padding:4px 8px;background:#dbeafe\">3番目（odd）</li><li style=\"padding:4px 8px;background:#fff\">4番目（even）</li><li style=\"padding:4px 8px;background:#dbeafe\">5番目（odd）</li></ul>",
+            "code": "/* 偶数行 */\ntr:nth-child(even) { background: #f8fafc; }\n\n/* 奇数行 */\ntr:nth-child(odd) { background: #fff; }\n\n/* 3番目 */\nli:nth-child(3) { font-weight: bold; }\n\n/* 3の倍数 */\nli:nth-child(3n) { color: red; }\n\n/* 最初の3つ */\nli:nth-child(-n+3) { border-top: 2px solid blue; }",
+            "props": [
+                {
+                    "name": "odd",
+                    "desc": "奇数番目（1, 3, 5...）= 2n+1"
+                },
+                {
+                    "name": "even",
+                    "desc": "偶数番目（2, 4, 6...）= 2n"
+                },
+                {
+                    "name": "An+B",
+                    "desc": "A個ごとにB番目から選択"
+                },
+                {
+                    "name": ":nth-last-child()",
+                    "desc": "末尾からn番目"
+                }
+            ],
+            "tags": [
+                "疑似クラス",
+                "構造",
+                "パターン"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/:nth-child"
+        },
+        {
+            "name": ":nth-of-type()",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "同じ型（要素名）の中でn番目を選択する。:nth-childと異なり、異なる要素が混在していても型ごとにカウントする。",
+            "demo": "<div style=\"font-size:0.8rem\"><p style=\"background:#dbeafe;padding:2px 6px;margin:2px 0\">p:nth-of-type(1) — 1番目のp</p><span style=\"display:block;padding:2px 6px;margin:2px 0;color:#999\">（spanは無視される）</span><p style=\"background:#dcfce7;padding:2px 6px;margin:2px 0\">p:nth-of-type(2) — 2番目のp</p></div>",
+            "code": "/* 2番目のpだけスタイル変更 */\np:nth-of-type(2) { font-size: 1.2em; }\n\n/* 最初のh2 */\nh2:first-of-type { margin-top: 0; }\n\n/* 最後のsection */\nsection:last-of-type { margin-bottom: 0; }",
+            "props": [
+                {
+                    "name": ":first-of-type",
+                    "desc": "同じ型の最初の要素"
+                },
+                {
+                    "name": ":last-of-type",
+                    "desc": "同じ型の最後の要素"
+                },
+                {
+                    "name": ":nth-of-type(An+B)",
+                    "desc": "同じ型のn番目"
+                },
+                {
+                    "name": ":nth-last-of-type()",
+                    "desc": "同じ型の末尾からn番目"
+                },
+                {
+                    "name": ":only-of-type",
+                    "desc": "同じ型の兄弟がいない要素"
+                }
+            ],
+            "tags": [
+                "疑似クラス",
+                "構造"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/:nth-of-type"
+        },
+        {
+            "name": ":not()",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "指定したセレクタに一致しない要素を選択する否定疑似クラス。除外パターンの記述に便利。複数引数の指定も可能（セレクタリスト）。",
+            "demo": "<div style=\"font-size:0.8rem\"><button style=\"padding:4px 10px;background:#3b82f6;color:#fff;border:none;border-radius:4px;margin:2px\">通常ボタン</button><button disabled style=\"padding:4px 10px;background:#d1d5db;color:#999;border:none;border-radius:4px;margin:2px\">disabled（:notで除外）</button></div>",
+            "code": "/* disabled以外のinputにスタイル適用 */\ninput:not([disabled]) {\n  border-color: #3b82f6;\n}\n\n/* 最後の要素以外にmargin-bottom */\n.item:not(:last-child) {\n  margin-bottom: 1rem;\n}\n\n/* 複数条件の除外 */\na:not(.nav-link):not(.btn) {\n  text-decoration: underline;\n}",
+            "props": [
+                {
+                    "name": ":not(selector)",
+                    "desc": "selectorに一致しない要素を選択"
+                },
+                {
+                    "name": ":not(A, B)",
+                    "desc": "AにもBにも一致しない要素（複数引数）"
+                }
+            ],
+            "tags": [
+                "疑似クラス",
+                "否定",
+                "フィルタ"
+            ],
+            "browser": "全ブラウザ対応（複数引数はモダンブラウザ）",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/:not"
+        },
+        {
+            "name": ":is() / :where()",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "複数セレクタをグループ化し、冗長な記述を減らす。:is()は引数の最高詳細度を採用し、:where()は常に詳細度0。",
+            "demo": "<div style=\"font-size:0.8rem;line-height:1.8\"><code style=\"background:#dbeafe;padding:2px 4px;border-radius:3px\">:is(h1,h2,h3) { }</code> = <code style=\"background:#f0f0f0;padding:2px 4px;border-radius:3px\">h1, h2, h3 { }</code><br><code style=\"background:#dcfce7;padding:2px 4px;border-radius:3px\">:where(.card) p { }</code> 詳細度0でスタイル適用</div>",
+            "code": "/* :is() — 複数セレクタのグループ化 */\n:is(h1, h2, h3) {\n  line-height: 1.2;\n}\n\n/* ネストの簡略化 */\n.article :is(h2, h3, h4) {\n  color: #1e293b;\n}\n\n/* :where() — 詳細度0で上書きしやすい */\n:where(.card) p {\n  margin: 0;\n}",
+            "props": [
+                {
+                    "name": ":is(A, B, C)",
+                    "desc": "A,B,Cいずれかに一致。詳細度は最高のものを採用"
+                },
+                {
+                    "name": ":where(A, B, C)",
+                    "desc": "同じマッチングだが詳細度は常に0"
+                }
+            ],
+            "tags": [
+                "疑似クラス",
+                "モダンCSS",
+                "効率"
+            ],
+            "browser": "全モダンブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/:is"
+        },
+        {
+            "name": ":has()",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "特定の子孫・後続要素を持つ親を選択できる「親セレクタ」。CSSだけで状態に応じたスタイル変更が可能になる画期的な疑似クラス。",
+            "demo": "<div style=\"font-size:0.8rem\"><div style=\"border:2px solid #22c55e;padding:6px;border-radius:4px;margin-bottom:4px\"><strong>画像を含むカード:</strong> .card:has(img) にマッチ<br><div style=\"width:40px;height:25px;background:#d1d5db;border-radius:2px;margin-top:4px\"></div></div><div style=\"border:2px solid #d1d5db;padding:6px;border-radius:4px\"><strong>テキストのみのカード:</strong> マッチしない</div></div>",
+            "code": "/* 画像を含むカードだけgrid表示 */\n.card:has(img) {\n  display: grid;\n  grid-template-columns: 200px 1fr;\n}\n\n/* checkboxがチェックされたlabelのスタイル */\nlabel:has(input:checked) {\n  background: #dbeafe;\n}\n\n/* 空のフィールドを持つフォームに警告 */\nform:has(input:invalid) .submit-btn {\n  opacity: 0.5;\n}",
+            "props": [
+                {
+                    "name": ":has(selector)",
+                    "desc": "引数に一致する子孫を持つ要素を選択"
+                },
+                {
+                    "name": ":has(> selector)",
+                    "desc": "直接の子に限定"
+                },
+                {
+                    "name": ":has(+ selector)",
+                    "desc": "隣接兄弟に限定"
+                }
+            ],
+            "tags": [
+                "疑似クラス",
+                "モダンCSS",
+                "親セレクタ"
+            ],
+            "browser": "Chrome 105+ / Firefox 121+ / Safari 15.4+",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/:has"
+        },
+        {
+            "name": ":checked / :indeterminate",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "チェックボックス・ラジオボタンのチェック状態を選択する。CSSのみでトグルUIが実現できる。:indeterminateは不確定状態を表す。",
+            "demo": "<label style=\"font-size:0.85rem;cursor:pointer;display:flex;align-items:center;gap:4px\"><input type=\"checkbox\" style=\"accent-color:#3b82f6\"> <span>チェックするとスタイルが変化</span></label>",
+            "code": "input:checked + label {\n  color: #22c55e;\n  font-weight: 700;\n}\n\n/* CSSのみのトグル */\n.toggle-checkbox:checked ~ .content {\n  display: block;\n}\n\n/* カスタムチェックボックス */\ninput[type='checkbox']:checked {\n  accent-color: #3b82f6;\n}",
+            "props": [
+                {
+                    "name": ":checked",
+                    "desc": "チェックされた状態"
+                },
+                {
+                    "name": ":indeterminate",
+                    "desc": "不確定状態（JSで設定）"
+                }
+            ],
+            "tags": [
+                "疑似クラス",
+                "フォーム",
+                "UI"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/:checked"
+        },
+        {
+            "name": ":disabled / :enabled / :read-only",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "フォーム要素の有効/無効/読取専用状態を選択する。disabled要素のグレーアウト表示などに使用。",
+            "demo": "<div style=\"display:flex;gap:6px;font-size:0.85rem\"><input type=\"text\" value=\"有効\" style=\"padding:4px 8px;border:1px solid #22c55e;border-radius:4px\"><input type=\"text\" value=\"無効\" disabled style=\"padding:4px 8px;border:1px solid #d1d5db;border-radius:4px;background:#f3f4f6;color:#9ca3af\"><input type=\"text\" value=\"読取専用\" readonly style=\"padding:4px 8px;border:1px solid #fbbf24;border-radius:4px;background:#fffbeb\"></div>",
+            "code": "input:disabled {\n  opacity: 0.5;\n  cursor: not-allowed;\n  background: #f3f4f6;\n}\ninput:enabled {\n  border-color: #d1d5db;\n}\ninput:read-only {\n  background: #fffbeb;\n}",
+            "props": [
+                {
+                    "name": ":enabled",
+                    "desc": "有効状態のフォーム要素"
+                },
+                {
+                    "name": ":disabled",
+                    "desc": "無効化されたフォーム要素"
+                },
+                {
+                    "name": ":read-only",
+                    "desc": "読取専用のフォーム要素"
+                },
+                {
+                    "name": ":read-write",
+                    "desc": "編集可能なフォーム要素"
+                }
+            ],
+            "tags": [
+                "疑似クラス",
+                "フォーム",
+                "状態"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/:disabled"
+        },
+        {
+            "name": ":valid / :invalid / :required",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "フォームバリデーション状態に基づくスタイリング。HTML5のバリデーション属性と連動して、入力の妥当性を視覚的にフィードバックできる。",
+            "demo": "<div style=\"display:flex;gap:6px;font-size:0.8rem\"><input type=\"email\" value=\"user@example.com\" style=\"padding:4px 8px;border:2px solid #22c55e;border-radius:4px;width:140px\"><input type=\"email\" value=\"invalid\" style=\"padding:4px 8px;border:2px solid #ef4444;border-radius:4px;width:100px\"></div>",
+            "code": "input:valid {\n  border-color: #22c55e;\n}\ninput:invalid {\n  border-color: #ef4444;\n}\n/* ユーザー操作後のみ表示 */\ninput:user-invalid {\n  border-color: #ef4444;\n  background: #fef2f2;\n}\ninput:required {\n  border-left: 3px solid #f59e0b;\n}",
+            "props": [
+                {
+                    "name": ":valid",
+                    "desc": "バリデーションを満たす要素"
+                },
+                {
+                    "name": ":invalid",
+                    "desc": "バリデーションを満たさない要素"
+                },
+                {
+                    "name": ":required",
+                    "desc": "required属性がある要素"
+                },
+                {
+                    "name": ":optional",
+                    "desc": "requiredでない要素"
+                },
+                {
+                    "name": ":user-valid / :user-invalid",
+                    "desc": "ユーザー操作後にのみ適用"
+                },
+                {
+                    "name": ":in-range / :out-of-range",
+                    "desc": "min/max範囲内/外"
+                }
+            ],
+            "tags": [
+                "疑似クラス",
+                "フォーム",
+                "バリデーション"
+            ],
+            "browser": "全ブラウザ対応（:user-invalid はFirefox/Chrome最新版）",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/:valid"
+        },
+        {
+            "name": ":placeholder-shown / :empty",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": ":placeholder-shownはプレースホルダーが表示中の入力欄を、:emptyは子要素やテキストを持たない空の要素を選択する。",
+            "demo": "<div style=\"display:flex;gap:6px;font-size:0.8rem\"><input type=\"text\" placeholder=\"空欄の状態\" style=\"padding:4px 8px;border:2px dashed #f59e0b;border-radius:4px\"><input type=\"text\" value=\"入力済み\" style=\"padding:4px 8px;border:2px solid #22c55e;border-radius:4px\"></div>",
+            "code": "/* フローティングラベル */\n.field input:placeholder-shown + label {\n  top: 50%;\n  font-size: 1rem;\n}\n.field input:not(:placeholder-shown) + label {\n  top: 0;\n  font-size: 0.75rem;\n}\n\n/* 空の要素を非表示 */\n.container:empty {\n  display: none;\n}",
+            "props": [
+                {
+                    "name": ":placeholder-shown",
+                    "desc": "プレースホルダーが表示中の入力欄"
+                },
+                {
+                    "name": ":empty",
+                    "desc": "子ノードを持たない空要素"
+                }
+            ],
+            "tags": [
+                "疑似クラス",
+                "フォーム",
+                "UI"
+            ],
+            "browser": "全モダンブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/:placeholder-shown"
+        },
+        {
+            "name": "::before / ::after",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "要素の前/後に擬似的なコンテンツを挿入する疑似要素。contentプロパティが必須。装飾やアイコンの追加に活用される。",
+            "demo": "<div style=\"font-size:0.85rem\"><span style=\"font-weight:700\">&#9733; </span>beforeで星を追加<br><span>afterで矢印を追加<span style=\"font-weight:700\"> &#8594;</span></span></div>",
+            "code": "/* 必須マーク */\n.required::after {\n  content: ' *';\n  color: #ef4444;\n}\n\n/* 引用符 */\nblockquote::before {\n  content: '\\201C'; /* \" */\n  font-size: 3rem;\n  color: #d1d5db;\n}\n\n/* 装飾線 */\n.heading::after {\n  content: '';\n  display: block;\n  width: 40px;\n  height: 3px;\n  background: #3b82f6;\n  margin-top: 0.5rem;\n}",
+            "props": [
+                {
+                    "name": "content",
+                    "desc": "挿入するコンテンツ（必須）。''で空も可"
+                },
+                {
+                    "name": "display",
+                    "desc": "デフォルトはinline"
+                },
+                {
+                    "name": "全CSSプロパティ",
+                    "desc": "通常の要素と同様にスタイリング可能"
+                }
+            ],
+            "tags": [
+                "疑似要素",
+                "装飾",
+                "頻出"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/::before"
+        },
+        {
+            "name": "::placeholder",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "input/textareaのプレースホルダーテキストをスタイリングする疑似要素。色やフォントサイズは変更可能だが、使えるプロパティに制限がある。",
+            "demo": "<input type=\"text\" placeholder=\"カスタムスタイルのプレースホルダー\" style=\"padding:6px 10px;border:1px solid #d1d5db;border-radius:4px;font-size:0.85rem;width:260px;color:#1e293b\">",
+            "code": "input::placeholder {\n  color: #9ca3af;\n  font-style: italic;\n  font-size: 0.9em;\n}\n\ntextarea::placeholder {\n  color: #9ca3af;\n}",
+            "props": [
+                {
+                    "name": "color",
+                    "desc": "プレースホルダーの文字色"
+                },
+                {
+                    "name": "font-*",
+                    "desc": "フォント関連プロパティ"
+                },
+                {
+                    "name": "opacity",
+                    "desc": "透明度"
+                }
+            ],
+            "tags": [
+                "疑似要素",
+                "フォーム"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/::placeholder"
+        },
+        {
+            "name": "::selection",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "ユーザーがテキストを選択（ドラッグ）した時のスタイルをカスタマイズする疑似要素。ブランドカラーに合わせた選択色を設定できる。",
+            "demo": "<p style=\"font-size:0.85rem\">このテキストを<strong>マウスでドラッグして選択</strong>してみてください。（デフォルトのブラウザ選択色が適用されます）</p>",
+            "code": "::selection {\n  background-color: #3b82f6;\n  color: #ffffff;\n}\n\n/* 特定の要素のみ */\n.brand-text::selection {\n  background-color: #fbbf24;\n  color: #1e293b;\n}",
+            "props": [
+                {
+                    "name": "background-color",
+                    "desc": "選択範囲の背景色"
+                },
+                {
+                    "name": "color",
+                    "desc": "選択範囲のテキスト色"
+                },
+                {
+                    "name": "text-shadow",
+                    "desc": "選択時のテキストシャドウ"
+                }
+            ],
+            "tags": [
+                "疑似要素",
+                "デザイン",
+                "カスタマイズ"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/::selection"
+        },
+        {
+            "name": "::marker",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "リスト項目のマーカー（箇条書き記号や番号）をスタイリングする疑似要素。色やサイズを変更でき、カスタムマーカーも設定可能。",
+            "demo": "<ul style=\"font-size:0.85rem;padding-left:1.5em\"><li style=\"color:#333\"><span style=\"color:#333\">デフォルトマーカー</span></li></ul><ul style=\"font-size:0.85rem;padding-left:1.5em;list-style:none\"><li style=\"color:#333\">&#127919; contentでカスタムマーカー</li><li style=\"color:#333\">&#9989; 絵文字マーカーも可能</li></ul>",
+            "code": "li::marker {\n  color: #3b82f6;\n  font-weight: bold;\n  font-size: 1.2em;\n}\n\n/* カスタムマーカー */\nli::marker {\n  content: '\\2192 '; /* → */\n}\n\n/* 番号付きリストのカスタム */\nol li::marker {\n  color: #ef4444;\n  font-weight: bold;\n}",
+            "props": [
+                {
+                    "name": "color",
+                    "desc": "マーカーの色"
+                },
+                {
+                    "name": "content",
+                    "desc": "マーカーの内容を変更"
+                },
+                {
+                    "name": "font-size",
+                    "desc": "マーカーのサイズ"
+                },
+                {
+                    "name": "font-family",
+                    "desc": "マーカーのフォント"
+                }
+            ],
+            "tags": [
+                "疑似要素",
+                "リスト",
+                "カスタマイズ"
+            ],
+            "browser": "Chrome 86+ / Firefox 68+ / Safari 11.1+",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/::marker"
+        },
+        {
+            "name": "::first-line / ::first-letter",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "ブロック要素の最初の行や最初の文字をスタイリングする疑似要素。ドロップキャップ（装飾頭文字）など書籍風のデザインに使用。",
+            "demo": "<p style=\"font-size:0.85rem;max-width:250px\"><span style=\"font-size:2em;font-weight:700;color:#3b82f6;float:left;line-height:1;margin-right:4px\">最</span>初の文字を大きく装飾するドロップキャップの例。::first-letterで実現できます。</p>",
+            "code": "/* ドロップキャップ */\n.article p:first-of-type::first-letter {\n  font-size: 3em;\n  font-weight: bold;\n  float: left;\n  line-height: 1;\n  margin-right: 0.1em;\n  color: #3b82f6;\n}\n\n/* 最初の行のスタイル */\np::first-line {\n  font-weight: bold;\n  color: #1e293b;\n}",
+            "props": [
+                {
+                    "name": "::first-line",
+                    "desc": "最初の行（表示上の折り返しまで）"
+                },
+                {
+                    "name": "::first-letter",
+                    "desc": "最初の文字"
+                }
+            ],
+            "tags": [
+                "疑似要素",
+                "タイポグラフィ",
+                "デザイン"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/::first-letter"
+        },
+        {
+            "name": ":root / :target / :lang()",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": ":rootはドキュメントルート（通常html）を、:targetはURLフラグメントに一致する要素を、:lang()は言語属性に基づいて要素を選択する。",
+            "demo": "<div style=\"font-size:0.8rem;line-height:1.8\"><code style=\"background:#dbeafe;padding:2px 4px;border-radius:3px\">:root</code> CSS変数の定義場所として多用<br><code style=\"background:#dcfce7;padding:2px 4px;border-radius:3px\">#section:target</code> URL#sectionで該当要素をハイライト<br><code style=\"background:#fef3c7;padding:2px 4px;border-radius:3px\">:lang(ja)</code> 日本語コンテンツに適用</div>",
+            "code": ":root {\n  --primary: #3b82f6;\n  font-size: 16px;\n}\n\n/* URLフラグメントで遷移した要素をハイライト */\n:target {\n  background: #fef3c7;\n  outline: 2px solid #f59e0b;\n}\n\n/* 言語別スタイル */\n:lang(ja) {\n  line-height: 1.8;\n}\n:lang(en) {\n  line-height: 1.5;\n}",
+            "props": [
+                {
+                    "name": ":root",
+                    "desc": "ドキュメントのルート要素（htmlより高い詳細度）"
+                },
+                {
+                    "name": ":target",
+                    "desc": "URLのフラグメント(#)に一致するid要素"
+                },
+                {
+                    "name": ":lang(code)",
+                    "desc": "指定した言語コードに一致する要素"
+                }
+            ],
+            "tags": [
+                "疑似クラス",
+                "ドキュメント",
+                "国際化"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/:root"
+        },
+        {
+            "name": "セレクタ詳細度（Specificity）",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "CSSルールの優先順位を決定する仕組み。ID(1-0-0) > クラス/疑似クラス(0-1-0) > 要素/疑似要素(0-0-1) の重み付けで計算される。!importantは最優先だが濫用禁止。",
+            "demo": "<div style=\"font-size:0.8rem;line-height:1.8\"><code style=\"background:#f0f0f0;padding:2px 4px\">p { }</code> → 0-0-1<br><code style=\"background:#f0f0f0;padding:2px 4px\">.card { }</code> → 0-1-0<br><code style=\"background:#f0f0f0;padding:2px 4px\">#main { }</code> → 1-0-0<br><code style=\"background:#f0f0f0;padding:2px 4px\">#main .card p { }</code> → 1-1-1<br><code style=\"background:#fecaca;padding:2px 4px\">style=\"\"</code> → インライン（最高）</div>",
+            "code": "/* 詳細度: 0-0-1 */\np { color: black; }\n\n/* 詳細度: 0-1-0（勝つ） */\n.text { color: blue; }\n\n/* 詳細度: 0-2-0（さらに勝つ） */\n.card .text { color: red; }\n\n/* 詳細度を上げずに記述するテクニック */\n:where(.card) .text { } /* :whereは0 */\n\n/* !important は最終手段 */\n.override { color: green !important; }",
+            "props": [
+                {
+                    "name": "0-0-1",
+                    "desc": "要素セレクタ・疑似要素1つあたり"
+                },
+                {
+                    "name": "0-1-0",
+                    "desc": "クラス・属性セレクタ・疑似クラス1つあたり"
+                },
+                {
+                    "name": "1-0-0",
+                    "desc": "IDセレクタ1つあたり"
+                },
+                {
+                    "name": ":where()",
+                    "desc": "詳細度を0にするテクニック"
+                },
+                {
+                    "name": "@layer",
+                    "desc": "カスケードレイヤーで優先順位を制御"
+                }
+            ],
+            "tags": [
+                "概念",
+                "重要",
+                "設計"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/Specificity"
+        }
+    ]
+}

@@ -1,0 +1,390 @@
+{
+    "cat": "レスポンシブ・メディアクエリ",
+    "catIcon": "📱",
+    "catDesc": "画面サイズやユーザー設定に応じてレイアウトやスタイルを変化させる技術。メディアクエリ、コンテナクエリ、流体タイポグラフィなど。",
+    "items": [
+        {
+            "name": "@media（メディアクエリ）",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "ビューポートの幅や高さなどの条件に基づいてスタイルを切り替える。モバイルファーストで設計し、min-widthで大画面向けスタイルを追加するのが現代のベストプラクティス。",
+            "demo": "<div style=\"font-size:0.85rem\"><div style=\"padding:12px 16px;background:#eff6ff;border:2px solid #3b82f6;border-radius:8px;text-align:center\"><strong>画面幅を変えてみてください</strong><br><span id=\"mqDemo\" style=\"color:#3b82f6\">現在の幅で表示中</span></div><style>@media(max-width:600px){#mqDemo{color:#dc2626!important}#mqDemo::after{content:' (≤600px モバイル)'}}</style></div>",
+            "code": "/* モバイルファースト */\n.container {\n  padding: 16px;\n}\n\n/* タブレット以上 */\n@media (min-width: 768px) {\n  .container {\n    padding: 32px;\n    max-width: 720px;\n    margin: 0 auto;\n  }\n}\n\n/* デスクトップ */\n@media (min-width: 1024px) {\n  .container {\n    max-width: 960px;\n  }\n}\n\n/* 横向き判定 */\n@media (orientation: landscape) {\n  .sidebar { display: block; }\n}\n\n/* 印刷用 */\n@media print {\n  .no-print { display: none; }\n}",
+            "props": [
+                {
+                    "name": "min-width / max-width",
+                    "desc": "ビューポート幅の下限/上限"
+                },
+                {
+                    "name": "min-height / max-height",
+                    "desc": "ビューポート高さの下限/上限"
+                },
+                {
+                    "name": "orientation",
+                    "desc": "portrait（縦）/ landscape（横）"
+                },
+                {
+                    "name": "print / screen",
+                    "desc": "メディアタイプの指定"
+                },
+                {
+                    "name": "and / or / not",
+                    "desc": "条件の組み合わせ"
+                }
+            ],
+            "tags": [
+                "レスポンシブ",
+                "基本",
+                "ブレイクポイント"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/@media"
+        },
+        {
+            "name": "meta viewport",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "モバイルブラウザでのビューポートの初期サイズとズーム動作を制御する。レスポンシブデザインに必須のメタタグで、これがないとモバイルでデスクトップ幅で描画されてしまう。",
+            "demo": "<div style=\"font-size:0.85rem;padding:12px;background:#f0fdf4;border:2px solid #22c55e;border-radius:8px\"><code style=\"background:#dcfce7;padding:2px 6px;border-radius:4px;font-size:0.8rem\">&lt;meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"&gt;</code><p style=\"margin:8px 0 0;color:#15803d\">すべてのレスポンシブサイトの&lt;head&gt;に必須。</p></div>",
+            "code": "<!-- 標準的な設定（推奨） -->\n<meta name=\"viewport\" \n      content=\"width=device-width, initial-scale=1\">\n\n<!-- ズーム禁止（アクセシビリティ上 非推奨） -->\n<meta name=\"viewport\" \n      content=\"width=device-width, initial-scale=1, \n               maximum-scale=1, user-scalable=no\">\n\n<!-- 固定幅（非レスポンシブサイト） -->\n<meta name=\"viewport\" content=\"width=1024\">",
+            "props": [
+                {
+                    "name": "width=device-width",
+                    "desc": "ビューポート幅をデバイス幅に合わせる"
+                },
+                {
+                    "name": "initial-scale=1",
+                    "desc": "初期ズーム倍率"
+                },
+                {
+                    "name": "maximum-scale",
+                    "desc": "最大ズーム倍率（制限は非推奨）"
+                },
+                {
+                    "name": "minimum-scale",
+                    "desc": "最小ズーム倍率"
+                },
+                {
+                    "name": "user-scalable",
+                    "desc": "ユーザーのピンチズーム可否（noは非推奨）"
+                }
+            ],
+            "tags": [
+                "メタデータ",
+                "必須",
+                "モバイル"
+            ],
+            "browser": "全モバイルブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Viewport_meta_tag"
+        },
+        {
+            "name": "@container（コンテナクエリ）",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "ビューポートではなく親コンテナのサイズに基づいてスタイルを切り替える。再利用可能なコンポーネント設計に最適で、サイドバー/メインどちらに配置しても適切にレイアウトが変わる。",
+            "demo": "<div style=\"font-size:0.85rem\"><style>.cq-wrap{container-type:inline-size;container-name:card-container;border:2px dashed #94a3b8;border-radius:8px;padding:12px;resize:horizontal;overflow:auto;min-width:180px;max-width:100%}.cq-card{background:#eff6ff;padding:12px;border-radius:6px;display:flex;flex-direction:column;gap:4px}@container card-container (min-width:350px){.cq-card{flex-direction:row;align-items:center;gap:12px}}</style><div class=\"cq-wrap\"><div class=\"cq-card\"><div style=\"width:48px;height:48px;background:#3b82f6;border-radius:8px;flex-shrink:0\"></div><div><strong>コンテナクエリ</strong><br><span style=\"color:#64748b\">幅を変えてレイアウト変化を確認</span></div></div></div></div>",
+            "code": "/* コンテナを定義 */\n.wrapper {\n  container-type: inline-size;\n  container-name: sidebar;\n}\n\n/* コンテナ幅に応じたスタイル */\n@container sidebar (min-width: 400px) {\n  .card {\n    display: flex;\n    flex-direction: row;\n  }\n}\n\n@container sidebar (max-width: 399px) {\n  .card {\n    display: flex;\n    flex-direction: column;\n  }\n}\n\n/* コンテナクエリ単位 */\n.text {\n  font-size: clamp(0.875rem, 3cqi, 1.25rem);\n  /* cqi = コンテナのインライン方向の1% */\n}",
+            "props": [
+                {
+                    "name": "container-type",
+                    "desc": "inline-size / size / normal"
+                },
+                {
+                    "name": "container-name",
+                    "desc": "コンテナの名前（任意）"
+                },
+                {
+                    "name": "container",
+                    "desc": "name / typeのショートハンド"
+                },
+                {
+                    "name": "@container",
+                    "desc": "コンテナクエリのルール"
+                },
+                {
+                    "name": "cqi / cqb",
+                    "desc": "コンテナクエリ単位（inline / block）"
+                }
+            ],
+            "tags": [
+                "コンテナクエリ",
+                "モダン",
+                "コンポーネント"
+            ],
+            "browser": "Chrome 105+, Edge 105+, Firefox 110+, Safari 16+",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/CSS_containment/Container_queries"
+        },
+        {
+            "name": "prefers-color-scheme",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "ユーザーのOS/ブラウザのカラーテーマ設定（ライト/ダーク）を検出するメディア特性。ダークモード対応サイトの基盤として使われ、CSS変数と組み合わせるのが一般的。",
+            "demo": "<div style=\"font-size:0.85rem\"><style>.pcs-demo{padding:12px 16px;border-radius:8px;background:#fff;color:#1e293b;border:2px solid #e2e8f0}@media(prefers-color-scheme:dark){.pcs-demo{background:#1e293b;color:#e2e8f0;border-color:#334155}}</style><div class=\"pcs-demo\"><strong>OSのテーマ設定に連動</strong><br>ライトモード ↔ ダークモードで色が変わります</div></div>",
+            "code": "/* CSS変数でテーマ管理 */\n:root {\n  --bg: #ffffff;\n  --text: #1e293b;\n  --border: #e2e8f0;\n}\n\n@media (prefers-color-scheme: dark) {\n  :root {\n    --bg: #0f172a;\n    --text: #e2e8f0;\n    --border: #334155;\n  }\n}\n\nbody {\n  background: var(--bg);\n  color: var(--text);\n}\n\n/* JSでの検出 */\n// const isDark = window.matchMedia(\n//   '(prefers-color-scheme: dark)'\n// ).matches;\n\n/* color-scheme プロパティ */\n:root {\n  color-scheme: light dark;\n}",
+            "props": [
+                {
+                    "name": "light",
+                    "desc": "ライトモードを希望している"
+                },
+                {
+                    "name": "dark",
+                    "desc": "ダークモードを希望している"
+                },
+                {
+                    "name": "color-scheme",
+                    "desc": "対応するカラースキームを宣言"
+                },
+                {
+                    "name": "matchMedia()",
+                    "desc": "JSからメディアクエリを検査"
+                }
+            ],
+            "tags": [
+                "ダークモード",
+                "メディア特性",
+                "テーマ"
+            ],
+            "browser": "Chrome 76+, Edge 79+, Firefox 67+, Safari 12.1+",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/@media/prefers-color-scheme"
+        },
+        {
+            "name": "prefers-reduced-motion",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "ユーザーがOSでアニメーションの低減を要求しているかを検出するメディア特性。前庭障害を持つユーザーへの配慮として、アニメーションやトランジションを無効化または軽減する。",
+            "demo": "<div style=\"font-size:0.85rem\"><style>.prm-box{width:48px;height:48px;background:#3b82f6;border-radius:8px;animation:prm-spin 2s linear infinite}@keyframes prm-spin{to{transform:rotate(360deg)}}@media(prefers-reduced-motion:reduce){.prm-box{animation:none}}</style><div style=\"display:flex;align-items:center;gap:12px\"><div class=\"prm-box\"></div><span style=\"color:#475569\">「視差効果を減らす」ONで停止します</span></div></div>",
+            "code": "/* アニメーションを一括で無効化 */\n@media (prefers-reduced-motion: reduce) {\n  *,\n  *::before,\n  *::after {\n    animation-duration: 0.01ms !important;\n    animation-iteration-count: 1 !important;\n    transition-duration: 0.01ms !important;\n    scroll-behavior: auto !important;\n  }\n}\n\n/* 個別に対応 */\n.hero-animation {\n  animation: slideIn 0.5s ease;\n}\n@media (prefers-reduced-motion: reduce) {\n  .hero-animation {\n    animation: none;\n    opacity: 1;\n  }\n}\n\n/* JSでの検出 */\n// const prefersReduced = window.matchMedia(\n//   '(prefers-reduced-motion: reduce)'\n// ).matches;",
+            "props": [
+                {
+                    "name": "no-preference",
+                    "desc": "アニメーション低減の設定なし"
+                },
+                {
+                    "name": "reduce",
+                    "desc": "アニメーションの低減を希望"
+                }
+            ],
+            "tags": [
+                "アクセシビリティ",
+                "アニメーション",
+                "メディア特性"
+            ],
+            "browser": "Chrome 74+, Edge 79+, Firefox 63+, Safari 10.1+",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/@media/prefers-reduced-motion"
+        },
+        {
+            "name": "clamp() / min() / max()",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "値の範囲を制限するCSS関数群。clamp(最小, 推奨, 最大)で流体タイポグラフィやレスポンシブなサイズ指定が可能。メディアクエリなしで滑らかにサイズが変化する。",
+            "demo": "<div style=\"font-size:0.85rem\"><p style=\"font-size:clamp(0.875rem, 2.5vw, 1.5rem);font-weight:700;color:#1e293b;margin:0\">このテキストはclamp()で制御されています</p><p style=\"font-size:0.75rem;color:#64748b;margin:4px 0 0\">画面幅に応じて 14px〜24px の間でサイズが変化</p></div>",
+            "code": "/* 流体タイポグラフィ */\nh1 {\n  font-size: clamp(1.5rem, 4vw, 3rem);\n}\np {\n  font-size: clamp(0.875rem, 1.5vw, 1.125rem);\n}\n\n/* レスポンシブな幅 */\n.container {\n  width: min(90%, 1200px);\n  margin: 0 auto;\n}\n\n/* 余白の流体制御 */\nsection {\n  padding: clamp(1rem, 5vw, 4rem);\n}\n\n/* max() で最低サイズを保証 */\n.sidebar {\n  width: max(250px, 25%);\n}\n\n/* min() で最大サイズを制限 */\n.card {\n  width: min(100%, 400px);\n}",
+            "props": [
+                {
+                    "name": "clamp(min, preferred, max)",
+                    "desc": "値を最小〜最大の範囲に制限"
+                },
+                {
+                    "name": "min(a, b)",
+                    "desc": "2つの値の小さい方を採用"
+                },
+                {
+                    "name": "max(a, b)",
+                    "desc": "2つの値の大きい方を採用"
+                },
+                {
+                    "name": "vw / vh",
+                    "desc": "ビューポート単位と組み合わせて使用"
+                }
+            ],
+            "tags": [
+                "流体デザイン",
+                "関数",
+                "タイポグラフィ"
+            ],
+            "browser": "Chrome 79+, Edge 79+, Firefox 75+, Safari 13.1+",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/clamp"
+        },
+        {
+            "name": "aspect-ratio",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "要素のアスペクト比（幅と高さの比率）を指定する。動画の16:9やカード画像の4:3など、レスポンシブでも比率を保つレイアウトが簡潔に書ける。padding-topハックの代替。",
+            "demo": "<div style=\"display:flex;gap:12px;flex-wrap:wrap\"><div style=\"width:120px;aspect-ratio:16/9;background:linear-gradient(135deg,#3b82f6,#8b5cf6);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.7rem;font-weight:700\">16:9</div><div style=\"width:80px;aspect-ratio:1/1;background:linear-gradient(135deg,#ec4899,#f97316);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.7rem;font-weight:700\">1:1</div><div style=\"width:80px;aspect-ratio:3/4;background:linear-gradient(135deg,#10b981,#3b82f6);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.7rem;font-weight:700\">3:4</div></div>",
+            "code": "/* 動画コンテナ */\n.video-wrapper {\n  width: 100%;\n  aspect-ratio: 16 / 9;\n  background: #000;\n}\n\n/* 正方形 */\n.avatar {\n  width: 64px;\n  aspect-ratio: 1;\n  border-radius: 50%;\n  object-fit: cover;\n}\n\n/* カードサムネイル */\n.card-image {\n  width: 100%;\n  aspect-ratio: 4 / 3;\n  object-fit: cover;\n}\n\n/* auto: 固有アスペクト比を使用 */\nimg {\n  aspect-ratio: auto;\n  width: 100%;\n  height: auto;\n}",
+            "props": [
+                {
+                    "name": "auto",
+                    "desc": "固有のアスペクト比を使用"
+                },
+                {
+                    "name": "数値 / 数値",
+                    "desc": "幅/高さの比率（例: 16/9）"
+                },
+                {
+                    "name": "数値",
+                    "desc": "単一値は n/1 と同じ"
+                }
+            ],
+            "tags": [
+                "アスペクト比",
+                "レイアウト",
+                "レスポンシブ"
+            ],
+            "browser": "Chrome 88+, Edge 88+, Firefox 89+, Safari 15+",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/aspect-ratio"
+        },
+        {
+            "name": "ビューポート単位 (vw, vh, dvh, svh)",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "ビューポートのサイズに対する割合で値を指定する単位群。従来のvh/vwに加え、モバイルのアドレスバー折りたたみを考慮したdvh/svh/lvhが追加され、スマートフォンでの全画面表示が改善された。",
+            "demo": "<div style=\"font-size:0.85rem;padding:12px;background:#fefce8;border:2px solid #eab308;border-radius:8px\"><div style=\"display:grid;grid-template-columns:1fr 1fr;gap:8px\"><div><strong>従来</strong><br><code>100vh</code> = 固定ビューポート</div><div><strong>新単位</strong><br><code>100dvh</code> = 動的ビューポート<br><code>100svh</code> = 最小ビューポート<br><code>100lvh</code> = 最大ビューポート</div></div></div>",
+            "code": "/* 従来のビューポート単位 */\n.hero {\n  height: 100vh;      /* ビューポートの高さ */\n  width: 100vw;       /* ビューポートの幅 */\n}\n\n/* 新しいビューポート単位（モバイル対応） */\n.hero-mobile {\n  height: 100dvh;     /* 動的ビューポート高さ */\n  /* アドレスバーの表示/非表示に追従 */\n}\n.hero-safe {\n  min-height: 100svh; /* 最小ビューポート高さ */\n  /* アドレスバー表示時の高さ */\n}\n\n/* vmin / vmax */\n.square {\n  width: 50vmin;      /* 幅と高さの小さい方の50% */\n  height: 50vmin;\n}\n\n/* テキストサイズ */\n.responsive-text {\n  font-size: clamp(1rem, 3vw, 2rem);\n}",
+            "props": [
+                {
+                    "name": "vw / vh",
+                    "desc": "ビューポートの幅/高さの1%"
+                },
+                {
+                    "name": "dvw / dvh",
+                    "desc": "動的ビューポート（UIバー追従）の1%"
+                },
+                {
+                    "name": "svw / svh",
+                    "desc": "最小ビューポート（UIバー表示時）の1%"
+                },
+                {
+                    "name": "lvw / lvh",
+                    "desc": "最大ビューポート（UIバー非表示時）の1%"
+                },
+                {
+                    "name": "vmin / vmax",
+                    "desc": "幅と高さの小さい方/大きい方の1%"
+                }
+            ],
+            "tags": [
+                "単位",
+                "モバイル",
+                "レスポンシブ"
+            ],
+            "browser": "dvh/svh/lvh: Chrome 108+, Edge 108+, Firefox 101+, Safari 15.4+",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/length#viewport-percentage_lengths"
+        },
+        {
+            "name": "レスポンシブ画像 (srcset / sizes / &lt;picture&gt;)",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "デバイの画面サイズや解像度に応じて最適な画像を配信する仕組み。srcsetで複数の画像候補を、sizesでブレイクポイントごとの表示サイズを指定。picture要素ではフォーマット切替も可能。",
+            "demo": "<div style=\"font-size:0.85rem;padding:12px;background:#f0fdf4;border:2px solid #22c55e;border-radius:8px\"><code style=\"font-size:0.75rem;display:block;white-space:pre-wrap;background:#dcfce7;padding:8px;border-radius:4px\">&lt;img\n  srcset=\"small.jpg 480w,\n          medium.jpg 800w,\n          large.jpg 1200w\"\n  sizes=\"(max-width: 600px) 100vw,\n         (max-width: 1024px) 50vw,\n         33vw\"\n  src=\"medium.jpg\"\n  alt=\"説明文\"&gt;</code></div>",
+            "code": "<!-- 解像度切替 -->\n<img\n  srcset=\"photo-480.jpg 480w,\n          photo-800.jpg 800w,\n          photo-1200.jpg 1200w\"\n  sizes=\"(max-width: 600px) 100vw,\n         (max-width: 1024px) 50vw,\n         33vw\"\n  src=\"photo-800.jpg\"\n  alt=\"レスポンシブ画像の例\"\n  loading=\"lazy\">\n\n<!-- フォーマット切替（WebP/AVIF優先） -->\n<picture>\n  <source srcset=\"photo.avif\" type=\"image/avif\">\n  <source srcset=\"photo.webp\" type=\"image/webp\">\n  <img src=\"photo.jpg\" alt=\"モダン画像フォーマット\">\n</picture>\n\n<!-- アートディレクション -->\n<picture>\n  <source media=\"(min-width: 1024px)\" srcset=\"hero-wide.jpg\">\n  <source media=\"(min-width: 640px)\" srcset=\"hero-medium.jpg\">\n  <img src=\"hero-mobile.jpg\" alt=\"ヒーロー画像\">\n</picture>",
+            "props": [
+                {
+                    "name": "srcset",
+                    "desc": "画像候補リスト（ファイルと幅記述子w）"
+                },
+                {
+                    "name": "sizes",
+                    "desc": "ブレイクポイントごとの表示サイズ"
+                },
+                {
+                    "name": "<picture>",
+                    "desc": "ソース切替のコンテナ要素"
+                },
+                {
+                    "name": "<source>",
+                    "desc": "条件付き画像ソース"
+                },
+                {
+                    "name": "type",
+                    "desc": "画像フォーマットの指定（MIME）"
+                },
+                {
+                    "name": "media",
+                    "desc": "ソース適用のメディア条件"
+                }
+            ],
+            "tags": [
+                "画像",
+                "パフォーマンス",
+                "レスポンシブ"
+            ],
+            "browser": "全モダンブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Responsive_images"
+        },
+        {
+            "name": "ResizeObserver",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "要素のサイズ変更を非同期に監視するAPI。ウィンドウのresizeイベントと異なり、個別要素のサイズ変化を検知できる。コンテナクエリのJS版として、動的なレイアウト調整に使用される。",
+            "demo": "<div style=\"font-size:0.85rem\"><div id=\"roTarget\" style=\"resize:horizontal;overflow:auto;min-width:150px;max-width:100%;padding:16px;background:#f1f5f9;border:2px dashed #94a3b8;border-radius:8px;text-align:center\"><span id=\"roSize\" style=\"font-weight:700;color:#475569\">幅をドラッグで変更</span></div><script>(function(){try{var el=document.getElementById('roTarget');var sp=document.getElementById('roSize');var obs=new ResizeObserver(function(entries){var w=Math.round(entries[0].contentRect.width);sp.textContent=w+'px 幅';});obs.observe(el);}catch(e){}})()</script></div>",
+            "code": "const observer = new ResizeObserver((entries) => {\n  for (const entry of entries) {\n    const { width, height } = entry.contentRect;\n    console.log(`${width} x ${height}`);\n\n    // サイズに応じたクラス切替\n    if (width < 400) {\n      entry.target.classList.add('compact');\n    } else {\n      entry.target.classList.remove('compact');\n    }\n  }\n});\n\n// 監視開始\nobserver.observe(document.getElementById('container'));\n\n// 複数要素を監視\ndocument.querySelectorAll('.card').forEach(el => {\n  observer.observe(el);\n});\n\n// 監視停止\nobserver.disconnect();",
+            "props": [
+                {
+                    "name": "observe(target)",
+                    "desc": "要素のサイズ監視を開始"
+                },
+                {
+                    "name": "unobserve(target)",
+                    "desc": "特定要素の監視を停止"
+                },
+                {
+                    "name": "disconnect()",
+                    "desc": "全監視を停止"
+                },
+                {
+                    "name": "contentRect",
+                    "desc": "コンテンツボックスのサイズ情報"
+                },
+                {
+                    "name": "borderBoxSize",
+                    "desc": "ボーダーボックスのサイズ"
+                },
+                {
+                    "name": "contentBoxSize",
+                    "desc": "コンテンツボックスのサイズ（配列）"
+                }
+            ],
+            "tags": [
+                "API",
+                "サイズ監視",
+                "レスポンシブ"
+            ],
+            "browser": "Chrome 64+, Edge 79+, Firefox 69+, Safari 13.1+",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/Resize_Observer_API"
+        },
+        {
+            "name": "matchMedia()",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "JavaScriptからCSSメディアクエリの一致状態を検査する。MediaQueryListオブジェクトを返し、変更イベントをリスニングできる。ダークモード検出やブレイクポイント連動処理に使用される。",
+            "demo": "<div style=\"font-size:0.85rem\"><div id=\"mmResult\" style=\"padding:12px;background:#eff6ff;border-radius:8px;text-align:center;font-weight:700;color:#3b82f6\">判定中...</div><script>(function(){try{var el=document.getElementById('mmResult');var mq=window.matchMedia('(min-width:768px)');function update(e){el.textContent=e.matches?'768px以上: デスクトップ表示':'768px未満: モバイル表示';el.style.background=e.matches?'#dcfce7':'#fef3c7';el.style.color=e.matches?'#15803d':'#92400e';}update(mq);mq.addEventListener('change',update);}catch(e){}})()</script></div>",
+            "code": "// 基本的な使い方\nconst mq = window.matchMedia('(min-width: 768px)');\nconsole.log(mq.matches); // true or false\n\n// 変更を監視\nmq.addEventListener('change', (e) => {\n  if (e.matches) {\n    console.log('デスクトップ表示');\n  } else {\n    console.log('モバイル表示');\n  }\n});\n\n// ダークモード検出\nconst darkMq = window.matchMedia(\n  '(prefers-color-scheme: dark)'\n);\nif (darkMq.matches) {\n  document.body.classList.add('dark');\n}\ndarkMq.addEventListener('change', (e) => {\n  document.body.classList.toggle('dark', e.matches);\n});\n\n// アニメーション低減検出\nconst motionMq = window.matchMedia(\n  '(prefers-reduced-motion: reduce)'\n);",
+            "props": [
+                {
+                    "name": "matches",
+                    "desc": "メディアクエリが一致しているか（boolean）"
+                },
+                {
+                    "name": "media",
+                    "desc": "クエリ文字列"
+                },
+                {
+                    "name": "change イベント",
+                    "desc": "一致状態が変化した時に発火"
+                },
+                {
+                    "name": "addEventListener()",
+                    "desc": "変更リスナーを登録"
+                }
+            ],
+            "tags": [
+                "API",
+                "メディアクエリ",
+                "ダークモード"
+            ],
+            "browser": "全モダンブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/Window/matchMedia"
+        }
+    ]
+}

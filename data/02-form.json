@@ -1,0 +1,849 @@
+{
+    "cat": "フォーム・入力",
+    "catIcon": "📋",
+    "catDesc": "ユーザーからのデータ入力を受け付けるHTML要素群。テキスト入力、選択肢、ファイルアップロードなど多彩な入力手段を提供する。",
+    "items": [
+        {
+            "name": "&lt;form&gt;",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "フォーム全体を囲むコンテナ要素。action属性で送信先、method属性でHTTPメソッドを指定する。JavaScript の FormData API と組み合わせて非同期送信にも対応できる。",
+            "demo": "<form style=\"border:1px solid #ccc;padding:12px;border-radius:8px;font-size:0.85rem;max-width:260px\" onsubmit=\"return false\"><label>名前: <input type=\"text\" style=\"padding:4px;border:1px solid #aaa;border-radius:4px;width:120px\" /></label><br/><button type=\"submit\" style=\"margin-top:8px;padding:4px 16px;background:#3b82f6;color:#fff;border:none;border-radius:4px;cursor:pointer\">送信</button></form>",
+            "code": "<form action=\"/submit\" method=\"post\">\n  <label for=\"name\">名前:</label>\n  <input type=\"text\" id=\"name\" name=\"name\" required />\n  <button type=\"submit\">送信</button>\n</form>",
+            "props": [
+                {
+                    "name": "action",
+                    "desc": "フォームデータの送信先URL"
+                },
+                {
+                    "name": "method",
+                    "desc": "HTTPメソッド（get / post）"
+                },
+                {
+                    "name": "enctype",
+                    "desc": "送信データのエンコード形式（ファイル送信時は multipart/form-data）"
+                },
+                {
+                    "name": "novalidate",
+                    "desc": "ブラウザのバリデーションを無効化"
+                },
+                {
+                    "name": "autocomplete",
+                    "desc": "フォーム全体の自動補完を on / off"
+                }
+            ],
+            "tags": [
+                "基本",
+                "フォーム",
+                "送信"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/form"
+        },
+        {
+            "name": "&lt;input type=\"text\"&gt;",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "1行のテキスト入力欄。最も基本的な入力コントロールで、name・placeholder・maxlength などの属性で挙動を制御できる。pattern 属性で入力値の正規表現バリデーションも可能。",
+            "demo": "<div style=\"font-size:0.85rem\"><label>ユーザー名: <input type=\"text\" placeholder=\"例: tanaka\" maxlength=\"20\" style=\"padding:4px 8px;border:1px solid #aaa;border-radius:4px;width:140px\" /></label></div>",
+            "code": "<label for=\"username\">ユーザー名:</label>\n<input type=\"text\" id=\"username\" name=\"username\"\n       placeholder=\"例: tanaka\" maxlength=\"20\" required />",
+            "props": [
+                {
+                    "name": "placeholder",
+                    "desc": "入力前に表示するヒントテキスト"
+                },
+                {
+                    "name": "maxlength",
+                    "desc": "入力可能な最大文字数"
+                },
+                {
+                    "name": "pattern",
+                    "desc": "入力値の正規表現パターン"
+                },
+                {
+                    "name": "required",
+                    "desc": "入力必須にする"
+                },
+                {
+                    "name": "value",
+                    "desc": "初期値"
+                }
+            ],
+            "tags": [
+                "基本",
+                "フォーム",
+                "テキスト"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/input/text"
+        },
+        {
+            "name": "&lt;input type=\"password\"&gt;",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "パスワード入力欄。入力文字がマスク表示（●や＊）される。autocomplete=\"current-password\" の指定でパスワードマネージャーとの連携を改善できる。",
+            "demo": "<div style=\"font-size:0.85rem\"><label>パスワード: <input type=\"password\" value=\"secret123\" style=\"padding:4px 8px;border:1px solid #aaa;border-radius:4px;width:140px\" /></label></div>",
+            "code": "<label for=\"pw\">パスワード:</label>\n<input type=\"password\" id=\"pw\" name=\"password\"\n       autocomplete=\"current-password\" required\n       minlength=\"8\" />",
+            "props": [
+                {
+                    "name": "minlength",
+                    "desc": "最低文字数"
+                },
+                {
+                    "name": "maxlength",
+                    "desc": "最大文字数"
+                },
+                {
+                    "name": "autocomplete",
+                    "desc": "new-password / current-password でブラウザ補完制御"
+                },
+                {
+                    "name": "required",
+                    "desc": "入力必須にする"
+                }
+            ],
+            "tags": [
+                "フォーム",
+                "セキュリティ"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/input/password"
+        },
+        {
+            "name": "&lt;input type=\"email\"&gt;",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "メールアドレス入力欄。ブラウザが自動でメール形式のバリデーションを行う。モバイルでは @ や . が配置されたキーボードが表示される。",
+            "demo": "<div style=\"font-size:0.85rem\"><label>メール: <input type=\"email\" placeholder=\"user@example.com\" style=\"padding:4px 8px;border:1px solid #aaa;border-radius:4px;width:170px\" /></label></div>",
+            "code": "<label for=\"email\">メール:</label>\n<input type=\"email\" id=\"email\" name=\"email\"\n       placeholder=\"user@example.com\" required />",
+            "props": [
+                {
+                    "name": "multiple",
+                    "desc": "カンマ区切りで複数アドレスを入力可能に"
+                },
+                {
+                    "name": "pattern",
+                    "desc": "追加の正規表現バリデーション"
+                },
+                {
+                    "name": "required",
+                    "desc": "入力必須にする"
+                }
+            ],
+            "tags": [
+                "フォーム",
+                "バリデーション"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/input/email"
+        },
+        {
+            "name": "&lt;input type=\"number\"&gt;",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "数値入力欄。スピンボタン（上下矢印）が表示され、min/max/step で範囲と刻み幅を制御できる。モバイルでは数字キーボードが表示される。",
+            "demo": "<div style=\"font-size:0.85rem\"><label>数量: <input type=\"number\" min=\"0\" max=\"100\" step=\"1\" value=\"1\" style=\"padding:4px 8px;border:1px solid #aaa;border-radius:4px;width:80px\" /></label></div>",
+            "code": "<label for=\"qty\">数量:</label>\n<input type=\"number\" id=\"qty\" name=\"quantity\"\n       min=\"0\" max=\"100\" step=\"1\" value=\"1\" />",
+            "props": [
+                {
+                    "name": "min",
+                    "desc": "最小値"
+                },
+                {
+                    "name": "max",
+                    "desc": "最大値"
+                },
+                {
+                    "name": "step",
+                    "desc": "増減の刻み幅（any で制限なし）"
+                },
+                {
+                    "name": "value",
+                    "desc": "初期値"
+                }
+            ],
+            "tags": [
+                "フォーム",
+                "数値"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/input/number"
+        },
+        {
+            "name": "&lt;input type=\"tel\"&gt;",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "電話番号入力欄。ブラウザによる自動バリデーションは行われないため、pattern 属性で形式を指定するのが一般的。モバイルではテンキーが表示される。",
+            "demo": "<div style=\"font-size:0.85rem\"><label>電話: <input type=\"tel\" placeholder=\"090-1234-5678\" pattern=\"[0-9]{2,4}-[0-9]{2,4}-[0-9]{3,4}\" style=\"padding:4px 8px;border:1px solid #aaa;border-radius:4px;width:150px\" /></label></div>",
+            "code": "<label for=\"phone\">電話番号:</label>\n<input type=\"tel\" id=\"phone\" name=\"phone\"\n       placeholder=\"090-1234-5678\"\n       pattern=\"[0-9]{2,4}-[0-9]{2,4}-[0-9]{3,4}\" />",
+            "props": [
+                {
+                    "name": "pattern",
+                    "desc": "電話番号形式の正規表現"
+                },
+                {
+                    "name": "placeholder",
+                    "desc": "入力例を表示"
+                },
+                {
+                    "name": "autocomplete",
+                    "desc": "tel で自動補完を有効化"
+                }
+            ],
+            "tags": [
+                "フォーム",
+                "電話"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/input/tel"
+        },
+        {
+            "name": "&lt;input type=\"url\"&gt;",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "URL入力欄。ブラウザが自動でURLスキーム（http:// 等）を含む形式のバリデーションを行う。モバイルでは / や .com キーが表示されるキーボードになる場合がある。",
+            "demo": "<div style=\"font-size:0.85rem\"><label>URL: <input type=\"url\" placeholder=\"https://example.com\" style=\"padding:4px 8px;border:1px solid #aaa;border-radius:4px;width:180px\" /></label></div>",
+            "code": "<label for=\"site\">Webサイト:</label>\n<input type=\"url\" id=\"site\" name=\"website\"\n       placeholder=\"https://example.com\" />",
+            "props": [
+                {
+                    "name": "placeholder",
+                    "desc": "入力例を表示"
+                },
+                {
+                    "name": "pattern",
+                    "desc": "追加の正規表現バリデーション"
+                },
+                {
+                    "name": "required",
+                    "desc": "入力必須にする"
+                }
+            ],
+            "tags": [
+                "フォーム",
+                "バリデーション"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/input/url"
+        },
+        {
+            "name": "&lt;input type=\"search\"&gt;",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "検索テキスト入力欄。機能的には type=\"text\" とほぼ同じだが、ブラウザによってはクリアボタン（×）が自動表示される。role=\"search\" を持つフォーム内で使うとアクセシビリティが向上する。",
+            "demo": "<div style=\"font-size:0.85rem\"><label>検索: <input type=\"search\" placeholder=\"キーワードを入力\" style=\"padding:4px 8px;border:1px solid #aaa;border-radius:4px;width:160px\" /></label></div>",
+            "code": "<form role=\"search\">\n  <label for=\"q\">検索:</label>\n  <input type=\"search\" id=\"q\" name=\"q\"\n         placeholder=\"キーワードを入力\" />\n  <button type=\"submit\">検索</button>\n</form>",
+            "props": [
+                {
+                    "name": "placeholder",
+                    "desc": "検索ヒントテキスト"
+                },
+                {
+                    "name": "list",
+                    "desc": "datalist要素のidを指定しサジェスト表示"
+                },
+                {
+                    "name": "autocomplete",
+                    "desc": "自動補完の制御"
+                }
+            ],
+            "tags": [
+                "フォーム",
+                "検索",
+                "UX"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/input/search"
+        },
+        {
+            "name": "&lt;input type=\"date\"&gt;",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "日付選択コントロール。ブラウザネイティブのカレンダーピッカーが表示される。値は YYYY-MM-DD 形式で取得される。min / max で選択可能範囲を制限できる。",
+            "demo": "<div style=\"font-size:0.85rem\"><label>日付: <input type=\"date\" value=\"2025-01-15\" style=\"padding:4px 8px;border:1px solid #aaa;border-radius:4px\" /></label></div>",
+            "code": "<label for=\"birthday\">生年月日:</label>\n<input type=\"date\" id=\"birthday\" name=\"birthday\"\n       min=\"1900-01-01\" max=\"2025-12-31\" />",
+            "props": [
+                {
+                    "name": "min",
+                    "desc": "選択可能な最小日付（YYYY-MM-DD）"
+                },
+                {
+                    "name": "max",
+                    "desc": "選択可能な最大日付（YYYY-MM-DD）"
+                },
+                {
+                    "name": "step",
+                    "desc": "日数単位の刻み幅"
+                },
+                {
+                    "name": "value",
+                    "desc": "初期値（YYYY-MM-DD）"
+                }
+            ],
+            "tags": [
+                "フォーム",
+                "日付",
+                "ピッカー"
+            ],
+            "browser": "全ブラウザ対応（UIはブラウザ依存）",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/input/date"
+        },
+        {
+            "name": "&lt;input type=\"time\"&gt;",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "時刻入力コントロール。値は HH:MM 形式（24時間）で取得される。step 属性で秒単位の入力も可能にできる。",
+            "demo": "<div style=\"font-size:0.85rem\"><label>時刻: <input type=\"time\" value=\"09:30\" style=\"padding:4px 8px;border:1px solid #aaa;border-radius:4px\" /></label></div>",
+            "code": "<label for=\"meeting\">開始時刻:</label>\n<input type=\"time\" id=\"meeting\" name=\"start_time\"\n       min=\"09:00\" max=\"18:00\" step=\"900\" />",
+            "props": [
+                {
+                    "name": "min",
+                    "desc": "選択可能な最小時刻（HH:MM）"
+                },
+                {
+                    "name": "max",
+                    "desc": "選択可能な最大時刻（HH:MM）"
+                },
+                {
+                    "name": "step",
+                    "desc": "秒単位の刻み幅（900 = 15分刻み）"
+                }
+            ],
+            "tags": [
+                "フォーム",
+                "時刻",
+                "ピッカー"
+            ],
+            "browser": "全ブラウザ対応（UIはブラウザ依存）",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/input/time"
+        },
+        {
+            "name": "&lt;input type=\"datetime-local\"&gt;",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "日時（日付＋時刻）を一括入力できるコントロール。タイムゾーン情報は含まれない。値は YYYY-MM-DDTHH:MM 形式で取得される。",
+            "demo": "<div style=\"font-size:0.85rem\"><label>日時: <input type=\"datetime-local\" value=\"2025-01-15T09:30\" style=\"padding:4px 8px;border:1px solid #aaa;border-radius:4px\" /></label></div>",
+            "code": "<label for=\"event\">イベント日時:</label>\n<input type=\"datetime-local\" id=\"event\"\n       name=\"event_datetime\"\n       min=\"2025-01-01T00:00\" />",
+            "props": [
+                {
+                    "name": "min",
+                    "desc": "最小日時"
+                },
+                {
+                    "name": "max",
+                    "desc": "最大日時"
+                },
+                {
+                    "name": "step",
+                    "desc": "秒単位の刻み幅"
+                }
+            ],
+            "tags": [
+                "フォーム",
+                "日付",
+                "時刻"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/input/datetime-local"
+        },
+        {
+            "name": "&lt;input type=\"color\"&gt;",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "カラーピッカーを表示する入力コントロール。値は #RRGGBB 形式の16進数で取得される。OS ネイティブのカラーピッカーUIが使われる。",
+            "demo": "<div style=\"font-size:0.85rem;display:flex;align-items:center;gap:8px\"><label>色を選択: <input type=\"color\" value=\"#3b82f6\" style=\"width:40px;height:32px;border:none;cursor:pointer\" /></label></div>",
+            "code": "<label for=\"theme\">テーマカラー:</label>\n<input type=\"color\" id=\"theme\" name=\"theme_color\"\n       value=\"#3b82f6\" />",
+            "props": [
+                {
+                    "name": "value",
+                    "desc": "初期色（#RRGGBB 形式）"
+                },
+                {
+                    "name": "list",
+                    "desc": "datalist と連携してプリセット色を提供"
+                }
+            ],
+            "tags": [
+                "フォーム",
+                "カラー",
+                "ピッカー"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/input/color"
+        },
+        {
+            "name": "&lt;input type=\"range\"&gt;",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "スライダー式の範囲入力コントロール。厳密な数値入力ではなくおおよその値を選ぶUIに適している。min / max / step で範囲と刻みを制御する。",
+            "demo": "<div style=\"font-size:0.85rem\"><label>音量: <input type=\"range\" min=\"0\" max=\"100\" value=\"50\" style=\"vertical-align:middle;width:140px\" oninput=\"this.nextElementSibling.textContent=this.value\" /><span>50</span></label></div>",
+            "code": "<label for=\"vol\">音量:</label>\n<input type=\"range\" id=\"vol\" name=\"volume\"\n       min=\"0\" max=\"100\" step=\"5\" value=\"50\" />\n<output for=\"vol\">50</output>",
+            "props": [
+                {
+                    "name": "min",
+                    "desc": "最小値"
+                },
+                {
+                    "name": "max",
+                    "desc": "最大値"
+                },
+                {
+                    "name": "step",
+                    "desc": "刻み幅"
+                },
+                {
+                    "name": "value",
+                    "desc": "初期値"
+                },
+                {
+                    "name": "list",
+                    "desc": "datalist と連携して目盛りを表示"
+                }
+            ],
+            "tags": [
+                "フォーム",
+                "スライダー",
+                "UX"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/input/range"
+        },
+        {
+            "name": "&lt;input type=\"checkbox\"&gt;",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "チェックボックス。複数選択が可能な入力コントロール。checked 属性で初期チェック状態を設定する。同じ name を持つ複数のチェックボックスで選択肢群を構成する。",
+            "demo": "<div style=\"font-size:0.85rem;display:flex;flex-direction:column;gap:4px\"><label><input type=\"checkbox\" checked style=\"margin-right:4px\" />利用規約に同意</label><label><input type=\"checkbox\" style=\"margin-right:4px\" />メルマガを受け取る</label></div>",
+            "code": "<fieldset>\n  <legend>通知設定</legend>\n  <label>\n    <input type=\"checkbox\" name=\"notify\" value=\"email\" checked />\n    メール通知\n  </label>\n  <label>\n    <input type=\"checkbox\" name=\"notify\" value=\"sms\" />\n    SMS通知\n  </label>\n</fieldset>",
+            "props": [
+                {
+                    "name": "checked",
+                    "desc": "初期チェック状態"
+                },
+                {
+                    "name": "value",
+                    "desc": "送信される値"
+                },
+                {
+                    "name": "indeterminate (JS)",
+                    "desc": "不定状態の表示（JSから設定）"
+                },
+                {
+                    "name": "name",
+                    "desc": "フォーム送信時のキー名"
+                }
+            ],
+            "tags": [
+                "フォーム",
+                "選択",
+                "基本"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/input/checkbox"
+        },
+        {
+            "name": "&lt;input type=\"radio\"&gt;",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "ラジオボタン。同じ name 属性を持つグループ内で1つだけ選択できる。排他的選択肢（性別、プランなど）に使用する。",
+            "demo": "<div style=\"font-size:0.85rem;display:flex;flex-direction:column;gap:4px\"><label><input type=\"radio\" name=\"plan\" value=\"free\" checked style=\"margin-right:4px\" />無料プラン</label><label><input type=\"radio\" name=\"plan\" value=\"pro\" style=\"margin-right:4px\" />プロプラン</label><label><input type=\"radio\" name=\"plan\" value=\"enterprise\" style=\"margin-right:4px\" />企業プラン</label></div>",
+            "code": "<fieldset>\n  <legend>プラン選択</legend>\n  <label>\n    <input type=\"radio\" name=\"plan\" value=\"free\" checked />\n    無料プラン\n  </label>\n  <label>\n    <input type=\"radio\" name=\"plan\" value=\"pro\" />\n    プロプラン\n  </label>\n</fieldset>",
+            "props": [
+                {
+                    "name": "name",
+                    "desc": "同じ値でグループ化（排他選択）"
+                },
+                {
+                    "name": "value",
+                    "desc": "選択時に送信される値"
+                },
+                {
+                    "name": "checked",
+                    "desc": "初期選択状態"
+                }
+            ],
+            "tags": [
+                "フォーム",
+                "選択",
+                "基本"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/input/radio"
+        },
+        {
+            "name": "&lt;input type=\"file\"&gt;",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "ファイル選択コントロール。accept 属性で受け付けるファイル種別を制限できる。multiple 属性で複数ファイルの同時選択が可能。フォームの enctype を multipart/form-data に設定する必要がある。",
+            "demo": "<div style=\"font-size:0.85rem\"><label>ファイル: <input type=\"file\" accept=\"image/*\" style=\"font-size:0.8rem\" /></label></div>",
+            "code": "<form enctype=\"multipart/form-data\" method=\"post\">\n  <label for=\"avatar\">プロフィール画像:</label>\n  <input type=\"file\" id=\"avatar\" name=\"avatar\"\n         accept=\"image/png, image/jpeg\" />\n</form>",
+            "props": [
+                {
+                    "name": "accept",
+                    "desc": "受け付けるMIMEタイプまたは拡張子"
+                },
+                {
+                    "name": "multiple",
+                    "desc": "複数ファイル選択を許可"
+                },
+                {
+                    "name": "capture",
+                    "desc": "モバイルでカメラ／マイク起動（user / environment）"
+                }
+            ],
+            "tags": [
+                "フォーム",
+                "ファイル",
+                "アップロード"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/input/file"
+        },
+        {
+            "name": "&lt;input type=\"hidden\"&gt;",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "画面に表示されない隠しフィールド。CSRFトークンやセッションIDなど、ユーザーに見せる必要がないがサーバーに送信したいデータを保持する。",
+            "demo": "<div style=\"font-size:0.85rem;padding:8px;background:#f3f4f6;border-radius:6px\"><code>&lt;input type=\"hidden\" name=\"csrf_token\" value=\"abc123\"&gt;</code><br/><span style=\"color:#6b7280\">※画面には表示されません</span></div>",
+            "code": "<form method=\"post\">\n  <input type=\"hidden\" name=\"csrf_token\"\n         value=\"a1b2c3d4e5\" />\n  <input type=\"hidden\" name=\"user_id\"\n         value=\"12345\" />\n  <!-- 他のフォーム要素 -->\n</form>",
+            "props": [
+                {
+                    "name": "name",
+                    "desc": "送信時のキー名"
+                },
+                {
+                    "name": "value",
+                    "desc": "送信する値"
+                }
+            ],
+            "tags": [
+                "フォーム",
+                "セキュリティ",
+                "データ送信"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/input/hidden"
+        },
+        {
+            "name": "&lt;textarea&gt;",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "複数行テキスト入力欄。rows / cols 属性またはCSSで表示サイズを制御する。コメント、説明文、メッセージなど長文入力に使用する。",
+            "demo": "<div style=\"font-size:0.85rem\"><label>コメント:<br/><textarea rows=\"3\" cols=\"30\" placeholder=\"ご感想をお書きください\" style=\"padding:8px;border:1px solid #aaa;border-radius:4px;font-size:0.85rem;width:100%;max-width:240px;resize:vertical\"></textarea></label></div>",
+            "code": "<label for=\"comment\">コメント:</label>\n<textarea id=\"comment\" name=\"comment\"\n          rows=\"4\" cols=\"40\"\n          placeholder=\"ご感想をお書きください\"\n          maxlength=\"500\"></textarea>",
+            "props": [
+                {
+                    "name": "rows",
+                    "desc": "表示行数"
+                },
+                {
+                    "name": "cols",
+                    "desc": "表示列数（文字幅）"
+                },
+                {
+                    "name": "maxlength",
+                    "desc": "最大文字数"
+                },
+                {
+                    "name": "placeholder",
+                    "desc": "ヒントテキスト"
+                },
+                {
+                    "name": "wrap",
+                    "desc": "送信時の改行処理（soft / hard）"
+                }
+            ],
+            "tags": [
+                "フォーム",
+                "テキスト",
+                "複数行"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/textarea"
+        },
+        {
+            "name": "&lt;select&gt;",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "ドロップダウン選択リスト。option 要素で選択肢を定義する。multiple 属性でリスト表示・複数選択にもなる。optgroup で選択肢をグループ分けできる。",
+            "demo": "<div style=\"font-size:0.85rem\"><label>都道府県: <select style=\"padding:4px 8px;border:1px solid #aaa;border-radius:4px\"><option value=\"\">選択してください</option><option value=\"tokyo\">東京都</option><option value=\"osaka\">大阪府</option><option value=\"kyoto\">京都府</option></select></label></div>",
+            "code": "<label for=\"pref\">都道府県:</label>\n<select id=\"pref\" name=\"prefecture\">\n  <option value=\"\">選択してください</option>\n  <optgroup label=\"関東\">\n    <option value=\"tokyo\">東京都</option>\n    <option value=\"kanagawa\">神奈川県</option>\n  </optgroup>\n  <optgroup label=\"関西\">\n    <option value=\"osaka\">大阪府</option>\n  </optgroup>\n</select>",
+            "props": [
+                {
+                    "name": "multiple",
+                    "desc": "複数選択を許可（リスト表示に変わる）"
+                },
+                {
+                    "name": "size",
+                    "desc": "一度に表示する行数"
+                },
+                {
+                    "name": "required",
+                    "desc": "選択必須にする"
+                },
+                {
+                    "name": "disabled",
+                    "desc": "選択を無効化"
+                }
+            ],
+            "tags": [
+                "フォーム",
+                "選択",
+                "ドロップダウン"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/select"
+        },
+        {
+            "name": "&lt;option&gt;",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "select / datalist 内の各選択肢を定義する。value 属性で送信値を、テキスト内容で表示名を指定する。selected 属性で初期選択状態にできる。",
+            "demo": "<div style=\"font-size:0.85rem\"><select style=\"padding:4px 8px;border:1px solid #aaa;border-radius:4px\"><option value=\"\" disabled>選択肢の例</option><option value=\"a\" selected>選択肢A（selected）</option><option value=\"b\">選択肢B</option><option value=\"c\" disabled>選択肢C（disabled）</option></select></div>",
+            "code": "<select name=\"fruit\">\n  <option value=\"\">果物を選択</option>\n  <option value=\"apple\" selected>りんご</option>\n  <option value=\"banana\">バナナ</option>\n  <option value=\"grape\" disabled>ぶどう（売切）</option>\n</select>",
+            "props": [
+                {
+                    "name": "value",
+                    "desc": "送信される値（省略時はテキスト内容）"
+                },
+                {
+                    "name": "selected",
+                    "desc": "初期選択状態"
+                },
+                {
+                    "name": "disabled",
+                    "desc": "選択不可にする"
+                },
+                {
+                    "name": "label",
+                    "desc": "表示用の短縮ラベル"
+                }
+            ],
+            "tags": [
+                "フォーム",
+                "選択"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/option"
+        },
+        {
+            "name": "&lt;optgroup&gt;",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "select 内の選択肢をグループ化する。label 属性でグループ名が太字で表示される。グループ自体は選択できない。",
+            "demo": "<div style=\"font-size:0.85rem\"><select style=\"padding:4px 8px;border:1px solid #aaa;border-radius:4px\"><optgroup label=\"果物\"><option>りんご</option><option>バナナ</option></optgroup><optgroup label=\"野菜\"><option>にんじん</option><option>キャベツ</option></optgroup></select></div>",
+            "code": "<select name=\"food\">\n  <optgroup label=\"果物\">\n    <option value=\"apple\">りんご</option>\n    <option value=\"banana\">バナナ</option>\n  </optgroup>\n  <optgroup label=\"野菜\">\n    <option value=\"carrot\">にんじん</option>\n  </optgroup>\n</select>",
+            "props": [
+                {
+                    "name": "label",
+                    "desc": "グループの表示名（必須）"
+                },
+                {
+                    "name": "disabled",
+                    "desc": "グループ内の全選択肢を無効化"
+                }
+            ],
+            "tags": [
+                "フォーム",
+                "選択",
+                "グループ化"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/optgroup"
+        },
+        {
+            "name": "&lt;datalist&gt;",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "入力候補（サジェスト）リストを提供する。input 要素の list 属性と datalist の id を紐づけて使用する。ユーザーは候補から選択することも自由入力することもできる。",
+            "demo": "<div style=\"font-size:0.85rem\"><label>ブラウザ: <input type=\"text\" list=\"browsers-demo\" placeholder=\"入力 or 選択\" style=\"padding:4px 8px;border:1px solid #aaa;border-radius:4px;width:150px\" /></label><datalist id=\"browsers-demo\"><option value=\"Chrome\"><option value=\"Firefox\"><option value=\"Safari\"><option value=\"Edge\"></datalist></div>",
+            "code": "<label for=\"browser\">ブラウザ:</label>\n<input type=\"text\" id=\"browser\" name=\"browser\"\n       list=\"browsers\" />\n<datalist id=\"browsers\">\n  <option value=\"Chrome\" />\n  <option value=\"Firefox\" />\n  <option value=\"Safari\" />\n  <option value=\"Edge\" />\n</datalist>",
+            "props": [
+                {
+                    "name": "id",
+                    "desc": "input の list 属性と紐づける識別子"
+                }
+            ],
+            "tags": [
+                "フォーム",
+                "サジェスト",
+                "UX"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/datalist"
+        },
+        {
+            "name": "&lt;label&gt;",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "フォームコントロールのラベル。for 属性で対象の id を指定するか、input を内包する。クリック範囲が広がりUX向上、スクリーンリーダーでの読み上げにも必須。",
+            "demo": "<div style=\"font-size:0.85rem;display:flex;flex-direction:column;gap:6px\"><div><label for=\"demo-name\" style=\"cursor:pointer;font-weight:600\">名前（for属性）:</label> <input id=\"demo-name\" type=\"text\" style=\"padding:4px;border:1px solid #aaa;border-radius:4px\" /></div><label style=\"cursor:pointer;font-weight:600\">内包型: <input type=\"text\" style=\"padding:4px;border:1px solid #aaa;border-radius:4px\" /></label></div>",
+            "code": "<!-- for属性で紐づけ -->\n<label for=\"email\">メール:</label>\n<input type=\"email\" id=\"email\" name=\"email\" />\n\n<!-- input を内包 -->\n<label>\n  名前: <input type=\"text\" name=\"name\" />\n</label>",
+            "props": [
+                {
+                    "name": "for",
+                    "desc": "紐づけるフォームコントロールのid"
+                }
+            ],
+            "tags": [
+                "フォーム",
+                "アクセシビリティ",
+                "基本"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/label"
+        },
+        {
+            "name": "&lt;fieldset&gt; / &lt;legend&gt;",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "フォームコントロールをグループ化する fieldset と、そのグループ名を表示する legend のセット。視覚的にも意味的にも関連する入力項目をまとめられる。disabled 属性で内部の全コントロールを一括無効化できる。",
+            "demo": "<fieldset style=\"border:2px solid #94a3b8;border-radius:8px;padding:12px;font-size:0.85rem;max-width:240px\"><legend style=\"font-weight:700;padding:0 6px\">配送先</legend><label>氏名: <input type=\"text\" style=\"padding:3px;border:1px solid #aaa;border-radius:4px;width:120px\" /></label><br/><label style=\"margin-top:6px;display:inline-block\">住所: <input type=\"text\" style=\"padding:3px;border:1px solid #aaa;border-radius:4px;width:120px\" /></label></fieldset>",
+            "code": "<fieldset>\n  <legend>配送先情報</legend>\n  <label for=\"fname\">氏名:</label>\n  <input type=\"text\" id=\"fname\" name=\"fullname\" />\n  <label for=\"addr\">住所:</label>\n  <input type=\"text\" id=\"addr\" name=\"address\" />\n</fieldset>",
+            "props": [
+                {
+                    "name": "disabled (fieldset)",
+                    "desc": "内部の全コントロールを一括無効化"
+                },
+                {
+                    "name": "form (fieldset)",
+                    "desc": "所属するフォームのidを指定"
+                },
+                {
+                    "name": "legend テキスト",
+                    "desc": "グループのキャプション"
+                }
+            ],
+            "tags": [
+                "フォーム",
+                "グループ化",
+                "アクセシビリティ"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/fieldset"
+        },
+        {
+            "name": "&lt;button&gt;",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "クリック可能なボタン。type 属性で submit（フォーム送信）・reset（リセット）・button（汎用）を切り替える。input type=\"submit\" よりも内部にHTMLを含められるため柔軟なデザインが可能。",
+            "demo": "<div style=\"font-size:0.85rem;display:flex;gap:8px;flex-wrap:wrap\"><button type=\"button\" style=\"padding:6px 16px;background:#3b82f6;color:#fff;border:none;border-radius:6px;cursor:pointer\">送信</button><button type=\"button\" style=\"padding:6px 16px;background:#ef4444;color:#fff;border:none;border-radius:6px;cursor:pointer\">削除</button><button type=\"button\" style=\"padding:6px 16px;background:#e5e7eb;color:#374151;border:1px solid #d1d5db;border-radius:6px;cursor:pointer\">キャンセル</button></div>",
+            "code": "<button type=\"submit\">送信</button>\n<button type=\"reset\">リセット</button>\n<button type=\"button\" onclick=\"handleClick()\">\n  カスタムボタン\n</button>",
+            "props": [
+                {
+                    "name": "type",
+                    "desc": "submit / reset / button"
+                },
+                {
+                    "name": "disabled",
+                    "desc": "ボタンを無効化"
+                },
+                {
+                    "name": "form",
+                    "desc": "所属するフォームのidを指定"
+                },
+                {
+                    "name": "formaction",
+                    "desc": "submit時の送信先URLを上書き"
+                }
+            ],
+            "tags": [
+                "フォーム",
+                "ボタン",
+                "基本"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/button"
+        },
+        {
+            "name": "&lt;output&gt;",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "計算結果やユーザーアクションの結果を表示するためのコンテナ。for 属性で関連する入力要素を指定する。スクリーンリーダーに対して「結果」であることを伝えるセマンティクスを持つ。",
+            "demo": "<form oninput=\"result.value=parseInt(a.value)+parseInt(b.value)\" style=\"font-size:0.85rem;display:flex;align-items:center;gap:6px\"><input name=\"a\" type=\"number\" value=\"5\" style=\"width:50px;padding:4px;border:1px solid #aaa;border-radius:4px\" /> + <input name=\"b\" type=\"number\" value=\"3\" style=\"width:50px;padding:4px;border:1px solid #aaa;border-radius:4px\" /> = <output name=\"result\" style=\"font-weight:700;color:#3b82f6\">8</output></form>",
+            "code": "<form oninput=\"total.value=\n  parseInt(price.value)*parseInt(qty.value)\">\n  <input name=\"price\" type=\"number\" value=\"100\" /> ×\n  <input name=\"qty\" type=\"number\" value=\"2\" /> =\n  <output name=\"total\" for=\"price qty\">200</output>\n</form>",
+            "props": [
+                {
+                    "name": "for",
+                    "desc": "計算に関連する入力要素のid（スペース区切り）"
+                },
+                {
+                    "name": "name",
+                    "desc": "フォーム送信時のキー名"
+                },
+                {
+                    "name": "form",
+                    "desc": "所属するフォームのid"
+                }
+            ],
+            "tags": [
+                "フォーム",
+                "出力",
+                "セマンティック"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/output"
+        },
+        {
+            "name": "&lt;progress&gt;",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "タスクの進捗状況を表すプログレスバー。value と max で進捗率を表現する。value を省略すると不定状態（アニメーション）になる。",
+            "demo": "<div style=\"font-size:0.85rem;display:flex;flex-direction:column;gap:6px\"><label>アップロード: <progress value=\"70\" max=\"100\" style=\"vertical-align:middle\"></progress> 70%</label><label>読み込み中: <progress style=\"vertical-align:middle\"></progress></label></div>",
+            "code": "<label>\n  進捗: <progress id=\"prog\" value=\"70\" max=\"100\"></progress>\n  <span>70%</span>\n</label>",
+            "props": [
+                {
+                    "name": "value",
+                    "desc": "現在の進捗値（省略で不定状態）"
+                },
+                {
+                    "name": "max",
+                    "desc": "最大値（デフォルト1）"
+                }
+            ],
+            "tags": [
+                "フォーム",
+                "進捗",
+                "UI"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/progress"
+        },
+        {
+            "name": "&lt;meter&gt;",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "既知の範囲内の計測値を表すゲージ。progress と異なり「現在の状態」を表す（ディスク使用量、スコアなど）。low / high / optimum でブラウザが色分けする。",
+            "demo": "<div style=\"font-size:0.85rem;display:flex;flex-direction:column;gap:6px\"><label>ディスク使用量: <meter min=\"0\" max=\"100\" low=\"33\" high=\"66\" optimum=\"20\" value=\"25\" style=\"vertical-align:middle\"></meter> 25%</label><label>CPU使用率: <meter min=\"0\" max=\"100\" low=\"33\" high=\"66\" optimum=\"20\" value=\"80\" style=\"vertical-align:middle\"></meter> 80%</label></div>",
+            "code": "<label>\n  ディスク: <meter min=\"0\" max=\"100\"\n    low=\"33\" high=\"66\" optimum=\"20\"\n    value=\"25\">25%</meter>\n</label>",
+            "props": [
+                {
+                    "name": "min / max",
+                    "desc": "範囲の最小・最大値"
+                },
+                {
+                    "name": "low",
+                    "desc": "低い範囲の上限"
+                },
+                {
+                    "name": "high",
+                    "desc": "高い範囲の下限"
+                },
+                {
+                    "name": "optimum",
+                    "desc": "最適値（色分けの基準）"
+                },
+                {
+                    "name": "value",
+                    "desc": "現在の値"
+                }
+            ],
+            "tags": [
+                "フォーム",
+                "ゲージ",
+                "セマンティック"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/meter"
+        }
+    ]
+}

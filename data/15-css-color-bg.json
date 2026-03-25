@@ -1,0 +1,524 @@
+{
+    "cat": "CSSカラー・背景",
+    "catIcon": "🎨",
+    "catDesc": "色の指定方法と背景画像・グラデーションのCSSプロパティ。HEX・RGB・HSL・oklch等の色表現と背景制御を網羅。",
+    "items": [
+        {
+            "name": "color",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "テキスト（前景色）の色を指定する。継承されるため、body等の祖先要素で設定すると子孫全体に適用される。",
+            "demo": "<p style=\"color:#1e293b;font-size:0.85rem\">color: #1e293b（ダークグレー）</p><p style=\"color:#dc2626;font-size:0.85rem\">color: #dc2626（赤）</p><p style=\"color:rgb(59,130,246);font-size:0.85rem\">color: rgb(59,130,246)（青）</p><p style=\"color:hsl(160,84%,39%);font-size:0.85rem\">color: hsl(160,84%,39%)（緑）</p>",
+            "code": "body {\n  color: #1e293b;\n}\na {\n  color: #2563eb;\n}\n.error {\n  color: #dc2626;\n}",
+            "props": [
+                {
+                    "name": "<named-color>",
+                    "desc": "red, blue, transparent 等のキーワード"
+                },
+                {
+                    "name": "#HEX",
+                    "desc": "#RGB / #RRGGBB / #RRGGBBAA"
+                },
+                {
+                    "name": "rgb()",
+                    "desc": "rgb(R G B) または rgb(R G B / A)"
+                },
+                {
+                    "name": "hsl()",
+                    "desc": "hsl(H S L) または hsl(H S L / A)"
+                },
+                {
+                    "name": "currentColor",
+                    "desc": "現在のcolor値を参照"
+                }
+            ],
+            "tags": [
+                "基本",
+                "カラー"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/color"
+        },
+        {
+            "name": "HEX / RGB / HSL 表記",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "CSSで色を指定する主要な3形式。HEXは16進数、RGBは赤緑青の0-255、HSLは色相・彩度・明度で指定。それぞれアルファ値（透明度）の付加が可能。",
+            "demo": "<div style=\"display:flex;gap:4px;flex-wrap:wrap\"><span style=\"background:#3b82f6;color:#fff;padding:4px 8px;font-size:0.75rem;border-radius:4px\">#3b82f6</span><span style=\"background:rgb(239 68 68);color:#fff;padding:4px 8px;font-size:0.75rem;border-radius:4px\">rgb(239 68 68)</span><span style=\"background:hsl(142 71% 45%);color:#fff;padding:4px 8px;font-size:0.75rem;border-radius:4px\">hsl(142 71% 45%)</span><span style=\"background:rgb(139 92 246 / 0.5);padding:4px 8px;font-size:0.75rem;border-radius:4px\">rgb(α=0.5)</span></div>",
+            "code": "/* HEX */\n.blue { color: #3b82f6; }\n.blue-alpha { color: #3b82f680; } /* 50%透明 */\n\n/* RGB (モダン構文) */\n.red { color: rgb(239 68 68); }\n.red-alpha { color: rgb(239 68 68 / 0.5); }\n\n/* HSL */\n.green { color: hsl(142 71% 45%); }\n.green-alpha { color: hsl(142 71% 45% / 0.8); }",
+            "props": [
+                {
+                    "name": "#RRGGBB",
+                    "desc": "6桁HEX。#RGBの3桁短縮形も可"
+                },
+                {
+                    "name": "#RRGGBBAA",
+                    "desc": "8桁HEX（アルファ付き）"
+                },
+                {
+                    "name": "rgb(R G B / A)",
+                    "desc": "モダンRGB構文（スペース区切り）"
+                },
+                {
+                    "name": "hsl(H S L / A)",
+                    "desc": "色相(0-360) 彩度(%) 明度(%)"
+                }
+            ],
+            "tags": [
+                "基本",
+                "カラー",
+                "色表現"
+            ],
+            "browser": "全ブラウザ対応（モダン構文はIE非対応）",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/color_value"
+        },
+        {
+            "name": "oklch() / oklab()",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "人間の知覚に基づくモダンな色空間。oklchは明度・彩度・色相で指定し、均一な知覚的明るさを実現。デザインシステムの色パレット生成に最適。",
+            "demo": "<div style=\"display:flex;gap:4px;flex-wrap:wrap\"><span style=\"background:oklch(0.7 0.15 240);color:#fff;padding:4px 8px;font-size:0.75rem;border-radius:4px\">oklch(0.7 0.15 240)</span><span style=\"background:oklch(0.7 0.15 150);color:#fff;padding:4px 8px;font-size:0.75rem;border-radius:4px\">oklch(0.7 0.15 150)</span><span style=\"background:oklch(0.7 0.15 30);color:#fff;padding:4px 8px;font-size:0.75rem;border-radius:4px\">oklch(0.7 0.15 30)</span><span style=\"background:oklch(0.7 0.15 330);color:#fff;padding:4px 8px;font-size:0.75rem;border-radius:4px\">oklch(0.7 0.15 330)</span></div>",
+            "code": ":root {\n  --primary: oklch(0.6 0.2 250);\n  --primary-light: oklch(0.8 0.12 250);\n  --primary-dark: oklch(0.4 0.2 250);\n}\n/* 同じ知覚的明るさで色相だけ変更 */\n.success { color: oklch(0.65 0.2 145); }\n.warning { color: oklch(0.65 0.2 85); }\n.danger  { color: oklch(0.65 0.2 25); }",
+            "props": [
+                {
+                    "name": "L (Lightness)",
+                    "desc": "明度。0（黒）〜1（白）"
+                },
+                {
+                    "name": "C (Chroma)",
+                    "desc": "彩度。0（無彩色）〜約0.4"
+                },
+                {
+                    "name": "H (Hue)",
+                    "desc": "色相。0〜360度"
+                },
+                {
+                    "name": "/ alpha",
+                    "desc": "透明度（省略可）"
+                }
+            ],
+            "tags": [
+                "モダンCSS",
+                "カラー",
+                "デザインシステム"
+            ],
+            "browser": "Chrome 111+ / Firefox 113+ / Safari 15.4+",
+            "mdn": "https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/oklch"
+        },
+        {
+            "name": "opacity",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "要素全体の不透明度を制御する。0（完全透明）〜1（不透明）。子要素も含めて透明になる点に注意。テキストだけ透過したい場合はrgbaやhslaを使用。",
+            "demo": "<div style=\"display:flex;gap:8px;align-items:center\"><div style=\"opacity:1;background:#3b82f6;color:#fff;padding:8px;font-size:0.8rem;border-radius:4px\">opacity:1</div><div style=\"opacity:0.7;background:#3b82f6;color:#fff;padding:8px;font-size:0.8rem;border-radius:4px\">opacity:0.7</div><div style=\"opacity:0.4;background:#3b82f6;color:#fff;padding:8px;font-size:0.8rem;border-radius:4px\">opacity:0.4</div><div style=\"opacity:0.1;background:#3b82f6;color:#fff;padding:8px;font-size:0.8rem;border-radius:4px\">opacity:0.1</div></div>",
+            "code": ".faded {\n  opacity: 0.5;\n}\n.overlay {\n  opacity: 0;\n  transition: opacity 0.3s;\n}\n.overlay:hover {\n  opacity: 1;\n}",
+            "props": [
+                {
+                    "name": "0",
+                    "desc": "完全に透明"
+                },
+                {
+                    "name": "1",
+                    "desc": "完全に不透明（デフォルト）"
+                },
+                {
+                    "name": "0〜1の小数",
+                    "desc": "中間の透明度"
+                }
+            ],
+            "tags": [
+                "基本",
+                "効果",
+                "アニメーション"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/opacity"
+        },
+        {
+            "name": "background-color",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "要素の背景色を指定する。background-imageの下に描画される。transparentがデフォルト値。",
+            "demo": "<div style=\"display:flex;gap:4px;flex-wrap:wrap\"><div style=\"background-color:#dbeafe;padding:8px;font-size:0.8rem;border-radius:4px\">Light Blue</div><div style=\"background-color:#fef3c7;padding:8px;font-size:0.8rem;border-radius:4px\">Light Yellow</div><div style=\"background-color:#dcfce7;padding:8px;font-size:0.8rem;border-radius:4px\">Light Green</div><div style=\"background-color:#fecaca;padding:8px;font-size:0.8rem;border-radius:4px\">Light Red</div></div>",
+            "code": ".card {\n  background-color: #ffffff;\n}\n.highlight {\n  background-color: rgba(251, 191, 36, 0.2);\n}\n.dark {\n  background-color: #1e293b;\n  color: #f8fafc;\n}",
+            "props": [
+                {
+                    "name": "<color>",
+                    "desc": "任意のCSS色値"
+                },
+                {
+                    "name": "transparent",
+                    "desc": "透明（デフォルト）"
+                }
+            ],
+            "tags": [
+                "基本",
+                "背景",
+                "カラー"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/background-color"
+        },
+        {
+            "name": "background-image",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "要素の背景に画像やグラデーションを設定する。複数の背景をカンマ区切りで重ねられる。最初に指定した画像が最前面になる。",
+            "demo": "<div style=\"background-image:linear-gradient(135deg,#667eea 0%,#764ba2 100%);height:60px;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.85rem\">background-image: linear-gradient()</div>",
+            "code": ".hero {\n  background-image: url('hero.jpg');\n  background-size: cover;\n  background-position: center;\n}\n.gradient {\n  background-image: linear-gradient(135deg, #667eea, #764ba2);\n}\n/* 複数背景 */\n.multi {\n  background-image:\n    url('overlay.png'),\n    linear-gradient(to bottom, #000, #333);\n}",
+            "props": [
+                {
+                    "name": "url()",
+                    "desc": "画像ファイルのパス"
+                },
+                {
+                    "name": "linear-gradient()",
+                    "desc": "線形グラデーション"
+                },
+                {
+                    "name": "radial-gradient()",
+                    "desc": "放射グラデーション"
+                },
+                {
+                    "name": "conic-gradient()",
+                    "desc": "円錐グラデーション"
+                },
+                {
+                    "name": "none",
+                    "desc": "背景画像なし（デフォルト）"
+                }
+            ],
+            "tags": [
+                "背景",
+                "グラデーション",
+                "デザイン"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/background-image"
+        },
+        {
+            "name": "linear-gradient()",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "直線的な色のグラデーションを生成するCSS関数。角度や方向を指定でき、2色以上のカラーストップを定義可能。",
+            "demo": "<div style=\"display:flex;gap:6px;flex-wrap:wrap\"><div style=\"width:80px;height:50px;background:linear-gradient(to right,#3b82f6,#8b5cf6);border-radius:4px\"></div><div style=\"width:80px;height:50px;background:linear-gradient(135deg,#f97316,#ec4899);border-radius:4px\"></div><div style=\"width:80px;height:50px;background:linear-gradient(to bottom,#22c55e,#06b6d4,#3b82f6);border-radius:4px\"></div></div>",
+            "code": ".gradient1 {\n  background: linear-gradient(to right, #3b82f6, #8b5cf6);\n}\n.gradient2 {\n  background: linear-gradient(135deg, #f97316, #ec4899);\n}\n.gradient3 {\n  background: linear-gradient(\n    to bottom,\n    #22c55e 0%,\n    #06b6d4 50%,\n    #3b82f6 100%\n  );\n}",
+            "props": [
+                {
+                    "name": "角度 / 方向",
+                    "desc": "45deg, to right, to bottom left 等"
+                },
+                {
+                    "name": "カラーストップ",
+                    "desc": "色と位置（%やpx）のペア"
+                },
+                {
+                    "name": "repeating-linear-gradient",
+                    "desc": "繰り返しグラデーション"
+                }
+            ],
+            "tags": [
+                "グラデーション",
+                "背景",
+                "デザイン"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/gradient/linear-gradient"
+        },
+        {
+            "name": "radial-gradient()",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "中心から放射状に広がるグラデーションを生成する。円形（circle）または楕円形（ellipse）を指定でき、位置やサイズも制御可能。",
+            "demo": "<div style=\"display:flex;gap:6px\"><div style=\"width:80px;height:80px;background:radial-gradient(circle,#fbbf24,#f97316);border-radius:4px\"></div><div style=\"width:80px;height:80px;background:radial-gradient(circle at 30% 30%,#fff 0%,#3b82f6 70%);border-radius:4px\"></div><div style=\"width:80px;height:80px;background:radial-gradient(ellipse,#ec4899,#8b5cf6,#1e293b);border-radius:4px\"></div></div>",
+            "code": ".sun {\n  background: radial-gradient(circle, #fbbf24, #f97316);\n}\n.spotlight {\n  background: radial-gradient(\n    circle at 30% 30%,\n    rgba(255,255,255,0.8),\n    transparent 60%\n  );\n}\n.orb {\n  background: radial-gradient(ellipse, #ec4899, #1e293b);\n}",
+            "props": [
+                {
+                    "name": "shape",
+                    "desc": "circle（円形）/ ellipse（楕円形、デフォルト）"
+                },
+                {
+                    "name": "size",
+                    "desc": "closest-side / farthest-corner 等"
+                },
+                {
+                    "name": "position",
+                    "desc": "at X Y で中心位置を指定"
+                },
+                {
+                    "name": "カラーストップ",
+                    "desc": "色と位置のペア"
+                }
+            ],
+            "tags": [
+                "グラデーション",
+                "背景",
+                "デザイン"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/gradient/radial-gradient"
+        },
+        {
+            "name": "conic-gradient()",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "中心を軸に円錐状（角度方向）に広がるグラデーション。円グラフや色相環の表現に適している。",
+            "demo": "<div style=\"display:flex;gap:8px;align-items:center\"><div style=\"width:70px;height:70px;background:conic-gradient(#ef4444 0% 33%,#3b82f6 33% 66%,#22c55e 66% 100%);border-radius:50%\"></div><div style=\"width:70px;height:70px;background:conic-gradient(from 0deg,red,yellow,lime,aqua,blue,magenta,red);border-radius:50%\"></div></div>",
+            "code": "/* 円グラフ */\n.pie {\n  background: conic-gradient(\n    #ef4444 0% 40%,\n    #3b82f6 40% 70%,\n    #22c55e 70% 100%\n  );\n  border-radius: 50%;\n}\n/* 色相環 */\n.hue-wheel {\n  background: conic-gradient(from 0deg, red, yellow, lime, aqua, blue, magenta, red);\n  border-radius: 50%;\n}",
+            "props": [
+                {
+                    "name": "from <angle>",
+                    "desc": "グラデーション開始角度"
+                },
+                {
+                    "name": "at <position>",
+                    "desc": "中心位置"
+                },
+                {
+                    "name": "カラーストップ",
+                    "desc": "色と角度/割合のペア"
+                }
+            ],
+            "tags": [
+                "グラデーション",
+                "背景",
+                "デザイン"
+            ],
+            "browser": "Chrome 69+ / Firefox 83+ / Safari 12.1+",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/gradient/conic-gradient"
+        },
+        {
+            "name": "background-size",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "背景画像のサイズを指定する。coverで領域全体を覆い、containで画像全体を表示。レスポンシブなヒーロー画像に必須。",
+            "demo": "<div style=\"display:flex;gap:6px\"><div style=\"width:100px;height:70px;background:linear-gradient(45deg,#3b82f6 25%,transparent 25%,transparent 75%,#3b82f6 75%),linear-gradient(45deg,#3b82f6 25%,transparent 25%,transparent 75%,#3b82f6 75%);background-size:20px 20px;background-position:0 0,10px 10px;background-color:#dbeafe;border-radius:4px\"></div><div style=\"width:100px;height:70px;background:repeating-linear-gradient(45deg,#22c55e,#22c55e 5px,#dcfce7 5px,#dcfce7 10px);border-radius:4px\"></div></div>",
+            "code": ".hero {\n  background-image: url('bg.jpg');\n  background-size: cover;   /* 領域を隙間なく覆う */\n  background-position: center;\n}\n.logo {\n  background-size: contain; /* 画像全体を表示 */\n  background-repeat: no-repeat;\n}\n.pattern {\n  background-size: 20px 20px;\n}",
+            "props": [
+                {
+                    "name": "cover",
+                    "desc": "アスペクト比を保ち領域全体を覆う"
+                },
+                {
+                    "name": "contain",
+                    "desc": "アスペクト比を保ち画像全体を表示"
+                },
+                {
+                    "name": "auto",
+                    "desc": "画像の元サイズ（デフォルト）"
+                },
+                {
+                    "name": "<length> / <percentage>",
+                    "desc": "幅と高さを直接指定"
+                }
+            ],
+            "tags": [
+                "背景",
+                "レスポンシブ",
+                "画像"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/background-size"
+        },
+        {
+            "name": "background-position",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "背景画像の表示位置を指定する。キーワード（center, top等）やpx/%で制御。background-sizeと組み合わせてトリミング位置を調整する。",
+            "demo": "<div style=\"display:flex;gap:4px\"><div style=\"width:70px;height:50px;background:linear-gradient(#3b82f6,#1d4ed8);background-size:40px 40px;background-position:left top;background-repeat:no-repeat;border:1px solid #ccc;font-size:0.6rem;color:#666;text-align:right;padding:2px\">left top</div><div style=\"width:70px;height:50px;background:linear-gradient(#3b82f6,#1d4ed8);background-size:40px 40px;background-position:center;background-repeat:no-repeat;border:1px solid #ccc;font-size:0.6rem;color:#666;text-align:right;padding:2px\">center</div><div style=\"width:70px;height:50px;background:linear-gradient(#3b82f6,#1d4ed8);background-size:40px 40px;background-position:right bottom;background-repeat:no-repeat;border:1px solid #ccc;font-size:0.6rem;color:#666;text-align:left;padding:2px\">right btm</div></div>",
+            "code": ".hero {\n  background-position: center center;\n}\n.portrait {\n  background-position: center top;\n}\n.custom {\n  background-position: 20% 80%;\n}",
+            "props": [
+                {
+                    "name": "キーワード",
+                    "desc": "top / right / bottom / left / center"
+                },
+                {
+                    "name": "<percentage>",
+                    "desc": "0%=左端/上端、100%=右端/下端"
+                },
+                {
+                    "name": "<length>",
+                    "desc": "左上からの具体的なオフセット"
+                }
+            ],
+            "tags": [
+                "背景",
+                "画像",
+                "レイアウト"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/background-position"
+        },
+        {
+            "name": "background-repeat",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "背景画像の繰り返し方法を指定する。パターン背景はrepeat、写真背景はno-repeatが一般的。spaceやroundで均等配置も可能。",
+            "demo": "<div style=\"width:200px;height:50px;background:repeating-linear-gradient(90deg,#3b82f6 0px,#3b82f6 10px,#dbeafe 10px,#dbeafe 20px);border-radius:4px;margin-bottom:4px\"></div><div style=\"font-size:0.75rem;color:#666\">↑ repeating-linear-gradientによるストライプパターン例</div>",
+            "code": ".photo {\n  background-repeat: no-repeat;\n}\n.pattern {\n  background-repeat: repeat;\n}\n.stripe-x {\n  background-repeat: repeat-x;\n}",
+            "props": [
+                {
+                    "name": "repeat",
+                    "desc": "縦横に繰り返し（デフォルト）"
+                },
+                {
+                    "name": "no-repeat",
+                    "desc": "繰り返さない"
+                },
+                {
+                    "name": "repeat-x",
+                    "desc": "水平方向のみ繰り返し"
+                },
+                {
+                    "name": "repeat-y",
+                    "desc": "垂直方向のみ繰り返し"
+                },
+                {
+                    "name": "space",
+                    "desc": "画像間に均等スペースを入れて繰り返し"
+                },
+                {
+                    "name": "round",
+                    "desc": "画像を拡縮してぴったり繰り返し"
+                }
+            ],
+            "tags": [
+                "背景",
+                "パターン"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/background-repeat"
+        },
+        {
+            "name": "background-clip",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "背景の描画範囲を制御する。textを指定するとテキスト形状でクリップされ、グラデーション文字が実現できる。",
+            "demo": "<p style=\"font-size:1.5rem;font-weight:900;background:linear-gradient(90deg,#3b82f6,#ec4899);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent\">グラデーション文字</p>",
+            "code": "/* グラデーション文字 */\n.gradient-text {\n  background: linear-gradient(90deg, #3b82f6, #ec4899);\n  -webkit-background-clip: text;\n  background-clip: text;\n  -webkit-text-fill-color: transparent;\n  color: transparent;\n}\n/* 背景範囲の変更 */\n.padbox {\n  background-clip: padding-box;\n}",
+            "props": [
+                {
+                    "name": "border-box",
+                    "desc": "border領域まで描画（デフォルト）"
+                },
+                {
+                    "name": "padding-box",
+                    "desc": "padding領域まで描画"
+                },
+                {
+                    "name": "content-box",
+                    "desc": "content領域のみ描画"
+                },
+                {
+                    "name": "text",
+                    "desc": "テキスト形状でクリップ"
+                }
+            ],
+            "tags": [
+                "背景",
+                "デザイン",
+                "テクニック"
+            ],
+            "browser": "全ブラウザ対応（textは-webkit-プレフィックス推奨）",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/background-clip"
+        },
+        {
+            "name": "background-attachment",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "背景画像のスクロール挙動を制御する。fixedでパララックス効果のような固定背景が実現できる。モバイルでは制限がある場合がある。",
+            "demo": "<div style=\"height:80px;overflow-y:scroll;background:linear-gradient(135deg,#667eea,#764ba2);background-attachment:scroll;border-radius:4px;padding:8px;color:#fff;font-size:0.8rem\"><div style=\"height:200px\">スクロールしてください。background-attachment: scroll（デフォルト — 背景もスクロール）<br><br>↓ 下にコンテンツが続きます<br><br>ここまで</div></div>",
+            "code": ".parallax {\n  background-image: url('bg.jpg');\n  background-attachment: fixed;\n  background-size: cover;\n}\n.normal {\n  background-attachment: scroll;\n}",
+            "props": [
+                {
+                    "name": "scroll",
+                    "desc": "要素と一緒にスクロール（デフォルト）"
+                },
+                {
+                    "name": "fixed",
+                    "desc": "ビューポートに対して固定"
+                },
+                {
+                    "name": "local",
+                    "desc": "要素のコンテンツと一緒にスクロール"
+                }
+            ],
+            "tags": [
+                "背景",
+                "効果",
+                "パララックス"
+            ],
+            "browser": "全ブラウザ対応（fixedはモバイルで制限あり）",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/background-attachment"
+        },
+        {
+            "name": "background（ショートハンド）",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "背景関連プロパティを一括指定するショートハンド。省略されたプロパティは初期値にリセットされるため、個別指定の後に書くと上書きされる点に注意。",
+            "demo": "<div style=\"background:linear-gradient(135deg,#06b6d4,#3b82f6) no-repeat center/cover;height:60px;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.85rem\">background ショートハンド</div>",
+            "code": "/* image position/size repeat attachment color */\n.hero {\n  background: url('bg.jpg') center/cover no-repeat fixed #1e293b;\n}\n.gradient {\n  background: linear-gradient(135deg, #667eea, #764ba2);\n}",
+            "props": [
+                {
+                    "name": "background-image",
+                    "desc": "画像/グラデーション"
+                },
+                {
+                    "name": "background-position",
+                    "desc": "位置（/sizeと連結可）"
+                },
+                {
+                    "name": "background-size",
+                    "desc": "positionの後に / で指定"
+                },
+                {
+                    "name": "background-repeat",
+                    "desc": "繰り返し方法"
+                },
+                {
+                    "name": "background-attachment",
+                    "desc": "スクロール挙動"
+                },
+                {
+                    "name": "background-color",
+                    "desc": "背景色（最後のレイヤーのみ）"
+                }
+            ],
+            "tags": [
+                "ショートハンド",
+                "背景"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/background"
+        },
+        {
+            "name": "CSS カスタムプロパティ（変数）",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "--で始まるカスタムプロパティを定義し、var()で参照する。テーマカラーの一元管理やダークモード切替に不可欠。スコープ（カスケード）にも対応。",
+            "demo": "<div style=\"--accent:#3b82f6;--bg:#dbeafe;background:var(--bg);border-left:4px solid var(--accent);padding:8px;font-size:0.85rem;border-radius:0 4px 4px 0\">CSS変数で色を管理: <span style=\"color:var(--accent);font-weight:700\">--accent</span> と <span style=\"font-weight:700\">--bg</span></div>",
+            "code": ":root {\n  --color-primary: #3b82f6;\n  --color-bg: #ffffff;\n  --spacing: 1rem;\n}\n\n/* ダークモード */\n@media (prefers-color-scheme: dark) {\n  :root {\n    --color-primary: #60a5fa;\n    --color-bg: #0f172a;\n  }\n}\n\n.card {\n  background: var(--color-bg);\n  padding: var(--spacing);\n  border: 1px solid var(--color-primary);\n}\n\n/* フォールバック値 */\n.box {\n  color: var(--undefined, #333);\n}",
+            "props": [
+                {
+                    "name": "--*",
+                    "desc": "カスタムプロパティの定義（任意の名前）"
+                },
+                {
+                    "name": "var(--name)",
+                    "desc": "カスタムプロパティの参照"
+                },
+                {
+                    "name": "var(--name, fallback)",
+                    "desc": "未定義時のフォールバック値"
+                }
+            ],
+            "tags": [
+                "モダンCSS",
+                "テーマ",
+                "設計"
+            ],
+            "browser": "全モダンブラウザ対応（IE非対応）",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/--*"
+        }
+    ]
+}

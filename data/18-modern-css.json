@@ -1,0 +1,462 @@
+{
+    "cat": "モダンCSS新機能",
+    "catIcon": "✨",
+    "catDesc": "CSS Nesting、Container Queries、Cascade Layers、Subgridなど、近年のブラウザで利用可能になった最新CSS機能。",
+    "items": [
+        {
+            "name": "CSSネスティング（&amp;）",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "Sass/LESSのようなネスト構文がネイティブCSSで利用可能に。&セレクタで親要素を参照し、スタイルの構造を可読性高く記述できる。",
+            "demo": "<div style=\"font-size:0.8rem;background:#f8fafc;padding:8px;border-radius:4px;border:1px solid #e2e8f0\"><code style=\"color:#7c3aed\">.card</code> {<br>&nbsp;&nbsp;padding: 1rem;<br>&nbsp;&nbsp;<code style=\"color:#059669\">&amp; .title</code> { font-size: 1.2rem; }<br>&nbsp;&nbsp;<code style=\"color:#059669\">&amp;:hover</code> { box-shadow: ...; }<br>}</div>",
+            "code": ".card {\n  padding: 1rem;\n  background: #fff;\n  border-radius: 8px;\n\n  & .title {\n    font-size: 1.2rem;\n    font-weight: 700;\n  }\n\n  & .body {\n    color: #6b7280;\n  }\n\n  &:hover {\n    box-shadow: 0 4px 12px rgba(0,0,0,0.1);\n  }\n\n  @media (width < 768px) {\n    padding: 0.5rem;\n  }\n}",
+            "props": [
+                {
+                    "name": "&",
+                    "desc": "親セレクタを参照するネスティングセレクタ"
+                },
+                {
+                    "name": "ネストされたルール",
+                    "desc": "子セレクタを親の中に記述"
+                },
+                {
+                    "name": "@mediaのネスト",
+                    "desc": "メディアクエリもネスト可能"
+                }
+            ],
+            "tags": [
+                "モダンCSS",
+                "ネスティング",
+                "構文"
+            ],
+            "browser": "Chrome 120+ / Firefox 117+ / Safari 17.2+",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/CSS_nesting"
+        },
+        {
+            "name": "Container Queries（@container）",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "親コンテナのサイズに基づいてスタイルを適用する。メディアクエリがビューポート基準なのに対し、コンポーネント単位のレスポンシブが実現できる。",
+            "demo": "<div style=\"container-type:inline-size;max-width:250px;border:2px dashed #8b5cf6;padding:8px;border-radius:8px\"><div style=\"font-size:0.8rem;background:#f5f3ff;padding:8px;border-radius:4px\"><strong>コンテナ</strong>のサイズに応じてレイアウト変更。親が250px以下のためコンパクト表示。</div></div>",
+            "code": "/* コンテナとして宣言 */\n.card-wrapper {\n  container-type: inline-size;\n  container-name: card;\n}\n\n/* コンテナの幅に応じたスタイル */\n@container card (min-width: 400px) {\n  .card {\n    display: grid;\n    grid-template-columns: 200px 1fr;\n  }\n}\n@container card (max-width: 399px) {\n  .card {\n    display: block;\n  }\n  .card img {\n    width: 100%;\n  }\n}",
+            "props": [
+                {
+                    "name": "container-type",
+                    "desc": "inline-size / size / normal"
+                },
+                {
+                    "name": "container-name",
+                    "desc": "コンテナに名前を付ける"
+                },
+                {
+                    "name": "@container",
+                    "desc": "コンテナクエリの宣言"
+                },
+                {
+                    "name": "cqw / cqh",
+                    "desc": "コンテナクエリ単位（幅%/高さ%）"
+                }
+            ],
+            "tags": [
+                "モダンCSS",
+                "レスポンシブ",
+                "コンポーネント"
+            ],
+            "browser": "Chrome 105+ / Firefox 110+ / Safari 16+",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/CSS_containment/Container_queries"
+        },
+        {
+            "name": "Cascade Layers（@layer）",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "CSSカスケードにレイヤー概念を導入し、詳細度の競合を管理する。フレームワークのスタイルとカスタムスタイルの優先順位を明確にできる。",
+            "demo": "<div style=\"font-size:0.8rem;background:#f8fafc;padding:8px;border-radius:4px;border:1px solid #e2e8f0\"><code style=\"color:#7c3aed\">@layer</code> reset, base, components, utilities;<br><br>後に宣言されたレイヤーほど優先度が高い<br>→ utilities &gt; components &gt; base &gt; reset</div>",
+            "code": "/* レイヤー順序の宣言 */\n@layer reset, base, components, utilities;\n\n@layer reset {\n  * { margin: 0; padding: 0; box-sizing: border-box; }\n}\n\n@layer base {\n  body { font-family: system-ui; line-height: 1.6; }\n  a { color: #3b82f6; }\n}\n\n@layer components {\n  .btn { padding: 0.5rem 1rem; border-radius: 8px; }\n}\n\n@layer utilities {\n  .mt-4 { margin-top: 1rem; }\n  .hidden { display: none; }\n}\n\n/* レイヤー外 = 最高優先度 */",
+            "props": [
+                {
+                    "name": "@layer name",
+                    "desc": "名前付きレイヤーにスタイルを配置"
+                },
+                {
+                    "name": "@layer order",
+                    "desc": "レイヤーの優先順位を事前宣言"
+                },
+                {
+                    "name": "レイヤー外",
+                    "desc": "どのレイヤーよりも高い優先度"
+                }
+            ],
+            "tags": [
+                "モダンCSS",
+                "カスケード",
+                "設計"
+            ],
+            "browser": "Chrome 99+ / Firefox 97+ / Safari 15.4+",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/@layer"
+        },
+        {
+            "name": "Subgrid",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "子グリッドが親グリッドのトラック（行/列）を継承する。カードリスト内のタイトル・本文・フッターの高さを親グリッドで揃えられる。",
+            "demo": "<div style=\"display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:0.75rem\"><div style=\"display:grid;grid-template-rows:auto 1fr auto;border:1px solid #3b82f6;border-radius:4px;padding:6px\"><div style=\"font-weight:700;color:#1d4ed8\">タイトル A</div><div style=\"color:#6b7280\">短い本文</div><div style=\"font-size:0.65rem;color:#9ca3af\">フッター</div></div><div style=\"display:grid;grid-template-rows:auto 1fr auto;border:1px solid #3b82f6;border-radius:4px;padding:6px\"><div style=\"font-weight:700;color:#1d4ed8\">タイトル B</div><div style=\"color:#6b7280\">長い本文テキスト。subgridで高さが揃います。</div><div style=\"font-size:0.65rem;color:#9ca3af\">フッター</div></div></div>",
+            "code": ".card-grid {\n  display: grid;\n  grid-template-columns: repeat(3, 1fr);\n  grid-template-rows: auto 1fr auto;\n  gap: 1rem;\n}\n.card {\n  display: grid;\n  grid-row: span 3;\n  grid-template-rows: subgrid; /* 親のトラックを継承 */\n  gap: 0.5rem;\n  border: 1px solid #e5e7eb;\n  border-radius: 8px;\n  padding: 1rem;\n}",
+            "props": [
+                {
+                    "name": "subgrid",
+                    "desc": "grid-template-rows/columnsの値として使用"
+                },
+                {
+                    "name": "grid-row: span N",
+                    "desc": "親の複数トラックにまたがる"
+                }
+            ],
+            "tags": [
+                "モダンCSS",
+                "Grid",
+                "レイアウト"
+            ],
+            "browser": "Chrome 117+ / Firefox 71+ / Safari 16+",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/CSS_grid_layout/Subgrid"
+        },
+        {
+            "name": "color-mix()",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "2色を指定した割合で混合するCSS関数。ホバー時の明暗調整やテーマカラーのバリエーション生成にCSS変数と組み合わせて使用。",
+            "demo": "<div style=\"display:flex;gap:4px\"><div style=\"width:50px;height:40px;background:#3b82f6;border-radius:4px\"></div><div style=\"width:50px;height:40px;background:color-mix(in srgb,#3b82f6 75%,white);border-radius:4px\"></div><div style=\"width:50px;height:40px;background:color-mix(in srgb,#3b82f6 50%,white);border-radius:4px\"></div><div style=\"width:50px;height:40px;background:color-mix(in srgb,#3b82f6 75%,black);border-radius:4px\"></div></div>",
+            "code": ":root {\n  --primary: #3b82f6;\n}\n\n.btn {\n  background: var(--primary);\n}\n.btn:hover {\n  /* 20%暗くする */\n  background: color-mix(in srgb, var(--primary) 80%, black);\n}\n\n/* 色のバリエーション */\n.light {\n  background: color-mix(in oklch, var(--primary) 30%, white);\n}\n.dark {\n  background: color-mix(in oklch, var(--primary) 70%, black);\n}",
+            "props": [
+                {
+                    "name": "in <colorspace>",
+                    "desc": "色空間（srgb / oklch / hsl 等）"
+                },
+                {
+                    "name": "color1 %",
+                    "desc": "1つ目の色と割合"
+                },
+                {
+                    "name": "color2 %",
+                    "desc": "2つ目の色と割合"
+                }
+            ],
+            "tags": [
+                "モダンCSS",
+                "カラー",
+                "関数"
+            ],
+            "browser": "Chrome 111+ / Firefox 113+ / Safari 16.2+",
+            "mdn": "https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/color-mix"
+        },
+        {
+            "name": "clamp() / min() / max()",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "レスポンシブな値を1行で表現するCSS数学関数。clamp(最小, 推奨, 最大)でフルードタイポグラフィやフルードスペーシングが実現できる。",
+            "demo": "<p style=\"font-size:clamp(0.85rem,2vw,1.3rem);font-weight:700\">clamp(0.85rem, 2vw, 1.3rem) — 画面幅に応じて変化</p><div style=\"width:clamp(150px,50%,300px);height:30px;background:linear-gradient(90deg,#3b82f6,#8b5cf6);border-radius:4px;margin-top:4px\"></div><p style=\"font-size:0.75rem;color:#6b7280;margin-top:2px\">幅: clamp(150px, 50%, 300px)</p>",
+            "code": "/* フルードタイポグラフィ */\nh1 {\n  font-size: clamp(1.5rem, 4vw + 1rem, 3.5rem);\n}\n\n/* フルードスペーシング */\n.section {\n  padding: clamp(1rem, 5vw, 4rem);\n}\n\n/* min/max */\n.sidebar {\n  width: min(300px, 100%);\n}\n.container {\n  width: min(1200px, 100% - 2rem);\n  margin-inline: auto;\n}",
+            "props": [
+                {
+                    "name": "clamp(min, val, max)",
+                    "desc": "値をmin〜maxの範囲に制約"
+                },
+                {
+                    "name": "min(a, b)",
+                    "desc": "小さい方の値を選択"
+                },
+                {
+                    "name": "max(a, b)",
+                    "desc": "大きい方の値を選択"
+                }
+            ],
+            "tags": [
+                "モダンCSS",
+                "レスポンシブ",
+                "関数"
+            ],
+            "browser": "全モダンブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/clamp"
+        },
+        {
+            "name": "View Transitions API",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "ページ遷移やDOM変更時にスムーズなアニメーションを追加するAPI。document.startViewTransition()で呼び出し、::view-transitionで制御。",
+            "demo": "<div style=\"font-size:0.8rem;background:#f8fafc;border:1px solid #e2e8f0;padding:8px;border-radius:8px\"><code style=\"color:#7c3aed\">document.startViewTransition(</code><code style=\"color:#059669\">() =&gt; { updateDOM(); }</code><code style=\"color:#7c3aed\">)</code><br><br>ページ遷移時にクロスフェードアニメーションが適用されます。</div>",
+            "code": "/* ページ遷移アニメーション */\n@view-transition {\n  navigation: auto;\n}\n\n/* カスタムアニメーション */\n::view-transition-old(root) {\n  animation: fade-out 0.3s ease;\n}\n::view-transition-new(root) {\n  animation: fade-in 0.3s ease;\n}\n\n/* 特定要素のトランジション */\n.hero-image {\n  view-transition-name: hero;\n}\n\n/* JS API */\ndocument.startViewTransition(() => {\n  // DOMを更新\n  container.innerHTML = newContent;\n});",
+            "props": [
+                {
+                    "name": "view-transition-name",
+                    "desc": "要素にトランジション名を付与"
+                },
+                {
+                    "name": "::view-transition-old",
+                    "desc": "遷移前の状態"
+                },
+                {
+                    "name": "::view-transition-new",
+                    "desc": "遷移後の状態"
+                },
+                {
+                    "name": "startViewTransition()",
+                    "desc": "トランジションを開始するJS API"
+                }
+            ],
+            "tags": [
+                "モダンCSS",
+                "アニメーション",
+                "SPA"
+            ],
+            "browser": "Chrome 111+ / Firefox 未対応 / Safari 18+",
+            "mdn": "https://developer.mozilla.org/en-US/docs/Web/API/View_Transitions_API"
+        },
+        {
+            "name": "Scroll-driven Animations",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "スクロール位置に連動したアニメーションをCSS単体で実装。animation-timelineプロパティでスクロールタイムラインと紐付ける。",
+            "demo": "<div style=\"height:80px;overflow-y:scroll;border:1px solid #e2e8f0;border-radius:8px;position:relative\"><div style=\"height:4px;background:#3b82f6;position:sticky;top:0;width:30%;border-radius:2px\"></div><div style=\"height:300px;padding:8px;font-size:0.75rem;color:#6b7280\">スクロールすると上部のバーが進むイメージです。<br>scroll-timelineで実装。<br><br>↓ 下にスクロール<br><br><br><br>まだまだ続きます<br><br><br><br>最下部です</div></div>",
+            "code": "/* スクロールプログレスバー */\n.progress-bar {\n  position: fixed;\n  top: 0;\n  left: 0;\n  height: 4px;\n  background: #3b82f6;\n  transform-origin: left;\n  animation: grow-bar linear;\n  animation-timeline: scroll();\n}\n@keyframes grow-bar {\n  from { transform: scaleX(0); }\n  to   { transform: scaleX(1); }\n}\n\n/* 要素のフェードイン */\n.fade-in {\n  animation: appear linear;\n  animation-timeline: view();\n  animation-range: entry 0% entry 100%;\n}\n@keyframes appear {\n  from { opacity: 0; transform: translateY(40px); }\n  to   { opacity: 1; transform: translateY(0); }\n}",
+            "props": [
+                {
+                    "name": "animation-timeline",
+                    "desc": "scroll() / view() でタイムラインを指定"
+                },
+                {
+                    "name": "scroll()",
+                    "desc": "スクロール位置に連動"
+                },
+                {
+                    "name": "view()",
+                    "desc": "要素のビューポート内位置に連動"
+                },
+                {
+                    "name": "animation-range",
+                    "desc": "アニメーション範囲の開始/終了位置"
+                }
+            ],
+            "tags": [
+                "モダンCSS",
+                "アニメーション",
+                "スクロール"
+            ],
+            "browser": "Chrome 115+ / Firefox 未対応 / Safari 未対応",
+            "mdn": "https://developer.mozilla.org/en-US/docs/Web/CSS/animation-timeline"
+        },
+        {
+            "name": "Anchor Positioning",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "要素を別の要素（アンカー）に対して相対的に配置するCSS機能。ツールチップやドロップダウンの位置決めをCSSだけで行える。",
+            "demo": "<div style=\"font-size:0.8rem;background:#f8fafc;border:1px solid #e2e8f0;padding:8px;border-radius:8px\"><code>anchor-name: --trigger;</code><br><code>position-anchor: --trigger;</code><br><code>top: anchor(bottom);</code><br><br>JSなしでトリガー要素に追従する配置が可能に。</div>",
+            "code": "/* アンカーとなる要素 */\n.trigger {\n  anchor-name: --my-trigger;\n}\n\n/* アンカーに配置される要素 */\n.tooltip {\n  position: fixed;\n  position-anchor: --my-trigger;\n  top: anchor(bottom);\n  left: anchor(center);\n  translate: -50% 8px;\n  \n  /* フォールバック位置 */\n  position-try-fallbacks: flip-block;\n}",
+            "props": [
+                {
+                    "name": "anchor-name",
+                    "desc": "要素をアンカーとして名前付け"
+                },
+                {
+                    "name": "position-anchor",
+                    "desc": "配置先のアンカーを指定"
+                },
+                {
+                    "name": "anchor()",
+                    "desc": "アンカー要素の辺を参照する関数"
+                },
+                {
+                    "name": "position-try-fallbacks",
+                    "desc": "画面外に出た時の代替位置"
+                }
+            ],
+            "tags": [
+                "モダンCSS",
+                "配置",
+                "ツールチップ"
+            ],
+            "browser": "Chrome 125+ / Firefox 未対応 / Safari 未対応",
+            "mdn": "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_anchor_positioning"
+        },
+        {
+            "name": "@scope",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "スタイルの適用範囲（スコープ）を明示的に限定するCSSルール。コンポーネント内のみにスタイルを閉じ込め、意図しないスタイル漏れを防ぐ。",
+            "demo": "<div style=\"font-size:0.8rem;background:#f8fafc;border:1px solid #e2e8f0;padding:8px;border-radius:8px\"><code style=\"color:#7c3aed\">@scope (.card) to (.card-footer)</code> {<br>&nbsp;&nbsp;p { color: #333; } <span style=\"color:#6b7280\">/* .card内で.card-footer外のpのみ */</span><br>}</div>",
+            "code": "/* .card内のスタイルに限定 */\n@scope (.card) {\n  h2 { font-size: 1.2rem; }\n  p { color: #6b7280; }\n}\n\n/* 範囲の下限も指定（ドーナツスコープ） */\n@scope (.card) to (.card-footer) {\n  /* .card内で.card-footer外にのみ適用 */\n  a { color: #3b82f6; }\n}\n\n/* インラインscope（<style>内で使用） */\n<div class=\"widget\">\n  <style>\n    @scope { p { margin: 0; } }\n  </style>\n</div>",
+            "props": [
+                {
+                    "name": "@scope (root)",
+                    "desc": "スコープのルート（開始点）"
+                },
+                {
+                    "name": "to (limit)",
+                    "desc": "スコープの下限（除外境界）"
+                },
+                {
+                    "name": ":scope",
+                    "desc": "スコープルート自体を参照"
+                }
+            ],
+            "tags": [
+                "モダンCSS",
+                "スコープ",
+                "設計"
+            ],
+            "browser": "Chrome 118+ / Firefox 未対応 / Safari 17.4+",
+            "mdn": "https://developer.mozilla.org/en-US/docs/Web/CSS/@scope"
+        },
+        {
+            "name": "text-wrap: balance / pretty",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "テキストの折り返しを美しく調整する。balanceは各行の幅を均等にし、prettyは最終行の孤立単語を防ぐ。見出しや短文に最適。",
+            "demo": "<div style=\"max-width:220px\"><h3 style=\"text-wrap:balance;font-size:1rem;line-height:1.3;margin:0 0 8px 0\">これは text-wrap: balance で均等に折り返された見出しテキスト</h3><p style=\"text-wrap:pretty;font-size:0.8rem;color:#6b7280;margin:0\">本文テキストにはprettyを使い、最終行の孤立した短い単語を防ぎます。</p></div>",
+            "code": "h1, h2, h3 {\n  text-wrap: balance; /* 行幅を均等化 */\n}\n\np {\n  text-wrap: pretty; /* 孤立語を防止 */\n}",
+            "props": [
+                {
+                    "name": "wrap",
+                    "desc": "通常の折り返し（デフォルト）"
+                },
+                {
+                    "name": "balance",
+                    "desc": "各行の幅を均等に（6行以下推奨）"
+                },
+                {
+                    "name": "pretty",
+                    "desc": "最終行の孤立を防止"
+                },
+                {
+                    "name": "nowrap",
+                    "desc": "折り返しなし"
+                },
+                {
+                    "name": "stable",
+                    "desc": "編集中のテキスト安定化"
+                }
+            ],
+            "tags": [
+                "モダンCSS",
+                "タイポグラフィ",
+                "美観"
+            ],
+            "browser": "Chrome 114+ / Firefox 121+ / Safari 未対応（balance/pretty）",
+            "mdn": "https://developer.mozilla.org/en-US/docs/Web/CSS/text-wrap"
+        },
+        {
+            "name": "color-scheme / prefers-color-scheme",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "ライト/ダークモードの対応。color-schemeでブラウザUIの配色を指定し、prefers-color-schemeメディアクエリでユーザー設定に応じたスタイルを適用。",
+            "demo": "<div style=\"display:flex;gap:6px\"><div style=\"background:#fff;color:#1e293b;padding:8px 12px;border-radius:6px;border:1px solid #e5e7eb;font-size:0.8rem\">☀ ライトモード</div><div style=\"background:#0f172a;color:#e2e8f0;padding:8px 12px;border-radius:6px;font-size:0.8rem\">🌙 ダークモード</div></div>",
+            "code": "/* ブラウザUIのカラースキーム指定 */\n:root {\n  color-scheme: light dark;\n}\n\n/* CSS変数でテーマ管理 */\n:root {\n  --bg: #ffffff;\n  --text: #1e293b;\n  --primary: #3b82f6;\n}\n\n@media (prefers-color-scheme: dark) {\n  :root {\n    --bg: #0f172a;\n    --text: #e2e8f0;\n    --primary: #60a5fa;\n  }\n}\n\nbody {\n  background: var(--bg);\n  color: var(--text);\n}\n\n/* light-dark()関数（新しい構文） */\nbody {\n  background: light-dark(#fff, #0f172a);\n}",
+            "props": [
+                {
+                    "name": "color-scheme",
+                    "desc": "対応するカラースキーム（light / dark）"
+                },
+                {
+                    "name": "prefers-color-scheme",
+                    "desc": "ユーザーのOS設定を検知"
+                },
+                {
+                    "name": "light-dark()",
+                    "desc": "ライト/ダーク値を1行で指定"
+                }
+            ],
+            "tags": [
+                "モダンCSS",
+                "ダークモード",
+                "テーマ"
+            ],
+            "browser": "全モダンブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/color-scheme"
+        },
+        {
+            "name": "@property",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "カスタムプロパティ（CSS変数）に型情報を付与する。これにより、transitionやanimationでCSS変数値をアニメーション可能にする。",
+            "demo": "<div style=\"width:100px;height:100px;background:conic-gradient(#3b82f6 0% 70%,#e5e7eb 70% 100%);border-radius:50%;display:flex;align-items:center;justify-content:center\"><span style=\"background:#fff;width:70px;height:70px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.9rem\">70%</span></div>",
+            "code": "/* カスタムプロパティの型定義 */\n@property --progress {\n  syntax: '<percentage>';\n  inherits: false;\n  initial-value: 0%;\n}\n\n.circle-progress {\n  --progress: 0%;\n  background: conic-gradient(\n    #3b82f6 var(--progress),\n    #e5e7eb var(--progress)\n  );\n  border-radius: 50%;\n  transition: --progress 1s ease;\n}\n.circle-progress.active {\n  --progress: 75%;\n}\n\n/* グラデーションのアニメーション */\n@property --angle {\n  syntax: '<angle>';\n  inherits: false;\n  initial-value: 0deg;\n}",
+            "props": [
+                {
+                    "name": "syntax",
+                    "desc": "値の型（<percentage>, <color>, <length>等）"
+                },
+                {
+                    "name": "inherits",
+                    "desc": "値を子要素に継承するか"
+                },
+                {
+                    "name": "initial-value",
+                    "desc": "初期値"
+                }
+            ],
+            "tags": [
+                "モダンCSS",
+                "アニメーション",
+                "変数"
+            ],
+            "browser": "Chrome 85+ / Firefox 128+ / Safari 15.4+",
+            "mdn": "https://developer.mozilla.org/en-US/docs/Web/CSS/@property"
+        },
+        {
+            "name": "content-visibility",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "画面外の要素のレンダリングをスキップし、ページの初期表示速度を大幅に向上させるパフォーマンス最適化プロパティ。",
+            "demo": "<div style=\"font-size:0.8rem;background:#f0fdf4;border:1px solid #22c55e;padding:8px;border-radius:8px\">⚡ <strong>content-visibility: auto</strong><br>画面外のセクションのレンダリングを遅延し、初期ロードを高速化。contain-intrinsic-sizeでサイズヒントを提供。</div>",
+            "code": "/* 画面外のセクションはレンダリングをスキップ */\n.section {\n  content-visibility: auto;\n  contain-intrinsic-size: auto 500px;\n}\n\n/* 長いリストの最適化 */\n.list-item {\n  content-visibility: auto;\n  contain-intrinsic-size: auto 80px;\n}",
+            "props": [
+                {
+                    "name": "visible",
+                    "desc": "通常のレンダリング（デフォルト）"
+                },
+                {
+                    "name": "auto",
+                    "desc": "画面外なら描画をスキップ"
+                },
+                {
+                    "name": "hidden",
+                    "desc": "常にレンダリングをスキップ（display:noneに似る）"
+                },
+                {
+                    "name": "contain-intrinsic-size",
+                    "desc": "スキップ時の推定サイズ"
+                }
+            ],
+            "tags": [
+                "モダンCSS",
+                "パフォーマンス",
+                "最適化"
+            ],
+            "browser": "Chrome 85+ / Firefox 125+ / Safari 未対応",
+            "mdn": "https://developer.mozilla.org/en-US/docs/Web/CSS/content-visibility"
+        },
+        {
+            "name": "field-sizing",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "フォーム要素のサイズを内容に合わせて自動調整するプロパティ。textareaやinputのサイズが入力内容に応じて自動的に伸縮する。",
+            "demo": "<div style=\"font-size:0.8rem\"><textarea style=\"field-sizing:content;min-height:2em;padding:6px;border:1px solid #d1d5db;border-radius:4px;font-size:0.85rem;font-family:inherit;width:220px\" placeholder=\"入力すると自動で高さが伸びます\"></textarea></div>",
+            "code": "textarea {\n  field-sizing: content;\n  min-height: 2lh; /* 最小2行 */\n  max-height: 10lh; /* 最大10行 */\n}\n\ninput[type='text'] {\n  field-sizing: content;\n  min-width: 10ch;\n}\n\nselect {\n  field-sizing: content;\n}",
+            "props": [
+                {
+                    "name": "fixed",
+                    "desc": "固定サイズ（デフォルト）"
+                },
+                {
+                    "name": "content",
+                    "desc": "内容に応じて自動サイズ調整"
+                }
+            ],
+            "tags": [
+                "モダンCSS",
+                "フォーム",
+                "UX"
+            ],
+            "browser": "Chrome 123+ / Firefox 未対応 / Safari 未対応",
+            "mdn": "https://developer.mozilla.org/en-US/docs/Web/CSS/field-sizing"
+        }
+    ]
+}

@@ -1,0 +1,479 @@
+{
+    "cat": "JSストレージ・データ",
+    "catIcon": "💾",
+    "catDesc": "ブラウザ側でデータを保存・管理するAPI。localStorage、Cookie、IndexedDB、Clipboard APIなどを網羅。",
+    "items": [
+        {
+            "name": "localStorage",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "ブラウザにキー・バリュー形式でデータを永続保存するAPI。同一オリジンで共有され、ブラウザを閉じても残る。文字列のみ保存可能（5MB程度）。",
+            "demo": "<div style=\"display:flex;gap:4px;align-items:center\"><input id=\"ls-input\" type=\"text\" placeholder=\"値を入力\" style=\"padding:4px 8px;border:1px solid #d1d5db;border-radius:4px;font-size:0.8rem;width:120px\"><button onclick=\"localStorage.setItem('demo-key',document.getElementById('ls-input').value);document.getElementById('ls-result').textContent='保存: '+localStorage.getItem('demo-key')\" style=\"padding:4px 10px;background:#3b82f6;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:0.8rem\">保存</button><button onclick=\"localStorage.removeItem('demo-key');document.getElementById('ls-result').textContent='削除済み'\" style=\"padding:4px 10px;background:#ef4444;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:0.8rem\">削除</button></div><div id=\"ls-result\" style=\"font-size:0.8rem;margin-top:4px;color:#6b7280\"></div>",
+            "code": "// 保存\nlocalStorage.setItem('theme', 'dark');\nlocalStorage.setItem('user', JSON.stringify({ name: '太郎', age: 25 }));\n\n// 取得\nconst theme = localStorage.getItem('theme'); // 'dark'\nconst user = JSON.parse(localStorage.getItem('user'));\n\n// 削除\nlocalStorage.removeItem('theme');\n\n// 全消去\nlocalStorage.clear();\n\n// 保存数\nconsole.log(localStorage.length);\n\n// キー名の取得\nfor (let i = 0; i < localStorage.length; i++) {\n  const key = localStorage.key(i);\n  console.log(key, localStorage.getItem(key));\n}",
+            "props": [
+                {
+                    "name": "setItem(key, value)",
+                    "desc": "値を保存（文字列のみ）"
+                },
+                {
+                    "name": "getItem(key)",
+                    "desc": "値を取得（なければnull）"
+                },
+                {
+                    "name": "removeItem(key)",
+                    "desc": "指定キーを削除"
+                },
+                {
+                    "name": "clear()",
+                    "desc": "全データ削除"
+                },
+                {
+                    "name": "length",
+                    "desc": "保存されたキーの数"
+                },
+                {
+                    "name": "key(index)",
+                    "desc": "n番目のキー名を取得"
+                }
+            ],
+            "tags": [
+                "ストレージ",
+                "永続",
+                "基本"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/Window/localStorage"
+        },
+        {
+            "name": "sessionStorage",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "ページセッション中のみ有効な一時ストレージ。APIはlocalStorageと同一だが、タブ/ウィンドウを閉じるとデータが消える。タブごとに独立。",
+            "demo": "<button onclick=\"sessionStorage.setItem('count',Number(sessionStorage.getItem('count')||0)+1);this.nextElementSibling.textContent='クリック回数: '+sessionStorage.getItem('count')+' (タブを閉じるとリセット)'\" style=\"padding:6px 14px;background:#f59e0b;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:0.85rem\">カウントアップ</button><span style=\"margin-left:8px;font-size:0.8rem\"></span>",
+            "code": "// 使い方はlocalStorageと同じ\nsessionStorage.setItem('step', '3');\nconst step = sessionStorage.getItem('step');\nsessionStorage.removeItem('step');\nsessionStorage.clear();\n\n// ユースケース\n// - マルチステップフォームの一時保存\n// - フィルタ条件の一時記憶\n// - ワンタイムの操作状態",
+            "props": [
+                {
+                    "name": "setItem(key, value)",
+                    "desc": "値を保存（セッション中のみ）"
+                },
+                {
+                    "name": "getItem(key)",
+                    "desc": "値を取得"
+                },
+                {
+                    "name": "removeItem(key)",
+                    "desc": "指定キーを削除"
+                },
+                {
+                    "name": "clear()",
+                    "desc": "全データ削除"
+                }
+            ],
+            "tags": [
+                "ストレージ",
+                "一時",
+                "セッション"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/Window/sessionStorage"
+        },
+        {
+            "name": "Cookie（document.cookie）",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "サーバーとクライアント間で共有される小さなデータ。HTTPリクエストに自動付与される。有効期限・パス・Secure・SameSite属性で制御。上限約4KB。",
+            "demo": "<button onclick=\"document.cookie='demo=hello; max-age=60; path=/; SameSite=Lax';this.nextElementSibling.textContent='Cookie設定: '+document.cookie.substring(0,80)\" style=\"padding:6px 14px;background:#ec4899;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:0.85rem\">Cookie設定</button><div style=\"font-size:0.75rem;margin-top:4px;color:#6b7280;word-break:break-all\"></div>",
+            "code": "// Cookie設定\ndocument.cookie = 'name=太郎; max-age=86400; path=/; SameSite=Lax';\ndocument.cookie = 'theme=dark; expires=Fri, 31 Dec 2027 23:59:59 GMT; path=/';\n\n// Secure / HttpOnly（サーバーサイドで設定推奨）\n// Set-Cookie: token=abc; Secure; HttpOnly; SameSite=Strict\n\n// Cookie取得（パース必要）\nfunction getCookie(name) {\n  const match = document.cookie.match(\n    new RegExp('(^| )' + name + '=([^;]+)')\n  );\n  return match ? decodeURIComponent(match[2]) : null;\n}\n\n// Cookie削除（max-age=0で失効させる）\ndocument.cookie = 'name=; max-age=0; path=/';\n\n// 新しい CookieStore API（Chrome）\nawait cookieStore.set('key', 'value');\nconst cookie = await cookieStore.get('key');",
+            "props": [
+                {
+                    "name": "max-age",
+                    "desc": "有効期間（秒）"
+                },
+                {
+                    "name": "expires",
+                    "desc": "有効期限（日時文字列）"
+                },
+                {
+                    "name": "path",
+                    "desc": "Cookieが有効なパス"
+                },
+                {
+                    "name": "domain",
+                    "desc": "Cookieが有効なドメイン"
+                },
+                {
+                    "name": "Secure",
+                    "desc": "HTTPS通信のみ送信"
+                },
+                {
+                    "name": "SameSite",
+                    "desc": "Strict / Lax / None（CSRF対策）"
+                },
+                {
+                    "name": "HttpOnly",
+                    "desc": "JSからアクセス不可（サーバー設定）"
+                }
+            ],
+            "tags": [
+                "ストレージ",
+                "Cookie",
+                "認証"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/Document/cookie"
+        },
+        {
+            "name": "IndexedDB",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "ブラウザ内の大容量構造化データベース。オブジェクトストアにJSON風データを保存し、インデックスで高速検索。非同期APIでオフラインアプリに最適。",
+            "demo": "<button onclick=\"const r=indexedDB.open('demo',1);r.onupgradeneeded=e=>{e.target.result.createObjectStore('items',{keyPath:'id',autoIncrement:true})};r.onsuccess=e=>{const db=e.target.result;const tx=db.transaction('items','readwrite');tx.objectStore('items').add({name:'テスト',time:new Date().toLocaleTimeString()});tx.oncomplete=()=>{this.nextElementSibling.textContent='IndexedDBに保存しました！'}}\" style=\"padding:6px 14px;background:#7c3aed;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:0.85rem\">IndexedDB保存</button><span style=\"margin-left:8px;font-size:0.8rem\"></span>",
+            "code": "// データベースを開く（バージョン1）\nconst request = indexedDB.open('myApp', 1);\n\n// スキーマ作成（バージョンアップ時に実行）\nrequest.onupgradeneeded = (event) => {\n  const db = event.target.result;\n  const store = db.createObjectStore('users', { keyPath: 'id', autoIncrement: true });\n  store.createIndex('email', 'email', { unique: true });\n  store.createIndex('name', 'name', { unique: false });\n};\n\nrequest.onsuccess = (event) => {\n  const db = event.target.result;\n  \n  // データ追加\n  const tx = db.transaction('users', 'readwrite');\n  tx.objectStore('users').add({ name: '太郎', email: 'taro@example.com' });\n  \n  // データ取得\n  const getTx = db.transaction('users', 'readonly');\n  const getReq = getTx.objectStore('users').get(1);\n  getReq.onsuccess = () => console.log(getReq.result);\n  \n  // インデックス検索\n  const idx = getTx.objectStore('users').index('email');\n  idx.get('taro@example.com').onsuccess = (e) => console.log(e.target.result);\n  \n  // 全件取得\n  getTx.objectStore('users').getAll().onsuccess = (e) => console.log(e.target.result);\n};",
+            "props": [
+                {
+                    "name": "indexedDB.open(name, ver)",
+                    "desc": "DBを開く（なければ作成）"
+                },
+                {
+                    "name": "createObjectStore()",
+                    "desc": "オブジェクトストア（テーブル）作成"
+                },
+                {
+                    "name": "createIndex()",
+                    "desc": "検索用インデックスの作成"
+                },
+                {
+                    "name": "transaction()",
+                    "desc": "読み書きトランザクションの開始"
+                },
+                {
+                    "name": "add() / put()",
+                    "desc": "データ追加 / 更新"
+                },
+                {
+                    "name": "get() / getAll()",
+                    "desc": "データ取得"
+                },
+                {
+                    "name": "delete()",
+                    "desc": "データ削除"
+                }
+            ],
+            "tags": [
+                "ストレージ",
+                "データベース",
+                "オフライン"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/IndexedDB_API"
+        },
+        {
+            "name": "Cache API（Service Worker）",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "ネットワークリクエストとレスポンスのペアをキャッシュするAPI。Service Workerと組み合わせてオフライン対応やリソースの高速配信を実現。",
+            "demo": "<div style=\"font-size:0.8rem;background:#eff6ff;border:1px solid #3b82f6;padding:8px;border-radius:8px\">📦 Cache API<br>リクエスト/レスポンスをブラウザに保存<br>Service Worker + Cache = オフライン対応PWA</div>",
+            "code": "// キャッシュにリソースを保存\nconst cache = await caches.open('v1');\nawait cache.addAll([\n  '/',\n  '/style.css',\n  '/app.js',\n  '/images/logo.png'\n]);\n\n// キャッシュからレスポンスを取得\nconst response = await cache.match('/style.css');\n\n// Service Worker内でのキャッシュ戦略\nself.addEventListener('fetch', (event) => {\n  event.respondWith(\n    // Cache First戦略\n    caches.match(event.request).then((cached) => {\n      return cached || fetch(event.request).then((response) => {\n        const clone = response.clone();\n        caches.open('v1').then(c => c.put(event.request, clone));\n        return response;\n      });\n    })\n  );\n});\n\n// キャッシュ削除\nawait caches.delete('v1');",
+            "props": [
+                {
+                    "name": "caches.open(name)",
+                    "desc": "名前付きキャッシュを開く/作成"
+                },
+                {
+                    "name": "cache.addAll(urls)",
+                    "desc": "複数URLを一括キャッシュ"
+                },
+                {
+                    "name": "cache.put(req, res)",
+                    "desc": "リクエスト/レスポンスのペアを保存"
+                },
+                {
+                    "name": "cache.match(req)",
+                    "desc": "キャッシュからレスポンスを検索"
+                },
+                {
+                    "name": "caches.delete(name)",
+                    "desc": "キャッシュストレージを削除"
+                }
+            ],
+            "tags": [
+                "キャッシュ",
+                "PWA",
+                "オフライン"
+            ],
+            "browser": "全モダンブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/Cache"
+        },
+        {
+            "name": "Clipboard API",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "システムのクリップボードにテキストやデータを読み書きするAPI。ユーザーの許可が必要。コードスニペットやURLのコピーボタンに活用。",
+            "demo": "<div style=\"display:flex;gap:4px;align-items:center\"><code style=\"background:#f0f0f0;padding:4px 8px;border-radius:4px;font-size:0.8rem\">npm install my-package</code><button onclick=\"navigator.clipboard.writeText('npm install my-package').then(()=>{this.textContent='✓ コピー済み';setTimeout(()=>this.textContent='コピー',1500)})\" style=\"padding:4px 10px;background:#22c55e;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:0.8rem\">コピー</button></div>",
+            "code": "// テキストをコピー\nasync function copyToClipboard(text) {\n  try {\n    await navigator.clipboard.writeText(text);\n    showToast('コピーしました');\n  } catch (err) {\n    console.error('コピー失敗:', err);\n  }\n}\n\n// テキストをペースト（読み取り）\nconst text = await navigator.clipboard.readText();\n\n// リッチコンテンツのコピー（画像等）\nconst blob = new Blob(['<b>太字</b>'], { type: 'text/html' });\nconst item = new ClipboardItem({ 'text/html': blob });\nawait navigator.clipboard.write([item]);\n\n// コピーボタンの実装例\ndocument.querySelector('.copy-btn').addEventListener('click', () => {\n  const code = document.querySelector('code').textContent;\n  navigator.clipboard.writeText(code);\n});",
+            "props": [
+                {
+                    "name": "writeText(text)",
+                    "desc": "テキストをクリップボードに書き込み"
+                },
+                {
+                    "name": "readText()",
+                    "desc": "クリップボードからテキストを読み取り"
+                },
+                {
+                    "name": "write(items)",
+                    "desc": "ClipboardItemを書き込み（画像等）"
+                },
+                {
+                    "name": "read()",
+                    "desc": "クリップボードからデータを読み取り"
+                }
+            ],
+            "tags": [
+                "クリップボード",
+                "UI",
+                "ユーティリティ"
+            ],
+            "browser": "全モダンブラウザ対応（HTTPS必須）",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/Clipboard_API"
+        },
+        {
+            "name": "URL / URLSearchParams",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "URLの解析・構築を行うAPI。URLSearchParamsでクエリパラメータの操作が簡単にできる。文字列の手動パースが不要になる。",
+            "demo": "<button onclick=\"const u=new URL('https://example.com/search?q=javascript&page=2');const p=u.searchParams;this.nextElementSibling.textContent='host:'+u.host+' q='+p.get('q')+' page='+p.get('page')\" style=\"padding:6px 14px;background:#06b6d4;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:0.85rem\">URLパース</button><div style=\"font-size:0.8rem;margin-top:4px;color:#6b7280\"></div>",
+            "code": "// URLの解析\nconst url = new URL('https://example.com/path?q=js&page=2#section');\nconsole.log(url.hostname);  // 'example.com'\nconsole.log(url.pathname);  // '/path'\nconsole.log(url.hash);      // '#section'\n\n// クエリパラメータの操作\nconst params = url.searchParams;\nconsole.log(params.get('q'));     // 'js'\nconsole.log(params.has('page'));  // true\n\nparams.set('page', '3');\nparams.append('lang', 'ja');\nparams.delete('q');\n\nconsole.log(url.toString());\n// 'https://example.com/path?page=3&lang=ja#section'\n\n// URLSearchParams単体で使用\nconst sp = new URLSearchParams({ q: 'hello', limit: '10' });\nconsole.log(sp.toString()); // 'q=hello&limit=10'\n\n// 現在のページのクエリパラメータ\nconst current = new URLSearchParams(window.location.search);",
+            "props": [
+                {
+                    "name": "new URL(string)",
+                    "desc": "URL文字列をパース"
+                },
+                {
+                    "name": "href / origin / host",
+                    "desc": "URLの各部分を取得"
+                },
+                {
+                    "name": "pathname / hash",
+                    "desc": "パスとフラグメント"
+                },
+                {
+                    "name": "searchParams",
+                    "desc": "URLSearchParamsオブジェクト"
+                },
+                {
+                    "name": ".get() / .set() / .append()",
+                    "desc": "パラメータの取得・設定・追加"
+                },
+                {
+                    "name": ".delete() / .has()",
+                    "desc": "パラメータの削除・存在確認"
+                },
+                {
+                    "name": ".toString()",
+                    "desc": "クエリ文字列に変換"
+                }
+            ],
+            "tags": [
+                "URL",
+                "パラメータ",
+                "ユーティリティ"
+            ],
+            "browser": "全モダンブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/URL"
+        },
+        {
+            "name": "FormData",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "フォームデータをプログラムで構築・操作するAPI。ファイルアップロードを含むmultipart/form-data形式のfetchリクエストに使用。",
+            "demo": "<form onsubmit=\"event.preventDefault();const fd=new FormData(this);let s='';fd.forEach((v,k)=>s+=k+'='+v+' ');document.getElementById('fd-result').textContent=s\" style=\"display:flex;gap:4px;align-items:center\"><input name=\"username\" placeholder=\"名前\" style=\"padding:4px 8px;border:1px solid #d1d5db;border-radius:4px;font-size:0.8rem;width:80px\"><input name=\"email\" placeholder=\"email\" style=\"padding:4px 8px;border:1px solid #d1d5db;border-radius:4px;font-size:0.8rem;width:100px\"><button type=\"submit\" style=\"padding:4px 10px;background:#3b82f6;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:0.8rem\">確認</button></form><div id=\"fd-result\" style=\"font-size:0.8rem;margin-top:4px;color:#6b7280\"></div>",
+            "code": "// フォーム要素から構築\nconst form = document.querySelector('form');\nconst formData = new FormData(form);\n\n// 手動で構築\nconst fd = new FormData();\nfd.append('name', '太郎');\nfd.append('email', 'taro@example.com');\nfd.append('avatar', fileInput.files[0]); // ファイル\n\n// fetchで送信（Content-Typeは自動設定）\nconst response = await fetch('/api/upload', {\n  method: 'POST',\n  body: fd,\n  // headers不要（multipart境界が自動設定される）\n});\n\n// データの読み取り\nfor (const [key, value] of formData.entries()) {\n  console.log(key, value);\n}\n\n// データ操作\nfd.set('name', '花子');     // 上書き\nfd.delete('email');          // 削除\nconsole.log(fd.has('name')); // true\nconst name = fd.get('name'); // '花子'",
+            "props": [
+                {
+                    "name": "new FormData(form?)",
+                    "desc": "フォーム要素からデータ構築（省略時は空）"
+                },
+                {
+                    "name": ".append(key, value)",
+                    "desc": "データを追加（同名キー複数可）"
+                },
+                {
+                    "name": ".set(key, value)",
+                    "desc": "データを設定（既存を上書き）"
+                },
+                {
+                    "name": ".get(key) / .getAll(key)",
+                    "desc": "値の取得"
+                },
+                {
+                    "name": ".delete(key)",
+                    "desc": "データの削除"
+                },
+                {
+                    "name": ".entries()",
+                    "desc": "イテレーターで全データを取得"
+                }
+            ],
+            "tags": [
+                "フォーム",
+                "アップロード",
+                "通信"
+            ],
+            "browser": "全モダンブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/FormData"
+        },
+        {
+            "name": "JSON（parse / stringify）",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "JavaScriptオブジェクトとJSON文字列を相互変換するAPI。API通信やlocalStorageとのデータやり取りに不可欠。structuredCloneも関連。",
+            "demo": "<button onclick=\"const obj={name:'太郎',skills:['JS','CSS'],active:true};const json=JSON.stringify(obj,null,2);this.nextElementSibling.textContent=json\" style=\"padding:6px 14px;background:#f97316;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:0.85rem\">JSON変換</button><pre style=\"font-size:0.75rem;margin-top:4px;background:#f8fafc;padding:6px;border-radius:4px;color:#333\"></pre>",
+            "code": "// オブジェクト → JSON文字列\nconst obj = { name: '太郎', age: 25, skills: ['JS', 'CSS'] };\nconst jsonStr = JSON.stringify(obj);\n// '{\"name\":\"太郎\",\"age\":25,\"skills\":[\"JS\",\"CSS\"]}'\n\n// 整形出力（インデント付き）\nJSON.stringify(obj, null, 2);\n\n// 特定キーのみ出力\nJSON.stringify(obj, ['name', 'age']);\n\n// JSON文字列 → オブジェクト\nconst parsed = JSON.parse(jsonStr);\n\n// reviver関数で変換しながらパース\nconst data = JSON.parse(str, (key, value) => {\n  if (key === 'date') return new Date(value);\n  return value;\n});\n\n// ディープコピー（structuredClone推奨）\nconst deep = structuredClone(obj);\n// JSON.parse(JSON.stringify(obj)) は Date/Map/Set等を失う",
+            "props": [
+                {
+                    "name": "JSON.stringify(value, replacer?, space?)",
+                    "desc": "オブジェクトをJSON文字列に変換"
+                },
+                {
+                    "name": "JSON.parse(text, reviver?)",
+                    "desc": "JSON文字列をオブジェクトに変換"
+                },
+                {
+                    "name": "replacer",
+                    "desc": "出力フィルタ（配列or関数）"
+                },
+                {
+                    "name": "reviver",
+                    "desc": "パース時の値変換関数"
+                },
+                {
+                    "name": "structuredClone()",
+                    "desc": "構造化複製（ディープコピー）"
+                }
+            ],
+            "tags": [
+                "データ",
+                "変換",
+                "基本"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/JSON"
+        },
+        {
+            "name": "Drag and Drop API",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "HTML要素やファイルのドラッグ＆ドロップを実装するAPI。draggable属性とdragstart/dragover/dropイベントで制御。ファイルアップロードUIにも使用。",
+            "demo": "<div style=\"display:flex;gap:8px\"><div draggable=\"true\" ondragstart=\"event.dataTransfer.setData('text','ドラッグ中！')\" style=\"padding:8px 14px;background:#3b82f6;color:#fff;border-radius:4px;cursor:grab;font-size:0.8rem\">ドラッグ</div><div ondragover=\"event.preventDefault();this.style.background='#dbeafe'\" ondragleave=\"this.style.background='#f0f0f0'\" ondrop=\"event.preventDefault();this.textContent=event.dataTransfer.getData('text');this.style.background='#dcfce7'\" style=\"padding:8px 14px;background:#f0f0f0;border:2px dashed #d1d5db;border-radius:4px;font-size:0.8rem;min-width:100px;text-align:center\">ドロップ先</div></div>",
+            "code": "// ドラッグ可能にする\n<div draggable=\"true\" id=\"item\">ドラッグ要素</div>\n\n// ドラッグ開始\nitem.addEventListener('dragstart', (e) => {\n  e.dataTransfer.setData('text/plain', item.id);\n  e.dataTransfer.effectAllowed = 'move';\n});\n\n// ドロップ先\nconst dropzone = document.getElementById('dropzone');\ndropzone.addEventListener('dragover', (e) => {\n  e.preventDefault(); // ドロップを許可\n  e.dataTransfer.dropEffect = 'move';\n});\n\ndropzone.addEventListener('drop', (e) => {\n  e.preventDefault();\n  const id = e.dataTransfer.getData('text/plain');\n  dropzone.appendChild(document.getElementById(id));\n});\n\n// ファイルドロップ\ndropzone.addEventListener('drop', (e) => {\n  e.preventDefault();\n  const files = e.dataTransfer.files;\n  for (const file of files) {\n    console.log(file.name, file.size);\n  }\n});",
+            "props": [
+                {
+                    "name": "draggable=\"true\"",
+                    "desc": "要素をドラッグ可能にする"
+                },
+                {
+                    "name": "dragstart",
+                    "desc": "ドラッグ開始イベント"
+                },
+                {
+                    "name": "dragover",
+                    "desc": "ドラッグ中に要素上にある時（preventDefault必須）"
+                },
+                {
+                    "name": "drop",
+                    "desc": "ドロップ時のイベント"
+                },
+                {
+                    "name": "dataTransfer",
+                    "desc": "ドラッグデータの受け渡し"
+                },
+                {
+                    "name": "dataTransfer.files",
+                    "desc": "ドロップされたファイル一覧"
+                }
+            ],
+            "tags": [
+                "ドラッグ&ドロップ",
+                "UI",
+                "ファイル"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/HTML_Drag_and_Drop_API"
+        },
+        {
+            "name": "History API / Navigation API",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "ブラウザの履歴を操作するAPI。SPAのルーティングでページ遷移なしにURLを変更する。pushState/popstateが基本。Navigation APIは後継。",
+            "demo": "<div style=\"display:flex;gap:4px\"><button onclick=\"history.pushState({page:1},null,'/demo/page1');this.parentElement.nextElementSibling.textContent='URL: '+location.pathname\" style=\"padding:4px 10px;background:#8b5cf6;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:0.8rem\">Page 1</button><button onclick=\"history.pushState({page:2},null,'/demo/page2');this.parentElement.nextElementSibling.textContent='URL: '+location.pathname\" style=\"padding:4px 10px;background:#ec4899;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:0.8rem\">Page 2</button><button onclick=\"history.back()\" style=\"padding:4px 10px;background:#6b7280;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:0.8rem\">戻る</button></div><div style=\"font-size:0.8rem;margin-top:4px;color:#6b7280\"></div>",
+            "code": "// URLを変更（ページ遷移なし）\nhistory.pushState({ page: 'about' }, '', '/about');\n\n// URLを置き換え（履歴に残さない）\nhistory.replaceState({ page: 'home' }, '', '/home');\n\n// 戻る/進む検知\nwindow.addEventListener('popstate', (event) => {\n  console.log('State:', event.state);\n  renderPage(event.state?.page);\n});\n\n// 戻る・進む\nhistory.back();\nhistory.forward();\nhistory.go(-2); // 2つ前に戻る\n\n// Navigation API（モダン — Chrome）\nnavigation.addEventListener('navigate', (event) => {\n  if (shouldHandleRoute(event.destination.url)) {\n    event.intercept({\n      handler: async () => {\n        const content = await fetchContent(event.destination.url);\n        renderContent(content);\n      }\n    });\n  }\n});",
+            "props": [
+                {
+                    "name": "pushState(state, title, url)",
+                    "desc": "履歴エントリを追加"
+                },
+                {
+                    "name": "replaceState(state, title, url)",
+                    "desc": "現在の履歴を置換"
+                },
+                {
+                    "name": "popstate イベント",
+                    "desc": "戻る/進む操作の検知"
+                },
+                {
+                    "name": "history.back() / forward()",
+                    "desc": "履歴の前後移動"
+                },
+                {
+                    "name": "Navigation API",
+                    "desc": "新しいナビゲーション制御API（Chrome）"
+                }
+            ],
+            "tags": [
+                "ルーティング",
+                "SPA",
+                "履歴"
+            ],
+            "browser": "全ブラウザ対応（Navigation APIはChrome 102+）",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/History_API"
+        },
+        {
+            "name": "Web Workers",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "メインスレッドとは別のバックグラウンドスレッドでJSを実行するAPI。重い計算処理でUIがフリーズするのを防ぐ。postMessageでデータをやり取り。",
+            "demo": "<button onclick=\"if(window.Worker){const blob=new Blob(['onmessage=function(e){let s=0;for(let i=0;i<e.data;i++)s+=i;postMessage(s)}'],{type:'text/javascript'});const w=new Worker(URL.createObjectURL(blob));w.postMessage(1e7);this.nextElementSibling.textContent='計算中...';w.onmessage=e=>{this.nextElementSibling.textContent='結果: '+e.data.toLocaleString();w.terminate()}}\" style=\"padding:6px 14px;background:#1d4ed8;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:0.85rem\">Worker実行</button><span style=\"margin-left:8px;font-size:0.85rem\"></span>",
+            "code": "// worker.js\nself.onmessage = (event) => {\n  const { data } = event;\n  // 重い計算処理\n  const result = heavyComputation(data);\n  self.postMessage(result);\n};\n\n// メインスレッド\nconst worker = new Worker('worker.js');\n\n// メッセージ送信\nworker.postMessage({ type: 'calc', numbers: [1, 2, 3] });\n\n// 結果受信\nworker.onmessage = (event) => {\n  console.log('結果:', event.data);\n};\n\nworker.onerror = (error) => {\n  console.error('Worker Error:', error.message);\n};\n\n// Worker終了\nworker.terminate();\n\n// Transferable Objects（ゼロコピー転送）\nconst buffer = new ArrayBuffer(1024);\nworker.postMessage(buffer, [buffer]);",
+            "props": [
+                {
+                    "name": "new Worker(url)",
+                    "desc": "ワーカースレッドを作成"
+                },
+                {
+                    "name": "postMessage(data)",
+                    "desc": "メッセージを送信"
+                },
+                {
+                    "name": "onmessage",
+                    "desc": "メッセージ受信コールバック"
+                },
+                {
+                    "name": "terminate()",
+                    "desc": "ワーカーを即座に終了"
+                },
+                {
+                    "name": "Transferable Objects",
+                    "desc": "ArrayBuffer等のゼロコピー転送"
+                }
+            ],
+            "tags": [
+                "マルチスレッド",
+                "パフォーマンス",
+                "バックグラウンド"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/Web_Workers_API"
+        }
+    ]
+}

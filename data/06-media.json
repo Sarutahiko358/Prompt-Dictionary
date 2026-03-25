@@ -1,0 +1,454 @@
+{
+    "cat": "メディア・埋め込み",
+    "catIcon": "🖼️",
+    "catDesc": "画像・動画・音声・埋め込みコンテンツなど、マルチメディア要素を扱うHTML要素とCSS技法。",
+    "items": [
+        {
+            "name": "&lt;img&gt;",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "画像を埋め込む。alt 属性で代替テキストを必ず指定する（アクセシビリティ・SEOに必須）。loading=\"lazy\" でビューポート外の画像を遅延読み込みし、パフォーマンスを改善できる。",
+            "demo": "<img src=\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='120' viewBox='0 0 200 120'%3E%3Crect fill='%23dbeafe' width='200' height='120' rx='8'/%3E%3Ctext x='100' y='60' text-anchor='middle' dominant-baseline='central' fill='%233b82f6' font-size='14' font-family='sans-serif'%3E200×120 image%3C/text%3E%3C/svg%3E\" alt=\"サンプル画像\" style=\"border-radius:8px;max-width:100%\" />",
+            "code": "<img src=\"photo.jpg\"\n     alt=\"富士山の朝日\"\n     width=\"800\" height=\"600\"\n     loading=\"lazy\"\n     decoding=\"async\" />",
+            "props": [
+                {
+                    "name": "src",
+                    "desc": "画像のURL"
+                },
+                {
+                    "name": "alt",
+                    "desc": "代替テキスト（必須）"
+                },
+                {
+                    "name": "width / height",
+                    "desc": "画像サイズ（CLSの防止に重要）"
+                },
+                {
+                    "name": "loading",
+                    "desc": "lazy で遅延読み込み"
+                },
+                {
+                    "name": "decoding",
+                    "desc": "async で非同期デコード"
+                },
+                {
+                    "name": "srcset / sizes",
+                    "desc": "レスポンシブ画像の候補とサイズ"
+                }
+            ],
+            "tags": [
+                "基本",
+                "画像",
+                "パフォーマンス"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/img"
+        },
+        {
+            "name": "&lt;picture&gt; / &lt;source&gt; レスポンシブ画像",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "メディア条件やファイル形式に応じて異なる画像を提供する。WebP/AVIF などの最新形式を優先しつつ、非対応ブラウザへの JPEG フォールバックも実現する。アートディレクション（画面サイズで画像を切り替え）にも使用する。",
+            "demo": "<div style=\"font-size:0.85rem;text-align:center\"><picture><img src=\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='100' viewBox='0 0 200 100'%3E%3Crect fill='%23d1fae5' width='200' height='100' rx='8'/%3E%3Ctext x='100' y='50' text-anchor='middle' dominant-baseline='central' fill='%23065f46' font-size='11' font-family='sans-serif'%3Epicture + source%3C/text%3E%3C/svg%3E\" alt=\"レスポンシブ画像デモ\" style=\"border-radius:8px;max-width:100%\" /></picture><p style=\"color:#6b7280;font-size:0.75rem;margin:4px 0 0\">※ブラウザが最適な形式を選択</p></div>",
+            "code": "<!-- 画像形式の切り替え -->\n<picture>\n  <source srcset=\"photo.avif\" type=\"image/avif\" />\n  <source srcset=\"photo.webp\" type=\"image/webp\" />\n  <img src=\"photo.jpg\" alt=\"写真\" />\n</picture>\n\n<!-- アートディレクション -->\n<picture>\n  <source media=\"(min-width: 1024px)\"\n          srcset=\"hero-wide.jpg\" />\n  <source media=\"(min-width: 640px)\"\n          srcset=\"hero-medium.jpg\" />\n  <img src=\"hero-small.jpg\" alt=\"ヒーロー画像\" />  \n</picture>",
+            "props": [
+                {
+                    "name": "source type",
+                    "desc": "画像の MIME タイプ（image/webp 等）"
+                },
+                {
+                    "name": "source media",
+                    "desc": "メディアクエリで条件分岐"
+                },
+                {
+                    "name": "source srcset",
+                    "desc": "候補画像のURL"
+                },
+                {
+                    "name": "img (フォールバック)",
+                    "desc": "どの source にも一致しない場合の画像"
+                }
+            ],
+            "tags": [
+                "画像",
+                "レスポンシブ",
+                "パフォーマンス"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/picture"
+        },
+        {
+            "name": "&lt;figure&gt; / &lt;figcaption&gt;",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "図版（画像・図表・コードなど）とそのキャプションを関連付けるセマンティック要素。figcaption は figure 内の最初または最後に配置する。画像ギャラリーやコードブロックの説明にも使える。",
+            "demo": "<figure style=\"margin:0;font-size:0.85rem\"><img src=\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='80' viewBox='0 0 200 80'%3E%3Crect fill='%23e0e7ff' width='200' height='80' rx='8'/%3E%3Ctext x='100' y='40' text-anchor='middle' dominant-baseline='central' fill='%234338ca' font-size='12' font-family='sans-serif'%3Efigure 内の画像%3C/text%3E%3C/svg%3E\" alt=\"サンプル\" style=\"border-radius:8px;max-width:100%;display:block\" /><figcaption style=\"color:#64748b;font-size:0.75rem;margin-top:4px;text-align:center\">図1: figure/figcaption のデモ</figcaption></figure>",
+            "code": "<figure>\n  <img src=\"chart.png\" alt=\"売上推移グラフ\" />\n  <figcaption>図1: 2024年の月別売上推移</figcaption>\n</figure>\n\n<!-- コードブロック用 -->\n<figure>\n  <pre><code>console.log('Hello');</code></pre>\n  <figcaption>基本的なログ出力の例</figcaption>\n</figure>",
+            "props": [
+                {
+                    "name": "figcaption",
+                    "desc": "figure のキャプション（最初または最後に配置）"
+                }
+            ],
+            "tags": [
+                "セマンティック",
+                "画像",
+                "キャプション"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/figure"
+        },
+        {
+            "name": "CSS object-fit",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "img や video のコンテンツを指定されたサイズ内にどう収めるかを制御する。cover（アスペクト比を保ってトリミング）、contain（全体を収める）、fill（引き伸ばす）などがある。カードUIのサムネイルに特に有用。",
+            "demo": "<div style=\"display:flex;gap:8px;font-size:0.7rem\"><div style=\"text-align:center\"><div style=\"width:80px;height:60px;overflow:hidden;border-radius:6px;border:1px solid #e2e8f0\"><img src=\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Crect fill='%23fecaca' width='200' height='200'/%3E%3Ctext x='100' y='100' text-anchor='middle' fill='%23991b1b' font-size='20'%3E1:1%3C/text%3E%3C/svg%3E\" alt=\"cover\" style=\"width:100%;height:100%;object-fit:cover\" /></div>cover</div><div style=\"text-align:center\"><div style=\"width:80px;height:60px;overflow:hidden;border-radius:6px;border:1px solid #e2e8f0;display:flex;align-items:center;justify-content:center;background:#f8fafc\"><img src=\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Crect fill='%23bbf7d0' width='200' height='200'/%3E%3Ctext x='100' y='100' text-anchor='middle' fill='%23166534' font-size='20'%3E1:1%3C/text%3E%3C/svg%3E\" alt=\"contain\" style=\"width:100%;height:100%;object-fit:contain\" /></div>contain</div><div style=\"text-align:center\"><div style=\"width:80px;height:60px;overflow:hidden;border-radius:6px;border:1px solid #e2e8f0\"><img src=\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Crect fill='%23bfdbfe' width='200' height='200'/%3E%3Ctext x='100' y='100' text-anchor='middle' fill='%231e40af' font-size='20'%3E1:1%3C/text%3E%3C/svg%3E\" alt=\"fill\" style=\"width:100%;height:100%;object-fit:fill\" /></div>fill</div></div>",
+            "code": ".thumbnail {\n  width: 300px;\n  height: 200px;\n  object-fit: cover;\n  object-position: center;\n  border-radius: 0.5rem;\n}\n\n/* contain: レターボックス表示 */\n.contain { object-fit: contain; }\n\n/* fill: アスペクト比無視で引き伸ばし */\n.fill { object-fit: fill; }",
+            "props": [
+                {
+                    "name": "cover",
+                    "desc": "アスペクト比保持＋はみ出し部分をトリミング"
+                },
+                {
+                    "name": "contain",
+                    "desc": "アスペクト比保持＋全体を収める"
+                },
+                {
+                    "name": "fill",
+                    "desc": "アスペクト比無視でボックスに合わせる"
+                },
+                {
+                    "name": "none",
+                    "desc": "元のサイズのまま"
+                },
+                {
+                    "name": "object-position",
+                    "desc": "トリミング位置の調整"
+                }
+            ],
+            "tags": [
+                "CSS",
+                "画像",
+                "レイアウト"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/object-fit"
+        },
+        {
+            "name": "CSS aspect-ratio",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "要素のアスペクト比（縦横比）を指定するCSSプロパティ。動画埋め込み（16/9）やカード画像（4/3）の比率を維持する場合に便利。width を指定すれば height が自動計算される。",
+            "demo": "<div style=\"display:flex;gap:8px;font-size:0.75rem\"><div style=\"width:100px;aspect-ratio:16/9;background:#dbeafe;border-radius:6px;display:flex;align-items:center;justify-content:center;border:1px solid #bfdbfe\">16:9</div><div style=\"width:80px;aspect-ratio:1;background:#d1fae5;border-radius:6px;display:flex;align-items:center;justify-content:center;border:1px solid #a7f3d0\">1:1</div><div style=\"width:60px;aspect-ratio:3/4;background:#fef3c7;border-radius:6px;display:flex;align-items:center;justify-content:center;border:1px solid #fde68a\">3:4</div></div>",
+            "code": "/* 動画コンテナ */\n.video-container {\n  width: 100%;\n  aspect-ratio: 16 / 9;\n  background: #000;\n}\n\n/* 正方形サムネイル */\n.avatar {\n  width: 80px;\n  aspect-ratio: 1;\n  border-radius: 50%;\n  object-fit: cover;\n}\n\n/* カード画像 */\n.card-image {\n  width: 100%;\n  aspect-ratio: 4 / 3;\n  object-fit: cover;\n}",
+            "props": [
+                {
+                    "name": "aspect-ratio",
+                    "desc": "幅/高さの比率（例: 16/9, 1, 4/3）"
+                },
+                {
+                    "name": "auto",
+                    "desc": "要素固有のアスペクト比を使用"
+                }
+            ],
+            "tags": [
+                "CSS",
+                "レイアウト",
+                "レスポンシブ"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/aspect-ratio"
+        },
+        {
+            "name": "&lt;video&gt;",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "動画を埋め込む。controls 属性で再生コントロールを表示し、複数の source で形式を切り替えられる。preload でバッファリング、poster でサムネイル画像を指定できる。",
+            "demo": "<div style=\"font-size:0.85rem\"><div style=\"width:200px;aspect-ratio:16/9;background:#1e293b;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#94a3b8;position:relative\"><span style=\"font-size:2rem\">▶</span><span style=\"position:absolute;bottom:6px;right:8px;font-size:0.7rem;background:rgba(0,0,0,0.6);color:#fff;padding:1px 6px;border-radius:3px\">0:30</span></div><p style=\"margin:4px 0 0;color:#6b7280;font-size:0.75rem\">※デモでは実際の動画は再生されません</p></div>",
+            "code": "<video controls width=\"640\" poster=\"thumb.jpg\"\n       preload=\"metadata\">\n  <source src=\"video.webm\" type=\"video/webm\" />\n  <source src=\"video.mp4\" type=\"video/mp4\" />\n  <p>お使いのブラウザは動画に対応していません。</p>\n</video>",
+            "props": [
+                {
+                    "name": "controls",
+                    "desc": "再生コントロールを表示"
+                },
+                {
+                    "name": "autoplay",
+                    "desc": "自動再生（muted 必須の場合あり）"
+                },
+                {
+                    "name": "muted",
+                    "desc": "ミュート状態にする"
+                },
+                {
+                    "name": "loop",
+                    "desc": "ループ再生"
+                },
+                {
+                    "name": "poster",
+                    "desc": "サムネイル画像のURL"
+                },
+                {
+                    "name": "preload",
+                    "desc": "none / metadata / auto"
+                }
+            ],
+            "tags": [
+                "メディア",
+                "動画"
+            ],
+            "browser": "全ブラウザ対応（コーデックはブラウザ依存）",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/video"
+        },
+        {
+            "name": "&lt;audio&gt;",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "音声を埋め込む。controls 属性で再生・一時停止・ボリュームのコントロールUIが表示される。複数の source で MP3 / OGG / WAV のフォールバックを提供できる。",
+            "demo": "<div style=\"font-size:0.85rem\"><div style=\"background:#f1f5f9;border-radius:9999px;padding:8px 16px;display:inline-flex;align-items:center;gap:10px;border:1px solid #e2e8f0\"><button style=\"width:28px;height:28px;border-radius:50%;border:none;background:#3b82f6;color:#fff;cursor:pointer;font-size:0.9rem;display:flex;align-items:center;justify-content:center\" onclick=\"return false\">▶</button><div style=\"width:100px;height:4px;background:#cbd5e1;border-radius:2px\"><div style=\"width:40%;height:100%;background:#3b82f6;border-radius:2px\"></div></div><span style=\"font-size:0.7rem;color:#64748b\">1:23</span></div><p style=\"margin:4px 0 0;color:#6b7280;font-size:0.75rem\">※デモでは実際の音声は再生されません</p></div>",
+            "code": "<audio controls preload=\"metadata\">\n  <source src=\"music.mp3\" type=\"audio/mpeg\" />\n  <source src=\"music.ogg\" type=\"audio/ogg\" />\n  <p>お使いのブラウザは音声に対応していません。</p>\n</audio>",
+            "props": [
+                {
+                    "name": "controls",
+                    "desc": "再生コントロールを表示"
+                },
+                {
+                    "name": "autoplay",
+                    "desc": "自動再生"
+                },
+                {
+                    "name": "muted",
+                    "desc": "ミュート状態"
+                },
+                {
+                    "name": "loop",
+                    "desc": "ループ再生"
+                },
+                {
+                    "name": "preload",
+                    "desc": "none / metadata / auto"
+                }
+            ],
+            "tags": [
+                "メディア",
+                "音声"
+            ],
+            "browser": "全ブラウザ対応（コーデックはブラウザ依存）",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/audio"
+        },
+        {
+            "name": "&lt;iframe&gt;",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "外部ページやウィジェットを埋め込むインラインフレーム。YouTube動画、Googleマップ、SNS投稿などの埋め込みに広く使用される。sandbox 属性でセキュリティ制限をかけられる。",
+            "demo": "<div style=\"font-size:0.85rem\"><div style=\"width:200px;aspect-ratio:16/9;background:#1e293b;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#94a3b8;border:2px solid #334155\"><span style=\"font-size:0.8rem\">iframe 埋め込み領域</span></div><p style=\"margin:4px 0 0;color:#6b7280;font-size:0.75rem\">※セキュリティのためデモでは実際の埋め込みは行いません</p></div>",
+            "code": "<!-- YouTube 埋め込み -->\n<iframe src=\"https://www.youtube.com/embed/VIDEO_ID\"\n        width=\"560\" height=\"315\"\n        title=\"動画タイトル\"\n        loading=\"lazy\"\n        allow=\"accelerometer; autoplay;\n               clipboard-write; encrypted-media;\n               gyroscope; picture-in-picture\"\n        allowfullscreen>\n</iframe>\n\n<!-- サンドボックス付き -->\n<iframe src=\"https://example.com\"\n        sandbox=\"allow-scripts allow-same-origin\"\n        title=\"埋め込みコンテンツ\">\n</iframe>",
+            "props": [
+                {
+                    "name": "src",
+                    "desc": "埋め込むページのURL"
+                },
+                {
+                    "name": "title",
+                    "desc": "フレームの説明（a11y必須）"
+                },
+                {
+                    "name": "sandbox",
+                    "desc": "セキュリティ制限（allow-scripts 等）"
+                },
+                {
+                    "name": "allow",
+                    "desc": "許可する機能ポリシー"
+                },
+                {
+                    "name": "loading",
+                    "desc": "lazy で遅延読み込み"
+                },
+                {
+                    "name": "allowfullscreen",
+                    "desc": "フルスクリーンを許可"
+                }
+            ],
+            "tags": [
+                "埋め込み",
+                "動画",
+                "外部コンテンツ"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/iframe"
+        },
+        {
+            "name": "&lt;svg&gt; インラインSVG",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "スケーラブル・ベクター・グラフィックスをHTMLに直接埋め込む。拡大してもぼやけず、CSSやJSでの操作・アニメーションが可能。アイコン、ロゴ、グラフなどに最適。",
+            "demo": "<svg width=\"120\" height=\"60\" viewBox=\"0 0 120 60\" xmlns=\"http://www.w3.org/2000/svg\" style=\"font-size:0.85rem\"><rect x=\"2\" y=\"2\" width=\"116\" height=\"56\" rx=\"8\" fill=\"#eff6ff\" stroke=\"#3b82f6\" stroke-width=\"2\" /><circle cx=\"30\" cy=\"30\" r=\"12\" fill=\"#3b82f6\" /><rect x=\"55\" y=\"18\" width=\"24\" height=\"24\" rx=\"4\" fill=\"#10b981\" /><polygon points=\"100,18 112,42 88,42\" fill=\"#f59e0b\" /></svg>",
+            "code": "<!-- インライン SVG -->\n<svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\"\n     fill=\"none\" stroke=\"currentColor\"\n     stroke-width=\"2\">\n  <circle cx=\"12\" cy=\"12\" r=\"10\" />\n  <path d=\"M12 8v4l3 3\" />\n</svg>\n\n<!-- CSS でスタイリング -->\n<style>\n  svg { color: #3b82f6; }\n  svg:hover { color: #2563eb; }\n</style>",
+            "props": [
+                {
+                    "name": "viewBox",
+                    "desc": "SVG座標系の定義（min-x min-y width height）"
+                },
+                {
+                    "name": "width / height",
+                    "desc": "表示サイズ"
+                },
+                {
+                    "name": "fill",
+                    "desc": "塗りつぶし色"
+                },
+                {
+                    "name": "stroke",
+                    "desc": "線の色"
+                },
+                {
+                    "name": "currentColor",
+                    "desc": "CSSのcolorプロパティの値を継承"
+                }
+            ],
+            "tags": [
+                "SVG",
+                "アイコン",
+                "グラフィック"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/SVG/Element/svg"
+        },
+        {
+            "name": "&lt;canvas&gt;",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "JavaScript で2Dグラフィックスやアニメーションを描画するためのビットマップ描画領域。グラフ、ゲーム、画像加工などに使用される。WebGL で3D描画も可能。",
+            "demo": "<canvas id=\"demo-canvas\" width=\"200\" height=\"80\" style=\"border:1px solid #e2e8f0;border-radius:8px;background:#fafafa\"></canvas><script>(function(){var c=document.getElementById('demo-canvas');if(!c)return;var ctx=c.getContext('2d');ctx.fillStyle='#3b82f6';ctx.fillRect(10,10,40,60);ctx.fillStyle='#10b981';ctx.fillRect(60,25,40,45);ctx.fillStyle='#f59e0b';ctx.fillRect(110,15,40,55);ctx.fillStyle='#ef4444';ctx.beginPath();ctx.arc(170,45,20,0,Math.PI*2);ctx.fill()})()</script>",
+            "code": "<canvas id=\"myCanvas\" width=\"400\" height=\"300\">\n  Canvas非対応ブラウザ用テキスト\n</canvas>\n\n<script>\n  const canvas = document.getElementById('myCanvas');\n  const ctx = canvas.getContext('2d');\n\n  // 矩形\n  ctx.fillStyle = '#3b82f6';\n  ctx.fillRect(10, 10, 100, 80);\n\n  // 円\n  ctx.beginPath();\n  ctx.arc(200, 50, 40, 0, Math.PI * 2);\n  ctx.fillStyle = '#10b981';\n  ctx.fill();\n\n  // テキスト\n  ctx.font = '16px sans-serif';\n  ctx.fillStyle = '#000';\n  ctx.fillText('Hello Canvas', 10, 120);\n</script>",
+            "props": [
+                {
+                    "name": "width / height",
+                    "desc": "描画領域のサイズ（CSSではなく属性で指定）"
+                },
+                {
+                    "name": "getContext('2d')",
+                    "desc": "2D描画コンテキストを取得"
+                },
+                {
+                    "name": "getContext('webgl')",
+                    "desc": "WebGL 3D描画コンテキスト"
+                },
+                {
+                    "name": "toDataURL()",
+                    "desc": "キャンバス内容をData URLに変換"
+                }
+            ],
+            "tags": [
+                "グラフィック",
+                "JavaScript",
+                "描画"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/canvas"
+        },
+        {
+            "name": "CSS background-image",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "要素の背景に画像やグラデーションを設定する。background-size / position / repeat と組み合わせて表示を制御する。装飾目的の画像は img ではなく background-image で設定するのが適切。",
+            "demo": "<div style=\"display:flex;gap:8px;font-size:0.75rem\"><div style=\"width:90px;height:60px;border-radius:6px;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;align-items:center;justify-content:center;color:#fff\">gradient</div><div style=\"width:90px;height:60px;border-radius:6px;background:repeating-linear-gradient(45deg,#fef3c7,#fef3c7 10px,#fde68a 10px,#fde68a 20px);display:flex;align-items:center;justify-content:center\">pattern</div></div>",
+            "code": "/* 画像背景 */\n.hero {\n  background-image: url('hero.jpg');\n  background-size: cover;\n  background-position: center;\n  background-repeat: no-repeat;\n}\n\n/* グラデーション */\n.gradient {\n  background: linear-gradient(\n    135deg, #667eea, #764ba2\n  );\n}\n\n/* 複数の背景 */\n.multi-bg {\n  background:\n    url('overlay.png') center/cover,\n    linear-gradient(#000, #333);\n}",
+            "props": [
+                {
+                    "name": "background-image",
+                    "desc": "背景画像のURL または gradient"
+                },
+                {
+                    "name": "background-size",
+                    "desc": "cover / contain / 具体的なサイズ"
+                },
+                {
+                    "name": "background-position",
+                    "desc": "背景の配置位置"
+                },
+                {
+                    "name": "background-repeat",
+                    "desc": "繰り返しの制御"
+                },
+                {
+                    "name": "background-attachment",
+                    "desc": "fixed でパララックス風効果"
+                }
+            ],
+            "tags": [
+                "CSS",
+                "背景",
+                "画像"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/background-image"
+        },
+        {
+            "name": "&lt;map&gt; / &lt;area&gt; イメージマップ",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "画像の特定領域にクリッカブルなリンク領域を設定する。img の usemap 属性と map 要素を紐づけ、area 要素で形状と座標を定義する。インタラクティブな地図やフロアマップに使用される。",
+            "demo": "<div style=\"font-size:0.85rem;position:relative\"><svg width=\"200\" height=\"100\" viewBox=\"0 0 200 100\"><rect width=\"200\" height=\"100\" fill=\"#f1f5f9\" rx=\"8\" /><circle cx=\"50\" cy=\"50\" r=\"30\" fill=\"#dbeafe\" stroke=\"#3b82f6\" stroke-width=\"2\" /><rect x=\"100\" y=\"20\" width=\"80\" height=\"60\" rx=\"4\" fill=\"#d1fae5\" stroke=\"#10b981\" stroke-width=\"2\" /><text x=\"50\" y=\"54\" text-anchor=\"middle\" font-size=\"10\" fill=\"#1e40af\">circle</text><text x=\"140\" y=\"54\" text-anchor=\"middle\" font-size=\"10\" fill=\"#065f46\">rect</text></svg><p style=\"margin:4px 0 0;color:#6b7280;font-size:0.75rem\">イメージマップで領域ごとにリンク設定</p></div>",
+            "code": "<img src=\"floormap.png\" alt=\"フロアマップ\"\n     usemap=\"#floormap\" />\n\n<map name=\"floormap\">\n  <area shape=\"rect\" coords=\"0,0,100,100\"\n        href=\"/room-a\" alt=\"部屋A\" />\n  <area shape=\"circle\" coords=\"200,150,50\"\n        href=\"/room-b\" alt=\"部屋B\" />\n  <area shape=\"poly\"\n        coords=\"300,0,400,100,350,200\"\n        href=\"/room-c\" alt=\"部屋C\" />\n</map>",
+            "props": [
+                {
+                    "name": "usemap (img)",
+                    "desc": "#mapname で map 要素と紐づけ"
+                },
+                {
+                    "name": "shape (area)",
+                    "desc": "rect / circle / poly / default"
+                },
+                {
+                    "name": "coords (area)",
+                    "desc": "形状に応じた座標値"
+                },
+                {
+                    "name": "href (area)",
+                    "desc": "クリック時のリンク先"
+                },
+                {
+                    "name": "alt (area)",
+                    "desc": "代替テキスト（必須）"
+                }
+            ],
+            "tags": [
+                "画像",
+                "インタラクティブ",
+                "リンク"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/map"
+        },
+        {
+            "name": "loading=\"lazy\" 遅延読み込み",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "画像やiframeのネイティブ遅延読み込み。ビューポートに近づいたときに初めてリソースを読み込む。初期表示のパフォーマンスとデータ通信量を大幅に改善できる。ファーストビューの画像には使用しない。",
+            "demo": "<div style=\"font-size:0.85rem;display:flex;flex-direction:column;gap:6px\"><div style=\"display:flex;align-items:center;gap:8px\"><span style=\"background:#d1fae5;padding:4px 8px;border-radius:4px;font-size:0.75rem;font-weight:600;color:#065f46\">lazy</span><span>スクロールで近づくと読み込み開始</span></div><div style=\"display:flex;align-items:center;gap:8px\"><span style=\"background:#dbeafe;padding:4px 8px;border-radius:4px;font-size:0.75rem;font-weight:600;color:#1e40af\">eager</span><span>即座に読み込み（デフォルト）</span></div></div>",
+            "code": "<!-- 遅延読み込み（ビューポート外の画像） -->\n<img src=\"photo.jpg\" alt=\"写真\"\n     loading=\"lazy\"\n     width=\"800\" height=\"600\" />\n\n<!-- 即時読み込み（ファーストビュー） -->\n<img src=\"hero.jpg\" alt=\"ヒーロー\"\n     loading=\"eager\"\n     fetchpriority=\"high\" />\n\n<!-- iframe も遅延読み込み可能 -->\n<iframe src=\"https://example.com\"\n        loading=\"lazy\"\n        title=\"埋め込み\" />",
+            "props": [
+                {
+                    "name": "loading=\"lazy\"",
+                    "desc": "遅延読み込み"
+                },
+                {
+                    "name": "loading=\"eager\"",
+                    "desc": "即時読み込み（デフォルト）"
+                },
+                {
+                    "name": "fetchpriority",
+                    "desc": "high / low / auto でリソース優先度制御"
+                }
+            ],
+            "tags": [
+                "パフォーマンス",
+                "画像",
+                "最適化"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/img#loading"
+        }
+    ]
+}

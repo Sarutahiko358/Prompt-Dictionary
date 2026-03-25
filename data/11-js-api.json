@@ -1,0 +1,499 @@
+{
+    "cat": "JavaScript Web API",
+    "catIcon": "⚡",
+    "catDesc": "ブラウザが提供するJavaScript APIの主要機能。DOM操作、クリップボード、位置情報、通知、Web Animations、音声合成など。",
+    "items": [
+        {
+            "name": "querySelector / querySelectorAll",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "CSSセレクタ文字列で要素を検索するDOM API。querySelectorは最初の一致要素、querySelectorAllは一致する全要素のNodeListを返す。getElementByIdやgetElementsByClassNameの汎用的な代替。",
+            "demo": "<div style=\"font-size:0.85rem\" id=\"qsDemo\"><p class=\"qs-item\" style=\"margin:4px 0;padding:4px 8px;border-radius:4px\">段落1</p><p class=\"qs-item\" style=\"margin:4px 0;padding:4px 8px;border-radius:4px\">段落2</p><p class=\"qs-item\" style=\"margin:4px 0;padding:4px 8px;border-radius:4px\">段落3</p><button onclick=\"document.querySelectorAll('#qsDemo .qs-item').forEach(function(el,i){el.style.background=['#dbeafe','#dcfce7','#fef3c7'][i];el.style.fontWeight='700'})\" style=\"margin-top:4px;padding:6px 12px;background:#3b82f6;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem\">querySelectorAll 実行</button></div>",
+            "code": "// 1つの要素を取得\nconst el = document.querySelector('.card');\nconst btn = document.querySelector('#submit-btn');\nconst first = document.querySelector('article > h2');\n\n// 複数要素を取得\nconst items = document.querySelectorAll('.list-item');\nitems.forEach((item, i) => {\n  item.textContent = `Item ${i + 1}`;\n});\n\n// NodeList を配列に変換\nconst arr = [...document.querySelectorAll('a[href]')];\nconst filtered = arr.filter(a => \n  a.href.startsWith('https')\n);\n\n// 要素内で検索（スコープ付き）\nconst nav = document.querySelector('nav');\nconst links = nav.querySelectorAll('a');\n\n// 存在チェック\nif (document.querySelector('.error')) {\n  console.log('エラーがあります');\n}",
+            "props": [
+                {
+                    "name": "querySelector(selector)",
+                    "desc": "最初の一致要素を返す（なければnull）"
+                },
+                {
+                    "name": "querySelectorAll(selector)",
+                    "desc": "全一致要素のNodeListを返す"
+                },
+                {
+                    "name": "CSSセレクタ",
+                    "desc": "任意のCSSセレクタが使用可能"
+                },
+                {
+                    "name": "NodeList",
+                    "desc": "forEachは使えるがmap等は使えない"
+                },
+                {
+                    "name": "スコープ",
+                    "desc": "document以外の要素からも呼び出し可"
+                }
+            ],
+            "tags": [
+                "DOM",
+                "基本",
+                "セレクタ"
+            ],
+            "browser": "全モダンブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/Document/querySelector"
+        },
+        {
+            "name": "addEventListener / removeEventListener",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "要素にイベントリスナーを登録・削除する基本API。click/input/keydownなど多数のイベントに対応。イベント委譲パターンで動的要素にも対応可能。",
+            "demo": "<div style=\"font-size:0.85rem\"><button id=\"aeBtn\" style=\"padding:8px 16px;background:#3b82f6;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem;transition:all 0.2s\">クリックしてね</button><span id=\"aeCount\" style=\"margin-left:8px;font-weight:700;color:#475569\">0回</span><script>(function(){var c=0;document.getElementById('aeBtn').addEventListener('click',function(){c++;document.getElementById('aeCount').textContent=c+'回';this.style.background=['#3b82f6','#8b5cf6','#ec4899','#f97316','#10b981'][c%5]})})()</script></div>",
+            "code": "// 基本\nconst btn = document.querySelector('button');\n\nfunction handleClick(event) {\n  console.log('クリック:', event.target);\n}\nbtn.addEventListener('click', handleClick);\n\n// オプション付き\nbtn.addEventListener('click', handleClick, {\n  once: true,     // 1回だけ実行\n  passive: true,  // preventDefault不使用を宣言\n  capture: true,  // キャプチャフェーズで実行\n});\n\n// 削除（同じ関数参照が必要）\nbtn.removeEventListener('click', handleClick);\n\n// イベント委譲（動的要素対応）\ndocument.querySelector('.list').addEventListener(\n  'click', (e) => {\n    const item = e.target.closest('.list-item');\n    if (item) {\n      console.log('項目クリック:', item.textContent);\n    }\n  }\n);\n\n// AbortController で一括削除\nconst ac = new AbortController();\nbtn.addEventListener('click', fn, { signal: ac.signal });\nac.abort(); // 全リスナーを一括削除",
+            "props": [
+                {
+                    "name": "type",
+                    "desc": "イベント名（click, input, keydown等）"
+                },
+                {
+                    "name": "listener",
+                    "desc": "コールバック関数"
+                },
+                {
+                    "name": "once",
+                    "desc": "true: 1回実行後に自動削除"
+                },
+                {
+                    "name": "passive",
+                    "desc": "true: preventDefaultを呼ばない宣言"
+                },
+                {
+                    "name": "capture",
+                    "desc": "キャプチャフェーズで発火"
+                },
+                {
+                    "name": "signal",
+                    "desc": "AbortSignalで一括解除"
+                }
+            ],
+            "tags": [
+                "DOM",
+                "イベント",
+                "基本"
+            ],
+            "browser": "全モダンブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/EventTarget/addEventListener"
+        },
+        {
+            "name": "classList API",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "要素のCSSクラスを操作するAPI。add/remove/toggle/containsなどのメソッドで、classNameの文字列操作なしにクラスを安全に切り替えられる。",
+            "demo": "<div style=\"font-size:0.85rem\"><style>.cl-active{background:#dcfce7!important;color:#15803d!important;font-weight:700;border-color:#22c55e!important}</style><div id=\"clBox\" style=\"padding:12px 16px;background:#f1f5f9;border:2px solid #e2e8f0;border-radius:8px;text-align:center;transition:all 0.3s\">クラスの切り替え</div><div style=\"margin-top:8px;display:flex;gap:4px;flex-wrap:wrap\"><button onclick=\"document.getElementById('clBox').classList.add('cl-active')\" style=\"padding:4px 10px;background:#22c55e;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:0.8rem\">add</button><button onclick=\"document.getElementById('clBox').classList.remove('cl-active')\" style=\"padding:4px 10px;background:#ef4444;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:0.8rem\">remove</button><button onclick=\"document.getElementById('clBox').classList.toggle('cl-active')\" style=\"padding:4px 10px;background:#3b82f6;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:0.8rem\">toggle</button></div></div>",
+            "code": "const el = document.querySelector('.card');\n\n// クラスの追加\nel.classList.add('active');\nel.classList.add('visible', 'animated');\n\n// クラスの削除\nel.classList.remove('hidden');\n\n// トグル（あれば削除、なければ追加）\nel.classList.toggle('open');\n\n// 強制的にON/OFF\nel.classList.toggle('dark', isDarkMode);\n\n// 存在チェック\nif (el.classList.contains('active')) {\n  console.log('アクティブです');\n}\n\n// クラスの入れ替え\nel.classList.replace('old-class', 'new-class');\n\n// 全クラスの列挙\nel.classList.forEach(cls => console.log(cls));\n\n// クラス数\nconsole.log(el.classList.length);",
+            "props": [
+                {
+                    "name": "add(class1, ...)",
+                    "desc": "クラスを追加（複数可）"
+                },
+                {
+                    "name": "remove(class1, ...)",
+                    "desc": "クラスを削除"
+                },
+                {
+                    "name": "toggle(class, force?)",
+                    "desc": "クラスを切り替え"
+                },
+                {
+                    "name": "contains(class)",
+                    "desc": "クラスの存在チェック"
+                },
+                {
+                    "name": "replace(old, new)",
+                    "desc": "クラスを入れ替え"
+                },
+                {
+                    "name": "length",
+                    "desc": "クラスの数"
+                }
+            ],
+            "tags": [
+                "DOM",
+                "クラス操作",
+                "基本"
+            ],
+            "browser": "全モダンブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/Element/classList"
+        },
+        {
+            "name": "createElement / appendChild / insertAdjacentHTML",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "DOM要素を動的に作成・挿入するAPI群。createElementでノードを生成、appendChild/appendで追加する。insertAdjacentHTMLはHTML文字列を任意の位置に挿入でき、テンプレートリテラルと相性が良い。",
+            "demo": "<div style=\"font-size:0.85rem\"><div id=\"ceList\" style=\"display:flex;flex-direction:column;gap:4px;margin-bottom:8px\"><div style=\"padding:6px 12px;background:#f1f5f9;border-radius:6px\">既存の要素</div></div><button onclick=\"var d=document.createElement('div');d.textContent='追加: '+new Date().toLocaleTimeString();d.style.cssText='padding:6px 12px;background:#dbeafe;border-radius:6px;animation:fadeIn 0.3s';document.getElementById('ceList').appendChild(d)\" style=\"padding:6px 12px;background:#3b82f6;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem\">要素を追加</button></div>",
+            "code": "// createElement + appendChild\nconst card = document.createElement('div');\ncard.className = 'card';\ncard.textContent = '新しいカード';\ndocument.querySelector('.list').appendChild(card);\n\n// append（テキストも追加可、複数可）\nparent.append(el1, el2, 'テキスト');\n\n// prepend（先頭に追加）\nparent.prepend(el);\n\n// insertAdjacentHTML（高速で柔軟）\nconst html = `\n  <div class=\"card\">\n    <h3>${title}</h3>\n    <p>${desc}</p>\n  </div>\n`;\ncontainer.insertAdjacentHTML('beforeend', html);\n// 位置: 'beforebegin' | 'afterbegin'\n//       'beforeend'   | 'afterend'\n\n// 要素の削除\nel.remove();\n// 子要素の削除\nparent.removeChild(child);\n\n// テンプレートを使う方法\nconst template = document.getElementById('tpl');\nconst clone = template.content.cloneNode(true);\nparent.appendChild(clone);",
+            "props": [
+                {
+                    "name": "createElement(tag)",
+                    "desc": "新しいHTML要素を作成"
+                },
+                {
+                    "name": "appendChild(node)",
+                    "desc": "子要素として末尾に追加"
+                },
+                {
+                    "name": "append(...nodes)",
+                    "desc": "複数ノード・テキストを追加"
+                },
+                {
+                    "name": "prepend(...nodes)",
+                    "desc": "先頭に追加"
+                },
+                {
+                    "name": "insertAdjacentHTML(pos, html)",
+                    "desc": "指定位置にHTML文字列を挿入"
+                },
+                {
+                    "name": "remove()",
+                    "desc": "要素自身をDOMから削除"
+                },
+                {
+                    "name": "cloneNode(deep)",
+                    "desc": "要素を複製"
+                }
+            ],
+            "tags": [
+                "DOM",
+                "要素作成",
+                "基本"
+            ],
+            "browser": "全モダンブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/Document/createElement"
+        },
+        {
+            "name": "Clipboard API",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "システムクリップボードの読み書きを行う非同期API。navigator.clipboard.writeText()でコピー、readText()でペーストを実装できる。セキュアコンテキスト（HTTPS）とユーザー許可が必要。",
+            "demo": "<div style=\"font-size:0.85rem;display:flex;gap:8px;align-items:center\"><input id=\"clipInput\" value=\"コピーするテキスト\" style=\"padding:6px 10px;border:1px solid #cbd5e1;border-radius:6px;font-size:0.85rem;width:180px\"><button onclick=\"navigator.clipboard.writeText(document.getElementById('clipInput').value).then(function(){var b=event.target;b.textContent='✅ コピー済!';b.style.background='#22c55e';setTimeout(function(){b.textContent='📋 コピー';b.style.background='#3b82f6'},1500)})\" style=\"padding:6px 12px;background:#3b82f6;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem;white-space:nowrap\">📋 コピー</button></div>",
+            "code": "// テキストをコピー\nasync function copyText(text) {\n  try {\n    await navigator.clipboard.writeText(text);\n    console.log('コピー成功');\n  } catch (err) {\n    console.error('コピー失敗:', err);\n  }\n}\n\n// テキストをペースト\nasync function pasteText() {\n  try {\n    const text = await navigator.clipboard.readText();\n    console.log('ペースト:', text);\n  } catch (err) {\n    console.error('ペースト失敗:', err);\n  }\n}\n\n// コピーボタンの実装\ndocument.querySelector('.copy-btn')\n  .addEventListener('click', async () => {\n    const code = document.querySelector('code').textContent;\n    await navigator.clipboard.writeText(code);\n    // UIフィードバック\n  });\n\n// 画像やリッチコンテンツのコピー\nconst blob = new Blob([htmlStr], { type: 'text/html' });\nawait navigator.clipboard.write([\n  new ClipboardItem({ 'text/html': blob })\n]);",
+            "props": [
+                {
+                    "name": "writeText(text)",
+                    "desc": "テキストをクリップボードに書き込み"
+                },
+                {
+                    "name": "readText()",
+                    "desc": "クリップボードのテキストを読み取り"
+                },
+                {
+                    "name": "write(items)",
+                    "desc": "ClipboardItemで複合データを書き込み"
+                },
+                {
+                    "name": "read()",
+                    "desc": "クリップボードの全データを読み取り"
+                },
+                {
+                    "name": "ClipboardItem",
+                    "desc": "MIME型とBlobのペアで構成"
+                }
+            ],
+            "tags": [
+                "API",
+                "クリップボード",
+                "非同期"
+            ],
+            "browser": "Chrome 66+, Edge 79+, Firefox 63+, Safari 13.1+",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/Clipboard_API"
+        },
+        {
+            "name": "Geolocation API",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "ユーザーの現在地（緯度・経度）を取得するAPI。プライバシー保護のためユーザーの明示的な許可が必要。getCurrentPositionで1回取得、watchPositionで継続的な監視が可能。",
+            "demo": "<div style=\"font-size:0.85rem\"><div id=\"geoResult\" style=\"padding:12px;background:#f1f5f9;border-radius:8px;margin-bottom:8px;color:#475569\">位置情報は未取得です</div><button onclick=\"if(navigator.geolocation){navigator.geolocation.getCurrentPosition(function(p){document.getElementById('geoResult').textContent='緯度: '+p.coords.latitude.toFixed(4)+' / 経度: '+p.coords.longitude.toFixed(4);document.getElementById('geoResult').style.background='#dcfce7'},function(e){document.getElementById('geoResult').textContent='エラー: '+e.message;document.getElementById('geoResult').style.background='#fef2f2'})}\" style=\"padding:6px 12px;background:#3b82f6;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem\">📍 現在地を取得</button></div>",
+            "code": "// 1回の位置取得\nnavigator.geolocation.getCurrentPosition(\n  (position) => {\n    const { latitude, longitude, accuracy } = position.coords;\n    console.log(`緯度: ${latitude}`);\n    console.log(`経度: ${longitude}`);\n    console.log(`精度: ${accuracy}m`);\n  },\n  (error) => {\n    switch (error.code) {\n      case error.PERMISSION_DENIED:\n        console.error('許可が拒否されました');\n        break;\n      case error.POSITION_UNAVAILABLE:\n        console.error('位置情報が利用できません');\n        break;\n      case error.TIMEOUT:\n        console.error('タイムアウト');\n        break;\n    }\n  },\n  {\n    enableHighAccuracy: true,\n    timeout: 5000,\n    maximumAge: 0\n  }\n);\n\n// 位置の継続監視\nconst watchId = navigator.geolocation.watchPosition(\n  (pos) => console.log(pos.coords)\n);\n// 監視停止\nnavigator.geolocation.clearWatch(watchId);",
+            "props": [
+                {
+                    "name": "getCurrentPosition()",
+                    "desc": "現在地を1回取得"
+                },
+                {
+                    "name": "watchPosition()",
+                    "desc": "位置変化を継続監視"
+                },
+                {
+                    "name": "clearWatch()",
+                    "desc": "監視を停止"
+                },
+                {
+                    "name": "coords.latitude",
+                    "desc": "緯度"
+                },
+                {
+                    "name": "coords.longitude",
+                    "desc": "経度"
+                },
+                {
+                    "name": "coords.accuracy",
+                    "desc": "精度（メートル）"
+                },
+                {
+                    "name": "enableHighAccuracy",
+                    "desc": "高精度モードの要求"
+                }
+            ],
+            "tags": [
+                "API",
+                "位置情報",
+                "許可"
+            ],
+            "browser": "全モダンブラウザ対応（HTTPS必須）",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/Geolocation_API"
+        },
+        {
+            "name": "Notification API",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "ブラウザのネイティブ通知をユーザーに表示するAPI。通知許可をリクエストした後、タイトル・本文・アイコンを指定してデスクトップ通知を送信できる。Service Workerと組み合わせてプッシュ通知も可能。",
+            "demo": "<div style=\"font-size:0.85rem\"><button onclick=\"if('Notification' in window){Notification.requestPermission().then(function(p){if(p==='granted'){new Notification('テスト通知',{body:'Web Notification APIのデモです',icon:'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔔</text></svg>'})}})}\" style=\"padding:8px 16px;background:#f97316;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem\">🔔 通知を送信</button><span style=\"margin-left:8px;color:#64748b\">(許可ダイアログが表示されます)</span></div>",
+            "code": "// 通知許可をリクエスト\nconst permission = await Notification.requestPermission();\n\nif (permission === 'granted') {\n  // 通知を表示\n  const notification = new Notification('新着メッセージ', {\n    body: '田中さんからメッセージが届きました',\n    icon: '/icon-192.png',\n    badge: '/badge-72.png',\n    tag: 'message-1',      // 同じタグは上書き\n    requireInteraction: true, // 自動で消えない\n  });\n\n  // クリックイベント\n  notification.onclick = () => {\n    window.focus();\n    notification.close();\n  };\n\n  // 閉じるイベント\n  notification.onclose = () => {\n    console.log('通知が閉じられました');\n  };\n}\n\n// 権限状態の確認\nconsole.log(Notification.permission);\n// 'default' | 'granted' | 'denied'",
+            "props": [
+                {
+                    "name": "requestPermission()",
+                    "desc": "通知許可をリクエスト"
+                },
+                {
+                    "name": "body",
+                    "desc": "通知の本文"
+                },
+                {
+                    "name": "icon",
+                    "desc": "通知アイコン画像のURL"
+                },
+                {
+                    "name": "tag",
+                    "desc": "通知の識別子（同タグは上書き）"
+                },
+                {
+                    "name": "onclick",
+                    "desc": "通知クリック時のイベント"
+                },
+                {
+                    "name": "close()",
+                    "desc": "通知を閉じる"
+                }
+            ],
+            "tags": [
+                "API",
+                "通知",
+                "許可"
+            ],
+            "browser": "Chrome 20+, Edge 14+, Firefox 22+, Safari 7+（モバイルは制限あり）",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/Notification"
+        },
+        {
+            "name": "Web Animations API (Element.animate)",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "JavaScriptからCSSアニメーション相当の高パフォーマンスなアニメーションを制御するAPI。element.animate()でキーフレームを指定し、Animationオブジェクトで再生・停止・逆再生などを制御できる。",
+            "demo": "<div style=\"font-size:0.85rem;display:flex;gap:12px;align-items:center\"><div id=\"waBox\" style=\"width:48px;height:48px;background:#3b82f6;border-radius:8px\"></div><button onclick=\"document.getElementById('waBox').animate([{transform:'translateX(0) rotate(0deg)',borderRadius:'8px'},{transform:'translateX(120px) rotate(360deg)',borderRadius:'50%',background:'#ec4899'},{transform:'translateX(0) rotate(0deg)',borderRadius:'8px'}],{duration:1000,easing:'ease-in-out'})\" style=\"padding:6px 12px;background:#3b82f6;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem\">アニメーション実行</button></div>",
+            "code": "// 基本\nconst animation = element.animate(\n  [\n    { transform: 'translateY(0)', opacity: 1 },\n    { transform: 'translateY(-20px)', opacity: 0 }\n  ],\n  {\n    duration: 500,\n    easing: 'ease-out',\n    fill: 'forwards'\n  }\n);\n\n// 制御\nanimation.pause();\nanimation.play();\nanimation.reverse();\nanimation.cancel();\n\n// 完了を待つ\nawait animation.finished;\nconsole.log('アニメーション完了');\n\n// 再生速度\nanimation.playbackRate = 2; // 2倍速\n\n// キーフレームの部分指定\nelement.animate(\n  { opacity: [0, 1] }, // from → to\n  { duration: 300 }\n);\n\n// 複数要素のスタガーアニメーション\ndocument.querySelectorAll('.item').forEach((el, i) => {\n  el.animate(\n    [{ opacity: 0, transform: 'translateY(20px)' },\n     { opacity: 1, transform: 'translateY(0)' }],\n    { duration: 400, delay: i * 100, fill: 'both' }\n  );\n});",
+            "props": [
+                {
+                    "name": "element.animate(keyframes, options)",
+                    "desc": "アニメーションを作成・再生"
+                },
+                {
+                    "name": "duration",
+                    "desc": "アニメーション時間（ms）"
+                },
+                {
+                    "name": "easing",
+                    "desc": "イージング関数"
+                },
+                {
+                    "name": "fill",
+                    "desc": "forwards/backwards/both/none"
+                },
+                {
+                    "name": "delay",
+                    "desc": "開始遅延（ms）"
+                },
+                {
+                    "name": "iterations",
+                    "desc": "繰り返し回数（Infinity可）"
+                },
+                {
+                    "name": "finished",
+                    "desc": "完了時に解決するPromise"
+                },
+                {
+                    "name": "playbackRate",
+                    "desc": "再生速度の倍率"
+                }
+            ],
+            "tags": [
+                "API",
+                "アニメーション",
+                "高度"
+            ],
+            "browser": "Chrome 36+, Edge 79+, Firefox 48+, Safari 13.1+",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/Element/animate"
+        },
+        {
+            "name": "Web Speech API（音声合成）",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "テキストを音声に変換して読み上げるAPI（SpeechSynthesis）。言語や声の種類・速度・ピッチを指定可能。アクセシビリティ支援やナビゲーション案内などに活用される。",
+            "demo": "<div style=\"font-size:0.85rem;display:flex;gap:8px;align-items:center;flex-wrap:wrap\"><input id=\"speechText\" value=\"こんにちは、Web Speech APIです\" style=\"padding:6px 10px;border:1px solid #cbd5e1;border-radius:6px;font-size:0.85rem;width:240px\"><button onclick=\"var u=new SpeechSynthesisUtterance(document.getElementById('speechText').value);u.lang='ja-JP';u.rate=1;speechSynthesis.speak(u)\" style=\"padding:6px 12px;background:#8b5cf6;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem\">🔊 読み上げ</button><button onclick=\"speechSynthesis.cancel()\" style=\"padding:6px 12px;background:#ef4444;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem\">⏹ 停止</button></div>",
+            "code": "// テキスト読み上げ\nconst utterance = new SpeechSynthesisUtterance(\n  '読み上げるテキスト'\n);\nutterance.lang = 'ja-JP';\nutterance.rate = 1;    // 速度（0.1〜10）\nutterance.pitch = 1;   // ピッチ（0〜2）\nutterance.volume = 1;  // 音量（0〜1）\n\n// 利用可能な音声一覧\nconst voices = speechSynthesis.getVoices();\nconst jaVoice = voices.find(v => v.lang === 'ja-JP');\nif (jaVoice) utterance.voice = jaVoice;\n\n// 読み上げ開始\nspeechSynthesis.speak(utterance);\n\n// イベント\nutterance.onstart = () => console.log('開始');\nutterance.onend = () => console.log('完了');\nutterance.onerror = (e) => console.error(e);\n\n// 制御\nspeechSynthesis.pause();\nspeechSynthesis.resume();\nspeechSynthesis.cancel();",
+            "props": [
+                {
+                    "name": "SpeechSynthesisUtterance",
+                    "desc": "発話オブジェクトを作成"
+                },
+                {
+                    "name": "speak(utterance)",
+                    "desc": "読み上げを開始"
+                },
+                {
+                    "name": "cancel()",
+                    "desc": "読み上げを停止"
+                },
+                {
+                    "name": "getVoices()",
+                    "desc": "利用可能な音声一覧を取得"
+                },
+                {
+                    "name": "lang",
+                    "desc": "言語（BCP47形式: ja-JP等）"
+                },
+                {
+                    "name": "rate / pitch / volume",
+                    "desc": "速度 / 高さ / 音量"
+                }
+            ],
+            "tags": [
+                "API",
+                "音声",
+                "アクセシビリティ"
+            ],
+            "browser": "Chrome 33+, Edge 14+, Firefox 49+, Safari 7+",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/Web_Speech_API"
+        },
+        {
+            "name": "History API / pushState",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "ブラウザの履歴スタックをJavaScriptから操作するAPI。pushStateでURLを変更（ページ遷移なし）し、popstateイベントで戻る/進む操作を検知する。SPA（シングルページアプリ）のルーティングの基盤。",
+            "demo": "<div style=\"font-size:0.85rem\"><div id=\"histUrl\" style=\"padding:8px 12px;background:#f1f5f9;border-radius:6px;font-family:monospace;margin-bottom:8px;word-break:break-all\">現在のURL</div><div style=\"display:flex;gap:4px;flex-wrap:wrap\"><button onclick=\"history.pushState({page:'home'},'','#home');document.getElementById('histUrl').textContent=location.href\" style=\"padding:4px 10px;background:#3b82f6;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:0.8rem\">#home</button><button onclick=\"history.pushState({page:'about'},'','#about');document.getElementById('histUrl').textContent=location.href\" style=\"padding:4px 10px;background:#8b5cf6;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:0.8rem\">#about</button><button onclick=\"history.back()\" style=\"padding:4px 10px;background:#64748b;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:0.8rem\">← 戻る</button></div></div>",
+            "code": "// URLを変更（ページ遷移なし）\nhistory.pushState(\n  { page: 'about' },  // state オブジェクト\n  '',                  // title（未使用）\n  '/about'             // URL\n);\n\n// URLを置換（履歴に残さない）\nhistory.replaceState(\n  { page: 'home' }, '', '/'\n);\n\n// 戻る/進む操作の検知\nwindow.addEventListener('popstate', (event) => {\n  console.log('URL変更:', location.pathname);\n  console.log('state:', event.state);\n  renderPage(event.state?.page || 'home');\n});\n\n// ナビゲーション\nhistory.back();       // 1つ戻る\nhistory.forward();    // 1つ進む\nhistory.go(-2);       // 2つ戻る\n\n// 現在の state\nconsole.log(history.state);\n\n// 履歴の長さ\nconsole.log(history.length);",
+            "props": [
+                {
+                    "name": "pushState(state, title, url)",
+                    "desc": "履歴にエントリを追加"
+                },
+                {
+                    "name": "replaceState(state, title, url)",
+                    "desc": "現在のエントリを置換"
+                },
+                {
+                    "name": "popstate イベント",
+                    "desc": "履歴の移動時に発火"
+                },
+                {
+                    "name": "back() / forward()",
+                    "desc": "戻る / 進む"
+                },
+                {
+                    "name": "go(n)",
+                    "desc": "n個先の履歴に移動"
+                },
+                {
+                    "name": "state",
+                    "desc": "現在の状態オブジェクト"
+                }
+            ],
+            "tags": [
+                "API",
+                "ルーティング",
+                "SPA"
+            ],
+            "browser": "全モダンブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/History_API"
+        },
+        {
+            "name": "setTimeout / setInterval / requestAnimationFrame",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "時間に基づく処理の実行を制御するAPI群。setTimeoutは遅延実行、setIntervalは繰り返し実行、requestAnimationFrameは画面描画に同期した最適なタイミングでの実行（アニメーション向き）。",
+            "demo": "<div style=\"font-size:0.85rem\"><div style=\"display:flex;gap:12px;align-items:center\"><div id=\"timerBox\" style=\"width:48px;height:48px;background:#3b82f6;border-radius:8px;transition:none\"></div><span id=\"timerCount\" style=\"font-weight:700;font-size:1.2rem;color:#475569;font-variant-numeric:tabular-nums\">0.0s</span></div><div style=\"margin-top:8px;display:flex;gap:4px\"><button onclick=\"var start=performance.now();var box=document.getElementById('timerBox');(function step(t){var p=Math.min((t-start)/2000,1);box.style.transform='translateX('+p*150+'px)';document.getElementById('timerCount').textContent=(p*2).toFixed(1)+'s';if(p<1)requestAnimationFrame(step)})(start)\" style=\"padding:4px 10px;background:#3b82f6;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:0.8rem\">rAF 実行</button><button onclick=\"document.getElementById('timerBox').style.transform='translateX(0)';document.getElementById('timerCount').textContent='0.0s'\" style=\"padding:4px 10px;background:#64748b;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:0.8rem\">リセット</button></div></div>",
+            "code": "// setTimeout: 一度だけ遅延実行\nconst timeoutId = setTimeout(() => {\n  console.log('3秒後に実行');\n}, 3000);\nclearTimeout(timeoutId); // キャンセル\n\n// setInterval: 繰り返し実行\nlet count = 0;\nconst intervalId = setInterval(() => {\n  console.log(++count);\n  if (count >= 10) clearInterval(intervalId);\n}, 1000);\n\n// requestAnimationFrame: アニメーション\nfunction animate(timestamp) {\n  // 60fpsに同期して実行される\n  element.style.transform = \n    `translateX(${progress}px)`;\n  \n  if (progress < target) {\n    requestAnimationFrame(animate);\n  }\n}\nconst rafId = requestAnimationFrame(animate);\ncancelAnimationFrame(rafId); // キャンセル\n\n// ⚠️ アニメーションには rAF を使う\n// setInterval は描画と同期しない",
+            "props": [
+                {
+                    "name": "setTimeout(fn, ms)",
+                    "desc": "指定時間後に1回実行"
+                },
+                {
+                    "name": "setInterval(fn, ms)",
+                    "desc": "指定間隔で繰り返し実行"
+                },
+                {
+                    "name": "clearTimeout(id)",
+                    "desc": "setTimeoutをキャンセル"
+                },
+                {
+                    "name": "clearInterval(id)",
+                    "desc": "setIntervalをキャンセル"
+                },
+                {
+                    "name": "requestAnimationFrame(fn)",
+                    "desc": "次の描画フレームで実行"
+                },
+                {
+                    "name": "cancelAnimationFrame(id)",
+                    "desc": "rAFをキャンセル"
+                }
+            ],
+            "tags": [
+                "タイマー",
+                "アニメーション",
+                "基本"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/setTimeout"
+        },
+        {
+            "name": "structuredClone",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "オブジェクトのディープコピーを行うグローバル関数。JSON.parse(JSON.stringify())と異なり、Date/Map/Set/ArrayBufferなどの特殊型も正しくコピーされる。循環参照にも対応。",
+            "demo": "<div style=\"font-size:0.85rem\"><button onclick=\"var orig={name:'元データ',nested:{value:42},date:new Date()};var clone=structuredClone(orig);clone.nested.value=999;document.getElementById('scResult').textContent='元: nested.value='+orig.nested.value+' / コピー: nested.value='+clone.nested.value;document.getElementById('scResult').style.display='block'\" style=\"padding:6px 12px;background:#3b82f6;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem\">structuredClone 実行</button><div id=\"scResult\" style=\"display:none;margin-top:8px;padding:8px 12px;background:#dcfce7;border-radius:6px;font-weight:700;color:#15803d\"></div></div>",
+            "code": "// ディープコピー\nconst original = {\n  name: 'テスト',\n  nested: { value: 42 },\n  items: [1, 2, 3],\n  date: new Date(),\n  map: new Map([['key', 'val']]),\n};\n\nconst clone = structuredClone(original);\nclone.nested.value = 999;\nconsole.log(original.nested.value); // 42（変更されない）\n\n// JSON 方式との違い\n// ❌ JSON.parse(JSON.stringify(obj))\n//    Date → 文字列に変換される\n//    Map/Set → 空オブジェクトになる\n//    undefined → 消える\n//    循環参照 → エラー\n\n// ✅ structuredClone(obj)\n//    Date → Date のまま\n//    Map/Set → 正しくコピー\n//    循環参照 → 対応\n\n// ⚠️ コピーできないもの\n// Function, DOM要素, Symbol",
+            "props": [
+                {
+                    "name": "structuredClone(value)",
+                    "desc": "ディープコピーを生成"
+                },
+                {
+                    "name": "Date / Map / Set",
+                    "desc": "正しくコピーされる"
+                },
+                {
+                    "name": "循環参照",
+                    "desc": "エラーにならずコピー可能"
+                },
+                {
+                    "name": "transfer",
+                    "desc": "第2引数でTransferableを指定可"
+                }
+            ],
+            "tags": [
+                "ユーティリティ",
+                "コピー",
+                "モダン"
+            ],
+            "browser": "Chrome 98+, Edge 98+, Firefox 94+, Safari 15.4+",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/structuredClone"
+        }
+    ]
+}

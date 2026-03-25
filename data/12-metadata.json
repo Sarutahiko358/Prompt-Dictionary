@@ -1,0 +1,399 @@
+{
+    "cat": "メタデータ・ドキュメント",
+    "catIcon": "📄",
+    "catDesc": "HTML文書の構造・メタ情報・文字エンコーディング・SEO関連タグなど、headセクションとドキュメント設定に関わる要素。",
+    "items": [
+        {
+            "name": "&lt;!DOCTYPE html&gt;",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "文書型宣言。ブラウザに標準モード（Standards Mode）でレンダリングさせるために必須。HTML5では<!DOCTYPE html>とだけ書けばよい。省略すると互換モードになり、レイアウトが崩れる原因となる。",
+            "demo": "<div style=\"font-size:0.85rem;padding:12px;background:#f0fdf4;border:2px solid #22c55e;border-radius:8px\"><code style=\"font-size:0.9rem;font-weight:700\">&lt;!DOCTYPE html&gt;</code><p style=\"margin:8px 0 0;color:#15803d\">HTML文書の最初の行に必ず記述する。</p></div>",
+            "code": "<!DOCTYPE html>\n<html lang=\"ja\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" \n        content=\"width=device-width, initial-scale=1\">\n  <title>ページタイトル</title>\n</head>\n<body>\n  ...\n</body>\n</html>",
+            "props": [
+                {
+                    "name": "<!DOCTYPE html>",
+                    "desc": "HTML5の文書型宣言"
+                },
+                {
+                    "name": "標準モード",
+                    "desc": "正しいCSS仕様でレンダリング"
+                },
+                {
+                    "name": "互換モード",
+                    "desc": "DOCTYPE省略時の古い挙動"
+                }
+            ],
+            "tags": [
+                "基本",
+                "必須",
+                "ドキュメント"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Glossary/Doctype"
+        },
+        {
+            "name": "&lt;html lang&gt;",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "文書のルート要素。lang属性で文書の主言語を指定する。スクリーンリーダーの音声選択、翻訳ツール、検索エンジンの言語判定に使われるため、アクセシビリティとSEOの両面で重要。",
+            "demo": "<div style=\"font-size:0.85rem;padding:12px;background:#eff6ff;border:2px solid #3b82f6;border-radius:8px\"><code style=\"font-size:0.9rem\">&lt;html lang=\"ja\"&gt;</code><p style=\"margin:8px 0 0;color:#1d4ed8\">日本語ページの場合。英語なら lang=\"en\"。</p></div>",
+            "code": "<!-- 日本語ページ -->\n<html lang=\"ja\">\n\n<!-- 英語ページ -->\n<html lang=\"en\">\n\n<!-- 部分的に言語を変える -->\n<p>日本語テキスト\n  <span lang=\"en\">English text</span>\n  の続き\n</p>\n\n<!-- 中国語（簡体字） -->\n<html lang=\"zh-Hans\">\n\n<!-- 地域指定 -->\n<html lang=\"en-US\">\n<html lang=\"pt-BR\">",
+            "props": [
+                {
+                    "name": "lang=\"ja\"",
+                    "desc": "日本語"
+                },
+                {
+                    "name": "lang=\"en\"",
+                    "desc": "英語"
+                },
+                {
+                    "name": "lang=\"zh-Hans\"",
+                    "desc": "中国語（簡体字）"
+                },
+                {
+                    "name": "BCP47",
+                    "desc": "言語コードの国際規格"
+                }
+            ],
+            "tags": [
+                "基本",
+                "必須",
+                "アクセシビリティ"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Global_attributes/lang"
+        },
+        {
+            "name": "&lt;meta charset&gt;",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "文書の文字エンコーディングを宣言する。UTF-8がWeb標準であり、head要素の最初の子要素として記述する。これがないと日本語が文字化けする原因になる。",
+            "demo": "<div style=\"font-size:0.85rem;padding:12px;background:#f0fdf4;border:2px solid #22c55e;border-radius:8px\"><code style=\"font-size:0.9rem;font-weight:700\">&lt;meta charset=\"UTF-8\"&gt;</code><p style=\"margin:8px 0 0;color:#15803d\">&lt;head&gt;の最初に記述。UTF-8以外を使う理由はほぼない。</p></div>",
+            "code": "<!DOCTYPE html>\n<html lang=\"ja\">\n<head>\n  <!-- 必ず最初に配置 -->\n  <meta charset=\"UTF-8\">\n  \n  <!-- 古い書き方（HTML4互換） -->\n  <!-- <meta http-equiv=\"Content-Type\" \n        content=\"text/html; charset=UTF-8\"> -->\n  \n  <title>ページタイトル</title>\n</head>",
+            "props": [
+                {
+                    "name": "charset=\"UTF-8\"",
+                    "desc": "UTF-8エンコーディング（推奨）"
+                },
+                {
+                    "name": "配置位置",
+                    "desc": "headの先頭1024バイト以内に記述"
+                }
+            ],
+            "tags": [
+                "基本",
+                "必須",
+                "エンコーディング"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/meta#charset"
+        },
+        {
+            "name": "&lt;title&gt;",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "ブラウザのタブ、ブックマーク、検索結果に表示される文書タイトル。SEOにおいて最も重要なHTML要素の1つ。ページごとに固有で、内容を簡潔に表すタイトルを設定する。",
+            "demo": "<div style=\"font-size:0.85rem\"><div style=\"background:#f1f5f9;border-radius:8px 8px 0 0;padding:6px 12px;display:flex;align-items:center;gap:8px\"><div style=\"width:12px;height:12px;background:#ef4444;border-radius:50%\"></div><div style=\"width:12px;height:12px;background:#eab308;border-radius:50%\"></div><div style=\"width:12px;height:12px;background:#22c55e;border-radius:50%\"></div><div style=\"flex:1;background:#fff;border-radius:4px;padding:4px 8px;font-size:0.75rem;color:#475569\">📄 ページタイトル — サイト名</div></div><div style=\"background:#fff;border:1px solid #e2e8f0;border-top:none;border-radius:0 0 8px 8px;padding:12px\">(ページコンテンツ)</div></div>",
+            "code": "<head>\n  <title>ページタイトル — サイト名</title>\n</head>\n\n<!-- 良い例 -->\n<title>Web UIコンポーネント辞典 — リファレンスガイド</title>\n<title>お問い合わせ — 株式会社サンプル</title>\n\n<!-- 悪い例 -->\n<title>ホームページ</title>         <!-- 具体性がない -->\n<title>aaa</title>                  <!-- 意味不明 -->\n\n<!-- JSで動的に変更 -->\n<script>\n  document.title = `(${unreadCount}) 受信トレイ`;\n</script>",
+            "props": [
+                {
+                    "name": "テキストコンテンツ",
+                    "desc": "タイトル文字列（タグは使えない）"
+                },
+                {
+                    "name": "推奨文字数",
+                    "desc": "30〜60文字程度（検索結果に収まる範囲）"
+                },
+                {
+                    "name": "document.title",
+                    "desc": "JSから動的に変更可能"
+                }
+            ],
+            "tags": [
+                "基本",
+                "必須",
+                "SEO"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/title"
+        },
+        {
+            "name": "&lt;meta name=\"description\"&gt;",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "ページの概要を検索エンジンに伝えるメタタグ。検索結果のスニペット（説明文）として表示される可能性がある。120〜160文字程度で、ページの内容を簡潔に要約する。",
+            "demo": "<div style=\"font-size:0.85rem;padding:12px;background:#fff;border:1px solid #e2e8f0;border-radius:8px\"><div style=\"color:#1a0dab;font-size:0.95rem;font-weight:700\">Web UIコンポーネント辞典</div><div style=\"color:#006621;font-size:0.75rem\">https://example.com/ui-dictionary</div><div style=\"color:#545454;font-size:0.8rem;margin-top:2px\">HTML/CSS/JavaScriptの要素・プロパティ・APIを網羅したインタラクティブリファレンス。デモ・コード・ブラウザ対応状況を確認できます。</div></div>",
+            "code": "<meta name=\"description\" \n      content=\"HTML/CSS/JavaScriptの要素・プロパティ・APIを\n               網羅したリファレンスアプリ。デモ・コード・\n               ブラウザ対応状況を一目で確認。\">\n\n<!-- ページごとにユニークな説明を -->\n<!-- ❌ 全ページ同じ description -->\n<!-- ✅ ページの内容に合った description -->",
+            "props": [
+                {
+                    "name": "content",
+                    "desc": "ページの概要テキスト"
+                },
+                {
+                    "name": "推奨文字数",
+                    "desc": "120〜160文字程度"
+                }
+            ],
+            "tags": [
+                "SEO",
+                "検索結果",
+                "メタデータ"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/meta/name"
+        },
+        {
+            "name": "Open Graph (og:) メタタグ",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "SNS（Facebook/Twitter/LINE等）でリンクを共有した際にリッチなプレビュー（画像・タイトル・説明文）を表示するためのメタタグ。Facebookが策定したOpen Graphプロトコルに基づく。",
+            "demo": "<div style=\"font-size:0.85rem;border:1px solid #e2e8f0;border-radius:12px;overflow:hidden;max-width:320px\"><div style=\"height:160px;background:linear-gradient(135deg,#3b82f6,#8b5cf6);display:flex;align-items:center;justify-content:center;color:#fff;font-size:2rem\">🖼️ og:image</div><div style=\"padding:12px\"><div style=\"font-size:0.75rem;color:#64748b\">example.com</div><div style=\"font-weight:700;color:#1e293b\">og:title — ページタイトル</div><div style=\"font-size:0.8rem;color:#64748b;margin-top:2px\">og:description — ページの概要説明文</div></div></div>",
+            "code": "<head>\n  <!-- 基本の OG タグ -->\n  <meta property=\"og:title\" \n        content=\"ページのタイトル\">\n  <meta property=\"og:description\" \n        content=\"ページの説明文（1-2文）\">\n  <meta property=\"og:image\" \n        content=\"https://example.com/og-image.jpg\">\n  <meta property=\"og:url\" \n        content=\"https://example.com/page\">\n  <meta property=\"og:type\" content=\"website\">\n  <meta property=\"og:site_name\" content=\"サイト名\">\n\n  <!-- Twitter Card -->\n  <meta name=\"twitter:card\" \n        content=\"summary_large_image\">\n  <meta name=\"twitter:site\" content=\"@username\">\n  <meta name=\"twitter:title\" \n        content=\"ページのタイトル\">\n  <meta name=\"twitter:description\" \n        content=\"ページの説明\">\n  <meta name=\"twitter:image\" \n        content=\"https://example.com/twitter-image.jpg\">\n\n  <!-- 推奨画像サイズ: 1200x630px -->\n</head>",
+            "props": [
+                {
+                    "name": "og:title",
+                    "desc": "共有時のタイトル"
+                },
+                {
+                    "name": "og:description",
+                    "desc": "共有時の説明文"
+                },
+                {
+                    "name": "og:image",
+                    "desc": "共有時のプレビュー画像URL"
+                },
+                {
+                    "name": "og:url",
+                    "desc": "正規URL"
+                },
+                {
+                    "name": "og:type",
+                    "desc": "コンテンツの種類（website, article等）"
+                },
+                {
+                    "name": "twitter:card",
+                    "desc": "Twitter カードの種類"
+                }
+            ],
+            "tags": [
+                "SEO",
+                "SNS",
+                "メタデータ"
+            ],
+            "browser": "SNSプラットフォームが解析",
+            "mdn": "https://developer.mozilla.org/ja/docs/Learn/HTML/Introduction_to_HTML/The_head_metadata_in_HTML"
+        },
+        {
+            "name": "&lt;link rel=\"stylesheet\"&gt; / &lt;link rel=\"icon\"&gt;",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "外部リソースとの関係を定義する要素。CSSファイルの読み込み、ファビコンの指定、プリロードなどに使用する。rel属性でリソースの種類を、href属性でURLを指定する。",
+            "demo": "<div style=\"font-size:0.85rem;display:flex;flex-direction:column;gap:6px\"><code style=\"display:block;padding:6px 10px;background:#f1f5f9;border-radius:6px;font-size:0.8rem\">&lt;link rel=\"stylesheet\" href=\"/css/style.css\"&gt;</code><code style=\"display:block;padding:6px 10px;background:#f1f5f9;border-radius:6px;font-size:0.8rem\">&lt;link rel=\"icon\" href=\"/favicon.svg\" type=\"image/svg+xml\"&gt;</code><code style=\"display:block;padding:6px 10px;background:#fefce8;border-radius:6px;font-size:0.8rem\">&lt;link rel=\"preload\" href=\"/font.woff2\" as=\"font\"&gt;</code></div>",
+            "code": "<head>\n  <!-- CSSファイル -->\n  <link rel=\"stylesheet\" href=\"/css/style.css\">\n\n  <!-- ファビコン -->\n  <link rel=\"icon\" href=\"/favicon.svg\" \n        type=\"image/svg+xml\">\n  <link rel=\"icon\" href=\"/favicon.ico\" \n        sizes=\"32x32\">\n  <link rel=\"apple-touch-icon\" \n        href=\"/apple-touch-icon.png\">\n\n  <!-- プリロード（重要リソースの事前読込） -->\n  <link rel=\"preload\" href=\"/fonts/main.woff2\" \n        as=\"font\" type=\"font/woff2\" crossorigin>\n\n  <!-- プリコネクト（外部ドメインへの事前接続） -->\n  <link rel=\"preconnect\" \n        href=\"https://fonts.googleapis.com\">\n\n  <!-- 正規URL -->\n  <link rel=\"canonical\" \n        href=\"https://example.com/page\">\n\n  <!-- マニフェスト（PWA） -->\n  <link rel=\"manifest\" href=\"/manifest.json\">\n</head>",
+            "props": [
+                {
+                    "name": "rel=\"stylesheet\"",
+                    "desc": "外部CSSファイルの読み込み"
+                },
+                {
+                    "name": "rel=\"icon\"",
+                    "desc": "ファビコン"
+                },
+                {
+                    "name": "rel=\"preload\"",
+                    "desc": "重要リソースの事前読み込み"
+                },
+                {
+                    "name": "rel=\"preconnect\"",
+                    "desc": "外部ドメインへの事前接続"
+                },
+                {
+                    "name": "rel=\"canonical\"",
+                    "desc": "正規URLの指定（SEO）"
+                },
+                {
+                    "name": "as",
+                    "desc": "preload時のリソースタイプ"
+                },
+                {
+                    "name": "crossorigin",
+                    "desc": "CORS設定"
+                }
+            ],
+            "tags": [
+                "リソース",
+                "パフォーマンス",
+                "必須"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/link"
+        },
+        {
+            "name": "&lt;script&gt; / defer / async / type=\"module\"",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "JavaScriptコードの読み込みと実行を制御する要素。deferはHTML解析後に実行、asyncは読込完了次第即座に実行、type=\"module\"はES Modulesとして読み込む。配置位置や属性がパフォーマンスに大きく影響する。",
+            "demo": "<div style=\"font-size:0.85rem\"><div style=\"display:flex;flex-direction:column;gap:4px\"><div style=\"display:flex;align-items:center;gap:8px\"><code style=\"padding:3px 8px;background:#fef2f2;border-radius:4px;font-size:0.75rem\">&lt;script&gt;</code><span style=\"font-size:0.8rem;color:#dc2626\">❌ HTML解析をブロック</span></div><div style=\"display:flex;align-items:center;gap:8px\"><code style=\"padding:3px 8px;background:#dcfce7;border-radius:4px;font-size:0.75rem\">&lt;script defer&gt;</code><span style=\"font-size:0.8rem;color:#16a34a\">✅ 解析後に順序通り実行</span></div><div style=\"display:flex;align-items:center;gap:8px\"><code style=\"padding:3px 8px;background:#fefce8;border-radius:4px;font-size:0.75rem\">&lt;script async&gt;</code><span style=\"font-size:0.8rem;color:#ca8a04\">⚡ 読込完了次第実行（順序不定）</span></div><div style=\"display:flex;align-items:center;gap:8px\"><code style=\"padding:3px 8px;background:#dbeafe;border-radius:4px;font-size:0.75rem\">type=\"module\"</code><span style=\"font-size:0.8rem;color:#2563eb\">🔷 ESM + defer相当</span></div></div></div>",
+            "code": "<!-- 通常のスクリプト（ブロッキング） -->\n<script src=\"/js/app.js\"></script>\n\n<!-- defer: 解析完了後に順序通り実行（推奨） -->\n<script defer src=\"/js/app.js\"></script>\n\n<!-- async: 読込完了次第すぐ実行 -->\n<script async src=\"/js/analytics.js\"></script>\n\n<!-- ES Modules (暗黙的にdefer) -->\n<script type=\"module\" src=\"/js/app.mjs\"></script>\n\n<!-- インラインスクリプト -->\n<script>\n  console.log('即座に実行');\n</script>\n\n<!-- 推奨構成 -->\n<head>\n  <!-- CSSより後、他のscriptより前 -->\n  <script defer src=\"/js/app.js\"></script>\n</head>\n\n<!-- または body 末尾 -->\n<body>\n  ...\n  <script src=\"/js/app.js\"></script>\n</body>",
+            "props": [
+                {
+                    "name": "src",
+                    "desc": "外部スクリプトのURL"
+                },
+                {
+                    "name": "defer",
+                    "desc": "HTML解析後に順序通り実行"
+                },
+                {
+                    "name": "async",
+                    "desc": "読込完了次第すぐ実行（順序不定）"
+                },
+                {
+                    "name": "type=\"module\"",
+                    "desc": "ES Modulesとして読み込み"
+                },
+                {
+                    "name": "nomodule",
+                    "desc": "ESM非対応ブラウザ向けのフォールバック"
+                },
+                {
+                    "name": "crossorigin",
+                    "desc": "CORS設定"
+                }
+            ],
+            "tags": [
+                "基本",
+                "パフォーマンス",
+                "モジュール"
+            ],
+            "browser": "全ブラウザ対応（type=module: モダンブラウザ）",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/script"
+        },
+        {
+            "name": "&lt;style&gt; / &lt;link&gt; のメディアクエリ",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "HTML内にCSSを直接記述するstyle要素と、link要素のmedia属性によるCSSファイルの条件付き読み込み。印刷用やダークモード用のスタイルシートを分離してパフォーマンスを最適化できる。",
+            "demo": "<div style=\"font-size:0.85rem;display:flex;flex-direction:column;gap:6px\"><code style=\"display:block;padding:6px 10px;background:#f1f5f9;border-radius:6px;font-size:0.8rem\">&lt;link rel=\"stylesheet\" href=\"print.css\" media=\"print\"&gt;</code><code style=\"display:block;padding:6px 10px;background:#f1f5f9;border-radius:6px;font-size:0.8rem\">&lt;link rel=\"stylesheet\" href=\"dark.css\" media=\"(prefers-color-scheme: dark)\"&gt;</code><code style=\"display:block;padding:6px 10px;background:#f1f5f9;border-radius:6px;font-size:0.8rem\">&lt;style media=\"(max-width: 768px)\"&gt; ... &lt;/style&gt;</code></div>",
+            "code": "<!-- 印刷用CSS -->\n<link rel=\"stylesheet\" href=\"/css/print.css\" \n      media=\"print\">\n\n<!-- ダークモード用CSS -->\n<link rel=\"stylesheet\" href=\"/css/dark.css\" \n      media=\"(prefers-color-scheme: dark)\">\n\n<!-- 大画面用CSS -->\n<link rel=\"stylesheet\" href=\"/css/desktop.css\" \n      media=\"(min-width: 1024px)\">\n\n<!-- インラインスタイル -->\n<style>\n  body { font-family: sans-serif; }\n</style>\n\n<!-- メディアクエリ付きstyle -->\n<style media=\"(max-width: 768px)\">\n  .sidebar { display: none; }\n</style>\n\n<!-- ⚠️ media属性のCSSも全て読み込まれる -->\n<!-- 条件外でもダウンロードされるが、 -->\n<!-- レンダリングブロックにはならない -->",
+            "props": [
+                {
+                    "name": "<style>",
+                    "desc": "インラインCSSを記述"
+                },
+                {
+                    "name": "media",
+                    "desc": "CSSの適用条件（メディアクエリ）"
+                },
+                {
+                    "name": "print",
+                    "desc": "印刷時のみ適用"
+                },
+                {
+                    "name": "レンダリングブロック",
+                    "desc": "条件外のCSSはブロックしない"
+                }
+            ],
+            "tags": [
+                "CSS読み込み",
+                "パフォーマンス",
+                "メディア"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/style"
+        },
+        {
+            "name": "&lt;base&gt;",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "文書内の相対URLの基準となるベースURLを指定する要素。headに1つだけ配置可能。SPA等で相対パスの解決先を変えたい場合に使用されるが、副作用に注意が必要。",
+            "demo": "<div style=\"font-size:0.85rem;padding:12px;background:#fefce8;border:2px solid #eab308;border-radius:8px\"><code style=\"font-size:0.8rem;display:block\">&lt;base href=\"https://example.com/app/\"&gt;</code><p style=\"margin:8px 0 0;color:#854d0e\">以後の相対URL &lt;a href=\"page\"&gt; は<br>https://example.com/app/page に解決される</p></div>",
+            "code": "<head>\n  <!-- 相対URLのベースを指定 -->\n  <base href=\"https://example.com/app/\">\n  \n  <!-- リンクの開き方も指定可能 -->\n  <base target=\"_blank\">\n</head>\n\n<!-- 以降の相対URLは base が基準 -->\n<a href=\"about\">概要</a>\n<!-- → https://example.com/app/about -->\n\n<img src=\"images/logo.png\">\n<!-- → https://example.com/app/images/logo.png -->\n\n<!-- ⚠️ 注意点 -->\n<!-- #hash リンクも base 基準になる -->\n<!-- <a href=\"#section\"> が意図通りに動かない場合あり -->\n<!-- SVGの url() 参照にも影響する -->",
+            "props": [
+                {
+                    "name": "href",
+                    "desc": "相対URLの基準URL"
+                },
+                {
+                    "name": "target",
+                    "desc": "デフォルトのリンク開き先（_blank等）"
+                }
+            ],
+            "tags": [
+                "URL",
+                "ドキュメント",
+                "SPA"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/base"
+        },
+        {
+            "name": "&lt;noscript&gt;",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "JavaScriptが無効な環境で表示されるフォールバックコンテンツを定義する。JS必須のアプリケーションではユーザーへの告知に使用し、head内ではlink/style/metaのみ記述可能。",
+            "demo": "<div style=\"font-size:0.85rem;padding:12px;background:#fef2f2;border:2px solid #ef4444;border-radius:8px\"><strong style=\"color:#dc2626\">&lt;noscript&gt; の表示例:</strong><p style=\"margin:4px 0 0;color:#991b1b\">このサイトはJavaScriptを使用しています。ブラウザのJavaScript設定を有効にしてください。</p></div>",
+            "code": "<!-- body 内: JSが無効時に表示される -->\n<noscript>\n  <div class=\"noscript-warning\">\n    <p>このサイトの機能を利用するには\n       JavaScriptを有効にしてください。</p>\n  </div>\n</noscript>\n\n<!-- head 内: link/style/meta のみ可 -->\n<head>\n  <noscript>\n    <link rel=\"stylesheet\" \n          href=\"/css/noscript.css\">\n  </noscript>\n</head>\n\n<!-- フォールバックコンテンツ -->\n<div id=\"app\">\n  <noscript>\n    <h1>コンテンツを読み込めません</h1>\n    <p>JavaScriptが無効です。</p>\n  </noscript>\n</div>",
+            "props": [
+                {
+                    "name": "body内",
+                    "desc": "任意のHTMLを表示できる"
+                },
+                {
+                    "name": "head内",
+                    "desc": "link / style / meta のみ使用可"
+                }
+            ],
+            "tags": [
+                "フォールバック",
+                "アクセシビリティ",
+                "ドキュメント"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/noscript"
+        },
+        {
+            "name": "構造化データ (JSON-LD)",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "検索エンジンにページの内容を機械可読な形で伝えるための構造化データ。JSON-LD形式でscriptタグ内に記述する。リッチスニペット（星評価、FAQ、レシピ等）の表示に必要。",
+            "demo": "<div style=\"font-size:0.85rem;border:1px solid #e2e8f0;border-radius:8px;overflow:hidden\"><div style=\"padding:8px 12px;background:#f1f5f9;font-size:0.75rem;color:#64748b\">Google検索結果（リッチスニペット例）</div><div style=\"padding:12px\"><div style=\"color:#1a0dab;font-size:0.95rem;font-weight:700\">最高のチョコレートケーキレシピ</div><div style=\"color:#f97316;font-size:0.8rem\">⭐⭐⭐⭐⭐ 4.8 (120件) · 調理時間: 60分</div><div style=\"color:#545454;font-size:0.8rem;margin-top:2px\">濃厚なチョコレートケーキの作り方をご紹介...</div></div></div>",
+            "code": "<!-- JSON-LD 構造化データ -->\n<script type=\"application/ld+json\">\n{\n  \"@context\": \"https://schema.org\",\n  \"@type\": \"Article\",\n  \"headline\": \"記事のタイトル\",\n  \"author\": {\n    \"@type\": \"Person\",\n    \"name\": \"著者名\"\n  },\n  \"datePublished\": \"2025-01-15\",\n  \"image\": \"https://example.com/image.jpg\",\n  \"description\": \"記事の概要\"\n}\n</script>\n\n<!-- FAQ 構造化データ -->\n<script type=\"application/ld+json\">\n{\n  \"@context\": \"https://schema.org\",\n  \"@type\": \"FAQPage\",\n  \"mainEntity\": [{\n    \"@type\": \"Question\",\n    \"name\": \"よくある質問\",\n    \"acceptedAnswer\": {\n      \"@type\": \"Answer\",\n      \"text\": \"回答テキスト\"\n    }\n  }]\n}\n</script>\n\n<!-- パンくずリスト -->\n<script type=\"application/ld+json\">\n{\n  \"@context\": \"https://schema.org\",\n  \"@type\": \"BreadcrumbList\",\n  \"itemListElement\": [\n    { \"@type\": \"ListItem\", \"position\": 1,\n      \"name\": \"ホーム\", \"item\": \"https://example.com\" },\n    { \"@type\": \"ListItem\", \"position\": 2,\n      \"name\": \"カテゴリ\", \"item\": \"https://example.com/cat\" }\n  ]\n}\n</script>",
+            "props": [
+                {
+                    "name": "type=\"application/ld+json\"",
+                    "desc": "JSON-LD形式を宣言"
+                },
+                {
+                    "name": "@context",
+                    "desc": "schema.orgの名前空間"
+                },
+                {
+                    "name": "@type",
+                    "desc": "データの種類（Article, FAQPage等）"
+                },
+                {
+                    "name": "Article",
+                    "desc": "記事の構造化データ"
+                },
+                {
+                    "name": "FAQPage",
+                    "desc": "FAQ（検索結果で展開表示）"
+                },
+                {
+                    "name": "BreadcrumbList",
+                    "desc": "パンくずリスト"
+                }
+            ],
+            "tags": [
+                "SEO",
+                "リッチスニペット",
+                "検索"
+            ],
+            "browser": "検索エンジンが解析（表示に影響なし）",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/script#attr-type"
+        }
+    ]
+}

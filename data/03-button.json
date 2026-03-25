@@ -1,0 +1,377 @@
+{
+    "cat": "ボタン・リンク",
+    "catIcon": "🔗",
+    "catDesc": "ユーザーの操作やナビゲーションを担うHTML要素とCSS/JSテクニック。クリック・タップの起点となるUI部品。",
+    "items": [
+        {
+            "name": "&lt;a&gt; (アンカー)",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "ハイパーリンクを定義する最も基本的な要素。href 属性でリンク先を指定し、target=\"_blank\" で新しいタブに開ける。rel=\"noopener noreferrer\" の併用がセキュリティ上推奨される。",
+            "demo": "<div style=\"font-size:0.85rem;display:flex;flex-direction:column;gap:6px\"><a href=\"#\" onclick=\"return false\" style=\"color:#3b82f6;text-decoration:underline\">通常リンク</a><a href=\"#\" onclick=\"return false\" style=\"color:#3b82f6;text-decoration:none;border-bottom:2px solid #3b82f6;padding-bottom:1px\">カスタム下線リンク</a><a href=\"#\" onclick=\"return false\" style=\"color:#fff;background:#3b82f6;padding:6px 14px;border-radius:6px;text-decoration:none;display:inline-block\">ボタン風リンク</a></div>",
+            "code": "<a href=\"https://example.com\">通常リンク</a>\n\n<a href=\"https://example.com\"\n   target=\"_blank\"\n   rel=\"noopener noreferrer\">\n  新しいタブで開く\n</a>\n\n<a href=\"/page\" class=\"btn\">ボタン風リンク</a>",
+            "props": [
+                {
+                    "name": "href",
+                    "desc": "リンク先URL"
+                },
+                {
+                    "name": "target",
+                    "desc": "_blank / _self / _parent / _top"
+                },
+                {
+                    "name": "rel",
+                    "desc": "リンク先との関係（noopener, noreferrer 等）"
+                },
+                {
+                    "name": "download",
+                    "desc": "リンク先をダウンロードさせる"
+                },
+                {
+                    "name": "hreflang",
+                    "desc": "リンク先の言語"
+                }
+            ],
+            "tags": [
+                "基本",
+                "ナビゲーション",
+                "リンク"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/a"
+        },
+        {
+            "name": "&lt;a href=\"#id\"&gt; ページ内リンク",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "ページ内の特定の要素へスクロール移動するアンカーリンク。href に # + 対象要素の id を指定する。CSS の scroll-behavior: smooth と組み合わせるとスムーズスクロールになる。",
+            "demo": "<div style=\"font-size:0.85rem\"><a href=\"#\" onclick=\"return false\" style=\"color:#3b82f6\">#section へ移動</a><p style=\"margin-top:8px;color:#6b7280\">※デモ内ではスクロールしません</p></div>",
+            "code": "<nav>\n  <a href=\"#about\">概要へ</a>\n  <a href=\"#contact\">お問い合わせへ</a>\n</nav>\n\n<section id=\"about\">...</section>\n<section id=\"contact\">...</section>\n\n<style>\n  html { scroll-behavior: smooth; }\n</style>",
+            "props": [
+                {
+                    "name": "href=\"#id\"",
+                    "desc": "対象要素のid（# + id）"
+                },
+                {
+                    "name": "scroll-behavior (CSS)",
+                    "desc": "smooth でスムーズスクロール"
+                }
+            ],
+            "tags": [
+                "ナビゲーション",
+                "ページ内",
+                "UX"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/a"
+        },
+        {
+            "name": "&lt;a href=\"mailto:\"&gt; メールリンク",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "クリックするとメールクライアントが起動するリンク。subject や body をクエリパラメータで事前設定可能。スパム対策として JavaScript での難読化が推奨される場合もある。",
+            "demo": "<div style=\"font-size:0.85rem\"><a href=\"#\" onclick=\"return false\" style=\"color:#3b82f6\">✉ info@example.com に送信</a></div>",
+            "code": "<a href=\"mailto:info@example.com\">メールを送る</a>\n\n<!-- 件名・本文付き -->\n<a href=\"mailto:info@example.com?subject=お問い合わせ&body=本文はこちら\">\n  件名付きメール\n</a>",
+            "props": [
+                {
+                    "name": "href=\"mailto:\"",
+                    "desc": "メールアドレスを指定"
+                },
+                {
+                    "name": "?subject=",
+                    "desc": "件名を事前入力"
+                },
+                {
+                    "name": "&body=",
+                    "desc": "本文を事前入力"
+                },
+                {
+                    "name": "&cc= / &bcc=",
+                    "desc": "CC / BCC を指定"
+                }
+            ],
+            "tags": [
+                "リンク",
+                "メール",
+                "コンタクト"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/a"
+        },
+        {
+            "name": "&lt;a href=\"tel:\"&gt; 電話リンク",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "タップすると電話発信ダイアログが表示されるリンク。モバイルサイトで特に有用。デスクトップではSkype等の通話アプリが起動する場合がある。",
+            "demo": "<div style=\"font-size:0.85rem\"><a href=\"#\" onclick=\"return false\" style=\"color:#3b82f6\">📞 03-1234-5678 に電話</a></div>",
+            "code": "<a href=\"tel:+81312345678\">\n  03-1234-5678\n</a>\n\n<!-- ボタン風 -->\n<a href=\"tel:+81312345678\" class=\"btn-phone\">\n  📞 電話する\n</a>",
+            "props": [
+                {
+                    "name": "href=\"tel:\"",
+                    "desc": "電話番号（国際形式推奨）"
+                }
+            ],
+            "tags": [
+                "リンク",
+                "電話",
+                "モバイル"
+            ],
+            "browser": "全ブラウザ対応（発信はデバイス依存）",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/a"
+        },
+        {
+            "name": "CSS ボタンスタイル",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "button や a 要素にCSSでボタンの外観を適用する手法。背景色・角丸・パディング・ホバー効果を組み合わせてUIボタンを構築する。transition で滑らかなインタラクションを演出する。",
+            "demo": "<div style=\"display:flex;gap:8px;flex-wrap:wrap;font-size:0.85rem\"><button style=\"padding:8px 20px;background:#3b82f6;color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:0.85rem;transition:opacity 0.2s\" onmouseover=\"this.style.opacity='0.8'\" onmouseout=\"this.style.opacity='1'\">Primary</button><button style=\"padding:8px 20px;background:#10b981;color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:0.85rem\">Success</button><button style=\"padding:8px 20px;background:transparent;color:#3b82f6;border:2px solid #3b82f6;border-radius:8px;cursor:pointer;font-size:0.85rem\">Outline</button><button style=\"padding:8px 20px;background:#f3f4f6;color:#374151;border:none;border-radius:9999px;cursor:pointer;font-size:0.85rem\">Pill</button></div>",
+            "code": ".btn {\n  display: inline-block;\n  padding: 0.5rem 1.25rem;\n  font-size: 1rem;\n  font-weight: 600;\n  color: #fff;\n  background-color: #3b82f6;\n  border: none;\n  border-radius: 0.5rem;\n  cursor: pointer;\n  transition: background-color 0.2s, transform 0.1s;\n}\n.btn:hover {\n  background-color: #2563eb;\n}\n.btn:active {\n  transform: scale(0.97);\n}\n.btn-outline {\n  background: transparent;\n  color: #3b82f6;\n  border: 2px solid #3b82f6;\n}\n.btn-pill {\n  border-radius: 9999px;\n}",
+            "props": [
+                {
+                    "name": "background-color",
+                    "desc": "ボタンの背景色"
+                },
+                {
+                    "name": "border-radius",
+                    "desc": "角丸（9999px で完全丸型）"
+                },
+                {
+                    "name": "transition",
+                    "desc": "ホバー等のアニメーション"
+                },
+                {
+                    "name": ":hover / :active",
+                    "desc": "インタラクション時のスタイル"
+                },
+                {
+                    "name": "cursor: pointer",
+                    "desc": "クリック可能を示すポインター"
+                }
+            ],
+            "tags": [
+                "CSS",
+                "ボタン",
+                "デザイン"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/cursor"
+        },
+        {
+            "name": "CSS :hover / :focus / :active 状態",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "ボタンやリンクのインタラクション状態を制御する疑似クラス。:hover はマウスオーバー、:focus はキーボードフォーカス、:active はクリック/タップ中を表す。:focus-visible はキーボード操作時のみフォーカスリングを表示する。",
+            "demo": "<style>.demo-states:hover{background:#2563eb !important;transform:scale(1.03)}.demo-states:active{background:#1d4ed8 !important;transform:scale(0.97)}.demo-states:focus{outline:3px solid #93c5fd;outline-offset:2px}</style><button class=\"demo-states\" style=\"padding:8px 20px;background:#3b82f6;color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:0.85rem;transition:all 0.15s\">ホバー・クリックしてみて</button>",
+            "code": ".btn:hover {\n  background-color: #2563eb;\n  transform: translateY(-1px);\n}\n\n.btn:active {\n  background-color: #1d4ed8;\n  transform: translateY(0);\n}\n\n.btn:focus-visible {\n  outline: 3px solid #93c5fd;\n  outline-offset: 2px;\n}\n\n/* タッチデバイス対応 */\n@media (hover: none) {\n  .btn:hover {\n    background-color: #3b82f6; /* ホバー効果を無効化 */\n  }\n}",
+            "props": [
+                {
+                    "name": ":hover",
+                    "desc": "マウスカーソルが乗った状態"
+                },
+                {
+                    "name": ":focus",
+                    "desc": "フォーカスを受けた状態（全操作）"
+                },
+                {
+                    "name": ":focus-visible",
+                    "desc": "キーボード操作時のみフォーカス表示"
+                },
+                {
+                    "name": ":active",
+                    "desc": "クリック/タップ中の状態"
+                }
+            ],
+            "tags": [
+                "CSS",
+                "インタラクション",
+                "UX"
+            ],
+            "browser": ":focus-visible は主要ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/:hover"
+        },
+        {
+            "name": "disabled ボタン",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "disabled 属性でボタンやリンクを無効化する。フォーム送信防止やダブルクリック防止に使用。CSSで視覚的に無効状態を表現し、aria-disabled でアクセシビリティにも配慮する。",
+            "demo": "<div style=\"display:flex;gap:8px;font-size:0.85rem\"><button disabled style=\"padding:8px 20px;background:#d1d5db;color:#9ca3af;border:none;border-radius:8px;cursor:not-allowed;font-size:0.85rem\">無効ボタン</button><button style=\"padding:8px 20px;background:#3b82f6;color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:0.85rem\">有効ボタン</button></div>",
+            "code": "<button type=\"submit\" disabled>送信できません</button>\n\n<style>\n  button:disabled {\n    background-color: #d1d5db;\n    color: #9ca3af;\n    cursor: not-allowed;\n    opacity: 0.7;\n  }\n</style>\n\n<!-- a要素の場合（disabled属性は無効） -->\n<a href=\"#\" class=\"btn\" aria-disabled=\"true\"\n   tabindex=\"-1\" role=\"button\">\n  無効リンク\n</a>",
+            "props": [
+                {
+                    "name": "disabled",
+                    "desc": "button / input の無効化（クリック・送信不可）"
+                },
+                {
+                    "name": "aria-disabled",
+                    "desc": "a要素などの無効化をARIAで表現"
+                },
+                {
+                    "name": ":disabled (CSS)",
+                    "desc": "無効状態のスタイリング"
+                },
+                {
+                    "name": "cursor: not-allowed",
+                    "desc": "操作不可を示すカーソル"
+                }
+            ],
+            "tags": [
+                "フォーム",
+                "ボタン",
+                "アクセシビリティ"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Attributes/disabled"
+        },
+        {
+            "name": "アイコンボタン",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "テキストの代わりにアイコン（絵文字・SVG・CSSアイコン）を使ったボタン。aria-label でアクセシビリティ対応が必須。テキストなしの場合は特に十分なサイズ（44x44px以上推奨）を確保する。",
+            "demo": "<div style=\"display:flex;gap:8px;font-size:0.85rem\"><button aria-label=\"いいね\" style=\"width:40px;height:40px;border:1px solid #d1d5db;border-radius:50%;background:#fff;cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center\" onclick=\"this.textContent=this.textContent==='♡'?'❤️':'♡'\">♡</button><button aria-label=\"設定\" style=\"width:40px;height:40px;border:1px solid #d1d5db;border-radius:8px;background:#fff;cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center\">⚙</button><button aria-label=\"メニュー\" style=\"width:40px;height:40px;border:1px solid #d1d5db;border-radius:8px;background:#fff;cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center\">☰</button><button style=\"padding:6px 14px;border:1px solid #d1d5db;border-radius:8px;background:#fff;cursor:pointer;font-size:0.85rem;display:flex;align-items:center;gap:4px\">📎 添付</button></div>",
+            "code": "<!-- アイコンのみ -->\n<button class=\"icon-btn\" aria-label=\"いいね\">\n  <svg>...</svg>\n</button>\n\n<!-- アイコン+テキスト -->\n<button class=\"icon-btn\">\n  <svg>...</svg> 添付\n</button>\n\n<style>\n  .icon-btn {\n    display: inline-flex;\n    align-items: center;\n    justify-content: center;\n    gap: 0.25rem;\n    min-width: 44px;\n    min-height: 44px;\n    border: 1px solid #d1d5db;\n    border-radius: 0.5rem;\n    background: #fff;\n    cursor: pointer;\n  }\n</style>",
+            "props": [
+                {
+                    "name": "aria-label",
+                    "desc": "アイコンのみの場合にボタンの目的を説明"
+                },
+                {
+                    "name": "min-width / min-height",
+                    "desc": "タッチターゲットサイズ（44px以上推奨）"
+                },
+                {
+                    "name": "gap",
+                    "desc": "アイコンとテキストの間隔"
+                }
+            ],
+            "tags": [
+                "ボタン",
+                "アイコン",
+                "アクセシビリティ"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/Accessibility/ARIA/Attributes/aria-label"
+        },
+        {
+            "name": "ボタングループ",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "複数のボタンを視覚的に一体化して表示するUI パターン。Flexbox で横並びにし、隣接するボタンの border を重ねて角丸を先頭・末尾のみに適用する。ツールバーやトグル選択に使用される。",
+            "demo": "<div style=\"display:inline-flex;font-size:0.85rem\"><button style=\"padding:6px 14px;background:#3b82f6;color:#fff;border:1px solid #2563eb;border-radius:6px 0 0 6px;cursor:pointer;font-size:0.85rem\">左</button><button style=\"padding:6px 14px;background:#fff;color:#374151;border:1px solid #d1d5db;border-left:none;cursor:pointer;font-size:0.85rem\">中</button><button style=\"padding:6px 14px;background:#fff;color:#374151;border:1px solid #d1d5db;border-left:none;border-radius:0 6px 6px 0;cursor:pointer;font-size:0.85rem\">右</button></div>",
+            "code": "<div class=\"btn-group\" role=\"group\"\n     aria-label=\"表示切替\">\n  <button class=\"active\">リスト</button>\n  <button>グリッド</button>\n  <button>マップ</button>\n</div>\n\n<style>\n  .btn-group {\n    display: inline-flex;\n  }\n  .btn-group button {\n    padding: 0.5rem 1rem;\n    border: 1px solid #d1d5db;\n    background: #fff;\n    cursor: pointer;\n  }\n  .btn-group button + button {\n    border-left: none;\n  }\n  .btn-group button:first-child {\n    border-radius: 0.5rem 0 0 0.5rem;\n  }\n  .btn-group button:last-child {\n    border-radius: 0 0.5rem 0.5rem 0;\n  }\n  .btn-group button.active {\n    background: #3b82f6;\n    color: #fff;\n  }\n</style>",
+            "props": [
+                {
+                    "name": "role=\"group\"",
+                    "desc": "ボタン群であることを伝えるARIAロール"
+                },
+                {
+                    "name": "aria-label",
+                    "desc": "グループの目的を説明"
+                },
+                {
+                    "name": "display: inline-flex",
+                    "desc": "ボタンを横並びに配置"
+                }
+            ],
+            "tags": [
+                "CSS",
+                "ボタン",
+                "パターン"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/CSS_flexible_box_layout"
+        },
+        {
+            "name": "CSS ローディングボタン",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "送信中・処理中を示すスピナー付きボタン。CSS animation でスピナーを回転させ、ボタンテキストと組み合わせる。処理中は disabled にして二重送信を防ぐ。",
+            "demo": "<style>@keyframes spin-demo{to{transform:rotate(360deg)}}</style><div style=\"display:flex;gap:8px;font-size:0.85rem\"><button disabled style=\"padding:8px 20px;background:#3b82f6;color:#fff;border:none;border-radius:8px;cursor:not-allowed;font-size:0.85rem;display:inline-flex;align-items:center;gap:6px;opacity:0.8\"><span style=\"display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin-demo 0.6s linear infinite\"></span>送信中...</button><button style=\"padding:8px 20px;background:#3b82f6;color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:0.85rem\">送信</button></div>",
+            "code": ".btn-loading {\n  display: inline-flex;\n  align-items: center;\n  gap: 0.5rem;\n  opacity: 0.8;\n  pointer-events: none;\n}\n\n.spinner {\n  width: 1rem;\n  height: 1rem;\n  border: 2px solid rgba(255,255,255,0.3);\n  border-top-color: #fff;\n  border-radius: 50%;\n  animation: spin 0.6s linear infinite;\n}\n\n@keyframes spin {\n  to { transform: rotate(360deg); }\n}",
+            "props": [
+                {
+                    "name": "animation",
+                    "desc": "スピナーの回転アニメーション"
+                },
+                {
+                    "name": "pointer-events: none",
+                    "desc": "クリック無効化（CSS側）"
+                },
+                {
+                    "name": "disabled",
+                    "desc": "HTMLの無効化属性と併用"
+                },
+                {
+                    "name": "gap",
+                    "desc": "スピナーとテキストの間隔"
+                }
+            ],
+            "tags": [
+                "CSS",
+                "ボタン",
+                "アニメーション",
+                "UX"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/animation"
+        },
+        {
+            "name": "リップルエフェクト",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "クリック位置から波紋が広がるMaterial Design風エフェクト。JavaScript でクリック座標を取得し、CSSアニメーションで波紋を生成・消去する。ボタンには overflow: hidden と position: relative が必要。",
+            "demo": "<style>@keyframes ripple-demo{to{transform:scale(4);opacity:0}}.ripple-btn{position:relative;overflow:hidden;padding:10px 24px;background:#3b82f6;color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:0.85rem}.ripple-btn .ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,0.4);transform:scale(0);animation:ripple-demo 0.6s linear;pointer-events:none}</style><button class=\"ripple-btn\" onclick=\"(function(e){var r=document.createElement('span');r.className='ripple';var rect=e.target.getBoundingClientRect();var size=Math.max(rect.width,rect.height);r.style.width=r.style.height=size+'px';r.style.left=(event.clientX-rect.left-size/2)+'px';r.style.top=(event.clientY-rect.top-size/2)+'px';e.target.appendChild(r);setTimeout(function(){r.remove()},600)})(arguments[0]||event)\">リップルクリック</button>",
+            "code": "function addRipple(e) {\n  const btn = e.currentTarget;\n  const ripple = document.createElement('span');\n  ripple.classList.add('ripple');\n  const rect = btn.getBoundingClientRect();\n  const size = Math.max(rect.width, rect.height);\n  ripple.style.width = ripple.style.height = `${size}px`;\n  ripple.style.left = `${e.clientX - rect.left - size/2}px`;\n  ripple.style.top = `${e.clientY - rect.top - size/2}px`;\n  btn.appendChild(ripple);\n  ripple.addEventListener('animationend', () => ripple.remove());\n}\n\ndocument.querySelectorAll('.ripple-btn')\n  .forEach(btn => btn.addEventListener('click', addRipple));\n\n/* CSS */\n.ripple-btn { position: relative; overflow: hidden; }\n.ripple {\n  position: absolute;\n  border-radius: 50%;\n  background: rgba(255,255,255,0.4);\n  transform: scale(0);\n  animation: ripple 0.6s linear;\n}\n@keyframes ripple {\n  to { transform: scale(4); opacity: 0; }\n}",
+            "props": [
+                {
+                    "name": "getBoundingClientRect()",
+                    "desc": "ボタンの位置・サイズを取得"
+                },
+                {
+                    "name": "clientX / clientY",
+                    "desc": "クリック座標"
+                },
+                {
+                    "name": "overflow: hidden",
+                    "desc": "波紋がボタン外にはみ出さない"
+                },
+                {
+                    "name": "animationend",
+                    "desc": "アニメーション終了時に要素を削除"
+                }
+            ],
+            "tags": [
+                "JS",
+                "CSS",
+                "エフェクト",
+                "Material Design"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/Element/getBoundingClientRect"
+        },
+        {
+            "name": "&lt;nav&gt; ナビゲーション",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "ナビゲーションリンクのセクションを示すセマンティック要素。ヘッダーメニュー、パンくずリスト、サイドバーナビなどを囲む。スクリーンリーダーがナビゲーション領域として認識する。複数使用する場合は aria-label で区別する。",
+            "demo": "<nav style=\"font-size:0.85rem;background:#f8fafc;padding:10px 16px;border-radius:8px;display:flex;gap:16px;border:1px solid #e2e8f0\"><a href=\"#\" onclick=\"return false\" style=\"color:#3b82f6;text-decoration:none;font-weight:600\">ホーム</a><a href=\"#\" onclick=\"return false\" style=\"color:#64748b;text-decoration:none\">製品</a><a href=\"#\" onclick=\"return false\" style=\"color:#64748b;text-decoration:none\">会社情報</a><a href=\"#\" onclick=\"return false\" style=\"color:#64748b;text-decoration:none\">お問い合わせ</a></nav>",
+            "code": "<nav aria-label=\"メインナビゲーション\">\n  <ul>\n    <li><a href=\"/\">ホーム</a></li>\n    <li><a href=\"/products\">製品</a></li>\n    <li><a href=\"/about\">会社情報</a></li>\n    <li><a href=\"/contact\">お問い合わせ</a></li>\n  </ul>\n</nav>\n\n<nav aria-label=\"パンくずリスト\">\n  <ol>\n    <li><a href=\"/\">ホーム</a></li>\n    <li><a href=\"/products\">製品</a></li>\n    <li aria-current=\"page\">製品A</li>\n  </ol>\n</nav>",
+            "props": [
+                {
+                    "name": "aria-label",
+                    "desc": "ナビゲーションの目的を説明"
+                },
+                {
+                    "name": "aria-current=\"page\"",
+                    "desc": "現在のページを示す"
+                }
+            ],
+            "tags": [
+                "セマンティック",
+                "ナビゲーション",
+                "アクセシビリティ"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/nav"
+        }
+    ]
+}

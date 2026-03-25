@@ -1,0 +1,309 @@
+{
+    "cat": "リスト・テーブル",
+    "catIcon": "📊",
+    "catDesc": "データの一覧表示に使うHTML要素。順序付き・順序なしのリスト、定義リスト、表組みなど構造化データの表現手法。",
+    "items": [
+        {
+            "name": "&lt;ul&gt; 順序なしリスト",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "順序を持たない箇条書きリスト。各項目を li 要素で囲む。CSSで list-style-type を変更したり、list-style: none でマーカーを消してナビゲーションメニュー等に転用できる。",
+            "demo": "<ul style=\"font-size:0.85rem;margin:0;padding-left:20px\"><li>りんご</li><li>バナナ</li><li>みかん</li></ul>",
+            "code": "<ul>\n  <li>りんご</li>\n  <li>バナナ</li>\n  <li>みかん</li>\n</ul>\n\n<style>\n  /* マーカー非表示（ナビ用途） */\n  ul.nav { list-style: none; padding: 0; }\n</style>",
+            "props": [
+                {
+                    "name": "list-style-type (CSS)",
+                    "desc": "マーカー種類（disc, circle, square, none）"
+                },
+                {
+                    "name": "list-style-position (CSS)",
+                    "desc": "マーカー位置（inside / outside）"
+                }
+            ],
+            "tags": [
+                "基本",
+                "リスト"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/ul"
+        },
+        {
+            "name": "&lt;ol&gt; 順序付きリスト",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "順序のある番号付きリスト。start 属性で開始番号、reversed で降順、type で番号形式（1, A, a, I, i）を変更できる。手順説明やランキングに適する。",
+            "demo": "<ol style=\"font-size:0.85rem;margin:0;padding-left:24px\"><li>卵を割る</li><li>混ぜる</li><li>焼く</li></ol>",
+            "code": "<ol>\n  <li>アカウント登録</li>\n  <li>プラン選択</li>\n  <li>支払い情報入力</li>\n  <li>利用開始</li>\n</ol>\n\n<!-- 5から開始・降順 -->\n<ol start=\"5\" reversed type=\"1\">\n  <li>5位</li>\n  <li>4位</li>\n</ol>",
+            "props": [
+                {
+                    "name": "start",
+                    "desc": "開始番号"
+                },
+                {
+                    "name": "reversed",
+                    "desc": "降順にする"
+                },
+                {
+                    "name": "type",
+                    "desc": "番号形式（1, A, a, I, i）"
+                },
+                {
+                    "name": "value (li)",
+                    "desc": "個別の項目番号を指定"
+                }
+            ],
+            "tags": [
+                "基本",
+                "リスト",
+                "順序"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/ol"
+        },
+        {
+            "name": "&lt;li&gt; リスト項目",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "ul / ol 内の各項目。ol 内では value 属性で個別に番号を指定可能。li 内にはブロック要素やネストしたリストも配置できる。",
+            "demo": "<ul style=\"font-size:0.85rem;margin:0;padding-left:20px\"><li>親項目1<ul style=\"padding-left:20px\"><li>子項目A</li><li>子項目B</li></ul></li><li>親項目2</li></ul>",
+            "code": "<ul>\n  <li>フロントエンド\n    <ul>\n      <li>HTML</li>\n      <li>CSS</li>\n      <li>JavaScript</li>\n    </ul>\n  </li>\n  <li>バックエンド</li>\n</ul>",
+            "props": [
+                {
+                    "name": "value (ol内)",
+                    "desc": "番号を個別に指定"
+                }
+            ],
+            "tags": [
+                "基本",
+                "リスト"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/li"
+        },
+        {
+            "name": "&lt;dl&gt; / &lt;dt&gt; / &lt;dd&gt; 定義リスト",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "用語とその定義のペアを表すリスト。dt（用語）と dd（定義）の組み合わせで構成する。FAQ、メタデータ表示、仕様一覧などに適する。1つの dt に複数の dd を対応させることも可能。",
+            "demo": "<dl style=\"font-size:0.85rem;margin:0\"><dt style=\"font-weight:700\">HTML</dt><dd style=\"margin:0 0 8px 16px;color:#475569\">Webページの構造を定義するマークアップ言語</dd><dt style=\"font-weight:700\">CSS</dt><dd style=\"margin:0 0 8px 16px;color:#475569\">Webページの見た目を装飾するスタイルシート言語</dd></dl>",
+            "code": "<dl>\n  <dt>HTML</dt>\n  <dd>Webページの構造を定義するマークアップ言語</dd>\n\n  <dt>CSS</dt>\n  <dd>見た目を装飾するスタイルシート言語</dd>\n\n  <dt>JavaScript</dt>\n  <dd>動的な振る舞いを追加するプログラミング言語</dd>\n  <dd>ブラウザとサーバー両方で動作する</dd>\n</dl>",
+            "props": [
+                {
+                    "name": "dt",
+                    "desc": "用語（term）を示す"
+                },
+                {
+                    "name": "dd",
+                    "desc": "定義・説明（description）を示す"
+                }
+            ],
+            "tags": [
+                "リスト",
+                "セマンティック",
+                "定義"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/dl"
+        },
+        {
+            "name": "&lt;table&gt; 基本テーブル",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "表形式のデータを表示する。thead（ヘッダー行）、tbody（本体行）、tfoot（フッター行）で構造化する。caption で表のタイトルを付けられる。レイアウト目的での使用は非推奨。",
+            "demo": "<table style=\"font-size:0.8rem;border-collapse:collapse;width:100%\"><caption style=\"font-weight:700;margin-bottom:4px;text-align:left\">売上データ</caption><thead><tr style=\"background:#f1f5f9\"><th style=\"border:1px solid #e2e8f0;padding:6px;text-align:left\">商品</th><th style=\"border:1px solid #e2e8f0;padding:6px;text-align:right\">価格</th><th style=\"border:1px solid #e2e8f0;padding:6px;text-align:right\">数量</th></tr></thead><tbody><tr><td style=\"border:1px solid #e2e8f0;padding:6px\">商品A</td><td style=\"border:1px solid #e2e8f0;padding:6px;text-align:right\">¥1,200</td><td style=\"border:1px solid #e2e8f0;padding:6px;text-align:right\">50</td></tr><tr style=\"background:#f8fafc\"><td style=\"border:1px solid #e2e8f0;padding:6px\">商品B</td><td style=\"border:1px solid #e2e8f0;padding:6px;text-align:right\">¥800</td><td style=\"border:1px solid #e2e8f0;padding:6px;text-align:right\">120</td></tr></tbody></table>",
+            "code": "<table>\n  <caption>売上データ</caption>\n  <thead>\n    <tr>\n      <th scope=\"col\">商品</th>\n      <th scope=\"col\">価格</th>\n      <th scope=\"col\">数量</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <td>商品A</td>\n      <td>¥1,200</td>\n      <td>50</td>\n    </tr>\n  </tbody>\n</table>",
+            "props": [
+                {
+                    "name": "caption",
+                    "desc": "テーブルのタイトル"
+                },
+                {
+                    "name": "thead / tbody / tfoot",
+                    "desc": "ヘッダー・本体・フッターの構造化"
+                },
+                {
+                    "name": "scope (th)",
+                    "desc": "col / row でヘッダーの方向を指定（a11y）"
+                },
+                {
+                    "name": "border-collapse (CSS)",
+                    "desc": "セル境界線の結合"
+                }
+            ],
+            "tags": [
+                "テーブル",
+                "基本",
+                "データ"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/table"
+        },
+        {
+            "name": "&lt;th&gt; テーブルヘッダーセル",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "テーブルの見出しセル。デフォルトで太字・中央揃え。scope 属性で列（col）または行（row）の見出しであることを明示し、スクリーンリーダーのデータ関連付けを助ける。",
+            "demo": "<table style=\"font-size:0.8rem;border-collapse:collapse\"><tr><th style=\"border:1px solid #e2e8f0;padding:6px;background:#eef2ff;color:#4338ca\" scope=\"col\">名前</th><th style=\"border:1px solid #e2e8f0;padding:6px;background:#eef2ff;color:#4338ca\" scope=\"col\">役職</th></tr><tr><td style=\"border:1px solid #e2e8f0;padding:6px\">田中</td><td style=\"border:1px solid #e2e8f0;padding:6px\">エンジニア</td></tr></table>",
+            "code": "<table>\n  <thead>\n    <tr>\n      <th scope=\"col\">名前</th>\n      <th scope=\"col\">役職</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <th scope=\"row\">田中太郎</th>\n      <td>エンジニア</td>\n    </tr>\n  </tbody>\n</table>",
+            "props": [
+                {
+                    "name": "scope",
+                    "desc": "col（列見出し）/ row（行見出し）"
+                },
+                {
+                    "name": "colspan",
+                    "desc": "結合する列数"
+                },
+                {
+                    "name": "rowspan",
+                    "desc": "結合する行数"
+                },
+                {
+                    "name": "abbr",
+                    "desc": "短縮形のラベル（スクリーンリーダー用）"
+                }
+            ],
+            "tags": [
+                "テーブル",
+                "アクセシビリティ"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/th"
+        },
+        {
+            "name": "colspan / rowspan セル結合",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "テーブルのセルを複数列または複数行にまたがって結合する属性。colspan で列方向、rowspan で行方向に結合する。複雑な表組みに使用するが、多用するとアクセシビリティが低下するため注意。",
+            "demo": "<table style=\"font-size:0.8rem;border-collapse:collapse;width:100%\"><tr><th colspan=\"2\" style=\"border:1px solid #e2e8f0;padding:6px;background:#dbeafe;text-align:center\">colspan=2</th><th style=\"border:1px solid #e2e8f0;padding:6px;background:#d1fae5\">C</th></tr><tr><td style=\"border:1px solid #e2e8f0;padding:6px\">A1</td><td style=\"border:1px solid #e2e8f0;padding:6px\">B1</td><td rowspan=\"2\" style=\"border:1px solid #e2e8f0;padding:6px;background:#fef3c7;vertical-align:middle;text-align:center\">rowspan=2</td></tr><tr><td style=\"border:1px solid #e2e8f0;padding:6px\">A2</td><td style=\"border:1px solid #e2e8f0;padding:6px\">B2</td></tr></table>",
+            "code": "<table>\n  <tr>\n    <th colspan=\"3\">2025年 売上</th>\n  </tr>\n  <tr>\n    <th>Q1</th>\n    <th>Q2</th>\n    <th rowspan=\"2\">合計</th>\n  </tr>\n  <tr>\n    <td>¥100万</td>\n    <td>¥150万</td>\n  </tr>\n</table>",
+            "props": [
+                {
+                    "name": "colspan",
+                    "desc": "横方向に結合するセル数"
+                },
+                {
+                    "name": "rowspan",
+                    "desc": "縦方向に結合するセル数"
+                }
+            ],
+            "tags": [
+                "テーブル",
+                "レイアウト"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/td"
+        },
+        {
+            "name": "CSS テーブルスタイリング",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "テーブルをモダンにデザインするCSS技法。border-collapse で罫線を統合し、nth-child で縞模様（ゼブラストライプ）を適用する。ホバー効果やレスポンシブ対応で読みやすさとUXを向上させる。",
+            "demo": "<table style=\"font-size:0.8rem;border-collapse:collapse;width:100%;border-radius:8px;overflow:hidden\"><thead><tr><th style=\"padding:8px;background:#1e293b;color:#fff;text-align:left;font-weight:600\">名前</th><th style=\"padding:8px;background:#1e293b;color:#fff;text-align:left;font-weight:600\">メール</th></tr></thead><tbody><tr style=\"background:#fff\"><td style=\"padding:6px 8px;border-bottom:1px solid #e2e8f0\">田中</td><td style=\"padding:6px 8px;border-bottom:1px solid #e2e8f0\">tanaka@ex.com</td></tr><tr style=\"background:#f8fafc\"><td style=\"padding:6px 8px;border-bottom:1px solid #e2e8f0\">鈴木</td><td style=\"padding:6px 8px;border-bottom:1px solid #e2e8f0\">suzuki@ex.com</td></tr><tr style=\"background:#fff\"><td style=\"padding:6px 8px\">佐藤</td><td style=\"padding:6px 8px\">sato@ex.com</td></tr></tbody></table>",
+            "code": "table {\n  border-collapse: collapse;\n  width: 100%;\n}\n\nth {\n  background: #1e293b;\n  color: #fff;\n  padding: 0.75rem;\n  text-align: left;\n}\n\ntd {\n  padding: 0.75rem;\n  border-bottom: 1px solid #e2e8f0;\n}\n\n/* ゼブラストライプ */\ntbody tr:nth-child(even) {\n  background-color: #f8fafc;\n}\n\n/* ホバー効果 */\ntbody tr:hover {\n  background-color: #eef2ff;\n}",
+            "props": [
+                {
+                    "name": "border-collapse",
+                    "desc": "collapse でセル間の隙間を除去"
+                },
+                {
+                    "name": ":nth-child(even/odd)",
+                    "desc": "偶数/奇数行の色分け"
+                },
+                {
+                    "name": ":hover (tr)",
+                    "desc": "行ホバー時のハイライト"
+                }
+            ],
+            "tags": [
+                "CSS",
+                "テーブル",
+                "デザイン"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/:nth-child"
+        },
+        {
+            "name": "レスポンシブテーブル",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "小さい画面でテーブルを横スクロール可能にする手法。テーブルを div で囲み overflow-x: auto を指定する方法と、data 属性を使ってカード型に変換する方法がある。",
+            "demo": "<div style=\"font-size:0.8rem;overflow-x:auto;border:1px solid #e2e8f0;border-radius:8px\"><table style=\"border-collapse:collapse;min-width:300px;width:100%\"><thead><tr><th style=\"padding:6px 8px;background:#f1f5f9;text-align:left;white-space:nowrap;border-bottom:2px solid #e2e8f0\">商品名</th><th style=\"padding:6px 8px;background:#f1f5f9;text-align:right;white-space:nowrap;border-bottom:2px solid #e2e8f0\">価格</th><th style=\"padding:6px 8px;background:#f1f5f9;text-align:right;white-space:nowrap;border-bottom:2px solid #e2e8f0\">在庫数</th><th style=\"padding:6px 8px;background:#f1f5f9;text-align:left;white-space:nowrap;border-bottom:2px solid #e2e8f0\">ステータス</th></tr></thead><tbody><tr><td style=\"padding:6px 8px;border-bottom:1px solid #f1f5f9\">超長い商品名サンプル</td><td style=\"padding:6px 8px;text-align:right;border-bottom:1px solid #f1f5f9\">¥12,800</td><td style=\"padding:6px 8px;text-align:right;border-bottom:1px solid #f1f5f9\">150</td><td style=\"padding:6px 8px;border-bottom:1px solid #f1f5f9\">販売中</td></tr></tbody></table></div>",
+            "code": "/* 横スクロール方式（最も簡単） */\n.table-responsive {\n  overflow-x: auto;\n  -webkit-overflow-scrolling: touch;\n}\n\n/* カード型変換（小画面用） */\n@media (max-width: 640px) {\n  table, thead, tbody, th, td, tr {\n    display: block;\n  }\n  thead { display: none; }\n  tr {\n    margin-bottom: 1rem;\n    border: 1px solid #e2e8f0;\n    border-radius: 0.5rem;\n  }\n  td {\n    display: flex;\n    justify-content: space-between;\n    padding: 0.5rem;\n    border-bottom: 1px solid #f1f5f9;\n  }\n  td::before {\n    content: attr(data-label);\n    font-weight: 600;\n  }\n}",
+            "props": [
+                {
+                    "name": "overflow-x: auto",
+                    "desc": "横スクロールを有効化"
+                },
+                {
+                    "name": "data-label",
+                    "desc": "カード型変換時のラベル用属性"
+                },
+                {
+                    "name": "display: block (td)",
+                    "desc": "テーブル構造をカード型に変換"
+                }
+            ],
+            "tags": [
+                "CSS",
+                "テーブル",
+                "レスポンシブ"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/overflow-x"
+        },
+        {
+            "name": "CSS カスタムリストスタイル",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "リストマーカーを絵文字・アイコン・カウンターなどにカスタマイズする手法。::marker 疑似要素で直接スタイリングするか、list-style: none にして ::before で独自マーカーを追加する。",
+            "demo": "<ul style=\"font-size:0.85rem;list-style:none;padding:0;margin:0\"><li style=\"padding:4px 0;padding-left:24px;position:relative\"><span style=\"position:absolute;left:0\">✅</span>タスク完了</li><li style=\"padding:4px 0;padding-left:24px;position:relative\"><span style=\"position:absolute;left:0\">⏳</span>進行中</li><li style=\"padding:4px 0;padding-left:24px;position:relative\"><span style=\"position:absolute;left:0\">📌</span>ピン留め</li></ul>",
+            "code": "/* ::marker で色・サイズ変更 */\nli::marker {\n  color: #3b82f6;\n  font-size: 1.2em;\n}\n\n/* 絵文字マーカー */\nul.emoji {\n  list-style: none;\n  padding-left: 0;\n}\nul.emoji li::before {\n  content: \"✅ \";\n}\n\n/* CSSカウンター */\nol.custom {\n  list-style: none;\n  counter-reset: item;\n}\nol.custom li::before {\n  counter-increment: item;\n  content: counter(item) \". \";\n  color: #3b82f6;\n  font-weight: 700;\n}",
+            "props": [
+                {
+                    "name": "::marker",
+                    "desc": "リストマーカーを直接スタイリング"
+                },
+                {
+                    "name": "list-style-type",
+                    "desc": "disc, circle, square, decimal 等"
+                },
+                {
+                    "name": "counter-reset / increment",
+                    "desc": "CSSカウンターで番号をカスタマイズ"
+                }
+            ],
+            "tags": [
+                "CSS",
+                "リスト",
+                "デザイン"
+            ],
+            "browser": "::marker は主要ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/::marker"
+        },
+        {
+            "name": "&lt;colgroup&gt; / &lt;col&gt; 列スタイリング",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "テーブルの列に対してまとめてスタイルを適用する。colgroup 内に col 要素を配置し、span 属性で複数列にまたがる指定も可能。列幅や背景色を一括指定するのに便利。",
+            "demo": "<table style=\"font-size:0.8rem;border-collapse:collapse;width:100%\"><colgroup><col style=\"background:#eef2ff;width:40%\" /><col style=\"width:30%\" /><col style=\"background:#ecfdf5;width:30%\" /></colgroup><thead><tr><th style=\"border:1px solid #e2e8f0;padding:6px\">名前（色付き列）</th><th style=\"border:1px solid #e2e8f0;padding:6px\">年齢</th><th style=\"border:1px solid #e2e8f0;padding:6px\">スコア（色付き列）</th></tr></thead><tbody><tr><td style=\"border:1px solid #e2e8f0;padding:6px\">田中</td><td style=\"border:1px solid #e2e8f0;padding:6px\">28</td><td style=\"border:1px solid #e2e8f0;padding:6px\">95</td></tr></tbody></table>",
+            "code": "<table>\n  <colgroup>\n    <col style=\"width: 40%\" />\n    <col span=\"2\" style=\"background: #f8fafc\" />\n  </colgroup>\n  <thead>\n    <tr>\n      <th>名前</th>\n      <th>年齢</th>\n      <th>スコア</th>\n    </tr>\n  </thead>\n  <tbody>...</tbody>\n</table>",
+            "props": [
+                {
+                    "name": "span",
+                    "desc": "列のまたがる数（colgroup / col）"
+                },
+                {
+                    "name": "style",
+                    "desc": "列の背景色・幅などを指定"
+                }
+            ],
+            "tags": [
+                "テーブル",
+                "スタイリング"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/colgroup"
+        }
+    ]
+}

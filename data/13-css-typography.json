@@ -1,0 +1,560 @@
+{
+    "cat": "CSSタイポグラフィ",
+    "catIcon": "🔤",
+    "catDesc": "フォントやテキストの見た目を制御するCSSプロパティ。書体、サイズ、行間、装飾、配置などを網羅。",
+    "items": [
+        {
+            "name": "font-family",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "要素のフォントファミリーを指定する。カンマ区切りで優先順位付きのフォールバックリストを定義できる。最後にgenericファミリー（sans-serif等）を指定するのがベストプラクティス。",
+            "demo": "<p style=\"font-family:Georgia,serif;font-size:0.95rem\">Georgia（セリフ体）</p><p style=\"font-family:'Helvetica Neue',Arial,sans-serif;font-size:0.95rem\">Helvetica / Arial（サンセリフ体）</p><p style=\"font-family:'Courier New',monospace;font-size:0.95rem\">Courier New（等幅）</p>",
+            "code": "body {\n  font-family: 'Helvetica Neue', Arial, sans-serif;\n}\ncode {\n  font-family: 'Fira Code', 'Courier New', monospace;\n}",
+            "props": [
+                {
+                    "name": "<family-name>",
+                    "desc": "具体的なフォント名（引用符推奨）"
+                },
+                {
+                    "name": "<generic-family>",
+                    "desc": "serif / sans-serif / monospace / cursive / fantasy / system-ui"
+                }
+            ],
+            "tags": [
+                "基本",
+                "フォント",
+                "デザイン"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/font-family"
+        },
+        {
+            "name": "font-size",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "テキストのサイズを指定する。rem・emなどの相対単位を使うとアクセシビリティに優れる。px固定はユーザーのフォントサイズ設定を無視する場合がある。",
+            "demo": "<p style=\"font-size:0.75rem\">0.75rem（小さめ）</p><p style=\"font-size:1rem\">1rem（標準）</p><p style=\"font-size:1.5rem\">1.5rem（大きめ）</p><p style=\"font-size:2rem\">2rem（見出し級）</p>",
+            "code": "html {\n  font-size: 16px; /* ルート基準 */\n}\nbody {\n  font-size: 1rem;\n}\nh1 {\n  font-size: clamp(1.5rem, 4vw, 3rem);\n}",
+            "props": [
+                {
+                    "name": "<length>",
+                    "desc": "px, rem, em, vw 等の単位で指定"
+                },
+                {
+                    "name": "<percentage>",
+                    "desc": "親要素のfont-sizeに対する割合"
+                },
+                {
+                    "name": "キーワード",
+                    "desc": "small / medium / large / x-large 等"
+                }
+            ],
+            "tags": [
+                "基本",
+                "フォント",
+                "レスポンシブ"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/font-size"
+        },
+        {
+            "name": "font-weight",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "フォントの太さ（ウェイト）を指定する。100〜900の数値またはキーワードで指定。Variable Fontsでは任意の中間値も可能。",
+            "demo": "<p style=\"font-weight:300;font-size:0.9rem\">font-weight: 300（Light）</p><p style=\"font-weight:400;font-size:0.9rem\">font-weight: 400（Normal）</p><p style=\"font-weight:700;font-size:0.9rem\">font-weight: 700（Bold）</p><p style=\"font-weight:900;font-size:0.9rem\">font-weight: 900（Black）</p>",
+            "code": "h1 {\n  font-weight: 700; /* bold */\n}\np {\n  font-weight: 400; /* normal */\n}\n.light {\n  font-weight: 300;\n}",
+            "props": [
+                {
+                    "name": "normal",
+                    "desc": "400と同等"
+                },
+                {
+                    "name": "bold",
+                    "desc": "700と同等"
+                },
+                {
+                    "name": "lighter / bolder",
+                    "desc": "親要素に対して相対的に変化"
+                },
+                {
+                    "name": "100〜900",
+                    "desc": "数値で細かく指定（100刻み）"
+                }
+            ],
+            "tags": [
+                "基本",
+                "フォント"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/font-weight"
+        },
+        {
+            "name": "font-style",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "テキストを斜体にするかどうかを指定する。italic はフォントに用意された斜体デザインを使用し、oblique は通常体を機械的に傾ける。",
+            "demo": "<p style=\"font-style:normal;font-size:0.9rem\">normal — 通常体</p><p style=\"font-style:italic;font-size:0.9rem\">italic — イタリック体</p><p style=\"font-style:oblique;font-size:0.9rem\">oblique — オブリーク体</p>",
+            "code": "em {\n  font-style: italic;\n}\n.reset {\n  font-style: normal;\n}",
+            "props": [
+                {
+                    "name": "normal",
+                    "desc": "通常体"
+                },
+                {
+                    "name": "italic",
+                    "desc": "イタリック体（フォントの斜体デザイン）"
+                },
+                {
+                    "name": "oblique",
+                    "desc": "機械的に傾斜させた体。角度指定も可能（oblique 14deg）"
+                }
+            ],
+            "tags": [
+                "基本",
+                "フォント"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/font-style"
+        },
+        {
+            "name": "font（ショートハンド）",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "フォント関連プロパティを一括指定するショートハンド。font-size と font-family は必須。省略されたプロパティは初期値にリセットされる点に注意。",
+            "demo": "<p style=\"font:italic 700 1.1rem/1.6 Georgia,serif\">italic 700 1.1rem/1.6 Georgia, serif</p><p style=\"font:0.9rem/1.5 system-ui,sans-serif\">0.9rem/1.5 system-ui, sans-serif</p>",
+            "code": "body {\n  /* style weight size/line-height family */\n  font: normal 400 1rem/1.6 'Helvetica Neue', sans-serif;\n}\nh1 {\n  font: bold 2rem/1.2 Georgia, serif;\n}",
+            "props": [
+                {
+                    "name": "font-style",
+                    "desc": "省略可。italic / normal"
+                },
+                {
+                    "name": "font-weight",
+                    "desc": "省略可。bold / 100-900"
+                },
+                {
+                    "name": "font-size",
+                    "desc": "必須。サイズ値"
+                },
+                {
+                    "name": "line-height",
+                    "desc": "省略可。font-sizeの後に / で接続"
+                },
+                {
+                    "name": "font-family",
+                    "desc": "必須。フォント名リスト"
+                }
+            ],
+            "tags": [
+                "ショートハンド",
+                "フォント"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/font"
+        },
+        {
+            "name": "line-height",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "行の高さ（行間）を設定する。単位なしの数値（1.5等）で指定するのが推奨。アクセシビリティ上、本文は1.5以上が望ましい。",
+            "demo": "<p style=\"line-height:1.0;font-size:0.85rem;background:#f0f0f0;padding:4px;margin-bottom:8px\">line-height: 1.0 — 行間が詰まって読みにくい。複数行のテキストでは特に。</p><p style=\"line-height:1.6;font-size:0.85rem;background:#f0f0f0;padding:4px\">line-height: 1.6 — 適度な行間で読みやすい。本文テキストに推奨される値。</p>",
+            "code": "body {\n  line-height: 1.6; /* 単位なし推奨 */\n}\nh1 {\n  line-height: 1.2;\n}",
+            "props": [
+                {
+                    "name": "normal",
+                    "desc": "ブラウザのデフォルト（概ね1.2）"
+                },
+                {
+                    "name": "<number>",
+                    "desc": "単位なし。font-sizeの倍率（推奨）"
+                },
+                {
+                    "name": "<length>",
+                    "desc": "px, rem等で固定値指定"
+                },
+                {
+                    "name": "<percentage>",
+                    "desc": "font-sizeに対する割合"
+                }
+            ],
+            "tags": [
+                "基本",
+                "レイアウト",
+                "アクセシビリティ"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/line-height"
+        },
+        {
+            "name": "letter-spacing",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "文字間のスペースを調整する。見出しの字詰めやデザイン的な文字間隔調整に使用。日本語テキストでは微調整に注意。",
+            "demo": "<p style=\"letter-spacing:0;font-size:0.9rem\">letter-spacing: 0（デフォルト）</p><p style=\"letter-spacing:0.1em;font-size:0.9rem\">letter-spacing: 0.1em（広め）</p><p style=\"letter-spacing:0.3em;font-size:0.9rem\">letter-spacing: 0.3em（かなり広い）</p><p style=\"letter-spacing:-0.03em;font-size:0.9rem\">letter-spacing: -0.03em（少し詰める）</p>",
+            "code": ".heading {\n  letter-spacing: 0.05em;\n}\n.wide {\n  letter-spacing: 0.2em;\n  text-transform: uppercase;\n}",
+            "props": [
+                {
+                    "name": "normal",
+                    "desc": "フォントのデフォルト字間"
+                },
+                {
+                    "name": "<length>",
+                    "desc": "em, px等で追加字間を指定。負値で詰め可能"
+                }
+            ],
+            "tags": [
+                "テキスト装飾",
+                "デザイン"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/letter-spacing"
+        },
+        {
+            "name": "word-spacing",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "単語間のスペースを調整する。英文テキストのスペース幅を広げたり縮めたりするのに使用。日本語ではあまり影響がない。",
+            "demo": "<p style=\"word-spacing:normal;font-size:0.9rem\">This is normal word spacing example.</p><p style=\"word-spacing:0.3em;font-size:0.9rem\">This is wider word spacing example.</p><p style=\"word-spacing:1em;font-size:0.9rem\">This is very wide word spacing.</p>",
+            "code": ".relaxed {\n  word-spacing: 0.2em;\n}\n.tight {\n  word-spacing: -0.05em;\n}",
+            "props": [
+                {
+                    "name": "normal",
+                    "desc": "フォントとブラウザのデフォルト値"
+                },
+                {
+                    "name": "<length>",
+                    "desc": "追加の単語間スペース。負値可"
+                }
+            ],
+            "tags": [
+                "テキスト装飾"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/word-spacing"
+        },
+        {
+            "name": "text-align",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "ブロック要素内のインラインコンテンツの水平方向の配置を指定する。左揃え・中央・右揃え・両端揃えなどが可能。",
+            "demo": "<p style=\"text-align:left;font-size:0.85rem;background:#f0f0f0;padding:4px;margin-bottom:4px\">text-align: left（左揃え）</p><p style=\"text-align:center;font-size:0.85rem;background:#f0f0f0;padding:4px;margin-bottom:4px\">text-align: center（中央揃え）</p><p style=\"text-align:right;font-size:0.85rem;background:#f0f0f0;padding:4px;margin-bottom:4px\">text-align: right（右揃え）</p><p style=\"text-align:justify;font-size:0.85rem;background:#f0f0f0;padding:4px\">text-align: justify — 両端揃え。長い文章を均等に配置するために使います。行の両端が揃います。</p>",
+            "code": ".center {\n  text-align: center;\n}\n.article-body {\n  text-align: justify;\n}",
+            "props": [
+                {
+                    "name": "left",
+                    "desc": "左揃え（LTRデフォルト）"
+                },
+                {
+                    "name": "right",
+                    "desc": "右揃え"
+                },
+                {
+                    "name": "center",
+                    "desc": "中央揃え"
+                },
+                {
+                    "name": "justify",
+                    "desc": "両端揃え"
+                },
+                {
+                    "name": "start / end",
+                    "desc": "書字方向に応じた論理的な配置"
+                }
+            ],
+            "tags": [
+                "基本",
+                "レイアウト"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/text-align"
+        },
+        {
+            "name": "text-decoration",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "テキストに装飾線を付けるショートハンド。下線・上線・取り消し線の種類、色、スタイルを一括指定できる。リンクの下線カスタマイズに多用。",
+            "demo": "<p style=\"text-decoration:underline;font-size:0.9rem\">underline（下線）</p><p style=\"text-decoration:overline;font-size:0.9rem\">overline（上線）</p><p style=\"text-decoration:line-through;font-size:0.9rem\">line-through（取り消し線）</p><p style=\"text-decoration:underline wavy #dc2626;font-size:0.9rem\">underline wavy red（波線）</p>",
+            "code": "a {\n  text-decoration: underline;\n}\na:hover {\n  text-decoration: underline wavy;\n}\n.del {\n  text-decoration: line-through #999;\n}",
+            "props": [
+                {
+                    "name": "text-decoration-line",
+                    "desc": "underline / overline / line-through / none"
+                },
+                {
+                    "name": "text-decoration-color",
+                    "desc": "線の色"
+                },
+                {
+                    "name": "text-decoration-style",
+                    "desc": "solid / double / dotted / dashed / wavy"
+                },
+                {
+                    "name": "text-decoration-thickness",
+                    "desc": "線の太さ"
+                }
+            ],
+            "tags": [
+                "テキスト装飾",
+                "デザイン"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/text-decoration"
+        },
+        {
+            "name": "text-transform",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "テキストの大文字・小文字変換を制御する。HTMLソースを変えずに表示上の変換が可能。主に英語テキストで使用。",
+            "demo": "<p style=\"text-transform:uppercase;font-size:0.9rem\">uppercase example text</p><p style=\"text-transform:lowercase;font-size:0.9rem\">LOWERCASE EXAMPLE TEXT</p><p style=\"text-transform:capitalize;font-size:0.9rem\">capitalize each word here</p>",
+            "code": ".uppercase {\n  text-transform: uppercase;\n}\n.capitalize {\n  text-transform: capitalize;\n}\nbutton {\n  text-transform: uppercase;\n  letter-spacing: 0.05em;\n}",
+            "props": [
+                {
+                    "name": "none",
+                    "desc": "変換なし"
+                },
+                {
+                    "name": "uppercase",
+                    "desc": "すべて大文字に"
+                },
+                {
+                    "name": "lowercase",
+                    "desc": "すべて小文字に"
+                },
+                {
+                    "name": "capitalize",
+                    "desc": "各単語の先頭を大文字に"
+                },
+                {
+                    "name": "full-width",
+                    "desc": "全角文字に変換（日本語環境向け）"
+                }
+            ],
+            "tags": [
+                "テキスト装飾",
+                "多言語"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/text-transform"
+        },
+        {
+            "name": "text-indent",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "ブロック要素の最初の行にインデント（字下げ）を設定する。段落の先頭に字下げを入れる日本語組版で活用される。",
+            "demo": "<p style=\"text-indent:2em;font-size:0.85rem;background:#f0f0f0;padding:8px\">text-indent: 2em を適用したテキスト。最初の行だけ字下げされます。二行目以降はインデントされません。長いテキストで確認できます。</p>",
+            "code": ".article p {\n  text-indent: 1em;\n}\n.hanging {\n  text-indent: -2em;\n  padding-left: 2em; /* ぶら下げインデント */\n}",
+            "props": [
+                {
+                    "name": "<length>",
+                    "desc": "px, em等で字下げ幅を指定。負値で逆インデント"
+                },
+                {
+                    "name": "<percentage>",
+                    "desc": "包含ブロックの幅に対する割合"
+                },
+                {
+                    "name": "each-line",
+                    "desc": "強制改行後の各行もインデント"
+                },
+                {
+                    "name": "hanging",
+                    "desc": "ぶら下げインデント（最初の行以外をインデント）"
+                }
+            ],
+            "tags": [
+                "テキスト装飾",
+                "日本語組版"
+            ],
+            "browser": "全ブラウザ対応（each-line/hangingは限定的）",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/text-indent"
+        },
+        {
+            "name": "text-shadow",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "テキストに影を付加する。オフセット、ぼかし半径、色を指定。カンマ区切りで複数の影を重ねることも可能。",
+            "demo": "<p style=\"text-shadow:1px 1px 2px rgba(0,0,0,0.4);font-size:1.2rem;font-weight:700\">基本的なテキストシャドウ</p><p style=\"text-shadow:2px 2px 0 #3b82f6,-2px -2px 0 #ef4444;font-size:1.2rem;font-weight:700\">複数シャドウで立体感</p><p style=\"text-shadow:0 0 10px #fbbf24,0 0 20px #f59e0b;font-size:1.2rem;font-weight:700;color:#b45309\">グロー（発光）効果</p>",
+            "code": ".shadow {\n  text-shadow: 1px 1px 2px rgba(0,0,0,0.3);\n}\n.glow {\n  text-shadow: 0 0 10px #fbbf24, 0 0 20px #f59e0b;\n}",
+            "props": [
+                {
+                    "name": "offset-x",
+                    "desc": "水平方向のオフセット"
+                },
+                {
+                    "name": "offset-y",
+                    "desc": "垂直方向のオフセット"
+                },
+                {
+                    "name": "blur-radius",
+                    "desc": "ぼかし半径（省略可、デフォルト0）"
+                },
+                {
+                    "name": "color",
+                    "desc": "影の色"
+                }
+            ],
+            "tags": [
+                "テキスト装飾",
+                "デザイン",
+                "効果"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/text-shadow"
+        },
+        {
+            "name": "text-overflow",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "はみ出したテキストの表示方法を指定する。ellipsis で省略記号（…）を表示。overflow: hidden と white-space: nowrap との併用が必要。",
+            "demo": "<div style=\"width:200px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;font-size:0.85rem;background:#f0f0f0;padding:8px;margin-bottom:4px\">とても長いテキストが省略記号で切り詰められます。</div><div style=\"width:200px;overflow:hidden;white-space:nowrap;text-overflow:clip;font-size:0.85rem;background:#f0f0f0;padding:8px\">clipの場合はぶつ切りで表示されます、省略記号なし。</div>",
+            "code": ".truncate {\n  overflow: hidden;\n  white-space: nowrap;\n  text-overflow: ellipsis;\n}\n/* 複数行の省略（-webkit-） */\n.line-clamp {\n  display: -webkit-box;\n  -webkit-line-clamp: 3;\n  -webkit-box-orient: vertical;\n  overflow: hidden;\n}",
+            "props": [
+                {
+                    "name": "clip",
+                    "desc": "はみ出し部分を切り取り（デフォルト）"
+                },
+                {
+                    "name": "ellipsis",
+                    "desc": "省略記号（…）を表示"
+                }
+            ],
+            "tags": [
+                "テキスト制御",
+                "UI",
+                "レイアウト"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/text-overflow"
+        },
+        {
+            "name": "white-space",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "要素内のホワイトスペース（空白・改行）の処理方法を制御する。テキストの折り返し、空白の維持・圧縮を設定できる。",
+            "demo": "<div style=\"white-space:normal;width:180px;background:#f0f0f0;padding:4px;font-size:0.8rem;margin-bottom:4px\">normal: 空白は  圧縮され\n改行も無視。自動折り返しあり。長い文章は幅に合わせて折り返されます。</div><div style=\"white-space:pre;background:#f0f0f0;padding:4px;font-size:0.8rem;margin-bottom:4px\">pre:  空白も\n改行も  そのまま保持</div><div style=\"white-space:nowrap;background:#f0f0f0;padding:4px;font-size:0.8rem\">nowrap: 折り返さない。一行で表示し続けます。</div>",
+            "code": ".pre {\n  white-space: pre-wrap; /* 空白保持＋折り返しあり */\n}\n.nowrap {\n  white-space: nowrap;\n}",
+            "props": [
+                {
+                    "name": "normal",
+                    "desc": "空白圧縮・自動折り返し（デフォルト）"
+                },
+                {
+                    "name": "nowrap",
+                    "desc": "空白圧縮・折り返しなし"
+                },
+                {
+                    "name": "pre",
+                    "desc": "空白保持・折り返しなし"
+                },
+                {
+                    "name": "pre-wrap",
+                    "desc": "空白保持・自動折り返しあり"
+                },
+                {
+                    "name": "pre-line",
+                    "desc": "空白圧縮・改行保持・折り返しあり"
+                },
+                {
+                    "name": "break-spaces",
+                    "desc": "pre-wrapに似るが末尾空白も行幅に算入"
+                }
+            ],
+            "tags": [
+                "テキスト制御",
+                "レイアウト"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/white-space"
+        },
+        {
+            "name": "word-break",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "単語の途中での改行ルールを制御する。長いURLや英単語がコンテナからはみ出す問題の解決に使用。日本語は通常どこでも改行可能。",
+            "demo": "<div style=\"width:150px;border:1px solid #ccc;padding:4px;font-size:0.8rem;margin-bottom:4px\"><strong>normal:</strong><br><span style=\"word-break:normal\">Superlongwordwithoutspaces はみ出す可能性</span></div><div style=\"width:150px;border:1px solid #ccc;padding:4px;font-size:0.8rem\"><strong>break-all:</strong><br><span style=\"word-break:break-all\">Superlongwordwithoutspaces が途中で折り返される</span></div>",
+            "code": ".break {\n  word-break: break-all;\n}\n/* overflow-wrapとの使い分け */\n.wrap {\n  overflow-wrap: break-word;\n}",
+            "props": [
+                {
+                    "name": "normal",
+                    "desc": "デフォルトの改行ルール"
+                },
+                {
+                    "name": "break-all",
+                    "desc": "任意の文字間で改行（CJK以外にも適用）"
+                },
+                {
+                    "name": "keep-all",
+                    "desc": "CJKテキストで単語単位の改行を維持"
+                }
+            ],
+            "tags": [
+                "テキスト制御",
+                "日本語組版"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/word-break"
+        },
+        {
+            "name": "overflow-wrap",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "長い単語やURLがコンテナからはみ出す場合に、単語途中での改行を許可するかを指定する。word-breakより穏やかな制御が可能。",
+            "demo": "<div style=\"width:180px;border:1px solid #ccc;padding:4px;font-size:0.8rem;margin-bottom:4px\"><strong>normal:</strong><br><span style=\"overflow-wrap:normal\">https://example.com/very/long/path/that/overflows</span></div><div style=\"width:180px;border:1px solid #ccc;padding:4px;font-size:0.8rem\"><strong>break-word:</strong><br><span style=\"overflow-wrap:break-word\">https://example.com/very/long/path/that/overflows</span></div>",
+            "code": ".content {\n  overflow-wrap: break-word;\n}\n/* 旧名: word-wrap */",
+            "props": [
+                {
+                    "name": "normal",
+                    "desc": "通常の改行ポイントでのみ改行"
+                },
+                {
+                    "name": "break-word",
+                    "desc": "はみ出す場合に単語途中で改行を許可"
+                },
+                {
+                    "name": "anywhere",
+                    "desc": "任意の位置で改行。min-content計算にも影響"
+                }
+            ],
+            "tags": [
+                "テキスト制御",
+                "レイアウト"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/overflow-wrap"
+        },
+        {
+            "name": "font-variant / font-feature-settings",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "OpenTypeフォントの高度な機能（スモールキャップ、リガチャ、数字スタイル等）を制御する。font-variant は高レベルAPI、font-feature-settings は低レベル制御。",
+            "demo": "<p style=\"font-variant:small-caps;font-size:0.95rem\">Small Caps テキスト Example</p><p style=\"font-variant-numeric:tabular-nums;font-size:0.95rem\">数字: 0123456789（tabular-nums）</p><p style=\"font-variant-numeric:oldstyle-nums;font-size:0.95rem\">数字: 0123456789（oldstyle-nums）</p>",
+            "code": ".small-caps {\n  font-variant: small-caps;\n}\n.tabular {\n  font-variant-numeric: tabular-nums;\n}\n/* 低レベル制御 */\n.ligatures {\n  font-feature-settings: 'liga' 1, 'kern' 1;\n}",
+            "props": [
+                {
+                    "name": "small-caps",
+                    "desc": "スモールキャピタルを使用"
+                },
+                {
+                    "name": "font-variant-numeric",
+                    "desc": "数字の表示スタイル（tabular-nums等）"
+                },
+                {
+                    "name": "font-variant-ligatures",
+                    "desc": "リガチャの有効/無効"
+                },
+                {
+                    "name": "font-feature-settings",
+                    "desc": "OpenType機能タグを直接指定"
+                }
+            ],
+            "tags": [
+                "上級",
+                "フォント",
+                "OpenType"
+            ],
+            "browser": "モダンブラウザ対応。font-feature-settingsはIE10+",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/font-variant"
+        }
+    ]
+}

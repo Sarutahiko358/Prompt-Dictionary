@@ -1,0 +1,508 @@
+{
+    "cat": "CSSボックスモデル",
+    "catIcon": "📦",
+    "catDesc": "要素のサイズ・余白・枠線を制御するCSSプロパティ。margin・padding・border・width・heightなど、レイアウトの基盤。",
+    "items": [
+        {
+            "name": "box-sizing",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "width/heightの計算方法を切り替える。border-box にするとpadding・borderを含めた幅で計算され、レイアウトが直感的になる。現代のCSSリセットでは必須。",
+            "demo": "<div style=\"box-sizing:content-box;width:150px;padding:10px;border:3px solid #3b82f6;background:#dbeafe;font-size:0.75rem;margin-bottom:6px\">content-box: 実幅=150+20+6=176px</div><div style=\"box-sizing:border-box;width:150px;padding:10px;border:3px solid #ef4444;background:#fee2e2;font-size:0.75rem\">border-box: 実幅=150px（padding・border含む）</div>",
+            "code": "/* グローバルリセット（推奨） */\n*, *::before, *::after {\n  box-sizing: border-box;\n}",
+            "props": [
+                {
+                    "name": "content-box",
+                    "desc": "width/heightはコンテンツ領域のみ（デフォルト）"
+                },
+                {
+                    "name": "border-box",
+                    "desc": "width/heightにpadding・borderを含む"
+                }
+            ],
+            "tags": [
+                "基本",
+                "リセット",
+                "レイアウト"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/box-sizing"
+        },
+        {
+            "name": "width / height",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "要素のコンテンツ領域の幅・高さを指定する。box-sizingの値によって含まれる範囲が変わる。auto を使うと内容や親要素に応じて自動調整される。",
+            "demo": "<div style=\"width:200px;height:60px;background:#dbeafe;border:1px solid #3b82f6;display:flex;align-items:center;justify-content:center;font-size:0.8rem\">width:200px / height:60px</div>",
+            "code": ".box {\n  width: 100%;\n  max-width: 600px;\n  height: auto;\n}\n.square {\n  width: 100px;\n  height: 100px;\n}",
+            "props": [
+                {
+                    "name": "auto",
+                    "desc": "ブラウザが自動計算（デフォルト）"
+                },
+                {
+                    "name": "<length>",
+                    "desc": "px, rem, em 等の固定値"
+                },
+                {
+                    "name": "<percentage>",
+                    "desc": "包含ブロックに対する割合"
+                },
+                {
+                    "name": "max-content",
+                    "desc": "内容の固有最大幅"
+                },
+                {
+                    "name": "min-content",
+                    "desc": "内容の固有最小幅"
+                },
+                {
+                    "name": "fit-content",
+                    "desc": "内容に合わせつつ利用可能な幅を上限"
+                }
+            ],
+            "tags": [
+                "基本",
+                "サイズ",
+                "レイアウト"
+            ],
+            "browser": "全ブラウザ対応（fit-content等は主要モダンブラウザ）",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/width"
+        },
+        {
+            "name": "min-width / max-width",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "要素の最小幅・最大幅を制約する。レスポンシブデザインでwidth:100%とmax-widthの組み合わせが頻出。min-heightとmax-heightも同様。",
+            "demo": "<div style=\"width:100%;max-width:250px;min-width:100px;background:#dcfce7;border:1px solid #22c55e;padding:8px;font-size:0.8rem\">width:100% / max-width:250px / min-width:100px（リサイズで確認）</div>",
+            "code": ".container {\n  width: 100%;\n  max-width: 1200px;\n  margin: 0 auto;\n}\nimg {\n  max-width: 100%;\n  height: auto;\n}\n.card {\n  min-width: 280px;\n  min-height: 200px;\n}",
+            "props": [
+                {
+                    "name": "none",
+                    "desc": "制約なし（max-widthのデフォルト）"
+                },
+                {
+                    "name": "0",
+                    "desc": "min-widthのデフォルト"
+                },
+                {
+                    "name": "<length> / <percentage>",
+                    "desc": "制約値を指定"
+                }
+            ],
+            "tags": [
+                "レスポンシブ",
+                "サイズ",
+                "レイアウト"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/max-width"
+        },
+        {
+            "name": "margin",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "要素の外側の余白を設定する。上下marginは隣接要素と相殺（マージン崩壊）する。auto値による水平中央寄せは頻出テクニック。",
+            "demo": "<div style=\"background:#f0f0f0;padding:4px\"><div style=\"margin:10px;background:#bfdbfe;padding:8px;font-size:0.8rem\">margin: 10px（全方向）</div><div style=\"margin:0 auto;width:150px;background:#fecaca;padding:8px;font-size:0.8rem;text-align:center\">margin: 0 auto（中央寄せ）</div></div>",
+            "code": "/* ショートハンド */\n.box { margin: 10px; }           /* 全方向 */\n.box { margin: 10px 20px; }      /* 上下 左右 */\n.box { margin: 10px 20px 30px; } /* 上 左右 下 */\n.box { margin: 10px 20px 30px 40px; } /* 上 右 下 左 */\n\n/* 中央寄せ */\n.center {\n  width: fit-content;\n  margin: 0 auto;\n}",
+            "props": [
+                {
+                    "name": "margin-top",
+                    "desc": "上マージン"
+                },
+                {
+                    "name": "margin-right",
+                    "desc": "右マージン"
+                },
+                {
+                    "name": "margin-bottom",
+                    "desc": "下マージン"
+                },
+                {
+                    "name": "margin-left",
+                    "desc": "左マージン"
+                },
+                {
+                    "name": "auto",
+                    "desc": "自動計算。左右autoで中央寄せ"
+                }
+            ],
+            "tags": [
+                "基本",
+                "余白",
+                "レイアウト"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/margin"
+        },
+        {
+            "name": "padding",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "要素の内側の余白を設定する。コンテンツとborderの間のスペース。marginと異なりマージン崩壊は起きない。負値は不可。",
+            "demo": "<div style=\"padding:8px;background:#dbeafe;border:1px solid #3b82f6;font-size:0.8rem;margin-bottom:4px\">padding: 8px</div><div style=\"padding:20px 40px;background:#dcfce7;border:1px solid #22c55e;font-size:0.8rem\">padding: 20px 40px（上下20 左右40）</div>",
+            "code": "/* ショートハンド（marginと同じ記法） */\n.card {\n  padding: 16px 24px;\n}\n.section {\n  padding: 2rem;\n}\nbutton {\n  padding: 0.5em 1.5em;\n}",
+            "props": [
+                {
+                    "name": "padding-top",
+                    "desc": "上パディング"
+                },
+                {
+                    "name": "padding-right",
+                    "desc": "右パディング"
+                },
+                {
+                    "name": "padding-bottom",
+                    "desc": "下パディング"
+                },
+                {
+                    "name": "padding-left",
+                    "desc": "左パディング"
+                }
+            ],
+            "tags": [
+                "基本",
+                "余白",
+                "レイアウト"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/padding"
+        },
+        {
+            "name": "border",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "要素の枠線を一括指定するショートハンド。幅・スタイル・色を指定する。各辺を個別に設定することも可能。",
+            "demo": "<div style=\"border:2px solid #3b82f6;padding:6px;font-size:0.8rem;margin-bottom:4px\">border: 2px solid（実線）</div><div style=\"border:2px dashed #ef4444;padding:6px;font-size:0.8rem;margin-bottom:4px\">border: 2px dashed（破線）</div><div style=\"border:3px dotted #22c55e;padding:6px;font-size:0.8rem;margin-bottom:4px\">border: 3px dotted（点線）</div><div style=\"border:3px double #8b5cf6;padding:6px;font-size:0.8rem\">border: 3px double（二重線）</div>",
+            "code": ".card {\n  border: 1px solid #e5e7eb;\n}\n.error {\n  border: 2px solid #ef4444;\n}\n/* 各辺個別指定 */\n.underline {\n  border-bottom: 2px solid #3b82f6;\n}",
+            "props": [
+                {
+                    "name": "border-width",
+                    "desc": "線の太さ（thin / medium / thick / <length>）"
+                },
+                {
+                    "name": "border-style",
+                    "desc": "none / solid / dashed / dotted / double / groove / ridge / inset / outset"
+                },
+                {
+                    "name": "border-color",
+                    "desc": "線の色"
+                }
+            ],
+            "tags": [
+                "基本",
+                "装飾",
+                "レイアウト"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/border"
+        },
+        {
+            "name": "border-radius",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "要素の角を丸くする。4つの角を個別に指定可能。50%で円形、大きな値でピル型（カプセル型）のボタンが作れる。",
+            "demo": "<div style=\"display:flex;gap:8px;align-items:center;flex-wrap:wrap\"><div style=\"width:60px;height:60px;background:#3b82f6;border-radius:4px\"></div><div style=\"width:60px;height:60px;background:#ef4444;border-radius:12px\"></div><div style=\"width:60px;height:60px;background:#22c55e;border-radius:50%\"></div><span style=\"background:#8b5cf6;color:#fff;padding:4px 16px;border-radius:9999px;font-size:0.8rem\">Pill</span></div>",
+            "code": ".rounded {\n  border-radius: 8px;\n}\n.circle {\n  border-radius: 50%;\n}\n.pill {\n  border-radius: 9999px;\n}\n/* 個別指定 */\n.custom {\n  border-radius: 12px 0 12px 0;\n}",
+            "props": [
+                {
+                    "name": "<length>",
+                    "desc": "px, rem等で丸みの半径を指定"
+                },
+                {
+                    "name": "<percentage>",
+                    "desc": "要素サイズに対する割合。50%で楕円/円"
+                },
+                {
+                    "name": "個別指定",
+                    "desc": "border-top-left-radius 等で各角を制御"
+                }
+            ],
+            "tags": [
+                "装飾",
+                "デザイン",
+                "UI"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/border-radius"
+        },
+        {
+            "name": "outline",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "要素の外側に輪郭線を描画する。borderと異なりレイアウトに影響しない（スペースを占有しない）。フォーカス表示のデフォルトスタイルとして使われる。",
+            "demo": "<div style=\"outline:3px solid #3b82f6;padding:8px;font-size:0.8rem;margin:6px\">outline: 3px solid（レイアウトに影響なし）</div><div style=\"outline:3px dashed #ef4444;outline-offset:4px;padding:8px;font-size:0.8rem;margin:10px\">outline-offset: 4px（離れた位置に表示）</div>",
+            "code": "/* フォーカス表示のカスタマイズ */\nbutton:focus-visible {\n  outline: 2px solid #3b82f6;\n  outline-offset: 2px;\n}\n/* outlineを消す場合は代替スタイル必須 */\na:focus {\n  outline: none;\n  box-shadow: 0 0 0 3px rgba(59,130,246,0.5);\n}",
+            "props": [
+                {
+                    "name": "outline-width",
+                    "desc": "輪郭線の太さ"
+                },
+                {
+                    "name": "outline-style",
+                    "desc": "none / solid / dashed / dotted 等"
+                },
+                {
+                    "name": "outline-color",
+                    "desc": "輪郭線の色"
+                },
+                {
+                    "name": "outline-offset",
+                    "desc": "borderからの距離"
+                }
+            ],
+            "tags": [
+                "装飾",
+                "アクセシビリティ",
+                "フォーカス"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/outline"
+        },
+        {
+            "name": "box-shadow",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "要素に影（ドロップシャドウ）を付ける。insetキーワードで内側の影も可能。複数の影をカンマ区切りで重ねられる。",
+            "demo": "<div style=\"box-shadow:0 2px 8px rgba(0,0,0,0.15);padding:12px;font-size:0.8rem;margin:8px;border-radius:8px;background:#fff\">基本的な影</div><div style=\"box-shadow:0 4px 16px rgba(59,130,246,0.3),0 1px 3px rgba(0,0,0,0.1);padding:12px;font-size:0.8rem;margin:8px;border-radius:8px;background:#fff\">複数の影（多重）</div><div style=\"box-shadow:inset 0 2px 8px rgba(0,0,0,0.2);padding:12px;font-size:0.8rem;margin:8px;border-radius:8px;background:#f0f0f0\">inset（内側の影）</div>",
+            "code": ".card {\n  box-shadow: 0 1px 3px rgba(0,0,0,0.12),\n             0 1px 2px rgba(0,0,0,0.24);\n}\n.card:hover {\n  box-shadow: 0 8px 24px rgba(0,0,0,0.15);\n}\n.inset {\n  box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);\n}",
+            "props": [
+                {
+                    "name": "offset-x",
+                    "desc": "水平オフセット"
+                },
+                {
+                    "name": "offset-y",
+                    "desc": "垂直オフセット"
+                },
+                {
+                    "name": "blur-radius",
+                    "desc": "ぼかし半径（省略時0）"
+                },
+                {
+                    "name": "spread-radius",
+                    "desc": "影の拡縮（省略時0）"
+                },
+                {
+                    "name": "color",
+                    "desc": "影の色"
+                },
+                {
+                    "name": "inset",
+                    "desc": "内側の影にする"
+                }
+            ],
+            "tags": [
+                "装飾",
+                "デザイン",
+                "効果"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/box-shadow"
+        },
+        {
+            "name": "overflow",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "要素のコンテンツが領域をはみ出した場合の処理を指定する。スクロールバーの表示やはみ出し部分の非表示を制御。overflow-x/yで軸別に制御可能。",
+            "demo": "<div style=\"overflow:auto;width:200px;height:60px;border:1px solid #ccc;padding:4px;font-size:0.75rem;margin-bottom:4px\">overflow: auto — このテキストはボックスの高さを超えています。自動的にスクロールバーが表示されます。overflow:autoは必要な時だけスクロールバーを表示します。</div><div style=\"overflow:hidden;width:200px;height:40px;border:1px solid #ccc;padding:4px;font-size:0.75rem\">overflow: hidden — はみ出した部分は非表示になります。スクロールバーは表示されません。</div>",
+            "code": ".scroll-area {\n  overflow: auto; /* 必要時のみスクロール */\n}\n.hidden {\n  overflow: hidden; /* はみ出し非表示 */\n}\n.scroll-x {\n  overflow-x: auto;\n  overflow-y: hidden;\n}",
+            "props": [
+                {
+                    "name": "visible",
+                    "desc": "はみ出しをそのまま表示（デフォルト）"
+                },
+                {
+                    "name": "hidden",
+                    "desc": "はみ出し部分を非表示"
+                },
+                {
+                    "name": "scroll",
+                    "desc": "常にスクロールバーを表示"
+                },
+                {
+                    "name": "auto",
+                    "desc": "必要時のみスクロールバー表示"
+                },
+                {
+                    "name": "clip",
+                    "desc": "hiddenと似るがプログラム的スクロールも不可"
+                }
+            ],
+            "tags": [
+                "レイアウト",
+                "スクロール"
+            ],
+            "browser": "全ブラウザ対応（clipは主要モダンブラウザ）",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/overflow"
+        },
+        {
+            "name": "display",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "要素の表示種別を指定する。ブロック/インライン/フレックス/グリッド等を切り替えるレイアウトの最重要プロパティ。noneで要素を非表示にできる。",
+            "demo": "<div style=\"font-size:0.8rem\"><span style=\"display:block;background:#dbeafe;padding:4px;margin-bottom:2px\">display: block（幅いっぱい）</span><span style=\"display:inline;background:#dcfce7;padding:4px\">display: inline</span><span style=\"display:inline;background:#fef3c7;padding:4px\">（連続する）</span><div style=\"display:inline-block;background:#fecaca;padding:4px;margin-top:4px;width:120px\">inline-block（幅指定可能）</div></div>",
+            "code": ".block { display: block; }\n.hidden { display: none; }\n.flex { display: flex; }\n.grid { display: grid; }\n.inline-flex { display: inline-flex; }",
+            "props": [
+                {
+                    "name": "block",
+                    "desc": "ブロックレベル。幅いっぱいに広がる"
+                },
+                {
+                    "name": "inline",
+                    "desc": "インライン。幅/高さ指定不可"
+                },
+                {
+                    "name": "inline-block",
+                    "desc": "インラインだが幅/高さ指定可能"
+                },
+                {
+                    "name": "flex",
+                    "desc": "フレックスコンテナ"
+                },
+                {
+                    "name": "grid",
+                    "desc": "グリッドコンテナ"
+                },
+                {
+                    "name": "none",
+                    "desc": "要素を非表示（DOMから除外扱い）"
+                },
+                {
+                    "name": "contents",
+                    "desc": "ボックスを生成せず子要素を直接参加させる"
+                }
+            ],
+            "tags": [
+                "基本",
+                "レイアウト",
+                "重要"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/display"
+        },
+        {
+            "name": "margin-inline / margin-block",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "論理的なマージンを指定する。margin-inlineは書字方向のインライン軸（LTRなら左右）、margin-blockはブロック軸（通常は上下）。国際化対応に有用。",
+            "demo": "<div style=\"background:#f0f0f0;padding:4px\"><div style=\"margin-inline:auto;width:180px;background:#dbeafe;padding:8px;font-size:0.8rem;text-align:center\">margin-inline: auto（中央寄せ）</div><div style=\"margin-block:12px;background:#dcfce7;padding:8px;font-size:0.8rem\">margin-block: 12px（上下余白）</div></div>",
+            "code": ".center {\n  margin-inline: auto;\n}\n.section {\n  margin-block: 2rem;\n}\n.aside {\n  margin-inline-start: 1rem;\n}",
+            "props": [
+                {
+                    "name": "margin-inline-start",
+                    "desc": "インライン軸の開始側（LTRなら左）"
+                },
+                {
+                    "name": "margin-inline-end",
+                    "desc": "インライン軸の終了側（LTRなら右）"
+                },
+                {
+                    "name": "margin-block-start",
+                    "desc": "ブロック軸の開始側（通常は上）"
+                },
+                {
+                    "name": "margin-block-end",
+                    "desc": "ブロック軸の終了側（通常は下）"
+                }
+            ],
+            "tags": [
+                "論理プロパティ",
+                "国際化",
+                "モダンCSS"
+            ],
+            "browser": "全モダンブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/margin-inline"
+        },
+        {
+            "name": "padding-inline / padding-block",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "論理的なパディングを指定する。書字方向に応じてインライン方向・ブロック方向の余白を制御。RTL対応を簡素化できる。",
+            "demo": "<div style=\"padding-inline:24px;padding-block:8px;background:#fef3c7;border:1px solid #f59e0b;font-size:0.8rem\">padding-inline: 24px / padding-block: 8px</div>",
+            "code": "button {\n  padding-inline: 1.5em;\n  padding-block: 0.5em;\n}\n.article {\n  padding-block-start: 2rem;\n  padding-inline: 1rem;\n}",
+            "props": [
+                {
+                    "name": "padding-inline-start",
+                    "desc": "インライン軸の開始側"
+                },
+                {
+                    "name": "padding-inline-end",
+                    "desc": "インライン軸の終了側"
+                },
+                {
+                    "name": "padding-block-start",
+                    "desc": "ブロック軸の開始側"
+                },
+                {
+                    "name": "padding-block-end",
+                    "desc": "ブロック軸の終了側"
+                }
+            ],
+            "tags": [
+                "論理プロパティ",
+                "国際化",
+                "モダンCSS"
+            ],
+            "browser": "全モダンブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/padding-inline"
+        },
+        {
+            "name": "aspect-ratio",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "要素のアスペクト比（縦横比）を指定する。レスポンシブな動画埋め込みやカード要素に便利。paddingハックが不要になるモダンプロパティ。",
+            "demo": "<div style=\"display:flex;gap:8px;align-items:start\"><div style=\"width:80px;aspect-ratio:1/1;background:#3b82f6;border-radius:4px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.7rem\">1:1</div><div style=\"width:80px;aspect-ratio:16/9;background:#ef4444;border-radius:4px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.7rem\">16:9</div><div style=\"width:80px;aspect-ratio:4/3;background:#22c55e;border-radius:4px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.7rem\">4:3</div></div>",
+            "code": ".video-wrapper {\n  width: 100%;\n  aspect-ratio: 16 / 9;\n}\n.avatar {\n  width: 48px;\n  aspect-ratio: 1; /* 正方形 */\n  border-radius: 50%;\n  object-fit: cover;\n}",
+            "props": [
+                {
+                    "name": "auto",
+                    "desc": "固有のアスペクト比を使用（デフォルト）"
+                },
+                {
+                    "name": "<ratio>",
+                    "desc": "width / height の比率。1は正方形"
+                }
+            ],
+            "tags": [
+                "モダンCSS",
+                "レスポンシブ",
+                "レイアウト"
+            ],
+            "browser": "Chrome 88+ / Firefox 89+ / Safari 15+",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/aspect-ratio"
+        },
+        {
+            "name": "resize",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "ユーザーが要素をリサイズできるかどうかを制御する。textareaのデフォルトはboth。overflow:visible以外と併用が必要。",
+            "demo": "<div style=\"resize:both;overflow:auto;width:180px;height:80px;border:2px dashed #8b5cf6;padding:8px;font-size:0.8rem;background:#f5f3ff\">右下の角をドラッグしてリサイズできます。resize: both を適用。</div>",
+            "code": "textarea {\n  resize: vertical; /* 縦方向のみ許可 */\n}\n.resizable {\n  resize: both;\n  overflow: auto;\n}\n.no-resize {\n  resize: none;\n}",
+            "props": [
+                {
+                    "name": "none",
+                    "desc": "リサイズ不可"
+                },
+                {
+                    "name": "both",
+                    "desc": "水平・垂直両方でリサイズ可能"
+                },
+                {
+                    "name": "horizontal",
+                    "desc": "水平方向のみ"
+                },
+                {
+                    "name": "vertical",
+                    "desc": "垂直方向のみ"
+                }
+            ],
+            "tags": [
+                "UI",
+                "インタラクション"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/resize"
+        }
+    ]
+}

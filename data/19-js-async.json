@@ -1,0 +1,447 @@
+{
+    "cat": "JS非同期・通信",
+    "catIcon": "🔄",
+    "catDesc": "JavaScriptの非同期処理とHTTP通信のAPI。Promise、async/await、Fetch APIなど、モダンな非同期パターンを網羅。",
+    "items": [
+        {
+            "name": "Promise",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "非同期処理の結果を表すオブジェクト。pending（保留）→ fulfilled（成功）/ rejected（失敗）の状態遷移を持つ。.then()/.catch()でチェーン処理。",
+            "demo": "<button onclick=\"new Promise((resolve)=>{setTimeout(()=>resolve('完了！'),1000)}).then(msg=>this.nextElementSibling.textContent=msg);this.nextElementSibling.textContent='処理中...'\" style=\"padding:6px 14px;background:#3b82f6;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:0.85rem\">Promise実行</button><span style=\"margin-left:8px;font-size:0.85rem\"></span>",
+            "code": "// Promise の作成\nconst myPromise = new Promise((resolve, reject) => {\n  const success = true;\n  if (success) {\n    resolve('成功データ');\n  } else {\n    reject(new Error('エラー発生'));\n  }\n});\n\n// 使用\nmyPromise\n  .then(data => console.log(data))\n  .catch(err => console.error(err))\n  .finally(() => console.log('完了'));",
+            "props": [
+                {
+                    "name": "new Promise(executor)",
+                    "desc": "resolve/rejectコールバックで結果を決定"
+                },
+                {
+                    "name": ".then(onFulfilled)",
+                    "desc": "成功時のコールバック"
+                },
+                {
+                    "name": ".catch(onRejected)",
+                    "desc": "失敗時のコールバック"
+                },
+                {
+                    "name": ".finally(onFinally)",
+                    "desc": "成功/失敗問わず実行"
+                }
+            ],
+            "tags": [
+                "非同期",
+                "基本",
+                "Promise"
+            ],
+            "browser": "全モダンブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Promise"
+        },
+        {
+            "name": "Promise.all() / allSettled() / race() / any()",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "複数のPromiseを組み合わせる静的メソッド群。all()は全て成功で解決、race()は最初の結果を返す。用途に応じた使い分けが重要。",
+            "demo": "<button onclick=\"Promise.all([new Promise(r=>setTimeout(()=>r('A'),500)),new Promise(r=>setTimeout(()=>r('B'),300))]).then(results=>this.nextElementSibling.textContent='結果: '+results.join(', '));this.nextElementSibling.textContent='実行中...'\" style=\"padding:6px 14px;background:#8b5cf6;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:0.85rem\">Promise.all</button><span style=\"margin-left:8px;font-size:0.85rem\"></span>",
+            "code": "// 全て成功で解決\nconst results = await Promise.all([\n  fetch('/api/users'),\n  fetch('/api/posts'),\n  fetch('/api/comments')\n]);\n\n// 全結果を取得（失敗含む）\nconst settled = await Promise.allSettled([\n  fetch('/api/a'),\n  fetch('/api/b')\n]);\n// [{status:'fulfilled',value:...}, {status:'rejected',reason:...}]\n\n// 最も速い結果\nconst fastest = await Promise.race([fetch(url1), fetch(url2)]);\n\n// 最初の成功\nconst first = await Promise.any([fetch(url1), fetch(url2)]);",
+            "props": [
+                {
+                    "name": "Promise.all()",
+                    "desc": "全て成功→配列で解決 / 1つでも失敗→即reject"
+                },
+                {
+                    "name": "Promise.allSettled()",
+                    "desc": "全て完了→各結果のステータス付き配列"
+                },
+                {
+                    "name": "Promise.race()",
+                    "desc": "最初に完了したPromiseの結果（成功/失敗問わず）"
+                },
+                {
+                    "name": "Promise.any()",
+                    "desc": "最初に成功したPromiseの値"
+                }
+            ],
+            "tags": [
+                "非同期",
+                "Promise",
+                "並行処理"
+            ],
+            "browser": "全モダンブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Promise/all"
+        },
+        {
+            "name": "async / await",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "Promiseベースの非同期処理を同期的な書き方で記述する構文糖衣。try/catchでエラーハンドリングでき、可読性が大幅に向上する。",
+            "demo": "<button onclick=\"(async()=>{this.nextElementSibling.textContent='読み込み中...';await new Promise(r=>setTimeout(r,800));this.nextElementSibling.textContent='async/awaitで取得完了！'})()\" style=\"padding:6px 14px;background:#22c55e;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:0.85rem\">async実行</button><span style=\"margin-left:8px;font-size:0.85rem\"></span>",
+            "code": "async function fetchUserData(userId) {\n  try {\n    const response = await fetch(`/api/users/${userId}`);\n    \n    if (!response.ok) {\n      throw new Error(`HTTP ${response.status}`);\n    }\n    \n    const user = await response.json();\n    return user;\n  } catch (error) {\n    console.error('取得失敗:', error);\n    throw error;\n  }\n}\n\n// トップレベルawait（モジュール内）\nconst user = await fetchUserData(1);\n\n// 並行実行\nconst [users, posts] = await Promise.all([\n  fetchUsers(),\n  fetchPosts()\n]);",
+            "props": [
+                {
+                    "name": "async function",
+                    "desc": "Promiseを返す非同期関数を宣言"
+                },
+                {
+                    "name": "await",
+                    "desc": "Promiseの解決を待機（async関数内で使用）"
+                },
+                {
+                    "name": "try/catch",
+                    "desc": "同期的なエラーハンドリング"
+                },
+                {
+                    "name": "Top-level await",
+                    "desc": "モジュールのトップレベルで使用可能"
+                }
+            ],
+            "tags": [
+                "非同期",
+                "基本",
+                "構文"
+            ],
+            "browser": "全モダンブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Statements/async_function"
+        },
+        {
+            "name": "Fetch API",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "HTTP通信を行うモダンなAPI。XMLHttpRequestの後継で、Promiseベースの簡潔なインターフェース。Request/Responseオブジェクトで柔軟な制御が可能。",
+            "demo": "<button onclick=\"fetch('https://httpbin.org/json').then(r=>r.json()).then(d=>this.nextElementSibling.textContent=JSON.stringify(d).slice(0,60)+'...').catch(e=>this.nextElementSibling.textContent='エラー: '+e.message);this.nextElementSibling.textContent='取得中...'\" style=\"padding:6px 14px;background:#f97316;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:0.85rem\">Fetch実行</button><span style=\"margin-left:8px;font-size:0.75rem;word-break:break-all\"></span>",
+            "code": "// GET リクエスト\nconst response = await fetch('https://api.example.com/data');\nconst data = await response.json();\n\n// POST リクエスト\nconst res = await fetch('/api/users', {\n  method: 'POST',\n  headers: {\n    'Content-Type': 'application/json',\n  },\n  body: JSON.stringify({ name: '太郎', email: 'taro@example.com' }),\n});\n\n// エラーハンドリング（fetchはネットワークエラー以外rejectしない）\nif (!res.ok) {\n  throw new Error(`HTTP Error: ${res.status}`);\n}\nconst result = await res.json();",
+            "props": [
+                {
+                    "name": "method",
+                    "desc": "GET / POST / PUT / DELETE 等"
+                },
+                {
+                    "name": "headers",
+                    "desc": "リクエストヘッダー"
+                },
+                {
+                    "name": "body",
+                    "desc": "リクエストボディ（POST等）"
+                },
+                {
+                    "name": "signal",
+                    "desc": "AbortControllerのシグナル"
+                },
+                {
+                    "name": "mode",
+                    "desc": "cors / no-cors / same-origin"
+                },
+                {
+                    "name": "credentials",
+                    "desc": "same-origin / include / omit"
+                }
+            ],
+            "tags": [
+                "HTTP",
+                "通信",
+                "基本"
+            ],
+            "browser": "全モダンブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/Fetch_API"
+        },
+        {
+            "name": "Response オブジェクト",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "Fetch APIのレスポンスを表すオブジェクト。.json()/.text()/.blob()等でボディを解析。okプロパティとstatusでHTTPステータスを確認。",
+            "demo": "<div style=\"font-size:0.8rem;background:#f8fafc;border:1px solid #e2e8f0;padding:8px;border-radius:4px\"><code>response.ok</code> → true/false<br><code>response.status</code> → 200, 404等<br><code>response.json()</code> → JSONパース<br><code>response.text()</code> → テキスト取得</div>",
+            "code": "const response = await fetch('/api/data');\n\n// ステータス確認\nconsole.log(response.ok);     // true (200-299)\nconsole.log(response.status);  // 200\n\n// レスポンスボディの読み取り（1回のみ）\nconst json = await response.json();  // JSON\n// const text = await response.text();  // テキスト\n// const blob = await response.blob();  // バイナリ\n// const buf  = await response.arrayBuffer();\n// const form = await response.formData();\n\n// ヘッダー取得\nresponse.headers.get('Content-Type');\n\n// レスポンスの複製（ボディを複数回読むため）\nconst clone = response.clone();",
+            "props": [
+                {
+                    "name": "ok",
+                    "desc": "ステータスが200-299ならtrue"
+                },
+                {
+                    "name": "status",
+                    "desc": "HTTPステータスコード"
+                },
+                {
+                    "name": "statusText",
+                    "desc": "ステータスメッセージ"
+                },
+                {
+                    "name": "headers",
+                    "desc": "レスポンスヘッダー（Headersオブジェクト）"
+                },
+                {
+                    "name": ".json()",
+                    "desc": "ボディをJSONとして解析"
+                },
+                {
+                    "name": ".text()",
+                    "desc": "ボディをテキストとして取得"
+                },
+                {
+                    "name": ".blob()",
+                    "desc": "ボディをBlobとして取得"
+                }
+            ],
+            "tags": [
+                "HTTP",
+                "レスポンス",
+                "Fetch"
+            ],
+            "browser": "全モダンブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/Response"
+        },
+        {
+            "name": "AbortController",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "非同期処理（fetch等）をキャンセルするためのAPI。signalをfetchに渡し、abort()で中断する。タイムアウト実装にも使用。",
+            "demo": "<button onclick=\"var c=new AbortController();setTimeout(function(){c.abort()},100);fetch('https://httpbin.org/delay/5',{signal:c.signal}).then(function(){this.nextElementSibling.textContent='完了'}.bind(this)).catch(function(e){this.nextElementSibling.textContent='中断: '+e.name}.bind(this));this.nextElementSibling.textContent='リクエスト中（100msで中断）...'\" style=\"padding:6px 14px;background:#ef4444;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:0.85rem\">中断デモ</button><span style=\"margin-left:8px;font-size:0.85rem\"></span>",
+            "code": "// 基本的な使い方\nconst controller = new AbortController();\nconst { signal } = controller;\n\nfetch('/api/large-data', { signal })\n  .then(res => res.json())\n  .catch(err => {\n    if (err.name === 'AbortError') {\n      console.log('リクエストが中断されました');\n    }\n  });\n\n// 3秒後にキャンセル\nsetTimeout(() => controller.abort(), 3000);\n\n// タイムアウト（ワンライナー）\nfetch(url, { signal: AbortSignal.timeout(5000) });\n\n// 複数のfetchを一括キャンセル\nconst ctrl = new AbortController();\nawait Promise.all([\n  fetch(url1, { signal: ctrl.signal }),\n  fetch(url2, { signal: ctrl.signal }),\n]);",
+            "props": [
+                {
+                    "name": "new AbortController()",
+                    "desc": "コントローラー作成"
+                },
+                {
+                    "name": ".signal",
+                    "desc": "fetchのsignalオプションに渡す"
+                },
+                {
+                    "name": ".abort()",
+                    "desc": "関連する処理を中断"
+                },
+                {
+                    "name": "AbortSignal.timeout(ms)",
+                    "desc": "タイムアウト付きシグナル"
+                },
+                {
+                    "name": "AbortSignal.any(signals)",
+                    "desc": "複数シグナルの論理和"
+                }
+            ],
+            "tags": [
+                "非同期",
+                "キャンセル",
+                "通信"
+            ],
+            "browser": "全モダンブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/AbortController"
+        },
+        {
+            "name": "setTimeout / setInterval",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "タイマーによる遅延実行と定期実行。setTimeoutは一度だけ、setIntervalは繰り返し実行する。clearTimeout/clearIntervalで停止。",
+            "demo": "<button onclick=\"var n=5;var s=this.nextElementSibling;s.textContent=n;var id=setInterval(function(){n--;s.textContent=n;if(n<=0){clearInterval(id);s.textContent='完了！'}},1000)\" style=\"padding:6px 14px;background:#f59e0b;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:0.85rem\">カウントダウン</button><span style=\"margin-left:8px;font-size:1rem;font-weight:700\"></span>",
+            "code": "// 遅延実行\nconst timeoutId = setTimeout(() => {\n  console.log('3秒後に実行');\n}, 3000);\nclearTimeout(timeoutId); // キャンセル\n\n// 定期実行\nlet count = 0;\nconst intervalId = setInterval(() => {\n  count++;\n  console.log(`${count}回目`);\n  if (count >= 10) {\n    clearInterval(intervalId); // 停止\n  }\n}, 1000);\n\n// Promiseでラップ（sleep関数）\nconst sleep = (ms) => new Promise(r => setTimeout(r, ms));\nawait sleep(1000);",
+            "props": [
+                {
+                    "name": "setTimeout(fn, ms)",
+                    "desc": "ms後に1回実行"
+                },
+                {
+                    "name": "clearTimeout(id)",
+                    "desc": "タイムアウトをキャンセル"
+                },
+                {
+                    "name": "setInterval(fn, ms)",
+                    "desc": "ms間隔で繰り返し実行"
+                },
+                {
+                    "name": "clearInterval(id)",
+                    "desc": "インターバルを停止"
+                }
+            ],
+            "tags": [
+                "タイマー",
+                "非同期",
+                "基本"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/setTimeout"
+        },
+        {
+            "name": "EventSource（Server-Sent Events）",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "サーバーからクライアントへの一方向リアルタイムイベントストリーム。WebSocketより軽量で、HTTP上で動作。自動再接続機能あり。",
+            "demo": "<div style=\"font-size:0.8rem;background:#f0fdf4;border:1px solid #22c55e;padding:8px;border-radius:8px\">Server-Sent Events<br>サーバー→クライアントの一方向ストリーム<br>通知、ライブフィード、ログ表示に最適</div>",
+            "code": "// SSEの受信\nconst source = new EventSource('/api/stream');\n\nsource.onmessage = (event) => {\n  const data = JSON.parse(event.data);\n  console.log('受信:', data);\n};\n\n// 名前付きイベント\nsource.addEventListener('notification', (event) => {\n  showNotification(JSON.parse(event.data));\n});\n\nsource.onerror = () => {\n  console.log('接続エラー（自動再接続されます）');\n};\n\n// 接続終了\nsource.close();",
+            "props": [
+                {
+                    "name": "new EventSource(url)",
+                    "desc": "SSE接続を開始"
+                },
+                {
+                    "name": "onmessage",
+                    "desc": "メッセージ受信時のコールバック"
+                },
+                {
+                    "name": "addEventListener(type)",
+                    "desc": "名前付きイベントのリスナー"
+                },
+                {
+                    "name": "onerror",
+                    "desc": "エラー・切断時のコールバック"
+                },
+                {
+                    "name": ".close()",
+                    "desc": "接続を終了"
+                },
+                {
+                    "name": "event.data",
+                    "desc": "受信データ（文字列）"
+                },
+                {
+                    "name": "event.lastEventId",
+                    "desc": "最後のイベントID（再接続時に送信）"
+                }
+            ],
+            "tags": [
+                "リアルタイム",
+                "ストリーム",
+                "通信"
+            ],
+            "browser": "全モダンブラウザ対応（IE非対応）",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/EventSource"
+        },
+        {
+            "name": "WebSocket",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "クライアントとサーバー間の双方向リアルタイム通信。チャット、ゲーム、リアルタイム共同編集など、低遅延の双方向データ交換に使用。",
+            "demo": "<div style=\"font-size:0.8rem;background:#eff6ff;border:1px solid #3b82f6;padding:8px;border-radius:8px\">WebSocket<br>双方向リアルタイム通信<br>チャット、ゲーム、ライブコラボに最適</div>",
+            "code": "// WebSocket接続\nconst ws = new WebSocket('wss://example.com/socket');\n\n// 接続完了\nws.onopen = () => {\n  console.log('接続完了');\n  ws.send(JSON.stringify({ type: 'join', room: 'general' }));\n};\n\n// メッセージ受信\nws.onmessage = (event) => {\n  const data = JSON.parse(event.data);\n  switch (data.type) {\n    case 'chat':\n      appendMessage(data);\n      break;\n    case 'typing':\n      showTypingIndicator(data.user);\n      break;\n  }\n};\n\n// エラー・切断\nws.onerror = (err) => console.error('WS Error:', err);\nws.onclose = (event) => {\n  console.log('切断: code=' + event.code);\n  setTimeout(connectWebSocket, 3000);\n};\n\n// 送信\nws.send(JSON.stringify({ type: 'chat', message: 'こんにちは' }));\n\n// 接続終了\nws.close(1000, '正常終了');",
+            "props": [
+                {
+                    "name": "new WebSocket(url)",
+                    "desc": "WebSocket接続を開始"
+                },
+                {
+                    "name": "onopen",
+                    "desc": "接続確立時のコールバック"
+                },
+                {
+                    "name": "onmessage",
+                    "desc": "メッセージ受信時のコールバック"
+                },
+                {
+                    "name": "onerror",
+                    "desc": "エラー時のコールバック"
+                },
+                {
+                    "name": "onclose",
+                    "desc": "接続終了時のコールバック"
+                },
+                {
+                    "name": ".send(data)",
+                    "desc": "データ送信（文字列/Blob/ArrayBuffer）"
+                },
+                {
+                    "name": ".close(code, reason)",
+                    "desc": "接続を終了"
+                },
+                {
+                    "name": "readyState",
+                    "desc": "0:CONNECTING 1:OPEN 2:CLOSING 3:CLOSED"
+                }
+            ],
+            "tags": [
+                "リアルタイム",
+                "双方向",
+                "通信"
+            ],
+            "browser": "全モダンブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/WebSocket"
+        },
+        {
+            "name": "requestAnimationFrame",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "ブラウザの画面描画タイミングに同期してコールバックを実行する。スムーズなアニメーション（通常60fps）の実装に必須。setIntervalより高効率。",
+            "demo": "<div style=\"position:relative;height:40px;background:#f0f0f0;border-radius:4px;overflow:hidden\"><div id=\"raf-ball\" style=\"position:absolute;width:30px;height:30px;background:#3b82f6;border-radius:50%;top:5px;left:0\"></div></div><button onclick=\"var el=document.getElementById('raf-ball');var x=0;var dir=1;function animate(){x+=dir*2;if(x>200||x<0)dir*=-1;el.style.left=x+'px';requestAnimationFrame(animate)}requestAnimationFrame(animate)\" style=\"margin-top:4px;padding:4px 12px;background:#3b82f6;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:0.8rem\">アニメーション開始</button>",
+            "code": "// 基本的なアニメーションループ\nlet animationId;\n\nfunction animate(timestamp) {\n  // DOMを更新\n  element.style.transform =\n    `translateX(${Math.sin(timestamp / 500) * 100}px)`;\n  \n  // 次のフレームをリクエスト\n  animationId = requestAnimationFrame(animate);\n}\n\n// 開始\nanimationId = requestAnimationFrame(animate);\n\n// 停止\ncancelAnimationFrame(animationId);\n\n// deltaTimeベースのアニメーション\nlet lastTime = 0;\nfunction gameLoop(timestamp) {\n  const deltaTime = timestamp - lastTime;\n  lastTime = timestamp;\n  \n  update(deltaTime);\n  render();\n  \n  requestAnimationFrame(gameLoop);\n}",
+            "props": [
+                {
+                    "name": "requestAnimationFrame(cb)",
+                    "desc": "次の描画フレームでcbを実行"
+                },
+                {
+                    "name": "cancelAnimationFrame(id)",
+                    "desc": "予約済みフレームをキャンセル"
+                },
+                {
+                    "name": "timestamp引数",
+                    "desc": "DOMHighResTimeStamp（ミリ秒）"
+                }
+            ],
+            "tags": [
+                "アニメーション",
+                "パフォーマンス",
+                "描画"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/window/requestAnimationFrame"
+        },
+        {
+            "name": "queueMicrotask / イベントループ",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "JavaScriptの実行モデルであるイベントループの仕組み。マイクロタスク（Promise等）はマクロタスク（setTimeout等）より優先して実行される。",
+            "demo": "<button onclick=\"var r=[];setTimeout(function(){r.push('3:setTimeout')},0);Promise.resolve().then(function(){r.push('2:Promise')});queueMicrotask(function(){r.push('2:microtask')});r.push('1:同期');var btn=this;setTimeout(function(){btn.nextElementSibling.textContent=r.join(' -> ')},10)\" style=\"padding:6px 14px;background:#8b5cf6;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:0.85rem\">実行順序を確認</button><div style=\"font-size:0.8rem;margin-top:4px;color:#6b7280\"></div>",
+            "code": "// 実行順序の確認\nconsole.log('1: 同期処理');\n\nsetTimeout(() => {\n  console.log('4: マクロタスク（setTimeout）');\n}, 0);\n\nPromise.resolve().then(() => {\n  console.log('2: マイクロタスク（Promise）');\n});\n\nqueueMicrotask(() => {\n  console.log('3: マイクロタスク（queueMicrotask）');\n});\n\n// 出力順: 1 -> 2 -> 3 -> 4\n// マイクロタスクはコールスタックが空になるたびに全て処理\n// マクロタスクは1つずつ処理",
+            "props": [
+                {
+                    "name": "queueMicrotask(cb)",
+                    "desc": "マイクロタスクキューにcbを追加"
+                },
+                {
+                    "name": "マイクロタスク",
+                    "desc": "Promise.then, queueMicrotask, MutationObserver"
+                },
+                {
+                    "name": "マクロタスク",
+                    "desc": "setTimeout, setInterval, I/O, UI rendering"
+                }
+            ],
+            "tags": [
+                "イベントループ",
+                "非同期",
+                "概念"
+            ],
+            "browser": "全モダンブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/queueMicrotask"
+        },
+        {
+            "name": "Async Iterator / for await...of",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "非同期にデータを逐次取得するイテレーション構文。ストリーミングデータの処理やページネーションの逐次取得に使用。",
+            "demo": "<button onclick=\"(async()=>{var s=this.nextElementSibling;s.textContent='';for(var i=1;i<=5;i++){await new Promise(function(r){setTimeout(r,300)});s.textContent+='['+i+'] '}s.textContent+='完了！'})()\" style=\"padding:6px 14px;background:#059669;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:0.85rem\">逐次取得デモ</button><span style=\"margin-left:8px;font-size:0.85rem\"></span>",
+            "code": "// 非同期ジェネレーター\nasync function* fetchPages(baseUrl) {\n  let page = 1;\n  let hasMore = true;\n  \n  while (hasMore) {\n    const res = await fetch(`${baseUrl}?page=${page}`);\n    const data = await res.json();\n    yield data.items;\n    hasMore = data.hasNext;\n    page++;\n  }\n}\n\n// for await...of で消費\nfor await (const items of fetchPages('/api/users')) {\n  items.forEach(user => renderUser(user));\n}\n\n// ReadableStream の読み取り\nconst response = await fetch('/api/stream');\nconst reader = response.body.getReader();\nconst decoder = new TextDecoder();\n\nwhile (true) {\n  const { done, value } = await reader.read();\n  if (done) break;\n  console.log(decoder.decode(value));\n}",
+            "props": [
+                {
+                    "name": "async function*",
+                    "desc": "非同期ジェネレーター関数"
+                },
+                {
+                    "name": "yield",
+                    "desc": "値を逐次返す"
+                },
+                {
+                    "name": "for await...of",
+                    "desc": "非同期イテラブルを順次処理"
+                },
+                {
+                    "name": "ReadableStream",
+                    "desc": "ストリーミングデータの読み取り"
+                }
+            ],
+            "tags": [
+                "非同期",
+                "イテレーション",
+                "ストリーム"
+            ],
+            "browser": "全モダンブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Statements/for-await...of"
+        }
+    ]
+}

@@ -1,0 +1,466 @@
+{
+    "cat": "UIパターン",
+    "catIcon": "🧩",
+    "catDesc": "実用的なUIコンポーネントのHTML/CSS実装パターン。モーダル、ツールチップ、カード、ナビゲーションなど。",
+    "items": [
+        {
+            "name": "カードコンポーネント",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "情報をグループ化して表示する汎用UIパターン。border-radius・box-shadow・paddingの組み合わせで構成。ホバーエフェクトを加えるとインタラクティブに。",
+            "demo": "<div style=\"max-width:220px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.1);overflow:hidden;background:#fff\"><div style=\"height:80px;background:linear-gradient(135deg,#3b82f6,#8b5cf6)\"></div><div style=\"padding:12px\"><h4 style=\"margin:0 0 4px 0;font-size:0.9rem\">カードタイトル</h4><p style=\"margin:0;font-size:0.75rem;color:#6b7280\">カードの説明テキスト。簡潔にコンテンツを表示します。</p></div></div>",
+            "code": ".card {\n  border-radius: 12px;\n  box-shadow: 0 1px 3px rgba(0,0,0,0.12),\n             0 1px 2px rgba(0,0,0,0.24);\n  overflow: hidden;\n  background: #fff;\n  transition: box-shadow 0.3s, transform 0.3s;\n}\n.card:hover {\n  box-shadow: 0 8px 24px rgba(0,0,0,0.15);\n  transform: translateY(-2px);\n}\n.card-body {\n  padding: 1rem 1.25rem;\n}",
+            "props": [
+                {
+                    "name": "border-radius",
+                    "desc": "角丸の大きさ"
+                },
+                {
+                    "name": "box-shadow",
+                    "desc": "影で浮遊感を演出"
+                },
+                {
+                    "name": "overflow: hidden",
+                    "desc": "子要素の角丸クリッピング"
+                },
+                {
+                    "name": "transition",
+                    "desc": "ホバー時のアニメーション"
+                }
+            ],
+            "tags": [
+                "UIパターン",
+                "カード",
+                "コンポーネント"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/box-shadow"
+        },
+        {
+            "name": "モーダル / ダイアログ",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "HTML5の&lt;dialog&gt;要素を使ったネイティブモーダル。showModal()で背景のスクロールロックや::backdrop疑似要素が自動的に適用される。",
+            "demo": "<button onclick=\"this.nextElementSibling.showModal()\" style=\"padding:6px 16px;background:#3b82f6;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:0.85rem\">モーダルを開く</button><dialog style=\"border:none;border-radius:12px;padding:24px;max-width:300px;box-shadow:0 8px 32px rgba(0,0,0,0.2)\"><h3 style=\"margin:0 0 8px 0;font-size:1rem\">モーダルタイトル</h3><p style=\"font-size:0.85rem;margin:0 0 16px 0;color:#6b7280\">dialog要素で実装されたモーダルです。</p><button onclick=\"this.closest('dialog').close()\" style=\"padding:4px 12px;background:#ef4444;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:0.8rem\">閉じる</button></dialog>",
+            "code": "<dialog id=\"modal\">\n  <h2>タイトル</h2>\n  <p>モーダルの内容</p>\n  <button onclick=\"modal.close()\">閉じる</button>\n</dialog>\n<button onclick=\"modal.showModal()\">開く</button>\n\n<style>\ndialog {\n  border: none;\n  border-radius: 12px;\n  padding: 2rem;\n  max-width: 480px;\n  box-shadow: 0 8px 32px rgba(0,0,0,0.2);\n}\ndialog::backdrop {\n  background: rgba(0,0,0,0.5);\n}\n</style>",
+            "props": [
+                {
+                    "name": "showModal()",
+                    "desc": "モーダルとして表示（背景操作不可）"
+                },
+                {
+                    "name": "show()",
+                    "desc": "非モーダルとして表示"
+                },
+                {
+                    "name": "close()",
+                    "desc": "ダイアログを閉じる"
+                },
+                {
+                    "name": "::backdrop",
+                    "desc": "背景オーバーレイの疑似要素"
+                },
+                {
+                    "name": "open属性",
+                    "desc": "開いている状態を示す属性"
+                }
+            ],
+            "tags": [
+                "UIパターン",
+                "dialog",
+                "モーダル"
+            ],
+            "browser": "全モダンブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/dialog"
+        },
+        {
+            "name": "ツールチップ",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "要素にホバーした時に表示される補足情報のUIパターン。CSSのみで::after疑似要素とposition:absoluteを組み合わせて実装可能。",
+            "demo": "<span style=\"position:relative;display:inline-block;border-bottom:1px dashed #3b82f6;cursor:help;font-size:0.85rem\" onmouseover=\"this.querySelector('span').style.visibility='visible';this.querySelector('span').style.opacity='1'\" onmouseout=\"this.querySelector('span').style.visibility='hidden';this.querySelector('span').style.opacity='0'\">ホバーしてください<span style=\"visibility:hidden;opacity:0;position:absolute;bottom:130%;left:50%;transform:translateX(-50%);background:#1e293b;color:#fff;padding:4px 10px;border-radius:4px;font-size:0.75rem;white-space:nowrap;transition:opacity 0.2s\">ツールチップの内容です</span></span>",
+            "code": ".tooltip {\n  position: relative;\n  cursor: help;\n}\n.tooltip::after {\n  content: attr(data-tip);\n  position: absolute;\n  bottom: calc(100% + 8px);\n  left: 50%;\n  transform: translateX(-50%);\n  background: #1e293b;\n  color: #fff;\n  padding: 4px 12px;\n  border-radius: 6px;\n  font-size: 0.8rem;\n  white-space: nowrap;\n  opacity: 0;\n  pointer-events: none;\n  transition: opacity 0.2s;\n}\n.tooltip:hover::after {\n  opacity: 1;\n}",
+            "props": [
+                {
+                    "name": "data-tip",
+                    "desc": "ツールチップのテキストをattr()で取得"
+                },
+                {
+                    "name": "position: absolute",
+                    "desc": "要素に対して絶対配置"
+                },
+                {
+                    "name": "pointer-events: none",
+                    "desc": "ツールチップ自体がホバーの邪魔をしない"
+                }
+            ],
+            "tags": [
+                "UIパターン",
+                "ツールチップ",
+                "CSS"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/::after"
+        },
+        {
+            "name": "バッジ / タグ",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "ラベルやステータスを表示する小さなインジケーター。通知件数やカテゴリ表示に使用。ピル型（角丸）で小さいテキストが典型。",
+            "demo": "<div style=\"display:flex;gap:6px;flex-wrap:wrap;align-items:center\"><span style=\"background:#dbeafe;color:#1d4ed8;padding:2px 10px;border-radius:9999px;font-size:0.75rem;font-weight:600\">新規</span><span style=\"background:#dcfce7;color:#166534;padding:2px 10px;border-radius:9999px;font-size:0.75rem;font-weight:600\">完了</span><span style=\"background:#fef3c7;color:#92400e;padding:2px 10px;border-radius:9999px;font-size:0.75rem;font-weight:600\">保留</span><span style=\"background:#fecaca;color:#991b1b;padding:2px 10px;border-radius:9999px;font-size:0.75rem;font-weight:600\">エラー</span><span style=\"background:#ef4444;color:#fff;padding:1px 6px;border-radius:9999px;font-size:0.65rem;font-weight:700;min-width:18px;text-align:center\">3</span></div>",
+            "code": ".badge {\n  display: inline-flex;\n  align-items: center;\n  padding: 2px 10px;\n  border-radius: 9999px;\n  font-size: 0.75rem;\n  font-weight: 600;\n}\n.badge-blue { background: #dbeafe; color: #1d4ed8; }\n.badge-green { background: #dcfce7; color: #166534; }\n.badge-red { background: #fecaca; color: #991b1b; }\n\n/* 通知カウント */\n.count {\n  background: #ef4444;\n  color: #fff;\n  min-width: 18px;\n  height: 18px;\n  border-radius: 50%;\n  font-size: 0.65rem;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}",
+            "props": [
+                {
+                    "name": "border-radius: 9999px",
+                    "desc": "完全なピル型"
+                },
+                {
+                    "name": "font-size",
+                    "desc": "小さめ（0.75rem等）"
+                },
+                {
+                    "name": "font-weight: 600",
+                    "desc": "やや太字で視認性確保"
+                }
+            ],
+            "tags": [
+                "UIパターン",
+                "バッジ",
+                "コンポーネント"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/border-radius"
+        },
+        {
+            "name": "ナビゲーションバー",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "サイト上部に固定するヘッダーナビゲーション。position:stickyやflexboxを使い、ロゴ・メニュー・ボタンを配置する。",
+            "demo": "<nav style=\"display:flex;align-items:center;justify-content:space-between;background:#1e293b;padding:8px 16px;border-radius:8px\"><span style=\"color:#fff;font-weight:700;font-size:0.9rem\">Logo</span><div style=\"display:flex;gap:12px\"><a style=\"color:#94a3b8;text-decoration:none;font-size:0.8rem\">ホーム</a><a style=\"color:#fff;text-decoration:none;font-size:0.8rem;font-weight:600\">機能</a><a style=\"color:#94a3b8;text-decoration:none;font-size:0.8rem\">料金</a></div><button style=\"background:#3b82f6;color:#fff;border:none;padding:4px 12px;border-radius:4px;font-size:0.75rem;cursor:pointer\">登録</button></nav>",
+            "code": ".navbar {\n  position: sticky;\n  top: 0;\n  z-index: 100;\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  padding: 0.75rem 1.5rem;\n  background: #1e293b;\n  backdrop-filter: blur(8px);\n}\n.nav-links {\n  display: flex;\n  gap: 1.5rem;\n  list-style: none;\n}\n.nav-links a {\n  color: #94a3b8;\n  text-decoration: none;\n  transition: color 0.2s;\n}\n.nav-links a:hover,\n.nav-links a.active {\n  color: #fff;\n}",
+            "props": [
+                {
+                    "name": "position: sticky",
+                    "desc": "スクロール時にトップ固定"
+                },
+                {
+                    "name": "backdrop-filter",
+                    "desc": "背景ぼかしで半透明効果"
+                },
+                {
+                    "name": "z-index",
+                    "desc": "他の要素の上に表示"
+                }
+            ],
+            "tags": [
+                "UIパターン",
+                "ナビゲーション",
+                "レイアウト"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/position"
+        },
+        {
+            "name": "パンくずリスト",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "現在のページ階層を示すナビゲーション。セマンティックな&lt;nav&gt;とaria-label、構造化データ（JSON-LD）の組み合わせが推奨。",
+            "demo": "<nav aria-label=\"パンくず\" style=\"font-size:0.8rem\"><ol style=\"list-style:none;display:flex;gap:4px;padding:0;margin:0\"><li><a style=\"color:#3b82f6;text-decoration:none\">ホーム</a></li><li style=\"color:#9ca3af\">/</li><li><a style=\"color:#3b82f6;text-decoration:none\">カテゴリ</a></li><li style=\"color:#9ca3af\">/</li><li style=\"color:#6b7280\" aria-current=\"page\">現在のページ</li></ol></nav>",
+            "code": "<nav aria-label=\"パンくずリスト\">\n  <ol class=\"breadcrumb\">\n    <li><a href=\"/\">ホーム</a></li>\n    <li><a href=\"/category\">カテゴリ</a></li>\n    <li aria-current=\"page\">現在のページ</li>\n  </ol>\n</nav>\n\n<style>\n.breadcrumb {\n  display: flex;\n  list-style: none;\n  padding: 0;\n  gap: 0.25rem;\n}\n.breadcrumb li + li::before {\n  content: '/';\n  margin-right: 0.25rem;\n  color: #9ca3af;\n}\n</style>",
+            "props": [
+                {
+                    "name": "aria-label",
+                    "desc": "ナビゲーションの目的を明示"
+                },
+                {
+                    "name": "aria-current=\"page\"",
+                    "desc": "現在のページを示す"
+                },
+                {
+                    "name": "構造化データ",
+                    "desc": "JSON-LDでGoogle検索にも表示"
+                }
+            ],
+            "tags": [
+                "UIパターン",
+                "ナビゲーション",
+                "SEO"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/nav"
+        },
+        {
+            "name": "ドロップダウンメニュー",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "ホバーまたはクリックで表示されるサブメニュー。CSSのみで実装する場合は:hover/:focus-withinとvisibility/opacityを組み合わせる。",
+            "demo": "<div style=\"position:relative;display:inline-block\" onmouseover=\"this.querySelector('.dd').style.display='block'\" onmouseout=\"this.querySelector('.dd').style.display='none'\"><button style=\"padding:6px 14px;background:#f1f5f9;border:1px solid #d1d5db;border-radius:4px;cursor:pointer;font-size:0.85rem\">メニュー ▾</button><div class=\"dd\" style=\"display:none;position:absolute;top:100%;left:0;background:#fff;border:1px solid #e5e7eb;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.1);min-width:140px;z-index:10;margin-top:4px\"><a style=\"display:block;padding:6px 12px;font-size:0.8rem;color:#333;text-decoration:none\">項目 1</a><a style=\"display:block;padding:6px 12px;font-size:0.8rem;color:#333;text-decoration:none\">項目 2</a><a style=\"display:block;padding:6px 12px;font-size:0.8rem;color:#333;text-decoration:none\">項目 3</a></div></div>",
+            "code": ".dropdown {\n  position: relative;\n}\n.dropdown-menu {\n  position: absolute;\n  top: 100%;\n  left: 0;\n  min-width: 180px;\n  background: #fff;\n  border-radius: 8px;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.1);\n  opacity: 0;\n  visibility: hidden;\n  transform: translateY(-8px);\n  transition: all 0.2s;\n}\n.dropdown:hover .dropdown-menu,\n.dropdown:focus-within .dropdown-menu {\n  opacity: 1;\n  visibility: visible;\n  transform: translateY(0);\n}",
+            "props": [
+                {
+                    "name": "position: absolute",
+                    "desc": "親要素を基準に配置"
+                },
+                {
+                    "name": "visibility + opacity",
+                    "desc": "アニメーション付き表示切替"
+                },
+                {
+                    "name": ":focus-within",
+                    "desc": "キーボード操作でも開く"
+                }
+            ],
+            "tags": [
+                "UIパターン",
+                "ドロップダウン",
+                "メニュー"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/:focus-within"
+        },
+        {
+            "name": "タブ切り替え",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "コンテンツをタブで切り替えるUIパターン。CSSのみの場合はradioボタン+:checkedで実装。JSを使えばより柔軟な制御が可能。",
+            "demo": "<div style=\"font-size:0.8rem\"><div style=\"display:flex;border-bottom:2px solid #e5e7eb\"><span style=\"padding:6px 14px;border-bottom:2px solid #3b82f6;color:#3b82f6;font-weight:600;margin-bottom:-2px;cursor:pointer\">タブ 1</span><span style=\"padding:6px 14px;color:#6b7280;cursor:pointer\">タブ 2</span><span style=\"padding:6px 14px;color:#6b7280;cursor:pointer\">タブ 3</span></div><div style=\"padding:12px;background:#f8fafc;border-radius:0 0 8px 8px\">タブ 1 のコンテンツが表示されます。</div></div>",
+            "code": "/* CSS-onlyタブ（radioボタン方式） */\n.tabs input[type='radio'] { display: none; }\n.tabs label {\n  padding: 0.5rem 1rem;\n  cursor: pointer;\n  border-bottom: 2px solid transparent;\n}\n.tabs input:checked + label {\n  color: #3b82f6;\n  border-bottom-color: #3b82f6;\n}\n.tab-content { display: none; }\n#tab1:checked ~ #content1,\n#tab2:checked ~ #content2 {\n  display: block;\n}\n\n/* JS版はrole=\"tablist\"とaria属性を付与 */",
+            "props": [
+                {
+                    "name": "role=\"tablist\"",
+                    "desc": "タブリストのARIAロール"
+                },
+                {
+                    "name": "role=\"tab\"",
+                    "desc": "各タブボタンのロール"
+                },
+                {
+                    "name": "role=\"tabpanel\"",
+                    "desc": "タブコンテンツのロール"
+                },
+                {
+                    "name": "aria-selected",
+                    "desc": "選択中のタブを示す"
+                }
+            ],
+            "tags": [
+                "UIパターン",
+                "タブ",
+                "インタラクション"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/tab_role"
+        },
+        {
+            "name": "プログレスバー",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "進捗状況を視覚的に表示するUI。HTML5の&lt;progress&gt;要素またはCSS（width%）で実装。&lt;meter&gt;は比率表示に使用。",
+            "demo": "<div style=\"font-size:0.8rem;margin-bottom:4px\">75% 完了</div><div style=\"background:#e5e7eb;border-radius:9999px;height:12px;overflow:hidden\"><div style=\"width:75%;height:100%;background:linear-gradient(90deg,#3b82f6,#8b5cf6);border-radius:9999px;transition:width 0.3s\"></div></div><div style=\"margin-top:8px\"><progress value=\"75\" max=\"100\" style=\"width:100%;height:12px;border-radius:4px\"></progress></div>",
+            "code": "<!-- HTML5 progress -->\n<progress value=\"75\" max=\"100\"></progress>\n\n<!-- CSSカスタム版 -->\n<div class=\"progress-bar\">\n  <div class=\"progress-fill\" style=\"width:75%\"></div>\n</div>\n\n<style>\n.progress-bar {\n  background: #e5e7eb;\n  border-radius: 9999px;\n  height: 10px;\n  overflow: hidden;\n}\n.progress-fill {\n  height: 100%;\n  background: linear-gradient(90deg, #3b82f6, #8b5cf6);\n  border-radius: 9999px;\n  transition: width 0.3s;\n}\n</style>",
+            "props": [
+                {
+                    "name": "value",
+                    "desc": "現在の進捗値"
+                },
+                {
+                    "name": "max",
+                    "desc": "最大値（デフォルト1）"
+                },
+                {
+                    "name": "::-webkit-progress-bar",
+                    "desc": "背景トラックのスタイル（Chrome/Safari）"
+                },
+                {
+                    "name": "::-webkit-progress-value",
+                    "desc": "進捗部分のスタイル"
+                }
+            ],
+            "tags": [
+                "UIパターン",
+                "プログレス",
+                "フィードバック"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/progress"
+        },
+        {
+            "name": "スケルトンスクリーン",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "コンテンツ読み込み中のプレースホルダー表示。アニメーションする灰色のブロックでUI構造を示し、体感的な待ち時間を軽減する。",
+            "demo": "<div style=\"max-width:220px;padding:12px;border-radius:8px;border:1px solid #e5e7eb\"><div style=\"width:100%;height:60px;background:linear-gradient(90deg,#e5e7eb 25%,#f3f4f6 50%,#e5e7eb 75%);background-size:200% 100%;border-radius:4px;animation:shimmer 1.5s infinite\"></div><div style=\"width:70%;height:12px;background:#e5e7eb;border-radius:4px;margin-top:10px\"></div><div style=\"width:100%;height:10px;background:#e5e7eb;border-radius:4px;margin-top:6px\"></div><div style=\"width:40%;height:10px;background:#e5e7eb;border-radius:4px;margin-top:6px\"></div></div><style>@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}</style>",
+            "code": ".skeleton {\n  background: linear-gradient(\n    90deg,\n    #e5e7eb 25%,\n    #f3f4f6 50%,\n    #e5e7eb 75%\n  );\n  background-size: 200% 100%;\n  animation: shimmer 1.5s infinite;\n  border-radius: 4px;\n}\n.skeleton-text {\n  height: 12px;\n  margin-bottom: 8px;\n}\n.skeleton-img {\n  width: 100%;\n  height: 150px;\n}\n@keyframes shimmer {\n  0% { background-position: 200% 0; }\n  100% { background-position: -200% 0; }\n}",
+            "props": [
+                {
+                    "name": "linear-gradient",
+                    "desc": "シマー効果の光沢グラデーション"
+                },
+                {
+                    "name": "background-size: 200%",
+                    "desc": "アニメーション用の大きな背景"
+                },
+                {
+                    "name": "@keyframes",
+                    "desc": "スライドアニメーション"
+                }
+            ],
+            "tags": [
+                "UIパターン",
+                "ローディング",
+                "UX"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/animation"
+        },
+        {
+            "name": "トースト通知",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "画面の端に一時的に表示されるフィードバックメッセージ。操作の成功・エラーを通知し、一定時間後に自動消去する。",
+            "demo": "<button onclick=\"var t=document.createElement('div');t.textContent='✓ 保存しました';t.style.cssText='position:fixed;bottom:20px;right:20px;background:#22c55e;color:#fff;padding:10px 20px;border-radius:8px;font-size:0.85rem;z-index:9999;animation:fadeIn 0.3s';document.body.appendChild(t);setTimeout(()=>t.remove(),2000)\" style=\"padding:6px 16px;background:#22c55e;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:0.85rem\">トーストを表示</button>",
+            "code": "function showToast(message, type = 'success') {\n  const toast = document.createElement('div');\n  toast.className = `toast toast-${type}`;\n  toast.textContent = message;\n  document.getElementById('toast-container').appendChild(toast);\n  \n  setTimeout(() => {\n    toast.style.opacity = '0';\n    toast.style.transform = 'translateX(100%)';\n    setTimeout(() => toast.remove(), 300);\n  }, 3000);\n}\n\n/* CSS */\n.toast {\n  padding: 12px 20px;\n  border-radius: 8px;\n  color: #fff;\n  margin-bottom: 8px;\n  transition: all 0.3s;\n}\n.toast-success { background: #22c55e; }\n.toast-error { background: #ef4444; }",
+            "props": [
+                {
+                    "name": "position: fixed",
+                    "desc": "画面の端に固定配置"
+                },
+                {
+                    "name": "setTimeout",
+                    "desc": "自動消去のタイマー"
+                },
+                {
+                    "name": "transition",
+                    "desc": "フェードアウトアニメーション"
+                }
+            ],
+            "tags": [
+                "UIパターン",
+                "通知",
+                "フィードバック"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/setTimeout"
+        },
+        {
+            "name": "スクロールスナップ",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "スクロール位置を特定のポイントにスナップ（吸着）させるCSS機能。カルーセルやフルページスクロールをJSなしで実装可能。",
+            "demo": "<div style=\"display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:8px;padding:4px;border-radius:8px;background:#f0f0f0\"><div style=\"scroll-snap-align:start;min-width:140px;height:80px;background:#3b82f6;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.8rem;flex-shrink:0\">スライド 1</div><div style=\"scroll-snap-align:start;min-width:140px;height:80px;background:#8b5cf6;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.8rem;flex-shrink:0\">スライド 2</div><div style=\"scroll-snap-align:start;min-width:140px;height:80px;background:#ec4899;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.8rem;flex-shrink:0\">スライド 3</div><div style=\"scroll-snap-align:start;min-width:140px;height:80px;background:#f97316;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.8rem;flex-shrink:0\">スライド 4</div></div>",
+            "code": "/* コンテナ */\n.carousel {\n  display: flex;\n  overflow-x: auto;\n  scroll-snap-type: x mandatory;\n  gap: 1rem;\n  scroll-padding: 1rem;\n}\n/* 各スライド */\n.slide {\n  scroll-snap-align: start;\n  min-width: 80%;\n  flex-shrink: 0;\n}\n/* スクロールバー非表示 */\n.carousel::-webkit-scrollbar {\n  display: none;\n}",
+            "props": [
+                {
+                    "name": "scroll-snap-type",
+                    "desc": "スナップの軸と強さ（x/y mandatory/proximity）"
+                },
+                {
+                    "name": "scroll-snap-align",
+                    "desc": "スナップ位置（start/center/end）"
+                },
+                {
+                    "name": "scroll-padding",
+                    "desc": "スナップ位置のオフセット"
+                }
+            ],
+            "tags": [
+                "UIパターン",
+                "スクロール",
+                "カルーセル"
+            ],
+            "browser": "全モダンブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/scroll-snap-type"
+        },
+        {
+            "name": "アバター / プロフィール画像",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "ユーザーのプロフィール画像を円形に表示するパターン。border-radius:50%とobject-fit:coverの組み合わせ。サイズバリエーションやステータスインジケーターも含む。",
+            "demo": "<div style=\"display:flex;gap:8px;align-items:end\"><div style=\"width:32px;height:32px;border-radius:50%;background:#3b82f6;display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.7rem;font-weight:700\">S</div><div style=\"width:40px;height:40px;border-radius:50%;background:#8b5cf6;display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.8rem;font-weight:700\">M</div><div style=\"position:relative;width:48px;height:48px\"><div style=\"width:48px;height:48px;border-radius:50%;background:#ec4899;display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.9rem;font-weight:700\">L</div><span style=\"position:absolute;bottom:0;right:0;width:12px;height:12px;background:#22c55e;border:2px solid #fff;border-radius:50%\"></span></div></div>",
+            "code": ".avatar {\n  border-radius: 50%;\n  object-fit: cover;\n}\n.avatar-sm { width: 32px; height: 32px; }\n.avatar-md { width: 40px; height: 40px; }\n.avatar-lg { width: 48px; height: 48px; }\n\n/* イニシャルアバター */\n.avatar-initial {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: #3b82f6;\n  color: #fff;\n  font-weight: 700;\n}\n\n/* オンラインステータス */\n.avatar-wrapper { position: relative; }\n.status-dot {\n  position: absolute;\n  bottom: 0; right: 0;\n  width: 12px; height: 12px;\n  background: #22c55e;\n  border: 2px solid #fff;\n  border-radius: 50%;\n}",
+            "props": [
+                {
+                    "name": "border-radius: 50%",
+                    "desc": "円形にクリッピング"
+                },
+                {
+                    "name": "object-fit: cover",
+                    "desc": "画像のアスペクト比を保ちトリミング"
+                },
+                {
+                    "name": "position: absolute",
+                    "desc": "ステータスドットの配置"
+                }
+            ],
+            "tags": [
+                "UIパターン",
+                "アバター",
+                "コンポーネント"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/border-radius"
+        },
+        {
+            "name": "ローディングスピナー",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "読み込み中を示すアニメーション。CSSアニメーションとborderの組み合わせで実装するシンプルなスピナー。",
+            "demo": "<div style=\"display:flex;gap:16px;align-items:center\"><div style=\"width:28px;height:28px;border:3px solid #e5e7eb;border-top-color:#3b82f6;border-radius:50%;animation:spin 0.8s linear infinite\"></div><div style=\"display:flex;gap:4px\"><div style=\"width:8px;height:8px;background:#3b82f6;border-radius:50%;animation:bounce 0.6s infinite alternate\"></div><div style=\"width:8px;height:8px;background:#3b82f6;border-radius:50%;animation:bounce 0.6s 0.2s infinite alternate\"></div><div style=\"width:8px;height:8px;background:#3b82f6;border-radius:50%;animation:bounce 0.6s 0.4s infinite alternate\"></div></div></div><style>@keyframes spin{to{transform:rotate(360deg)}}@keyframes bounce{to{opacity:0.3;transform:translateY(-6px)}}</style>",
+            "code": ".spinner {\n  width: 32px;\n  height: 32px;\n  border: 3px solid #e5e7eb;\n  border-top-color: #3b82f6;\n  border-radius: 50%;\n  animation: spin 0.8s linear infinite;\n}\n@keyframes spin {\n  to { transform: rotate(360deg); }\n}\n\n/* ドットアニメーション */\n.dots span {\n  display: inline-block;\n  width: 8px; height: 8px;\n  background: #3b82f6;\n  border-radius: 50%;\n  animation: bounce 0.6s infinite alternate;\n}\n.dots span:nth-child(2) { animation-delay: 0.2s; }\n.dots span:nth-child(3) { animation-delay: 0.4s; }\n@keyframes bounce {\n  to { opacity: 0.3; transform: translateY(-8px); }\n}",
+            "props": [
+                {
+                    "name": "border + border-top-color",
+                    "desc": "回転する弧を作成"
+                },
+                {
+                    "name": "animation: spin",
+                    "desc": "360度の回転アニメーション"
+                },
+                {
+                    "name": "animation-delay",
+                    "desc": "ドットの時差アニメーション"
+                }
+            ],
+            "tags": [
+                "UIパターン",
+                "ローディング",
+                "アニメーション"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/animation"
+        },
+        {
+            "name": "Popover API",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "HTML標準のPopover APIでJS不要のポップオーバーUIを実装。popovertarget属性でトリガーボタンを紐付け、自動的にトップレイヤーに表示される。",
+            "demo": "<button popovertarget=\"pop-demo\" style=\"padding:6px 16px;background:#8b5cf6;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:0.85rem\">ポップオーバーを開く</button><div id=\"pop-demo\" popover style=\"padding:16px;border-radius:8px;border:1px solid #e5e7eb;box-shadow:0 4px 16px rgba(0,0,0,0.1);font-size:0.85rem\">ポップオーバーの内容です。<br>外側をクリックで閉じます。</div>",
+            "code": "<button popovertarget=\"mypop\">開く</button>\n<div id=\"mypop\" popover>\n  <p>ポップオーバーの内容</p>\n</div>\n\n<style>\n[popover] {\n  padding: 1rem;\n  border: 1px solid #e5e7eb;\n  border-radius: 12px;\n  box-shadow: 0 8px 24px rgba(0,0,0,0.12);\n}\n[popover]::backdrop {\n  background: rgba(0,0,0,0.1);\n}\n</style>",
+            "props": [
+                {
+                    "name": "popover",
+                    "desc": "要素をポップオーバーとして定義（auto/manual）"
+                },
+                {
+                    "name": "popovertarget",
+                    "desc": "トリガーボタンとポップオーバーを紐付け"
+                },
+                {
+                    "name": "popovertargetaction",
+                    "desc": "show / hide / toggle"
+                },
+                {
+                    "name": "::backdrop",
+                    "desc": "背景オーバーレイのスタイル"
+                }
+            ],
+            "tags": [
+                "UIパターン",
+                "ポップオーバー",
+                "モダンHTML"
+            ],
+            "browser": "Chrome 114+ / Firefox 125+ / Safari 17+",
+            "mdn": "https://developer.mozilla.org/en-US/docs/Web/API/Popover_API"
+        }
+    ]
+}
