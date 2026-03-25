@@ -311,9 +311,17 @@ const App = (() => {
             ).join('') + '</div>'
             : '<p style="color:var(--text-muted);font-size:0.8rem">特筆すべきプロパティはありません。</p>';
 
-        // デモプレビュー（常に表示される短いバージョン）
-        const demoPreviewHTML = item.demo
-            ? `<div class="card-demo-preview" title="クリックで詳細を展開">${item.demo}</div>`
+        // アニメーションデモがあればプレビューに使う
+        const rawName = item.name
+            .replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+            .replace(/&amp;/g, '&').replace(/&quot;/g, '"');
+        const animatedDemo = (typeof AnimatedDemos !== 'undefined')
+            ? AnimatedDemos.get(rawName) || AnimatedDemos.get(item.name)
+            : null;
+        const previewHTML = animatedDemo || item.demo || '';
+
+        const demoPreviewHTML = previewHTML
+            ? `<div class="card-demo-preview" title="クリックで詳細を展開">${previewHTML}</div>`
             : '';
 
         return `
