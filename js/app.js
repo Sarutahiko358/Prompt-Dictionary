@@ -1,6 +1,6 @@
 /**
- * Web UIコンポーネント辞典 — メインアプリケーション v2.1
- * サイドバーナビゲーション修正版
+ * Web UIコンポーネント辞典 — メインアプリケーション v2.2
+ * サイドバー開閉修正 + デモプレビュー表示版
  */
 const App = (() => {
     let DATA = [];
@@ -87,23 +87,21 @@ const App = (() => {
             if (!link) return;
             e.preventDefault();
 
-            // アクティブ更新
             nav.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
             link.classList.add('active');
 
             activeCategory = link.dataset.cat;
 
-            // まずサイドバーを閉じる（モバイル）
+            // モバイル時はサイドバーを閉じる
             closeSidebar();
 
             // フィルタ実行
             filterCards();
 
-            // スクロール（フィルタ後に少し待ってから）
+            // スクロール
             if (activeCategory !== 'all') {
                 const href = link.getAttribute('href');
                 if (href && href !== '#') {
-                    // requestAnimationFrame で DOM更新後にスクロール
                     requestAnimationFrame(() => {
                         requestAnimationFrame(() => {
                             const section = $(href);
@@ -118,41 +116,70 @@ const App = (() => {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
 
-            // URLハッシュ更新
             const idx = DATA.findIndex(c => c.cat === activeCategory);
             const hash = activeCategory === 'all' ? '' : `cat-${idx}`;
             history.replaceState(null, '', hash ? `#${hash}` : window.location.pathname);
         });
     }
 
-    // ===== サイドバー開閉 =====
+    // ===== サイドバー開閉（修正版） =====
     function setupSidebarToggle() {
         const toggle = $('#sidebarToggle');
         const close = $('#sidebarClose');
         const overlay = $('#sidebarOverlay');
+        const sidebar = $('#sidebar');
 
-        if (toggle) toggle.addEventListener('click', openSidebar);
-        if (close) close.addEventListener('click', closeSidebar);
-        if (overlay) overlay.addEventListener('click', closeSidebar);
+        if (toggle) {
+            toggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                openSidebar();
+            });
+            // タッチイベントも追加（モバイル対応）
+            toggle.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                openSidebar();
+            });
+        }
 
+        if (close) {
+            close.addEventListener('click', (e) => {
+                e.stopPropagation();
+                closeSidebar();
+            });
+        }
+
+        if (overlay) {
+            overlay.addEventListener('click', closeSidebar);
+            overlay.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                closeSidebar();
+            });
+        }
+
+        // ウィンドウリサイズ時のリセット
         window.addEventListener('resize', () => {
             if (window.innerWidth > 1024) {
-                $('#sidebar')?.classList.remove('open');
-                $('#sidebarOverlay')?.classList.remove('open');
+                if (sidebar) sidebar.classList.remove('open');
+                if (overlay) overlay.classList.remove('open');
                 document.body.style.overflow = '';
             }
         });
     }
 
     function openSidebar() {
-        $('#sidebar')?.classList.add('open');
-        $('#sidebarOverlay')?.classList.add('open');
+        const sidebar = $('#sidebar');
+        const overlay = $('#sidebarOverlay');
+        if (sidebar) sidebar.classList.add('open');
+        if (overlay) overlay.classList.add('open');
         document.body.style.overflow = 'hidden';
     }
 
     function closeSidebar() {
-        $('#sidebar')?.classList.remove('open');
-        $('#sidebarOverlay')?.classList.remove('open');
+        const sidebar = $('#sidebar');
+        const overlay = $('#sidebarOverlay');
+        if (sidebar) sidebar.classList.remove('open');
+        if (overlay) overlay.classList.remove('open');
         document.body.style.overflow = '';
     }
 
@@ -246,12 +273,20 @@ const App = (() => {
         main.innerHTML = html;
         allCards = Array.from($$('.component-card'));
 
-        // アコーディオン
+        // アコーディオン（ヘッダークリック）
 
         $$('.card-header').forEach(header => {
             header.addEventListener('click', (e) => {
                 if (e.target.closest('.mdn-link') || e.target.closest('.card-label')) return;
                 header.closest('.component-card').classList.toggle('open');
+            });
+        });
+
+        // デモプレビュークリックでも展開
+
+        $$('.card-demo-preview').forEach(preview => {
+            preview.addEventListener('click', () => {
+                preview.closest('.component-card').classList.add('open');
             });
         });
 
@@ -276,6 +311,11 @@ const App = (() => {
             ).join('') + '</div>'
             : '<p style="color:var(--text-muted);font-size:0.8rem">特筆すべきプロパティはありません。</p>';
 
+        // デモプレビュー（常に表示される短いバージョン）
+        const demoPreviewHTML = item.demo
+            ? `<div class="card-demo-preview" title="クリックで詳細を展開">${item.demo}</div>`
+            : '';
+
         return `
         <div class="component-card" data-label="${esc(item.label)}"
              data-search="${esc(item.name)} ${esc(item.desc)} ${esc(item.label)} ${(item.tags || []).join(' ')}"
@@ -295,6 +335,7 @@ const App = (() => {
                 ${tagsHTML ? `<div class="card-tags">${tagsHTML}</div>` : ''}
                 ${browserHTML ? `<div class="card-browser">${browserHTML}</div>` : ''}
             </div>
+            ${demoPreviewHTML}
             <div class="card-detail">
                 <div class="card-demo">${item.demo || ''}</div>
                 <div class="card-toggle">
@@ -393,7 +434,6 @@ const App = (() => {
         sections.forEach(section => {
             const sectionCat = section.dataset.cat;
 
-            // カテゴリフィルタ: 該当しないセクションを隠す
             if (activeCategory !== 'all' && sectionCat !== activeCategory) {
                 section.classList.add('hidden');
                 section.style.display = 'none';
@@ -495,18 +535,24 @@ const App = (() => {
 
     // ===== デモ後処理 =====
     function runPostRenderSetup() {
-        const canvas = document.getElementById('demoCanvas');
-        if (canvas) {
-            const ctx = canvas.getContext('2d');
-            ctx.fillStyle = '#2563eb'; ctx.fillRect(10, 15, 60, 50);
-            ctx.fillStyle = '#7c3aed'; ctx.beginPath(); ctx.arc(130, 40, 30, 0, Math.PI * 2); ctx.fill();
-            ctx.fillStyle = '#16a34a'; ctx.beginPath(); ctx.moveTo(75, 15); ctx.lineTo(105, 60); ctx.lineTo(75, 60); ctx.closePath(); ctx.fill();
-        }
-        const evtBtn = document.getElementById('evtBtn');
-        if (evtBtn) {
-            let count = 0;
-            evtBtn.addEventListener('click', () => { count++; evtBtn.textContent = `クリックカウント: ${count}`; });
-        }
+        // canvas 等の後処理が必要な場合
+
+        $$('canvas[id^="demo-canvas"]').forEach(canvas => {
+            try {
+                const ctx = canvas.getContext('2d');
+                if (!ctx) return;
+                ctx.fillStyle = '#3b82f6';
+                ctx.fillRect(10, 10, 40, 60);
+                ctx.fillStyle = '#10b981';
+                ctx.fillRect(60, 25, 40, 45);
+                ctx.fillStyle = '#f59e0b';
+                ctx.fillRect(110, 15, 40, 55);
+                ctx.fillStyle = '#ef4444';
+                ctx.beginPath();
+                ctx.arc(170, 45, 20, 0, Math.PI * 2);
+                ctx.fill();
+            } catch (e) { }
+        });
     }
 
     // ===== ユーティリティ =====

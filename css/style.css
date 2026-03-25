@@ -1,6 +1,6 @@
 /* ==========================================================
-   Web UIコンポーネント辞典 — スタイルシート v2.0
-   全改善統合版
+   Web UIコンポーネント辞典 — スタイルシート v2.2
+   サイドバー開閉修正 + デモプレビュー表示版
    ========================================================== */
 
 /* ===== リセット & 基本 ===== */
@@ -201,7 +201,7 @@ body {
     background: var(--bg-secondary);
     border-right: 1px solid var(--border);
     overflow-y: auto;
-    z-index: 1050;
+    z-index: 1150;
     transition: transform 0.3s ease;
     padding-bottom: 40px;
 }
@@ -269,8 +269,15 @@ body {
     display: none;
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.4);
-    z-index: 1040;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1140;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.sidebar-overlay.open {
+    display: block;
+    opacity: 1;
 }
 
 .sidebar-toggle {
@@ -278,21 +285,28 @@ body {
     position: fixed;
     bottom: 80px;
     left: 16px;
-    width: 48px;
-    height: 48px;
+    width: 52px;
+    height: 52px;
     border-radius: 50%;
     background: var(--primary);
     color: white;
     border: none;
-    font-size: 1.3rem;
+    font-size: 1.4rem;
     cursor: pointer;
     box-shadow: var(--shadow-lg);
-    z-index: 1001;
+    z-index: 1200;
     transition: var(--transition);
+    -webkit-tap-highlight-color: transparent;
+    align-items: center;
+    justify-content: center;
 }
 
 .sidebar-toggle:hover {
     transform: scale(1.1);
+}
+
+.sidebar-toggle:active {
+    transform: scale(0.95);
 }
 
 /* ===== ラベルフィルタ & 統計 ===== */
@@ -527,14 +541,23 @@ body {
 }
 
 .card-expand-icon {
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     color: var(--text-muted);
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, background 0.2s, color 0.2s;
     flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    background: var(--bg-primary);
 }
 
 .component-card.open .card-expand-icon {
     transform: rotate(90deg);
+    background: var(--primary-light);
+    color: var(--primary);
 }
 
 .card-header-right {
@@ -650,6 +673,45 @@ body {
     color: #6ee7b7;
 }
 
+/* --- デモプレビュー（常に表示・カード閉じた状態） --- */
+.card-demo-preview {
+    background: var(--bg-demo);
+    border-top: 1px solid var(--border);
+    padding: 12px 16px;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    max-height: 120px;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    transition: max-height 0.3s ease;
+}
+
+.card-demo-preview::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 30px;
+    background: linear-gradient(transparent, var(--bg-demo));
+    pointer-events: none;
+    opacity: 1;
+    transition: opacity 0.3s;
+}
+
+.component-card.open .card-demo-preview {
+    display: none;
+}
+
+.card-demo-preview * {
+    max-width: 100%;
+}
+
 /* --- 詳細部分（折りたたみ） --- */
 .card-detail {
     max-height: 0;
@@ -658,10 +720,10 @@ body {
 }
 
 .component-card.open .card-detail {
-    max-height: 2000px;
+    max-height: 3000px;
 }
 
-/* ===== デモエリア ===== */
+/* ===== デモエリア（詳細内のフルデモ） ===== */
 .card-demo {
     background: var(--bg-demo);
     border-top: 1px solid var(--border);
@@ -826,6 +888,10 @@ body {
 @media (max-width: 1024px) {
     .sidebar {
         transform: translateX(-100%);
+        top: 0;
+        height: 100vh;
+        z-index: 1150;
+        box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
     }
 
     .sidebar.open {
@@ -833,11 +899,27 @@ body {
     }
 
     .sidebar-close {
-        display: block;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: var(--bg-primary);
+        border: 1px solid var(--border);
+        font-size: 1rem;
+        cursor: pointer;
+        color: var(--text-secondary);
+        transition: var(--transition);
+    }
+
+    .sidebar-close:hover {
+        background: var(--primary-light);
+        color: var(--primary);
     }
 
     .sidebar-toggle {
-        display: block;
+        display: flex;
     }
 
     .sidebar-overlay.open {
@@ -893,6 +975,10 @@ body {
     .filter-stats-bar {
         flex-direction: column;
         align-items: flex-start;
+    }
+
+    .card-demo-preview {
+        max-height: 90px;
     }
 }
 
