@@ -50,35 +50,35 @@
     },
     {
       "file": "13-css-typography.json",
-      "enabled": false
+      "enabled": true
     },
     {
       "file": "14-css-boxmodel.json",
-      "enabled": false
+      "enabled": true
     },
     {
       "file": "15-css-color-bg.json",
-      "enabled": false
+      "enabled": true
     },
     {
       "file": "16-css-selector.json",
-      "enabled": false
+      "enabled": true
     },
     {
       "file": "17-ui-pattern.json",
-      "enabled": false
+      "enabled": true
     },
     {
       "file": "18-modern-css.json",
-      "enabled": false
+      "enabled": true
     },
     {
       "file": "19-js-async.json",
-      "enabled": false
+      "enabled": true
     },
     {
       "file": "20-js-storage.json",
-      "enabled": false
+      "enabled": true
     },
     {
       "file": "21-js-device.json",

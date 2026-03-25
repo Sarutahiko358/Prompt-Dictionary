@@ -12,35 +12,46 @@
 
 <body>
 
+    <!-- ===== グローバルナビ（3辞典切り替え） ===== -->
+    <nav class="global-nav" id="globalNav">
+        <a href="index.html" class="global-nav-tab active">
+            <span>🌐</span> Web UI辞典
+        </a>
+        <a href="prompt-dict.html" class="global-nav-tab">
+            <span>🤖</span> Coding Prompt
+        </a>
+        <a href="design-dict.html" class="global-nav-tab">
+            <span>🎨</span> Design Prompt
+        </a>
+        <button class="theme-toggle" id="themeToggle" title="テーマ切り替え">☀️</button>
+    </nav>
+
     <!-- ===== ヘッダー ===== -->
     <header class="app-header">
-        <h1>Web UI コンポーネント辞典</h1>
-        <p>HTML / CSS / JavaScript — 完全リファレンス</p>
-
-        <!-- ★ここを追加：姉妹辞典へのリンク -->
-        <nav class="sister-nav">
-            <span class="sister-nav-label">姉妹辞典</span>
-
-            <a href="prompt-dict.html" class="sister-link">
-                <span class="sister-icon">🤖</span>
-                AI Coding Prompt辞典
-            </a>
-            <a href="design-dict.html" class="sister-link">
-                <span class="sister-icon">🎨</span>
-                AI Design Prompt辞典
-            </a>
-        </nav>
-
+        <div class="header-text">
+            <h1>Web UI コンポーネント辞典</h1>
+            <p>HTML / CSS / JavaScript — 完全リファレンス</p>
+        </div>
         <div class="search-bar">
-            <input type="text" id="searchInput" placeholder="検索... (Ctrl+K)">
+            <input type="text" id="searchInput" placeholder="🔍 検索... (Ctrl+K)">
         </div>
     </header>
 
-    <!-- ===== カテゴリタブ ===== -->
-    <div class="category-tabs" id="categoryTabs"></div>
+    <!-- ===== サイドバー（カテゴリ目次） ===== -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <span>📑 カテゴリ</span>
+            <button class="sidebar-close" id="sidebarClose">✕</button>
+        </div>
+        <nav class="sidebar-nav" id="sidebarNav"></nav>
+    </aside>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- ===== サイドバー開閉ボタン（モバイル用） ===== -->
+    <button class="sidebar-toggle" id="sidebarToggle" title="カテゴリ一覧">☰</button>
 
     <!-- ===== ラベルフィルタ & 統計バー ===== -->
-    <div class="filter-stats-bar">
+    <div class="filter-stats-bar" id="filterStatsBar">
         <div class="label-filter" id="labelFilter"></div>
         <div class="stats-bar" id="statsBar"></div>
     </div>
@@ -61,7 +72,7 @@
     <div class="main-content" id="mainContent"></div>
 
     <!-- ===== スクロールトップ ===== -->
-    <button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+    <button class="scroll-top" id="scrollTop" title="トップに戻る">↑</button>
 
     <!-- ===== スクリプト読み込み ===== -->
     <script src="js/data-loader.js"></script>

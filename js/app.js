@@ -28,6 +28,8 @@ const App = (() => {
         setupSearch();
         setupScrollTop();
         setupKeyboardShortcuts();
+        setupSidebar();
+        setupThemeToggle();
         showLoading(false);
         runPostRenderSetup();
     }
@@ -38,27 +40,113 @@ const App = (() => {
         if (el) el.style.display = show ? 'flex' : 'none';
     }
 
-    // ===== カテゴリタブ構築 =====
+    // ===== カテゴリメニュー構築 =====
     function buildCategoryTabs() {
-        const container = $('#categoryTabs');
-        let html = `<div class="cat-tab active" data-cat="all">すべて</div>`;
+        // HTML構造変更対応: id="sidebarNav" を優先
+        const container = $('#sidebarNav') || $('#categoryTabs');
+        if (!container) return;
+        
+        let html = `<a href="#" class="cat-tab active" data-cat="all"><span>🌟</span> 全体表示</a>`;
         DATA.forEach(c => {
-            html += `<div class="cat-tab" data-cat="${esc(c.cat)}">${c.catIcon} ${esc(c.cat)}</div>`;
+            const count = c.items ? c.items.length : 0;
+            html += `<a href="#" class="cat-tab" data-cat="${esc(c.cat)}"><span>${c.catIcon}</span> ${esc(c.cat)} <span class="cat-count">${count}</span></a>`;
         });
         container.innerHTML = html;
         container.addEventListener('click', (e) => {
             const tab = e.target.closest('.cat-tab');
             if (!tab) return;
+            e.preventDefault();
+            
             container.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
             tab.classList.add('active');
             activeCategory = tab.dataset.cat;
             filterCards();
+            
             // カテゴリ先頭にスクロール
             if (activeCategory !== 'all') {
                 const section = $(`[data-cat="${CSS.escape(activeCategory)}"]`);
-                if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                if (section) {
+                    const y = section.getBoundingClientRect().top + window.scrollY - 180;
+                    window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+                }
+            } else {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+            
+            // モバイル時はサイドバーを閉じる
+            if (window.innerWidth <= 768) {
+                const sidebar = $('#sidebar');
+                const overlay = $('#sidebarOverlay');
+                if (sidebar) sidebar.style.transform = 'translateX(-100%)';
+                if (overlay) overlay.style.display = 'none';
             }
         });
+    }
+
+    // ===== テーマ切り替え =====
+    function setupThemeToggle() {
+        const btn = $('#themeToggle');
+        if (!btn) return;
+        
+        const savedTheme = localStorage.getItem('ui-dict-theme');
+        if (savedTheme === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            btn.textContent = '🌙';
+        }
+        
+        btn.addEventListener('click', () => {
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            if (isDark) {
+                document.documentElement.removeAttribute('data-theme');
+                localStorage.setItem('ui-dict-theme', 'light');
+                btn.textContent = '☀️';
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                localStorage.setItem('ui-dict-theme', 'dark');
+                btn.textContent = '🌙';
+            }
+        });
+    }
+
+    // ===== サイドバー設定 =====
+    function setupSidebar() {
+        const toggleBtn = $('#sidebarToggle');
+        const closeBtn = $('#sidebarClose');
+        const sidebar = $('#sidebar');
+        const overlay = $('#sidebarOverlay');
+
+        if (!sidebar || !toggleBtn) return;
+
+        function openSidebar() {
+            sidebar.style.transform = 'translateX(0)';
+            if (overlay) overlay.style.display = 'block';
+        }
+
+        function closeSidebar() {
+            if (window.innerWidth <= 768) {
+                sidebar.style.transform = 'translateX(-100%)';
+                if (overlay) overlay.style.display = 'none';
+            }
+        }
+
+        toggleBtn.addEventListener('click', openSidebar);
+        if (closeBtn) closeBtn.addEventListener('click', closeSidebar);
+        if (overlay) overlay.addEventListener('click', closeSidebar);
+        
+        // リサイズ時のリセット
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                sidebar.style.transform = '';
+                if (overlay) overlay.style.display = 'none';
+            } else {
+                sidebar.style.transform = 'translateX(-100%)';
+            }
+        });
+        
+        // 初期状態の適用
+        if (window.innerWidth <= 768) {
+            sidebar.style.transform = 'translateX(-100%)';
+        }
     }
 
     // ===== ラベルフィルタ (HTML/CSS/JS) =====
