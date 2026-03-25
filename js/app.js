@@ -132,13 +132,12 @@ const App = (() => {
         if (toggle) {
             toggle.addEventListener('click', (e) => {
                 e.stopPropagation();
-                openSidebar();
+                toggleSidebar();          // ← ここを変更
             });
-            // タッチイベントも追加（モバイル対応）
             toggle.addEventListener('touchend', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                openSidebar();
+                toggleSidebar();          // ← ここを変更
             });
         }
 
@@ -157,7 +156,6 @@ const App = (() => {
             });
         }
 
-        // ウィンドウリサイズ時のリセット
         window.addEventListener('resize', () => {
             if (window.innerWidth > 1024) {
                 if (sidebar) sidebar.classList.remove('open');
@@ -181,6 +179,15 @@ const App = (() => {
         if (sidebar) sidebar.classList.remove('open');
         if (overlay) overlay.classList.remove('open');
         document.body.style.overflow = '';
+    }
+
+    function toggleSidebar() {
+        const sidebar = $('#sidebar');
+        if (sidebar && sidebar.classList.contains('open')) {
+            closeSidebar();
+        } else {
+            openSidebar();
+        }
     }
 
     // ===== スクロールスパイ =====
