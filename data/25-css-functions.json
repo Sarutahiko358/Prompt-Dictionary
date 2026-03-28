@@ -1,0 +1,170 @@
+{
+    "cat": "CSS関数・計算",
+    "catIcon": "🧮",
+    "catDesc": "CSSで使用できる関数群。数学関数、色関数、画像関数、カウンター関数など、値を動的に計算・生成する機能。",
+    "items": [
+        {
+            "name": "calc()",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "CSS値を計算する関数。異なる単位の混合計算（% + px等）が可能で、レイアウト計算に不可欠。四則演算（+ - * /）に対応。",
+            "demo": "<div style=\"width:calc(100% - 40px);background:#dbeafe;padding:8px;border-radius:4px;font-size:0.8rem\">width: calc(100% - 40px)</div>",
+            "code": ".sidebar {\n  width: calc(100% - 300px);\n}\n.centered {\n  margin-left: calc(50% - 200px);\n}\n.spacing {\n  padding: calc(1rem + 2vw);\n}\n/* ネスト可能 */\n.complex {\n  width: calc(100% - calc(2 * var(--gap)));\n}",
+            "props": [
+                { "name": "+ / -", "desc": "加算・減算（前後にスペース必須）" },
+                { "name": "* / /", "desc": "乗算・除算" },
+                { "name": "異なる単位の混合", "desc": "% + px, rem + vw 等が可能" },
+                { "name": "var()との組合せ", "desc": "CSS変数を計算に使用可能" }
+            ],
+            "tags": ["CSS関数", "計算", "基本"],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/calc"
+        },
+        {
+            "name": "min() / max() / clamp()",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "値の範囲を制約するCSS数学関数。min()は小さい方、max()は大きい方を選択。clamp(最小, 推奨, 最大)で範囲を一括指定。メディアクエリなしのフルードデザインに最適。",
+            "demo": "<div style=\"width:min(300px,100%);background:#dcfce7;padding:8px;border-radius:4px;font-size:0.8rem;margin-bottom:4px\">width: min(300px, 100%)</div><p style=\"font-size:clamp(0.8rem,2vw,1.3rem);font-weight:700;margin:0\">clamp() でフルードタイポグラフィ</p>",
+            "code": "/* コンテナ幅の制限 */\n.container {\n  width: min(1200px, 100% - 2rem);\n  margin-inline: auto;\n}\n\n/* フルードタイポグラフィ */\nh1 { font-size: clamp(1.5rem, 4vw + 1rem, 3.5rem); }\np  { font-size: clamp(0.875rem, 1.5vw, 1.125rem); }\n\n/* フルードスペーシング */\n.section { padding: clamp(1rem, 5vw, 4rem); }\n\n/* 最小サイズの保証 */\n.sidebar { width: max(250px, 25%); }",
+            "props": [
+                { "name": "min(a, b, ...)", "desc": "最小値を選択" },
+                { "name": "max(a, b, ...)", "desc": "最大値を選択" },
+                { "name": "clamp(min, val, max)", "desc": "値をmin〜maxに制約" }
+            ],
+            "tags": ["CSS関数", "レスポンシブ", "フルード"],
+            "browser": "Chrome 79+, Edge 79+, Firefox 75+, Safari 13.1+",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/clamp"
+        },
+        {
+            "name": "env()",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "ユーザーエージェント定義の環境変数を参照する関数。iPhoneのノッチ領域を避けるsafe-area-inset-*が最も一般的な用途。PWAのフルスクリーン表示に必須。",
+            "demo": "<div style=\"font-size:0.85rem;padding:12px;background:#fefce8;border:2px solid #eab308;border-radius:8px\"><code>padding-bottom: env(safe-area-inset-bottom);</code><br><span style=\"color:#854d0e\">iPhoneのホームインジケーター領域を避ける。PWAで必須。</span></div>",
+            "code": "/* iPhoneのセーフエリア対応 */\nbody {\n  padding-top: env(safe-area-inset-top);\n  padding-bottom: env(safe-area-inset-bottom);\n  padding-left: env(safe-area-inset-left);\n  padding-right: env(safe-area-inset-right);\n}\n\n/* フォールバック付き */\n.bottom-bar {\n  padding-bottom: max(16px, env(safe-area-inset-bottom));\n}\n\n/* viewport-fit=cover が前提 */\n<meta name=\"viewport\"\n      content=\"width=device-width, initial-scale=1, viewport-fit=cover\">",
+            "props": [
+                { "name": "safe-area-inset-top", "desc": "上部セーフエリア（ノッチ等）" },
+                { "name": "safe-area-inset-bottom", "desc": "下部セーフエリア（ホームバー等）" },
+                { "name": "safe-area-inset-left", "desc": "左側セーフエリア" },
+                { "name": "safe-area-inset-right", "desc": "右側セーフエリア" }
+            ],
+            "tags": ["CSS関数", "モバイル", "PWA"],
+            "browser": "Chrome 69+, Edge 79+, Firefox 65+, Safari 11.1+",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/env"
+        },
+        {
+            "name": "round() / mod() / rem()",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "CSS数学関数の拡張。round()は値を指定の刻みで丸め、mod()は剰余、rem()はJSのremainder演算に相当する。グリッドスナップやリズミカルなデザインに使用。",
+            "demo": "<div style=\"font-size:0.85rem;padding:12px;background:#f1f5f9;border-radius:8px\"><code>width: round(nearest, 100%, 50px);</code> → 幅を50px刻みに丸める<br><code>mod(7, 3)</code> → 1<br><code>rem(7, 3)</code> → 1</div>",
+            "code": "/* 50px刻みにスナップ */\n.grid-snap {\n  width: round(nearest, 100%, 50px);\n}\n\n/* 上方向に丸め */\n.round-up {\n  height: round(up, 100vh, 8px);\n}\n\n/* 下方向に丸め */\n.round-down {\n  font-size: round(down, 2.5rem, 0.25rem);\n}\n\n/* 剰余 */\n.pattern {\n  /* mod()とrem()は負数での挙動が異なる */\n  margin: mod(100px, 30px); /* = 10px */\n}",
+            "props": [
+                { "name": "round(strategy, value, interval)", "desc": "値をinterval刻みで丸める" },
+                { "name": "nearest / up / down / to-zero", "desc": "丸め方向の戦略" },
+                { "name": "mod(a, b)", "desc": "剰余（bの符号に従う）" },
+                { "name": "rem(a, b)", "desc": "余り（aの符号に従う）" }
+            ],
+            "tags": ["CSS関数", "数学", "モダン"],
+            "browser": "Chrome 125+, Firefox 118+, Safari 15.4+",
+            "mdn": "https://developer.mozilla.org/en-US/docs/Web/CSS/round"
+        },
+        {
+            "name": "abs() / sign()",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "CSS数学関数。abs()は絶対値、sign()は符号（-1, 0, 1）を返す。calc()と組み合わせて条件分岐的なスタイリングが可能になる。",
+            "demo": "<div style=\"font-size:0.85rem;padding:12px;background:#f1f5f9;border-radius:8px\"><code>margin: abs(var(--offset));</code> → 負値でも正のマージン<br><code>transform: scaleX(sign(var(--dir)));</code> → 方向に応じて反転</div>",
+            "code": "/* 絶対値 */\n.box {\n  --offset: -20px;\n  margin-left: abs(var(--offset)); /* = 20px */\n}\n\n/* 符号（-1, 0, 1） */\n.arrow {\n  --direction: -1; /* 左向き */\n  transform: scaleX(sign(var(--direction)));\n}\n\n/* 距離の計算 */\n.distance {\n  width: calc(abs(var(--end) - var(--start)) * 1px);\n}",
+            "props": [
+                { "name": "abs(value)", "desc": "絶対値を返す" },
+                { "name": "sign(value)", "desc": "符号を返す（-1, 0, 1）" }
+            ],
+            "tags": ["CSS関数", "数学", "モダン"],
+            "browser": "Chrome 125+, Firefox 118+, Safari 15.4+",
+            "mdn": "https://developer.mozilla.org/en-US/docs/Web/CSS/abs"
+        },
+        {
+            "name": "color-mix()",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "2色を指定した割合で混合する関数。ホバー時の明暗調整やテーマカラーのバリエーション生成に活用。oklchやsrgb等の色空間を指定できる。",
+            "demo": "<div style=\"display:flex;gap:4px\"><div style=\"width:40px;height:40px;background:#3b82f6;border-radius:4px\"></div><div style=\"width:40px;height:40px;background:color-mix(in srgb,#3b82f6 75%,white);border-radius:4px\"></div><div style=\"width:40px;height:40px;background:color-mix(in srgb,#3b82f6 50%,white);border-radius:4px\"></div><div style=\"width:40px;height:40px;background:color-mix(in srgb,#3b82f6 75%,black);border-radius:4px\"></div><div style=\"width:40px;height:40px;background:color-mix(in srgb,#3b82f6 50%,black);border-radius:4px\"></div></div>",
+            "code": ":root {\n  --primary: #3b82f6;\n}\n\n.btn:hover {\n  background: color-mix(in oklch, var(--primary) 80%, black);\n}\n\n/* ライトバリエーション */\n.bg-light {\n  background: color-mix(in oklch, var(--primary) 20%, white);\n}\n\n/* 2色の中間色 */\n.blend {\n  color: color-mix(in srgb, #3b82f6 50%, #ec4899);\n}",
+            "props": [
+                { "name": "in <colorspace>", "desc": "色空間（srgb, oklch, hsl等）" },
+                { "name": "color1 %", "desc": "1つ目の色と割合" },
+                { "name": "color2 %", "desc": "2つ目の色と割合" }
+            ],
+            "tags": ["CSS関数", "カラー", "モダン"],
+            "browser": "Chrome 111+, Firefox 113+, Safari 16.2+",
+            "mdn": "https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/color-mix"
+        },
+        {
+            "name": "light-dark()",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "ライト/ダークモードの値を1行で指定する関数。color-scheme宣言と組み合わせて使用し、メディアクエリなしでテーマ切替が可能。",
+            "demo": "<div style=\"font-size:0.85rem;padding:12px;background:#f1f5f9;border-radius:8px\"><code>color: light-dark(#1e293b, #e2e8f0);</code><br><span style=\"color:#6b7280\">ライトモードでは暗色、ダークモードでは明色を使用</span></div>",
+            "code": ":root {\n  color-scheme: light dark;\n}\n\nbody {\n  background: light-dark(#ffffff, #0f172a);\n  color: light-dark(#1e293b, #e2e8f0);\n}\n\n.card {\n  border: 1px solid light-dark(#e2e8f0, #334155);\n  box-shadow: 0 2px 8px light-dark(\n    rgba(0,0,0,0.1),\n    rgba(0,0,0,0.5)\n  );\n}",
+            "props": [
+                { "name": "light-dark(light, dark)", "desc": "ライト値とダーク値を指定" },
+                { "name": "color-scheme", "desc": "light dark を宣言（前提条件）" }
+            ],
+            "tags": ["CSS関数", "ダークモード", "テーマ"],
+            "browser": "Chrome 123+, Firefox 120+, Safari 17.5+",
+            "mdn": "https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/light-dark"
+        },
+        {
+            "name": "image-set()",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "解像度に応じた最適な背景画像を選択する関数。srcsetのCSS版で、1x/2xの画像切替やフォーマット切替が可能。",
+            "demo": "<div style=\"font-size:0.85rem;padding:12px;background:#f1f5f9;border-radius:8px\"><code>background-image: image-set(</code><br><code>&nbsp;&nbsp;\"photo.avif\" type(\"image/avif\"),</code><br><code>&nbsp;&nbsp;\"photo.webp\" type(\"image/webp\"),</code><br><code>&nbsp;&nbsp;\"photo.jpg\" type(\"image/jpeg\")</code><br><code>);</code></div>",
+            "code": "/* 解像度に応じた画像切替 */\n.hero {\n  background-image: image-set(\n    \"hero-1x.jpg\" 1x,\n    \"hero-2x.jpg\" 2x\n  );\n}\n\n/* フォーマット切替 */\n.card {\n  background-image: image-set(\n    \"bg.avif\" type(\"image/avif\"),\n    \"bg.webp\" type(\"image/webp\"),\n    \"bg.jpg\" type(\"image/jpeg\")\n  );\n}",
+            "props": [
+                { "name": "url resolution", "desc": "1x, 2x で解像度ごとの画像を指定" },
+                { "name": "type()", "desc": "画像フォーマットのMIMEタイプ" }
+            ],
+            "tags": ["CSS関数", "画像", "レスポンシブ"],
+            "browser": "Chrome 113+, Firefox 89+, Safari 17+",
+            "mdn": "https://developer.mozilla.org/en-US/docs/Web/CSS/image/image-set"
+        },
+        {
+            "name": "counter() / counters()",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "CSSカウンターの現在値を文字列として出力する関数。counter-reset/counter-incrementと組み合わせて自動番号付けやカスタムリストマーカーを実現する。",
+            "demo": "<div style=\"font-size:0.85rem\"><style>.cnt-demo{counter-reset:sec}.cnt-demo h4{counter-increment:sec}.cnt-demo h4::before{content:counter(sec) '. ';color:#3b82f6;font-weight:700}</style><div class=\"cnt-demo\"><h4 style=\"margin:2px 0;font-size:0.85rem\">セクション</h4><h4 style=\"margin:2px 0;font-size:0.85rem\">セクション</h4><h4 style=\"margin:2px 0;font-size:0.85rem\">セクション</h4></div></div>",
+            "code": "/* 自動番号付け */\n.article {\n  counter-reset: section;\n}\n.article h2 {\n  counter-increment: section;\n}\n.article h2::before {\n  content: counter(section) '. ';\n  color: #3b82f6;\n}\n\n/* ネストされたカウンター */\nol {\n  counter-reset: item;\n  list-style: none;\n}\nli::before {\n  counter-increment: item;\n  content: counters(item, '.') ' ';\n  font-weight: bold;\n}\n/* 出力: 1, 1.1, 1.2, 2, 2.1... */",
+            "props": [
+                { "name": "counter-reset", "desc": "カウンターを初期化（0にリセット）" },
+                { "name": "counter-increment", "desc": "カウンターを加算" },
+                { "name": "counter(name)", "desc": "カウンターの値を出力" },
+                { "name": "counters(name, sep)", "desc": "ネストカウンターをセパレータ付きで出力" },
+                { "name": "counter(name, style)", "desc": "数字スタイル（decimal, upper-alpha等）" }
+            ],
+            "tags": ["CSS関数", "カウンター", "リスト"],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/counter"
+        },
+        {
+            "name": "fit-content() / minmax()",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "CSS Gridで使用するサイズ関数。fit-content()はコンテンツに合わせつつ最大幅を制限。minmax()はトラックの最小/最大サイズを定義。レスポンシブグリッドの基盤。",
+            "demo": "<div style=\"display:grid;grid-template-columns:fit-content(120px) minmax(100px,1fr);gap:6px;font-size:0.8rem\"><div style=\"background:#dbeafe;padding:6px;border-radius:4px\">fit-content(120px)</div><div style=\"background:#dcfce7;padding:6px;border-radius:4px\">minmax(100px, 1fr)</div></div>",
+            "code": "/* fit-content: コンテンツに合わせて最大値を制限 */\n.grid {\n  grid-template-columns: fit-content(200px) 1fr;\n}\n\n/* minmax: 最小〜最大の範囲 */\n.card-grid {\n  grid-template-columns: repeat(\n    auto-fill, minmax(250px, 1fr)\n  );\n}\n\n/* 組み合わせ */\n.layout {\n  grid-template-columns:\n    minmax(200px, 300px)  /* サイドバー */\n    minmax(0, 1fr);       /* メイン */\n}",
+            "props": [
+                { "name": "fit-content(max)", "desc": "コンテンツ幅（最大maxまで）" },
+                { "name": "minmax(min, max)", "desc": "トラックの最小〜最大サイズ" },
+                { "name": "auto-fill", "desc": "カラムを自動で埋める" },
+                { "name": "auto-fit", "desc": "空カラムを折りたたむ" }
+            ],
+            "tags": ["CSS関数", "Grid", "レイアウト"],
+            "browser": "全モダンブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/fit-content"
+        }
+    ]
+}

@@ -1,0 +1,164 @@
+{
+    "cat": "Web Components",
+    "catIcon": "🧱",
+    "catDesc": "ブラウザネイティブのコンポーネント技術。Custom Elements、Shadow DOM、HTML Templates、Slotsなど、フレームワーク不要の再利用可能なUI部品。",
+    "items": [
+        {
+            "name": "Custom Elements (customElements.define)",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "独自のHTMLタグ（カスタム要素）を定義するAPI。HTMLElementを継承したクラスを作成し、customElements.define()で登録する。名前にはハイフンが必須。",
+            "demo": "<div style=\"font-size:0.85rem;padding:12px;background:#f5f3ff;border:2px solid #8b5cf6;border-radius:8px\"><code>&lt;my-card title=\"Hello\"&gt;&lt;/my-card&gt;</code><br><span style=\"color:#6d28d9\">独自のHTMLタグを定義。ライフサイクルコールバックで初期化・更新・破棄を制御。</span></div>",
+            "code": "class MyCard extends HTMLElement {\n  // 監視する属性\n  static observedAttributes = ['title', 'theme'];\n\n  constructor() {\n    super();\n    this.attachShadow({ mode: 'open' });\n  }\n\n  // DOMに追加された時\n  connectedCallback() {\n    this.render();\n  }\n\n  // 属性が変更された時\n  attributeChangedCallback(name, oldVal, newVal) {\n    if (oldVal !== newVal) this.render();\n  }\n\n  // DOMから削除された時\n  disconnectedCallback() {\n    // クリーンアップ\n  }\n\n  render() {\n    this.shadowRoot.innerHTML = `\n      <style>\n        :host { display: block; border: 1px solid #e5e7eb; border-radius: 8px; padding: 1rem; }\n        h2 { margin: 0 0 0.5rem; }\n      </style>\n      <h2>${this.getAttribute('title') || 'カード'}</h2>\n      <slot></slot>\n    `;\n  }\n}\n\ncustomElements.define('my-card', MyCard);",
+            "props": [
+                { "name": "customElements.define(name, class)", "desc": "カスタム要素を登録（名前にハイフン必須）" },
+                { "name": "connectedCallback()", "desc": "DOMに追加された時のコールバック" },
+                { "name": "disconnectedCallback()", "desc": "DOMから削除された時" },
+                { "name": "attributeChangedCallback()", "desc": "監視属性が変更された時" },
+                { "name": "adoptedCallback()", "desc": "別のドキュメントに移動した時" },
+                { "name": "static observedAttributes", "desc": "監視する属性名の配列" }
+            ],
+            "tags": ["Web Components", "Custom Elements", "コンポーネント"],
+            "browser": "全モダンブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/Web_components/Using_custom_elements"
+        },
+        {
+            "name": "Shadow DOM",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "要素内部にカプセル化されたDOMツリーを作成する。外部のCSSやJSの影響を受けず、スタイルの衝突を防ぐ。Web Componentsのスタイルカプセル化の基盤。",
+            "demo": "<div style=\"font-size:0.85rem;padding:12px;background:#eff6ff;border:2px solid #3b82f6;border-radius:8px\"><strong>Shadow DOM</strong><br>外部CSSが内部に漏れない。内部CSSも外部に影響しない。<br><code>this.attachShadow({ mode: 'open' })</code></div>",
+            "code": "class MyWidget extends HTMLElement {\n  constructor() {\n    super();\n    // Shadow DOMを作成\n    const shadow = this.attachShadow({ mode: 'open' });\n\n    // Shadow DOM内のスタイル（外部に漏れない）\n    shadow.innerHTML = `\n      <style>\n        :host {\n          display: block;\n          font-family: system-ui;\n        }\n        :host([theme=\"dark\"]) {\n          background: #1e293b;\n          color: #e2e8f0;\n        }\n        .title {\n          font-size: 1.2rem;\n          font-weight: 700;\n        }\n        /* 外部のCSSはここに影響しない */\n      </style>\n      <div class=\"title\">\n        <slot name=\"title\">デフォルトタイトル</slot>\n      </div>\n      <slot></slot>\n    `;\n  }\n}\ncustomElements.define('my-widget', MyWidget);",
+            "props": [
+                { "name": "attachShadow({ mode })", "desc": "Shadow DOMを作成（open/closed）" },
+                { "name": "mode: 'open'", "desc": "element.shadowRootでアクセス可能" },
+                { "name": "mode: 'closed'", "desc": "外部からアクセス不可" },
+                { "name": ":host", "desc": "Shadow DOMのホスト要素自身を選択" },
+                { "name": ":host(selector)", "desc": "条件付きホストスタイル" }
+            ],
+            "tags": ["Web Components", "Shadow DOM", "カプセル化"],
+            "browser": "全モダンブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/Web_components/Using_shadow_DOM"
+        },
+        {
+            "name": "&lt;template&gt; / &lt;slot&gt;",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "template要素はレンダリングされないHTMLテンプレートを定義する。slot要素はShadow DOM内でライトDOM（外部コンテンツ）の挿入先を定義する。名前付きslotで複数箇所に挿入可能。",
+            "demo": "<div style=\"font-size:0.85rem;padding:12px;background:#f0fdf4;border:2px solid #22c55e;border-radius:8px\"><code>&lt;template id=\"card-tpl\"&gt;</code><br><code>&nbsp;&nbsp;&lt;slot name=\"title\"&gt;デフォルト&lt;/slot&gt;</code><br><code>&nbsp;&nbsp;&lt;slot&gt;本文の挿入先&lt;/slot&gt;</code><br><code>&lt;/template&gt;</code></div>",
+            "code": "<!-- テンプレート定義 -->\n<template id=\"card-template\">\n  <style>\n    .card { border: 1px solid #e5e7eb; border-radius: 8px; padding: 1rem; }\n    .card-title { font-weight: 700; margin-bottom: 0.5rem; }\n  </style>\n  <div class=\"card\">\n    <div class=\"card-title\">\n      <slot name=\"title\">デフォルトタイトル</slot>\n    </div>\n    <slot>デフォルトコンテンツ</slot>\n  </div>\n</template>\n\n<!-- 使用 -->\n<my-card>\n  <span slot=\"title\">カスタムタイトル</span>\n  <p>カードの本文コンテンツ</p>\n</my-card>\n\n<script>\nclass MyCard extends HTMLElement {\n  constructor() {\n    super();\n    const shadow = this.attachShadow({ mode: 'open' });\n    const tpl = document.getElementById('card-template');\n    shadow.appendChild(tpl.content.cloneNode(true));\n  }\n}\ncustomElements.define('my-card', MyCard);\n</script>",
+            "props": [
+                { "name": "<template>", "desc": "描画されないHTMLテンプレート" },
+                { "name": "template.content", "desc": "DocumentFragmentとしてアクセス" },
+                { "name": "cloneNode(true)", "desc": "テンプレートを複製して使用" },
+                { "name": "<slot>", "desc": "デフォルトスロット（名前なし）" },
+                { "name": "<slot name=\"xxx\">", "desc": "名前付きスロット" },
+                { "name": "slot=\"xxx\" (属性)", "desc": "ライトDOM側で挿入先を指定" }
+            ],
+            "tags": ["Web Components", "テンプレート", "スロット"],
+            "browser": "全モダンブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/template"
+        },
+        {
+            "name": "::part() 疑似要素",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "Shadow DOM内の要素をpart属性で公開し、外部CSSからスタイリング可能にする。コンポーネント作者がカスタマイズポイントを明示的に提供する仕組み。",
+            "demo": "<div style=\"font-size:0.85rem;padding:12px;background:#f1f5f9;border-radius:8px\"><code>/* Shadow DOM内 */</code><br><code>&lt;button part=\"btn\"&gt;Click&lt;/button&gt;</code><br><br><code>/* 外部CSS */</code><br><code>my-component::part(btn) { background: #3b82f6; }</code></div>",
+            "code": "<!-- コンポーネント内部（Shadow DOM） -->\n<button part=\"button\">クリック</button>\n<span part=\"label\">ラベル</span>\n\n<!-- 外部CSSからスタイリング -->\n<style>\n  my-button::part(button) {\n    background: #3b82f6;\n    color: white;\n    border: none;\n    border-radius: 8px;\n    padding: 0.5rem 1rem;\n  }\n  my-button::part(button):hover {\n    background: #2563eb;\n  }\n  my-button::part(label) {\n    font-size: 0.8rem;\n    color: #64748b;\n  }\n</style>",
+            "props": [
+                { "name": "part=\"name\"", "desc": "Shadow DOM内の要素を外部に公開" },
+                { "name": "::part(name)", "desc": "外部CSSからpart付き要素を選択" },
+                { "name": "exportparts", "desc": "ネストされたpartを外部に再公開" }
+            ],
+            "tags": ["Web Components", "スタイリング", "カプセル化"],
+            "browser": "Chrome 73+, Edge 79+, Firefox 72+, Safari 13.1+",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/::part"
+        },
+        {
+            "name": ":host / :host-context()",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "Shadow DOM内からホスト要素自身やホストの祖先を選択する疑似クラス。:hostでコンポーネントの外枠をスタイリングし、:host-contextで親要素の状態に応じたスタイルを適用する。",
+            "demo": "<div style=\"font-size:0.85rem;padding:12px;background:#f5f3ff;border-radius:8px\"><code>:host { display: block; border: 1px solid #ccc; }</code><br><code>:host(.active) { border-color: blue; }</code><br><code>:host-context(.dark-theme) { background: #1e293b; }</code></div>",
+            "code": "/* Shadow DOM内のスタイル */\n\n/* ホスト要素自体 */\n:host {\n  display: block;\n  border: 1px solid #e5e7eb;\n  border-radius: 8px;\n  padding: 1rem;\n}\n\n/* ホストが特定のクラスを持つ場合 */\n:host(.highlighted) {\n  border-color: #3b82f6;\n  box-shadow: 0 0 0 3px rgba(59,130,246,0.2);\n}\n\n/* ホストの属性に応じたスタイル */\n:host([disabled]) {\n  opacity: 0.5;\n  pointer-events: none;\n}\n\n/* 祖先要素のコンテキストに応じたスタイル */\n:host-context(.dark-theme) {\n  background: #1e293b;\n  color: #e2e8f0;\n}",
+            "props": [
+                { "name": ":host", "desc": "Shadow DOMのホスト要素を選択" },
+                { "name": ":host(selector)", "desc": "条件付きでホストを選択" },
+                { "name": ":host-context(selector)", "desc": "祖先がselectorに一致する場合に適用" }
+            ],
+            "tags": ["Web Components", "Shadow DOM", "セレクタ"],
+            "browser": "全モダンブラウザ対応（:host-contextはFirefox非対応）",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/:host"
+        },
+        {
+            "name": "Declarative Shadow DOM",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "HTMLマークアップ内でShadow DOMを宣言的に定義する。JavaScriptなしでSSR（サーバーサイドレンダリング）対応のWeb Componentsが実現可能。",
+            "demo": "<div style=\"font-size:0.85rem;padding:12px;background:#fefce8;border:2px solid #eab308;border-radius:8px\"><code>&lt;my-card&gt;</code><br><code>&nbsp;&nbsp;&lt;template shadowrootmode=\"open\"&gt;</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;&lt;style&gt;:host { ... }&lt;/style&gt;</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;&lt;slot&gt;&lt;/slot&gt;</code><br><code>&nbsp;&nbsp;&lt;/template&gt;</code><br><code>&nbsp;&nbsp;コンテンツ</code><br><code>&lt;/my-card&gt;</code></div>",
+            "code": "<!-- JS不要でShadow DOMを定義 -->\n<my-card>\n  <template shadowrootmode=\"open\">\n    <style>\n      :host {\n        display: block;\n        border: 1px solid #e5e7eb;\n        border-radius: 8px;\n        padding: 1rem;\n      }\n      .title { font-weight: 700; }\n    </style>\n    <div class=\"title\">\n      <slot name=\"title\">タイトル</slot>\n    </div>\n    <slot></slot>\n  </template>\n  <span slot=\"title\">宣言的Shadow DOM</span>\n  <p>SSR対応のWeb Components</p>\n</my-card>",
+            "props": [
+                { "name": "shadowrootmode=\"open\"", "desc": "オープンな宣言的Shadow DOM" },
+                { "name": "shadowrootmode=\"closed\"", "desc": "クローズドな宣言的Shadow DOM" },
+                { "name": "SSR対応", "desc": "サーバーサイドでShadow DOMのHTMLを生成可能" }
+            ],
+            "tags": ["Web Components", "Shadow DOM", "SSR"],
+            "browser": "Chrome 111+, Edge 111+, Firefox 123+, Safari 16.4+",
+            "mdn": "https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM#declaratively_with_html"
+        },
+        {
+            "name": "adoptedStyleSheets",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "CSSStyleSheetオブジェクトをShadow DOMやDocumentに直接適用するAPI。複数のShadow Root間でスタイルシートを共有でき、style要素の複製より効率的。",
+            "demo": "<div style=\"font-size:0.85rem;padding:12px;background:#f1f5f9;border-radius:8px\"><code>const sheet = new CSSStyleSheet();</code><br><code>sheet.replaceSync(':host { color: blue; }');</code><br><code>shadowRoot.adoptedStyleSheets = [sheet];</code></div>",
+            "code": "// 共有スタイルシート\nconst sharedStyles = new CSSStyleSheet();\nsharedStyles.replaceSync(`\n  :host {\n    display: block;\n    font-family: system-ui;\n  }\n  .btn {\n    padding: 0.5rem 1rem;\n    border-radius: 8px;\n  }\n`);\n\n// コンポーネント固有のスタイル\nconst componentStyles = new CSSStyleSheet();\ncomponentStyles.replaceSync(`\n  .title { font-weight: 700; }\n`);\n\nclass MyComponent extends HTMLElement {\n  constructor() {\n    super();\n    const shadow = this.attachShadow({ mode: 'open' });\n    // 複数のスタイルシートを適用\n    shadow.adoptedStyleSheets = [sharedStyles, componentStyles];\n    shadow.innerHTML = '<h2 class=\"title\"><slot></slot></h2>';\n  }\n}\ncustomElements.define('my-component', MyComponent);",
+            "props": [
+                { "name": "new CSSStyleSheet()", "desc": "構築可能なスタイルシートを作成" },
+                { "name": "sheet.replaceSync(css)", "desc": "CSSテキストを同期的に設定" },
+                { "name": "sheet.replace(css)", "desc": "CSSテキストを非同期的に設定" },
+                { "name": "shadowRoot.adoptedStyleSheets", "desc": "Shadow DOMにスタイルシートを適用" }
+            ],
+            "tags": ["Web Components", "スタイルシート", "最適化"],
+            "browser": "Chrome 73+, Edge 79+, Firefox 101+, Safari 16.4+",
+            "mdn": "https://developer.mozilla.org/en-US/docs/Web/API/Document/adoptedStyleSheets"
+        },
+        {
+            "name": "CustomEvent",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "独自のイベントを作成・発火するAPI。Web Componentsから親要素への通信に使用。detail プロパティでカスタムデータを渡せる。bubbles: trueでイベントバブリングが可能。",
+            "demo": "<button onclick=\"this.dispatchEvent(new CustomEvent('my-event',{detail:{msg:'カスタムイベント発火！'},bubbles:true}))\" style=\"padding:6px 14px;background:#8b5cf6;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem\">CustomEvent発火</button><script>(function(){document.addEventListener('my-event',function(e){var el=e.target.nextElementSibling;if(el)el.textContent=e.detail.msg})})()</script><span style=\"margin-left:8px;font-size:0.85rem\"></span>",
+            "code": "// カスタムイベントの作成と発火\nclass MyComponent extends HTMLElement {\n  handleClick() {\n    // カスタムイベントを発火\n    this.dispatchEvent(new CustomEvent('item-selected', {\n      detail: {\n        id: 123,\n        name: '選択されたアイテム'\n      },\n      bubbles: true,     // バブリング有効\n      composed: true,     // Shadow DOM境界を越える\n      cancelable: true    // キャンセル可能\n    }));\n  }\n}\n\n// 親要素でリッスン\ndocument.querySelector('my-component')\n  .addEventListener('item-selected', (e) => {\n    console.log('選択:', e.detail.name);\n  });",
+            "props": [
+                { "name": "new CustomEvent(type, options)", "desc": "カスタムイベントを作成" },
+                { "name": "detail", "desc": "イベントに付随するカスタムデータ" },
+                { "name": "bubbles", "desc": "trueでDOMツリーをバブリング" },
+                { "name": "composed", "desc": "trueでShadow DOM境界を越える" },
+                { "name": "dispatchEvent(event)", "desc": "イベントを発火" }
+            ],
+            "tags": ["Web Components", "イベント", "通信"],
+            "browser": "全モダンブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/CustomEvent"
+        },
+        {
+            "name": "ライフサイクルコールバック",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "Custom Elementsの状態変化に応じて自動的に呼ばれるメソッド群。connectedCallback（DOM追加時）、disconnectedCallback（DOM削除時）、attributeChangedCallback（属性変更時）で要素のライフサイクルを管理する。",
+            "demo": "<div style=\"font-size:0.85rem;display:flex;flex-direction:column;gap:4px\"><div style=\"padding:6px 10px;background:#dcfce7;border-radius:4px\"><code>connectedCallback()</code> — DOM追加時（初期化）</div><div style=\"padding:6px 10px;background:#fef3c7;border-radius:4px\"><code>attributeChangedCallback()</code> — 属性変更時</div><div style=\"padding:6px 10px;background:#fecaca;border-radius:4px\"><code>disconnectedCallback()</code> — DOM削除時（クリーンアップ）</div></div>",
+            "code": "class MyTimer extends HTMLElement {\n  static observedAttributes = ['interval'];\n  #timerId = null;\n\n  // DOM追加時: 初期化・イベント登録\n  connectedCallback() {\n    this.#start();\n    console.log('タイマーコンポーネントが追加されました');\n  }\n\n  // DOM削除時: クリーンアップ\n  disconnectedCallback() {\n    this.#stop();\n    console.log('タイマーコンポーネントが削除されました');\n  }\n\n  // 属性変更時: 再構築\n  attributeChangedCallback(name, oldVal, newVal) {\n    if (name === 'interval' && oldVal !== newVal) {\n      this.#stop();\n      this.#start();\n    }\n  }\n\n  #start() {\n    const ms = parseInt(this.getAttribute('interval')) || 1000;\n    this.#timerId = setInterval(() => this.#tick(), ms);\n  }\n\n  #stop() {\n    if (this.#timerId) clearInterval(this.#timerId);\n  }\n\n  #tick() {\n    this.textContent = new Date().toLocaleTimeString();\n  }\n}\ncustomElements.define('my-timer', MyTimer);",
+            "props": [
+                { "name": "connectedCallback()", "desc": "DOMに追加された時（≒マウント）" },
+                { "name": "disconnectedCallback()", "desc": "DOMから削除された時（≒アンマウント）" },
+                { "name": "attributeChangedCallback(name, old, new)", "desc": "監視属性が変更された時" },
+                { "name": "adoptedCallback()", "desc": "別documentに移動された時" },
+                { "name": "static observedAttributes", "desc": "監視する属性名の配列" }
+            ],
+            "tags": ["Web Components", "ライフサイクル", "基本"],
+            "browser": "全モダンブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/Web_components/Using_custom_elements#custom_element_lifecycle_callbacks"
+        }
+    ]
+}

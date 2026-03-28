@@ -1,0 +1,169 @@
+{
+    "cat": "モダンJS構文",
+    "catIcon": "🚀",
+    "catDesc": "ES2020以降のJavaScript新構文・メソッド。Optional Chaining、Nullish Coalescing、Array/Object新メソッドなど。",
+    "items": [
+        {
+            "name": "?. (Optional Chaining)",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "プロパティアクセスやメソッド呼び出しのチェーン中にnull/undefinedがあった場合、エラーを投げずにundefinedを返す。深いネストのオブジェクトの安全なアクセスに必須。",
+            "demo": "<button onclick=\"var user={profile:{name:'太郎'}};this.nextElementSibling.textContent='name: '+(user?.profile?.name)+' / age: '+(user?.profile?.age)+' / addr: '+(user?.address?.city)\" style=\"padding:6px 14px;background:#3b82f6;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem\">実行</button><span style=\"margin-left:8px;font-size:0.85rem\"></span>",
+            "code": "const user = { profile: { name: '太郎' } };\n\n// プロパティアクセス\nuser?.profile?.name   // '太郎'\nuser?.address?.city   // undefined（エラーにならない）\n\n// メソッド呼び出し\nuser?.getAge?.()      // undefined\n\n// 配列アクセス\nusers?.[0]?.name      // undefinedまたは名前\n\n// 従来の書き方との比較\n// ❌ user && user.profile && user.profile.name\n// ✅ user?.profile?.name",
+            "props": [
+                { "name": "obj?.prop", "desc": "プロパティの安全なアクセス" },
+                { "name": "obj?.method?.()", "desc": "メソッドの安全な呼び出し" },
+                { "name": "arr?.[index]", "desc": "配列の安全なアクセス" }
+            ],
+            "tags": ["構文", "安全", "ES2020"],
+            "browser": "Chrome 80+, Edge 80+, Firefox 72+, Safari 13.1+",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Operators/Optional_chaining"
+        },
+        {
+            "name": "?? (Nullish Coalescing)",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "左辺がnullまたはundefinedの場合にのみ右辺を返す。|| 演算子と異なり、0や空文字を偽値として扱わない。デフォルト値の設定に最適。",
+            "demo": "<button onclick=\"var config={count:0,name:''};this.nextElementSibling.textContent='||: count='+(config.count||10)+' / ??: count='+(config.count??10)+' / ||: name='+(config.name||'default')+' / ??: name='+(config.name??'default')\" style=\"padding:6px 14px;background:#8b5cf6;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem\">比較</button><div style=\"font-size:0.8rem;margin-top:4px\"></div>",
+            "code": "const count = 0;\ncount || 10   // 10（0はfalsyなので右辺が返る）\ncount ?? 10   // 0 （nullishではないので左辺を維持）\n\nconst name = '';\nname || 'default'   // 'default'\nname ?? 'default'   // ''（空文字はnullishではない）\n\n// 実用例\nconst port = config.port ?? 3000;\nconst timeout = options.timeout ?? 5000;\n\n// ??= 代入演算子\nlet data = null;\ndata ??= fetchDefaultData(); // nullなので代入される\ndata ??= fetchAgain();       // 値があるので代入されない",
+            "props": [
+                { "name": "a ?? b", "desc": "aがnull/undefinedならbを返す" },
+                { "name": "??=", "desc": "null/undefinedの場合にのみ代入" },
+                { "name": "|| との違い", "desc": "||は0, '', falseも右辺を返す" }
+            ],
+            "tags": ["構文", "デフォルト値", "ES2020"],
+            "browser": "Chrome 80+, Edge 80+, Firefox 72+, Safari 13.1+",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Operators/Nullish_coalescing"
+        },
+        {
+            "name": "&&= / ||= / ??= (論理代入)",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "論理演算と代入を組み合わせた演算子。&&=は真値の場合に代入、||=は偽値の場合に代入、??=はnull/undefinedの場合に代入する。",
+            "demo": "<button onclick=\"var a={x:1,y:0,z:null};a.x&&=99;a.y||=42;a.z??='default';this.nextElementSibling.textContent='x='+a.x+' y='+a.y+' z='+a.z\" style=\"padding:6px 14px;background:#10b981;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem\">実行</button><span style=\"margin-left:8px;font-size:0.85rem\"></span>",
+            "code": "let a = 1, b = 0, c = null;\n\na &&= 99;      // a = 99（aが真値なので代入）\nb ||= 42;      // b = 42（bが偽値なので代入）\nc ??= 'hello'; // c = 'hello'（cがnullなので代入）\n\n// 実用例\noptions.debug &&= process.env.NODE_ENV !== 'production';\nuser.name ||= 'Anonymous';\nconfig.theme ??= 'light';",
+            "props": [
+                { "name": "x &&= y", "desc": "xが真値ならyを代入" },
+                { "name": "x ||= y", "desc": "xが偽値ならyを代入" },
+                { "name": "x ??= y", "desc": "xがnull/undefinedならyを代入" }
+            ],
+            "tags": ["構文", "代入", "ES2021"],
+            "browser": "Chrome 85+, Edge 85+, Firefox 79+, Safari 14+",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Operators/Logical_AND_assignment"
+        },
+        {
+            "name": "Array.at() / String.at()",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "負のインデックスで末尾からの要素アクセスが可能なメソッド。arr.at(-1)で最後の要素を取得。arr[arr.length - 1]の簡潔な代替。",
+            "demo": "<button onclick=\"var arr=[10,20,30,40,50];this.nextElementSibling.textContent='at(0)='+arr.at(0)+' at(-1)='+arr.at(-1)+' at(-2)='+arr.at(-2)\" style=\"padding:6px 14px;background:#f97316;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem\">実行</button><span style=\"margin-left:8px;font-size:0.85rem\"></span>",
+            "code": "const arr = ['a', 'b', 'c', 'd', 'e'];\n\narr.at(0)   // 'a'\narr.at(-1)  // 'e'（最後の要素）\narr.at(-2)  // 'd'\n\n// 従来: arr[arr.length - 1]\n// 新:   arr.at(-1)\n\n// 文字列にも使える\n'hello'.at(-1)  // 'o'\n\n// TypedArrayにも使える\nnew Uint8Array([1,2,3]).at(-1)  // 3",
+            "props": [
+                { "name": "array.at(index)", "desc": "指定インデックスの要素を返す" },
+                { "name": "負のインデックス", "desc": "-1が末尾、-2が末尾から2番目" },
+                { "name": "string.at(index)", "desc": "文字列にも使用可能" }
+            ],
+            "tags": ["配列", "文字列", "ES2022"],
+            "browser": "Chrome 92+, Edge 92+, Firefox 90+, Safari 15.4+",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Array/at"
+        },
+        {
+            "name": "Object.hasOwn()",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "オブジェクトが指定のプロパティを自身に持つかを判定する。obj.hasOwnProperty()の安全な代替で、プロトタイプを持たないオブジェクト（Object.create(null)）にも使える。",
+            "demo": "<button onclick=\"var obj={name:'太郎',age:25};this.nextElementSibling.textContent='name: '+Object.hasOwn(obj,'name')+' / toString: '+Object.hasOwn(obj,'toString')\" style=\"padding:6px 14px;background:#ec4899;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem\">実行</button><span style=\"margin-left:8px;font-size:0.85rem\"></span>",
+            "code": "const obj = { name: '太郎', age: 25 };\n\nObject.hasOwn(obj, 'name');     // true\nObject.hasOwn(obj, 'toString'); // false（継承プロパティ）\n\n// Object.create(null)でも安全\nconst bare = Object.create(null);\nbare.key = 'value';\n// bare.hasOwnProperty('key')  // TypeError!\nObject.hasOwn(bare, 'key');     // true ✅\n\n// 従来: Object.prototype.hasOwnProperty.call(obj, key)\n// 新:   Object.hasOwn(obj, key)",
+            "props": [
+                { "name": "Object.hasOwn(obj, prop)", "desc": "自身のプロパティかを判定" },
+                { "name": "hasOwnProperty()の代替", "desc": "プロトタイプなしオブジェクトでも安全" }
+            ],
+            "tags": ["オブジェクト", "安全", "ES2022"],
+            "browser": "Chrome 93+, Edge 93+, Firefox 92+, Safari 15.4+",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/hasOwn"
+        },
+        {
+            "name": "Object.groupBy() / Map.groupBy()",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "配列の要素をコールバックの戻り値でグループ化する。Object.groupBy()はオブジェクトを、Map.groupBy()はMapを返す。lodashのgroupByのネイティブ版。",
+            "demo": "<button onclick=\"var items=[{name:'りんご',type:'果物'},{name:'にんじん',type:'野菜'},{name:'バナナ',type:'果物'}];var grouped=Object.groupBy(items,i=>i.type);this.nextElementSibling.textContent='果物: '+grouped['果物'].map(i=>i.name).join(',')+' / 野菜: '+grouped['野菜'].map(i=>i.name).join(',')\" style=\"padding:6px 14px;background:#7c3aed;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem\">groupBy</button><div style=\"font-size:0.8rem;margin-top:4px\"></div>",
+            "code": "const items = [\n  { name: 'りんご', type: '果物' },\n  { name: 'にんじん', type: '野菜' },\n  { name: 'バナナ', type: '果物' },\n  { name: 'キャベツ', type: '野菜' },\n];\n\n// Object.groupBy → プレーンオブジェクト\nconst grouped = Object.groupBy(items, item => item.type);\n// { 果物: [{name:'りんご',...}, {name:'バナナ',...}],\n//   野菜: [{name:'にんじん',...}, {name:'キャベツ',...}] }\n\n// Map.groupBy → Mapオブジェクト\nconst map = Map.groupBy(items, item => item.type);\nmap.get('果物'); // [{name:'りんご',...}, ...]",
+            "props": [
+                { "name": "Object.groupBy(iterable, callback)", "desc": "コールバックの戻り値でグループ化（Object返却）" },
+                { "name": "Map.groupBy(iterable, callback)", "desc": "コールバックの戻り値でグループ化（Map返却）" }
+            ],
+            "tags": ["配列", "グループ化", "ES2024"],
+            "browser": "Chrome 117+, Edge 117+, Firefox 119+, Safari 17.4+",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/groupBy"
+        },
+        {
+            "name": "Promise.withResolvers()",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "Promiseとそのresolve/reject関数を同時に取得する。コールバックパターンのPromise化や、外部からPromiseの解決を制御する場合に便利。",
+            "demo": "<button onclick=\"var r=Promise.withResolvers();setTimeout(function(){r.resolve('解決！')},500);r.promise.then(function(v){document.getElementById('pwrResult').textContent=v});document.getElementById('pwrResult').textContent='待機中...'\" style=\"padding:6px 14px;background:#059669;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem\">実行</button><span id=\"pwrResult\" style=\"margin-left:8px;font-size:0.85rem\"></span>",
+            "code": "// 従来パターン\nlet resolve, reject;\nconst promise = new Promise((res, rej) => {\n  resolve = res;\n  reject = rej;\n});\n\n// 新パターン（1行で完了）\nconst { promise, resolve, reject } = Promise.withResolvers();\n\n// 使用例: イベントのPromise化\nfunction waitForEvent(element, eventName) {\n  const { promise, resolve } = Promise.withResolvers();\n  element.addEventListener(eventName, resolve, { once: true });\n  return promise;\n}\n\nconst click = await waitForEvent(button, 'click');",
+            "props": [
+                { "name": "Promise.withResolvers()", "desc": "{ promise, resolve, reject }を返す" },
+                { "name": "promise", "desc": "新しいPromiseオブジェクト" },
+                { "name": "resolve / reject", "desc": "外部からPromiseを解決/拒否する関数" }
+            ],
+            "tags": ["Promise", "非同期", "ES2024"],
+            "browser": "Chrome 119+, Edge 119+, Firefox 121+, Safari 17.2+",
+            "mdn": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/withResolvers"
+        },
+        {
+            "name": "Set メソッド (union / intersection / difference)",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "Set同士の集合演算を行う新メソッド。union（和集合）、intersection（積集合）、difference（差集合）、symmetricDifference（対称差集合）など数学的な集合操作が可能。",
+            "demo": "<button onclick=\"var a=new Set([1,2,3,4]);var b=new Set([3,4,5,6]);this.nextElementSibling.textContent='union: ['+[...a.union(b)]+'] / intersection: ['+[...a.intersection(b)]+'] / difference: ['+[...a.difference(b)]+']'\" style=\"padding:6px 14px;background:#dc2626;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem\">Set演算</button><div style=\"font-size:0.8rem;margin-top:4px\"></div>",
+            "code": "const a = new Set([1, 2, 3, 4]);\nconst b = new Set([3, 4, 5, 6]);\n\n// 和集合（AまたはB）\na.union(b);                // Set {1,2,3,4,5,6}\n\n// 積集合（AかつB）\na.intersection(b);         // Set {3,4}\n\n// 差集合（Aにあり Bにない）\na.difference(b);           // Set {1,2}\n\n// 対称差集合（AかBの片方にだけある）\na.symmetricDifference(b);  // Set {1,2,5,6}\n\n// 部分集合/上位集合の判定\na.isSubsetOf(b);           // false\na.isSupersetOf(b);         // false\na.isDisjointFrom(b);       // false（共通要素あり）",
+            "props": [
+                { "name": ".union(other)", "desc": "和集合" },
+                { "name": ".intersection(other)", "desc": "積集合" },
+                { "name": ".difference(other)", "desc": "差集合" },
+                { "name": ".symmetricDifference(other)", "desc": "対称差集合" },
+                { "name": ".isSubsetOf(other)", "desc": "部分集合か判定" },
+                { "name": ".isDisjointFrom(other)", "desc": "共通要素がないか判定" }
+            ],
+            "tags": ["Set", "集合演算", "ES2025"],
+            "browser": "Chrome 122+, Edge 122+, Firefox 127+, Safari 17+",
+            "mdn": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/union"
+        },
+        {
+            "name": "import.meta",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "現在のモジュールに関するメタ情報を提供するオブジェクト。import.meta.urlで現在のモジュールのURLを取得でき、相対パスの解決やWebWorkerの作成に使用。",
+            "demo": "<div style=\"font-size:0.85rem;padding:12px;background:#f1f5f9;border-radius:8px\"><code>import.meta.url</code> → 現在のモジュールのURL<br><code>new URL('./data.json', import.meta.url)</code><br>→ モジュールからの相対パスを解決</div>",
+            "code": "// 現在のモジュールのURL\nconsole.log(import.meta.url);\n// 'https://example.com/js/app.mjs'\n\n// 相対パスの解決\nconst dataUrl = new URL('./data.json', import.meta.url);\nconst response = await fetch(dataUrl);\n\n// Web Workerの作成\nconst worker = new Worker(\n  new URL('./worker.js', import.meta.url),\n  { type: 'module' }\n);\n\n// Vite等のビルドツールで環境変数\nconsole.log(import.meta.env.MODE);",
+            "props": [
+                { "name": "import.meta.url", "desc": "現在のモジュールの完全URL" },
+                { "name": "new URL(path, import.meta.url)", "desc": "モジュール相対のURL解決" },
+                { "name": "import.meta.resolve()", "desc": "モジュール指定子をURLに解決" }
+            ],
+            "tags": ["モジュール", "ESM", "メタ情報"],
+            "browser": "全モダンブラウザ対応（type=\"module\"内で使用）",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Operators/import.meta"
+        },
+        {
+            "name": "Structuredクローン / JSON構造化",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "structuredClone()はオブジェクトのディープコピーを行うグローバル関数。JSON.parse(JSON.stringify())と異なり、Date/Map/Set/循環参照に対応。",
+            "demo": "<button onclick=\"var orig={date:new Date(),nested:{val:42},map:new Map([['k','v']])};var clone=structuredClone(orig);clone.nested.val=999;this.nextElementSibling.textContent='元: '+orig.nested.val+' / コピー: '+clone.nested.val+' / Date保持: '+(clone.date instanceof Date)\" style=\"padding:6px 14px;background:#0ea5e9;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem\">クローン</button><div style=\"font-size:0.8rem;margin-top:4px\"></div>",
+            "code": "const original = {\n  name: 'テスト',\n  nested: { value: 42 },\n  date: new Date(),\n  map: new Map([['key', 'val']]),\n  set: new Set([1, 2, 3]),\n};\n\nconst clone = structuredClone(original);\nclone.nested.value = 999;\nconsole.log(original.nested.value); // 42（影響なし）\nconsole.log(clone.date instanceof Date); // true ✅\n\n// JSON方式は Date, Map, Set を失う\n// structuredClone は保持する\n// ⚠️ Function, DOM要素はコピー不可",
+            "props": [
+                { "name": "structuredClone(value)", "desc": "ディープコピーを生成" },
+                { "name": "Date / Map / Set", "desc": "正しく複製される" },
+                { "name": "循環参照", "desc": "対応（JSONはエラー）" },
+                { "name": "制限", "desc": "Function, Symbol, DOMノードは不可" }
+            ],
+            "tags": ["コピー", "ユーティリティ", "ES2022"],
+            "browser": "Chrome 98+, Edge 98+, Firefox 94+, Safari 15.4+",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/structuredClone"
+        }
+    ]
+}

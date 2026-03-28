@@ -1,0 +1,170 @@
+{
+    "cat": "DOM操作応用",
+    "catIcon": "🌳",
+    "catDesc": "高度なDOM操作API。TreeWalker、Range/Selection、DocumentFragment、CustomEvent、データ属性など。",
+    "items": [
+        {
+            "name": "TreeWalker",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "DOM ツリーをフィルタリングしながら走査するAPI。特定のノードタイプ（要素、テキスト等）のみを効率的に巡回でき、大規模DOMの検索に適する。",
+            "demo": "<div id=\"twDemo\" style=\"font-size:0.85rem\"><p>段落1</p><div><p>ネストされた段落2</p></div><p>段落3</p></div><button onclick=\"var walker=document.createTreeWalker(document.getElementById('twDemo'),NodeFilter.SHOW_ELEMENT,{acceptNode:function(n){return n.tagName==='P'?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_SKIP}});var r=[];while(walker.nextNode())r.push(walker.currentNode.textContent);this.nextElementSibling.textContent='P要素: '+r.join(', ')\" style=\"padding:4px 12px;background:#3b82f6;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:0.8rem;margin-top:4px\">TreeWalker実行</button><div style=\"font-size:0.8rem;margin-top:4px;color:#6b7280\"></div>",
+            "code": "// 全てのテキストノードを走査\nconst walker = document.createTreeWalker(\n  document.body,\n  NodeFilter.SHOW_TEXT,\n  {\n    acceptNode(node) {\n      return node.textContent.trim()\n        ? NodeFilter.FILTER_ACCEPT\n        : NodeFilter.FILTER_REJECT;\n    }\n  }\n);\n\nwhile (walker.nextNode()) {\n  console.log(walker.currentNode.textContent);\n}\n\n// 特定の要素のみ走査\nconst elemWalker = document.createTreeWalker(\n  container,\n  NodeFilter.SHOW_ELEMENT,\n  {\n    acceptNode(node) {\n      if (node.matches('.highlight')) return NodeFilter.FILTER_ACCEPT;\n      return NodeFilter.FILTER_SKIP;\n    }\n  }\n);",
+            "props": [
+                { "name": "createTreeWalker(root, what, filter)", "desc": "TreeWalkerを作成" },
+                { "name": "NodeFilter.SHOW_ELEMENT", "desc": "要素ノードのみ" },
+                { "name": "NodeFilter.SHOW_TEXT", "desc": "テキストノードのみ" },
+                { "name": "nextNode() / previousNode()", "desc": "次/前のノードに移動" },
+                { "name": "currentNode", "desc": "現在のノード" },
+                { "name": "FILTER_ACCEPT / SKIP / REJECT", "desc": "ノードの受入/スキップ/拒否" }
+            ],
+            "tags": ["DOM", "走査", "高度"],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/TreeWalker"
+        },
+        {
+            "name": "Range / Selection API",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "テキストの選択範囲をプログラムで制御するAPI。Rangeでドキュメント内の範囲を指定し、Selectionで現在の選択状態を取得・操作する。テキストエディタやハイライト機能に使用。",
+            "demo": "<div id=\"rangeDemo\" style=\"font-size:0.85rem;padding:8px;background:#f1f5f9;border-radius:6px\">このテキストの一部を選択してからボタンを押してください。</div><button onclick=\"var sel=window.getSelection();if(sel.rangeCount>0){var range=sel.getRangeAt(0);var span=document.createElement('mark');range.surroundContents(span)}\" style=\"padding:4px 12px;background:#f59e0b;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:0.8rem;margin-top:4px\">選択範囲をハイライト</button>",
+            "code": "// 現在の選択を取得\nconst selection = window.getSelection();\nconst text = selection.toString();\n\n// Range オブジェクトを取得\nif (selection.rangeCount > 0) {\n  const range = selection.getRangeAt(0);\n  console.log('開始:', range.startContainer, range.startOffset);\n  console.log('終了:', range.endContainer, range.endOffset);\n}\n\n// プログラムでRangeを作成\nconst range = document.createRange();\nrange.selectNodeContents(element);  // 要素の中身全体\nrange.setStart(textNode, 5);        // 5文字目から\nrange.setEnd(textNode, 10);         // 10文字目まで\n\n// 選択範囲をハイライト\nconst mark = document.createElement('mark');\nrange.surroundContents(mark);\n\n// CSS Highlight API（新しい方法）\nconst highlight = new Highlight(range);\nCSS.highlights.set('search-result', highlight);",
+            "props": [
+                { "name": "window.getSelection()", "desc": "現在の選択状態を取得" },
+                { "name": "selection.getRangeAt(0)", "desc": "選択範囲のRangeを取得" },
+                { "name": "document.createRange()", "desc": "新しいRangeを作成" },
+                { "name": "range.surroundContents(node)", "desc": "範囲をノードで囲む" },
+                { "name": "range.extractContents()", "desc": "範囲を抽出（DOMから削除）" },
+                { "name": "CSS.highlights", "desc": "Highlight APIでスタイル付きハイライト" }
+            ],
+            "tags": ["DOM", "テキスト選択", "エディタ"],
+            "browser": "全ブラウザ対応（Highlight API: Chrome 105+）",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/Range"
+        },
+        {
+            "name": "DocumentFragment",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "軽量なDOMコンテナ。複数の要素をフラグメントに追加してから一括でDOMに挿入することで、リフローの回数を最小限にしてパフォーマンスを改善する。",
+            "demo": "<button onclick=\"var frag=document.createDocumentFragment();for(var i=1;i<=5;i++){var div=document.createElement('div');div.textContent='アイテム '+i;div.style.cssText='padding:3px 8px;background:#dbeafe;border-radius:4px;margin:2px 0;font-size:0.8rem';frag.appendChild(div)}document.getElementById('fragTarget').innerHTML='';document.getElementById('fragTarget').appendChild(frag)\" style=\"padding:4px 12px;background:#3b82f6;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:0.8rem\">一括追加</button><div id=\"fragTarget\" style=\"margin-top:4px\"></div>",
+            "code": "// DocumentFragmentで一括挿入\nconst fragment = document.createDocumentFragment();\n\nconst items = ['りんご', 'バナナ', 'みかん'];\nitems.forEach(item => {\n  const li = document.createElement('li');\n  li.textContent = item;\n  fragment.appendChild(li);\n});\n\n// 1回のDOM操作で挿入（リフローは1回のみ）\ndocument.querySelector('ul').appendChild(fragment);\n\n// template要素の活用\nconst template = document.querySelector('#item-tpl');\nconst clone = template.content.cloneNode(true);\n// clone は DocumentFragment\ndocument.body.appendChild(clone);",
+            "props": [
+                { "name": "document.createDocumentFragment()", "desc": "空のフラグメントを作成" },
+                { "name": "fragment.appendChild(node)", "desc": "フラグメントにノードを追加" },
+                { "name": "parent.appendChild(fragment)", "desc": "フラグメントの子ノードが一括挿入される" },
+                { "name": "template.content", "desc": "template要素はDocumentFragmentを持つ" }
+            ],
+            "tags": ["DOM", "パフォーマンス", "一括操作"],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/DocumentFragment"
+        },
+        {
+            "name": "dataset (data-* 属性)",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "HTML要素のdata-*カスタムデータ属性にJavaScriptからアクセスするAPI。要素にメタデータを付与し、イベントハンドラやフレームワークなしのステート管理に活用される。",
+            "demo": "<div id=\"dsDemo\" data-id=\"42\" data-category=\"fruit\" data-display-name=\"りんご\" style=\"font-size:0.85rem;padding:8px;background:#f1f5f9;border-radius:6px\">data-* 属性付き要素</div><button onclick=\"var el=document.getElementById('dsDemo');this.nextElementSibling.textContent='id='+el.dataset.id+' / category='+el.dataset.category+' / name='+el.dataset.displayName\" style=\"padding:4px 12px;background:#8b5cf6;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:0.8rem;margin-top:4px\">dataset読取</button><div style=\"font-size:0.8rem;margin-top:4px;color:#6b7280\"></div>",
+            "code": "// HTML: <div data-id=\"42\" data-category=\"fruit\"\n//            data-display-name=\"りんご\">\n\nconst el = document.querySelector('[data-id]');\n\n// 読み取り\nel.dataset.id;            // '42'\nel.dataset.category;      // 'fruit'\nel.dataset.displayName;   // 'りんご'（ケバブ → キャメル）\n\n// 書き込み\nel.dataset.price = '120'; // data-price=\"120\" が追加される\n\n// 削除\ndelete el.dataset.category;\n\n// CSSからのアクセス\n/* [data-category=\"fruit\"] { color: green; } */\n/* content: attr(data-display-name); */\n\n// イベント委譲パターン\nlist.addEventListener('click', (e) => {\n  const item = e.target.closest('[data-id]');\n  if (item) {\n    handleItemClick(item.dataset.id);\n  }\n});",
+            "props": [
+                { "name": "element.dataset", "desc": "data-*属性のDOMStringMapを取得" },
+                { "name": "dataset.keyName", "desc": "data-key-name → keyName（キャメルケース変換）" },
+                { "name": "dataset.key = value", "desc": "data-*属性を動的に設定" },
+                { "name": "delete dataset.key", "desc": "data-*属性を削除" },
+                { "name": "[data-*] (CSS)", "desc": "CSSの属性セレクタでアクセス" }
+            ],
+            "tags": ["DOM", "データ属性", "基本"],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/HTMLElement/dataset"
+        },
+        {
+            "name": "closest() / matches()",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "closest()は自身から祖先方向にセレクタに一致する要素を検索。matches()は要素がセレクタに一致するか判定する。イベント委譲パターンに不可欠。",
+            "demo": "<div class=\"outer\" style=\"font-size:0.85rem;padding:8px;background:#f1f5f9;border-radius:8px\" data-name=\"outer\"><div class=\"inner\" style=\"padding:6px;background:#dbeafe;border-radius:4px\" data-name=\"inner\"><button onclick=\"this.parentElement.nextElementSibling.textContent='closest(.outer): '+this.closest('.outer').dataset.name+' / matches(.inner): '+this.parentElement.matches('.inner')\" style=\"padding:4px 12px;background:#3b82f6;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:0.8rem\">closest & matches</button></div><div style=\"font-size:0.8rem;margin-top:4px;color:#6b7280\"></div></div>",
+            "code": "// closest: 自身→祖先で最初にマッチする要素\nconst card = button.closest('.card');\nconst form = input.closest('form');\nconst section = el.closest('[data-section]');\n\n// 一致しない場合は null\nconst nope = el.closest('.nonexistent'); // null\n\n// matches: 要素がセレクタに一致するか\nelement.matches('.active');      // true / false\nelement.matches('[data-type]');  // true / false\n\n// イベント委譲パターン（最も重要な使い方）\ndocument.addEventListener('click', (e) => {\n  // クリックされた要素またはその祖先に .delete-btn があるか\n  const btn = e.target.closest('.delete-btn');\n  if (btn) {\n    const item = btn.closest('.list-item');\n    deleteItem(item.dataset.id);\n  }\n});",
+            "props": [
+                { "name": "element.closest(selector)", "desc": "自身→祖先で最初にマッチする要素（なければnull）" },
+                { "name": "element.matches(selector)", "desc": "セレクタに一致するか（boolean）" },
+                { "name": "イベント委譲", "desc": "動的要素のクリック処理に不可欠" }
+            ],
+            "tags": ["DOM", "検索", "イベント委譲"],
+            "browser": "全モダンブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/Element/closest"
+        },
+        {
+            "name": "getComputedStyle()",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "要素に実際に適用されているCSSプロパティの計算済み値を取得するAPI。CSSクラスやメディアクエリの結果を含む最終的な値を返す。",
+            "demo": "<div id=\"gcsDemo\" style=\"padding:8px 16px;background:#3b82f6;color:#fff;border-radius:8px;font-size:0.85rem;display:inline-block\">スタイル付き要素</div><button onclick=\"var s=getComputedStyle(document.getElementById('gcsDemo'));this.nextElementSibling.textContent='bg: '+s.backgroundColor+' / padding: '+s.padding+' / radius: '+s.borderRadius\" style=\"padding:4px 12px;background:#64748b;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:0.8rem;margin-left:4px\">取得</button><div style=\"font-size:0.75rem;margin-top:4px;color:#6b7280\"></div>",
+            "code": "const el = document.querySelector('.card');\nconst styles = getComputedStyle(el);\n\n// プロパティ値の取得\nstyles.backgroundColor;  // 'rgb(59, 130, 246)'\nstyles.padding;          // '16px'\nstyles.display;          // 'flex'\n\n// CSS変数の取得\nstyles.getPropertyValue('--primary'); // '#3b82f6'\n\n// 疑似要素のスタイル取得\nconst beforeStyles = getComputedStyle(el, '::before');\nbeforeStyles.content;    // '\"★\"'\n\n// 注意: 値は常にpx等の計算済み単位で返る\n// rem → px, % → px に変換された値",
+            "props": [
+                { "name": "getComputedStyle(el)", "desc": "計算済みスタイルオブジェクトを取得" },
+                { "name": "getComputedStyle(el, '::before')", "desc": "疑似要素のスタイルを取得" },
+                { "name": ".backgroundColor", "desc": "プロパティ名で直接アクセス" },
+                { "name": ".getPropertyValue(name)", "desc": "CSS変数やハイフン付きプロパティ用" }
+            ],
+            "tags": ["DOM", "スタイル", "計算済み値"],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/Window/getComputedStyle"
+        },
+        {
+            "name": "DOMParser / XMLSerializer",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "文字列とDOMツリーを相互変換するAPI。DOMParserでHTML/XML文字列をDOMに変換し、XMLSerializerでDOMを文字列に変換する。サニタイズやHTMLの解析に使用。",
+            "demo": "<button onclick=\"var parser=new DOMParser();var doc=parser.parseFromString('<div><h1>Hello</h1><p>World</p></div>','text/html');this.nextElementSibling.textContent='h1: '+doc.querySelector('h1').textContent+' / p: '+doc.querySelector('p').textContent\" style=\"padding:4px 12px;background:#ec4899;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:0.8rem\">パース</button><div style=\"font-size:0.8rem;margin-top:4px;color:#6b7280\"></div>",
+            "code": "// HTML文字列 → DOM\nconst parser = new DOMParser();\nconst doc = parser.parseFromString(\n  '<div><h1>Hello</h1><p>World</p></div>',\n  'text/html'\n);\nconst title = doc.querySelector('h1').textContent;\n\n// DOM → 文字列\nconst serializer = new XMLSerializer();\nconst htmlString = serializer.serializeToString(element);\n\n// HTMLのサニタイズ（安全なテキスト抽出）\nfunction stripHTML(html) {\n  const doc = new DOMParser().parseFromString(html, 'text/html');\n  return doc.body.textContent;\n}\n\n// XML文字列のパース\nconst xmlDoc = parser.parseFromString(\n  '<root><item>data</item></root>',\n  'application/xml'\n);",
+            "props": [
+                { "name": "new DOMParser()", "desc": "パーサーインスタンスを作成" },
+                { "name": "parseFromString(str, type)", "desc": "文字列をDOMに変換" },
+                { "name": "text/html", "desc": "HTMLとしてパース" },
+                { "name": "application/xml", "desc": "XMLとしてパース" },
+                { "name": "XMLSerializer", "desc": "DOMを文字列に変換" }
+            ],
+            "tags": ["DOM", "パース", "変換"],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/DOMParser"
+        },
+        {
+            "name": "MutationObserver",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "DOM要素の変化（子要素の追加/削除、属性変更、テキスト変更）を非同期に監視するAPI。動的なUIの変化検知やサードパーティスクリプトの監視に使用。",
+            "demo": "<div id=\"moDemo\" style=\"font-size:0.85rem;padding:8px;border:1px solid #cbd5e1;border-radius:6px;min-height:32px\">初期テキスト</div><div style=\"display:flex;gap:4px;margin-top:4px\"><button onclick=\"document.getElementById('moDemo').textContent='変更: '+new Date().toLocaleTimeString()\" style=\"padding:4px 10px;background:#3b82f6;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:0.8rem\">テキスト変更</button><button onclick=\"var el=document.createElement('span');el.textContent=' [追加]';el.style.color='#22c55e';document.getElementById('moDemo').appendChild(el)\" style=\"padding:4px 10px;background:#22c55e;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:0.8rem\">子要素追加</button></div><div id=\"moLog\" style=\"font-size:0.75rem;margin-top:4px;color:#f59e0b;display:none\"></div><script>(function(){try{var log=document.getElementById('moLog');var obs=new MutationObserver(function(muts){log.style.display='block';log.textContent='検知: '+muts.map(function(m){return m.type}).join(', ')+' ('+new Date().toLocaleTimeString()+')'});obs.observe(document.getElementById('moDemo'),{childList:true,subtree:true,characterData:true})}catch(e){}})()</script>",
+            "code": "const observer = new MutationObserver((mutations) => {\n  mutations.forEach((mutation) => {\n    switch (mutation.type) {\n      case 'childList':\n        console.log('子要素変更:', mutation.addedNodes, mutation.removedNodes);\n        break;\n      case 'attributes':\n        console.log('属性変更:', mutation.attributeName);\n        break;\n      case 'characterData':\n        console.log('テキスト変更:', mutation.target.data);\n        break;\n    }\n  });\n});\n\nobserver.observe(targetElement, {\n  childList: true,\n  attributes: true,\n  characterData: true,\n  subtree: true,\n  attributeFilter: ['class', 'data-state'],\n});\n\n// 監視停止\nobserver.disconnect();",
+            "props": [
+                { "name": "new MutationObserver(callback)", "desc": "オブザーバーを作成" },
+                { "name": "observe(target, options)", "desc": "監視を開始" },
+                { "name": "childList", "desc": "子ノードの追加/削除を監視" },
+                { "name": "attributes", "desc": "属性の変更を監視" },
+                { "name": "characterData", "desc": "テキストの変更を監視" },
+                { "name": "subtree", "desc": "子孫要素も含めて監視" },
+                { "name": "disconnect()", "desc": "監視を停止" }
+            ],
+            "tags": ["DOM", "監視", "非同期"],
+            "browser": "全モダンブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/MutationObserver"
+        },
+        {
+            "name": "IntersectionObserver",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "要素がビューポートや祖先要素と交差する状態を非同期に監視するAPI。遅延読み込み、無限スクロール、スクロール連動アニメーション、広告のビューアビリティ計測に活用。",
+            "demo": "<div style=\"font-size:0.85rem\"><div id=\"ioDemo\" style=\"padding:12px;border-radius:8px;background:#f1f5f9;text-align:center;transition:all 0.5s\"><span style=\"font-weight:700;color:#64748b\">表示中を監視</span></div><script>(function(){try{var box=document.getElementById('ioDemo');var obs=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){box.style.background='#dcfce7';box.querySelector('span').textContent='✅ ビューポート内'}else{box.style.background='#fee2e2';box.querySelector('span').textContent='❌ ビューポート外'}})},{threshold:0.5});obs.observe(box)}catch(e){}})()</script></div>",
+            "code": "const observer = new IntersectionObserver(\n  (entries) => {\n    entries.forEach((entry) => {\n      if (entry.isIntersecting) {\n        entry.target.classList.add('visible');\n        observer.unobserve(entry.target); // 一度だけ\n      }\n    });\n  },\n  {\n    root: null,\n    rootMargin: '0px 0px -100px 0px',\n    threshold: 0.1\n  }\n);\n\n// 複数要素を監視\ndocument.querySelectorAll('.lazy-section')\n  .forEach(el => observer.observe(el));\n\n// 画像の遅延読み込み\nconst imgObserver = new IntersectionObserver((entries) => {\n  entries.forEach(entry => {\n    if (entry.isIntersecting) {\n      const img = entry.target;\n      img.src = img.dataset.src;\n      imgObserver.unobserve(img);\n    }\n  });\n});\ndocument.querySelectorAll('img[data-src]')\n  .forEach(img => imgObserver.observe(img));",
+            "props": [
+                { "name": "new IntersectionObserver(cb, opts)", "desc": "オブザーバーを作成" },
+                { "name": "root", "desc": "交差判定の基準要素（null=ビューポート）" },
+                { "name": "rootMargin", "desc": "判定範囲の拡大/縮小" },
+                { "name": "threshold", "desc": "発火する交差率（0.0〜1.0）" },
+                { "name": "entry.isIntersecting", "desc": "交差しているか" },
+                { "name": "observe() / unobserve()", "desc": "監視の開始/停止" }
+            ],
+            "tags": ["DOM", "交差監視", "遅延読み込み"],
+            "browser": "Chrome 51+, Edge 15+, Firefox 55+, Safari 12.1+",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/Intersection_Observer_API"
+        }
+    ]
+}

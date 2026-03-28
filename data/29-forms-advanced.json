@@ -1,0 +1,157 @@
+{
+    "cat": "フォーム応用",
+    "catIcon": "📝",
+    "catDesc": "フォームの高度な機能。Constraint Validation API、カスタムバリデーション、フローティングラベル、inputmode、非同期送信など。",
+    "items": [
+        {
+            "name": "Constraint Validation API",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "HTML5フォームバリデーションをJavaScriptから制御するAPI。validity オブジェクトでエラー状態を詳細に判定し、setCustomValidity()でカスタムエラーメッセージを設定できる。",
+            "demo": "<form onsubmit=\"return false\" style=\"font-size:0.85rem\"><input type=\"email\" id=\"cvInput\" placeholder=\"メールアドレス\" required style=\"padding:6px 10px;border:1px solid #cbd5e1;border-radius:6px;width:200px\"><button onclick=\"var i=document.getElementById('cvInput');if(i.validity.valid){i.style.borderColor='#22c55e';i.nextElementSibling.textContent='✅ 有効'}else{i.style.borderColor='#ef4444';i.nextElementSibling.textContent='❌ '+i.validationMessage}\" style=\"padding:6px 12px;background:#3b82f6;color:#fff;border:none;border-radius:6px;cursor:pointer;margin-left:4px\">検証</button><span style=\"margin-left:8px;font-size:0.8rem\"></span></form>",
+            "code": "const input = document.querySelector('#email');\n\n// validity オブジェクトで状態を確認\ninput.validity.valid          // 全バリデーション通過\ninput.validity.valueMissing    // required未入力\ninput.validity.typeMismatch    // type不一致\ninput.validity.patternMismatch // pattern不一致\ninput.validity.tooShort        // minlength未満\ninput.validity.tooLong         // maxlength超過\ninput.validity.rangeUnderflow  // min未満\ninput.validity.rangeOverflow   // max超過\ninput.validity.stepMismatch    // step不一致\n\n// カスタムバリデーション\ninput.addEventListener('input', () => {\n  if (input.value.includes('test')) {\n    input.setCustomValidity('\"test\"は使用できません');\n  } else {\n    input.setCustomValidity(''); // エラー解除\n  }\n});\n\n// エラーメッセージの取得\nconsole.log(input.validationMessage);\n\n// フォーム全体の検証\nform.checkValidity();   // bool返却\nform.reportValidity();  // UI表示+bool返却",
+            "props": [
+                { "name": "validity", "desc": "ValidityStateオブジェクト（各種フラグ）" },
+                { "name": "setCustomValidity(msg)", "desc": "カスタムエラーメッセージ設定" },
+                { "name": "checkValidity()", "desc": "バリデーション実行（boolを返す）" },
+                { "name": "reportValidity()", "desc": "バリデーション実行＋UI表示" },
+                { "name": "validationMessage", "desc": "現在のエラーメッセージ" }
+            ],
+            "tags": ["フォーム", "バリデーション", "API"],
+            "browser": "全モダンブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/Constraint_validation"
+        },
+        {
+            "name": "inputmode 属性",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "モバイルデバイスで表示される仮想キーボードの種類を制御する。type属性を変えずにキーボードだけを最適化できる。電話番号、数値入力、URL入力などで有効。",
+            "demo": "<div style=\"font-size:0.85rem;display:flex;flex-direction:column;gap:6px\"><label>数字キーボード: <input type=\"text\" inputmode=\"numeric\" pattern=\"[0-9]*\" placeholder=\"0-9\" style=\"padding:4px 8px;border:1px solid #cbd5e1;border-radius:4px;width:120px\"></label><label>電話キーボード: <input type=\"text\" inputmode=\"tel\" placeholder=\"電話番号\" style=\"padding:4px 8px;border:1px solid #cbd5e1;border-radius:4px;width:120px\"></label><label>小数キーボード: <input type=\"text\" inputmode=\"decimal\" placeholder=\"0.00\" style=\"padding:4px 8px;border:1px solid #cbd5e1;border-radius:4px;width:120px\"></label></div>",
+            "code": "<!-- 数字のみのキーボード -->\n<input type=\"text\" inputmode=\"numeric\"\n       pattern=\"[0-9]*\" placeholder=\"郵便番号\">\n\n<!-- 電話番号キーボード -->\n<input type=\"text\" inputmode=\"tel\"\n       placeholder=\"090-xxxx-xxxx\">\n\n<!-- 小数点付き数字 -->\n<input type=\"text\" inputmode=\"decimal\"\n       placeholder=\"金額\">\n\n<!-- URLキーボード（.comキー等） -->\n<input type=\"text\" inputmode=\"url\">\n\n<!-- メールキーボード（@キー等） -->\n<input type=\"text\" inputmode=\"email\">\n\n<!-- 検索キーボード（Enterが検索に） -->\n<input type=\"text\" inputmode=\"search\">",
+            "props": [
+                { "name": "none", "desc": "仮想キーボードを表示しない" },
+                { "name": "text", "desc": "通常のテキストキーボード" },
+                { "name": "numeric", "desc": "数字のみ（0-9）" },
+                { "name": "decimal", "desc": "数字＋小数点" },
+                { "name": "tel", "desc": "電話番号用テンキー" },
+                { "name": "url", "desc": "URL入力用（/, .comキー等）" },
+                { "name": "email", "desc": "メール入力用（@キー等）" },
+                { "name": "search", "desc": "検索用（Enterが検索ボタン）" }
+            ],
+            "tags": ["フォーム", "モバイル", "キーボード"],
+            "browser": "全モダンブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Global_attributes/inputmode"
+        },
+        {
+            "name": "enterkeyhint 属性",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "モバイルの仮想キーボードのEnterキーの表示ラベルを制御する。「検索」「送信」「次へ」「完了」などの文脈に合わせたラベルでUXを向上させる。",
+            "demo": "<div style=\"font-size:0.85rem;display:flex;flex-direction:column;gap:6px\"><label>検索: <input type=\"text\" enterkeyhint=\"search\" placeholder=\"キーワード」 style=\"padding:4px 8px;border:1px solid #cbd5e1;border-radius:4px;width:160px\"></label><label>送信: <input type=\"text\" enterkeyhint=\"send\" placeholder=\"メッセージ\" style=\"padding:4px 8px;border:1px solid #cbd5e1;border-radius:4px;width:160px\"></label><label>次へ: <input type=\"text\" enterkeyhint=\"next\" placeholder=\"名前\" style=\"padding:4px 8px;border:1px solid #cbd5e1;border-radius:4px;width:160px\"></label></div>",
+            "code": "<!-- 検索フォーム -->\n<input type=\"search\" enterkeyhint=\"search\">\n\n<!-- チャット入力 -->\n<input type=\"text\" enterkeyhint=\"send\">\n\n<!-- マルチステップフォーム -->\n<input type=\"text\" enterkeyhint=\"next\">\n\n<!-- 最後のフィールド -->\n<input type=\"text\" enterkeyhint=\"done\">",
+            "props": [
+                { "name": "enter", "desc": "デフォルト（改行/確定）" },
+                { "name": "done", "desc": "「完了」ラベル" },
+                { "name": "go", "desc": "「移動」ラベル" },
+                { "name": "next", "desc": "「次へ」ラベル" },
+                { "name": "previous", "desc": "「前へ」ラベル" },
+                { "name": "search", "desc": "「検索」ラベル" },
+                { "name": "send", "desc": "「送信」ラベル" }
+            ],
+            "tags": ["フォーム", "モバイル", "UX"],
+            "browser": "Chrome 77+, Edge 79+, Firefox 94+, Safari 12.1+",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Global_attributes/enterkeyhint"
+        },
+        {
+            "name": "autocomplete 属性詳細",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "フォームフィールドの自動入力を細かく制御する属性。ブラウザの自動補完やパスワードマネージャーとの連携を改善。正しい指定でユーザーの入力コストを大幅に削減できる。",
+            "demo": "<div style=\"font-size:0.85rem;display:flex;flex-direction:column;gap:6px\"><label>名前: <input type=\"text\" autocomplete=\"name\" placeholder=\"山田 太郎\" style=\"padding:4px 8px;border:1px solid #cbd5e1;border-radius:4px;width:160px\"></label><label>メール: <input type=\"email\" autocomplete=\"email\" placeholder=\"user@example.com\" style=\"padding:4px 8px;border:1px solid #cbd5e1;border-radius:4px;width:160px\"></label><label>郵便番号: <input type=\"text\" autocomplete=\"postal-code\" inputmode=\"numeric\" style=\"padding:4px 8px;border:1px solid #cbd5e1;border-radius:4px;width:120px\"></label></div>",
+            "code": "<!-- 個人情報 -->\n<input autocomplete=\"name\" name=\"name\">\n<input autocomplete=\"given-name\" name=\"fname\">\n<input autocomplete=\"family-name\" name=\"lname\">\n<input autocomplete=\"email\" name=\"email\">\n<input autocomplete=\"tel\" name=\"phone\">\n\n<!-- 住所 -->\n<input autocomplete=\"postal-code\" name=\"zip\">\n<input autocomplete=\"address-level1\" name=\"pref\">\n<input autocomplete=\"street-address\" name=\"addr\">\n\n<!-- パスワード -->\n<input autocomplete=\"current-password\" type=\"password\">\n<input autocomplete=\"new-password\" type=\"password\">\n\n<!-- クレジットカード -->\n<input autocomplete=\"cc-number\" name=\"card\">\n<input autocomplete=\"cc-exp\" name=\"exp\">\n<input autocomplete=\"cc-csc\" name=\"cvc\">\n\n<!-- ワンタイムパスワード -->\n<input autocomplete=\"one-time-code\" inputmode=\"numeric\">",
+            "props": [
+                { "name": "name", "desc": "氏名" },
+                { "name": "email / tel", "desc": "メール / 電話番号" },
+                { "name": "postal-code", "desc": "郵便番号" },
+                { "name": "street-address", "desc": "住所" },
+                { "name": "current-password", "desc": "ログイン用パスワード" },
+                { "name": "new-password", "desc": "新規パスワード" },
+                { "name": "one-time-code", "desc": "SMS認証コード" },
+                { "name": "off", "desc": "自動補完を無効化" }
+            ],
+            "tags": ["フォーム", "自動入力", "UX"],
+            "browser": "全モダンブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Attributes/autocomplete"
+        },
+        {
+            "name": "フローティングラベル パターン",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "入力フィールドのプレースホルダーが入力開始時にラベルに変わるUIパターン。:placeholder-shown疑似クラスと:focus-withinを組み合わせてCSSのみで実装可能。",
+            "demo": "<div style=\"position:relative;width:220px;margin-top:12px\"><style>.fl-input{width:100%;padding:14px 12px 6px;border:2px solid #cbd5e1;border-radius:8px;font-size:0.9rem;outline:none;transition:border-color 0.2s}.fl-input:focus{border-color:#3b82f6}.fl-label{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#94a3b8;font-size:0.9rem;pointer-events:none;transition:all 0.2s}.fl-input:focus+.fl-label,.fl-input:not(:placeholder-shown)+.fl-label{top:6px;transform:none;font-size:0.7rem;color:#3b82f6}</style><input class=\"fl-input\" type=\"text\" placeholder=\" \" id=\"flDemo\"><label class=\"fl-label\" for=\"flDemo\">メールアドレス</label></div>",
+            "code": ".field {\n  position: relative;\n}\n.field input {\n  width: 100%;\n  padding: 16px 12px 6px;\n  border: 2px solid #d1d5db;\n  border-radius: 8px;\n  font-size: 1rem;\n  outline: none;\n}\n.field label {\n  position: absolute;\n  left: 12px;\n  top: 50%;\n  transform: translateY(-50%);\n  color: #9ca3af;\n  pointer-events: none;\n  transition: all 0.2s ease;\n}\n/* ラベルが浮き上がる条件 */\n.field input:focus + label,\n.field input:not(:placeholder-shown) + label {\n  top: 6px;\n  transform: none;\n  font-size: 0.75rem;\n  color: #3b82f6;\n}\n\n<!-- placeholder=\" \" が必須（空スペース） -->\n<div class=\"field\">\n  <input type=\"email\" id=\"email\" placeholder=\" \">\n  <label for=\"email\">メールアドレス</label>\n</div>",
+            "props": [
+                { "name": ":placeholder-shown", "desc": "プレースホルダーが見えている状態" },
+                { "name": ":not(:placeholder-shown)", "desc": "入力値がある状態" },
+                { "name": "placeholder=\" \"", "desc": "空スペースで:placeholder-shownを活用" },
+                { "name": "transition", "desc": "ラベル移動のアニメーション" }
+            ],
+            "tags": ["フォーム", "UIパターン", "CSSのみ"],
+            "browser": "全モダンブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/:placeholder-shown"
+        },
+        {
+            "name": "FormData + fetch 非同期送信",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "ページ遷移なしでフォームデータを非同期送信するパターン。FormDataオブジェクトでフォーム値を取得し、Fetch APIでサーバーに送信する。ファイルアップロードにも対応。",
+            "demo": "<form onsubmit=\"event.preventDefault();var fd=new FormData(this);var data={};fd.forEach(function(v,k){data[k]=v});document.getElementById('asyncResult').textContent='送信データ: '+JSON.stringify(data)\" style=\"font-size:0.85rem;display:flex;gap:4px;align-items:center\"><input name=\"username\" placeholder=\"名前\" style=\"padding:4px 8px;border:1px solid #cbd5e1;border-radius:4px;width:100px\"><input name=\"email\" placeholder=\"email\" type=\"email\" style=\"padding:4px 8px;border:1px solid #cbd5e1;border-radius:4px;width:120px\"><button type=\"submit\" style=\"padding:4px 12px;background:#3b82f6;color:#fff;border:none;border-radius:4px;cursor:pointer\">送信</button></form><div id=\"asyncResult\" style=\"font-size:0.8rem;margin-top:4px;color:#6b7280\"></div>",
+            "code": "const form = document.querySelector('form');\n\nform.addEventListener('submit', async (e) => {\n  e.preventDefault();\n  const formData = new FormData(form);\n\n  try {\n    // JSONで送信\n    const response = await fetch('/api/submit', {\n      method: 'POST',\n      headers: { 'Content-Type': 'application/json' },\n      body: JSON.stringify(Object.fromEntries(formData)),\n    });\n\n    // または multipart/form-data で送信（ファイル含む場合）\n    // const response = await fetch('/api/upload', {\n    //   method: 'POST',\n    //   body: formData,  // Content-Type自動設定\n    // });\n\n    if (!response.ok) throw new Error(`HTTP ${response.status}`);\n    const result = await response.json();\n    showSuccess('送信完了');\n  } catch (err) {\n    showError('送信失敗: ' + err.message);\n  }\n});",
+            "props": [
+                { "name": "new FormData(form)", "desc": "フォーム要素からデータを構築" },
+                { "name": "Object.fromEntries(fd)", "desc": "FormDataをプレーンオブジェクトに変換" },
+                { "name": "JSON.stringify()", "desc": "JSONで送信する場合" },
+                { "name": "multipart/form-data", "desc": "ファイル送信時（Content-Type自動設定）" },
+                { "name": "e.preventDefault()", "desc": "デフォルトのページ遷移を防ぐ" }
+            ],
+            "tags": ["フォーム", "非同期", "Fetch"],
+            "browser": "全モダンブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/FormData"
+        },
+        {
+            "name": "リアルタイムバリデーション パターン",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "ユーザーの入力に応じてリアルタイムでバリデーション結果を表示するUIパターン。inputイベントとCSS疑似クラス(:valid/:invalid)を組み合わせ、即座にフィードバックを提供する。",
+            "demo": "<div style=\"font-size:0.85rem\"><style>.rv-input{padding:6px 10px;border:2px solid #cbd5e1;border-radius:6px;width:200px;outline:none;transition:border-color 0.2s}.rv-input:focus{border-color:#3b82f6}.rv-input:user-invalid,.rv-input.touched:invalid{border-color:#ef4444}.rv-input:valid{border-color:#22c55e}.rv-msg{font-size:0.75rem;margin-top:2px;min-height:1.2em}</style><input class=\"rv-input\" type=\"email\" required placeholder=\"メールアドレス\" oninput=\"this.classList.add('touched');this.nextElementSibling.textContent=this.validity.valid?'✅ 有効':'❌ '+this.validationMessage;this.nextElementSibling.style.color=this.validity.valid?'#16a34a':'#dc2626'\"><div class=\"rv-msg\"></div></div>",
+            "code": "// リアルタイムバリデーションの実装\nconst fields = document.querySelectorAll('.validate-field');\n\nfields.forEach(field => {\n  const message = field.nextElementSibling; // エラーメッセージ要素\n\n  field.addEventListener('input', () => {\n    field.classList.add('touched');\n    if (field.validity.valid) {\n      message.textContent = '';\n      field.setAttribute('aria-invalid', 'false');\n    } else {\n      message.textContent = field.validationMessage;\n      field.setAttribute('aria-invalid', 'true');\n    }\n  });\n\n  // フォーカスが外れた時にもチェック\n  field.addEventListener('blur', () => {\n    field.classList.add('touched');\n  });\n});\n\n/* CSS */\n.validate-field.touched:invalid {\n  border-color: #ef4444;\n}\n.validate-field:valid {\n  border-color: #22c55e;\n}\n.error-message {\n  color: #ef4444;\n  font-size: 0.8rem;\n}",
+            "props": [
+                { "name": "input イベント", "desc": "リアルタイムで入力値を検証" },
+                { "name": "blur イベント", "desc": "フォーカス離脱時に検証" },
+                { "name": ".touched クラス", "desc": "初回操作後にのみエラー表示" },
+                { "name": "aria-invalid", "desc": "スクリーンリーダーにエラー状態を伝達" },
+                { "name": ":user-invalid (CSS)", "desc": "ユーザー操作後の不正入力に適用" }
+            ],
+            "tags": ["フォーム", "バリデーション", "UX"],
+            "browser": "全モダンブラウザ対応（:user-invalidはFirefox/Chrome最新版）",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/:user-invalid"
+        },
+        {
+            "name": "マルチステップフォーム パターン",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "長いフォームを複数ステップに分割するUIパターン。各ステップのバリデーション後に次へ進み、sessionStorageで入力値を保持する。プログレス表示で進捗を示す。",
+            "demo": "<div style=\"font-size:0.85rem\"><div style=\"display:flex;gap:4px;margin-bottom:8px\"><div style=\"flex:1;height:4px;background:#3b82f6;border-radius:2px\"></div><div style=\"flex:1;height:4px;background:#3b82f6;border-radius:2px\"></div><div style=\"flex:1;height:4px;background:#e5e7eb;border-radius:2px\"></div></div><span style=\"color:#3b82f6;font-weight:700\">ステップ 2/3</span> — 連絡先情報<div style=\"display:flex;gap:4px;margin-top:6px\"><button style=\"padding:4px 12px;background:#e5e7eb;color:#333;border:none;border-radius:4px;cursor:pointer\">← 戻る</button><button style=\"padding:4px 12px;background:#3b82f6;color:#fff;border:none;border-radius:4px;cursor:pointer\">次へ →</button></div></div>",
+            "code": "class MultiStepForm {\n  constructor(formElement, steps) {\n    this.form = formElement;\n    this.steps = steps;\n    this.currentStep = 0;\n  }\n\n  showStep(index) {\n    this.steps.forEach((step, i) => {\n      step.style.display = i === index ? 'block' : 'none';\n    });\n    this.updateProgress();\n  }\n\n  nextStep() {\n    const currentFields = this.steps[this.currentStep]\n      .querySelectorAll('input, select, textarea');\n    // 現ステップのバリデーション\n    const valid = [...currentFields].every(f => f.reportValidity());\n    if (valid && this.currentStep < this.steps.length - 1) {\n      this.saveToSession();\n      this.currentStep++;\n      this.showStep(this.currentStep);\n    }\n  }\n\n  prevStep() {\n    if (this.currentStep > 0) {\n      this.currentStep--;\n      this.showStep(this.currentStep);\n    }\n  }\n\n  saveToSession() {\n    const data = new FormData(this.form);\n    sessionStorage.setItem('form-data',\n      JSON.stringify(Object.fromEntries(data)));\n  }\n}",
+            "props": [
+                { "name": "ステップ管理", "desc": "display切替で表示ステップを制御" },
+                { "name": "ステップ別バリデーション", "desc": "現ステップのフィールドのみ検証" },
+                { "name": "sessionStorage", "desc": "入力値の一時保存" },
+                { "name": "プログレスバー", "desc": "進捗の可視化" }
+            ],
+            "tags": ["フォーム", "UIパターン", "UX"],
+            "browser": "全ブラウザ対応（JavaScript実装）",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/Window/sessionStorage"
+        }
+    ]
+}

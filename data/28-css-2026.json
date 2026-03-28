@@ -1,0 +1,123 @@
+{
+    "cat": "CSS 2025-2026最新機能",
+    "catIcon": "🔮",
+    "catDesc": "2025〜2026年にブラウザに実装された/されつつある最新のCSS機能。カスタマイズ可能なselect、@starting-style、interpolate-sizeなど。",
+    "items": [
+        {
+            "name": "カスタマイズ可能な &lt;select&gt; (base-select)",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "従来CSSでスタイリングが困難だったselect要素を完全にカスタマイズ可能にする新機能。appearance: base-selectでネイティブUIを解除し、::picker()等の疑似要素でドロップダウンを自由にデザインできる。",
+            "demo": "<div style=\"font-size:0.85rem;padding:12px;background:#f5f3ff;border:2px solid #8b5cf6;border-radius:8px\"><code>select { appearance: base-select; }</code><br><code>select::picker(select) { ... }</code><br><span style=\"color:#6d28d9\">selectのドロップダウンを完全にCSS制御。Chrome 135+</span></div>",
+            "code": "/* ネイティブUIを解除 */\nselect {\n  appearance: base-select;\n  border: 1px solid #e5e7eb;\n  border-radius: 8px;\n  padding: 0.5rem 1rem;\n  font-size: 1rem;\n}\n\n/* ドロップダウン部分 */\nselect::picker(select) {\n  border: 1px solid #e5e7eb;\n  border-radius: 8px;\n  box-shadow: 0 8px 24px rgba(0,0,0,0.12);\n  padding: 0.25rem;\n}\n\n/* 各オプション */\noption {\n  padding: 0.5rem 1rem;\n  border-radius: 4px;\n}\noption:hover {\n  background: #eff6ff;\n}\noption:checked {\n  background: #3b82f6;\n  color: white;\n}",
+            "props": [
+                { "name": "appearance: base-select", "desc": "ネイティブUIを解除してカスタマイズ可能に" },
+                { "name": "::picker(select)", "desc": "ドロップダウン部分の疑似要素" },
+                { "name": "option", "desc": "各選択肢のスタイリング" },
+                { "name": "option:checked", "desc": "選択中のオプション" }
+            ],
+            "tags": ["最新CSS", "フォーム", "select"],
+            "browser": "Chrome 135+（実験的）",
+            "mdn": "https://developer.mozilla.org/en-US/docs/Web/CSS/appearance"
+        },
+        {
+            "name": "@starting-style",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "要素がDOMに追加された時や、displayがnoneから変化した時の初期スタイルを定義する。display:noneからのフェードインアニメーションがCSSだけで実現可能に。",
+            "demo": "<div style=\"font-size:0.85rem;padding:12px;background:#f0fdf4;border:2px solid #22c55e;border-radius:8px\"><code>@starting-style {</code><br><code>&nbsp;&nbsp;.element { opacity: 0; transform: translateY(20px); }</code><br><code>}</code><br><span style=\"color:#15803d\">display:none → block のフェードインをCSSだけで実装可能</span></div>",
+            "code": ".toast {\n  opacity: 1;\n  transform: translateY(0);\n  transition: opacity 0.3s, transform 0.3s,\n              display 0.3s allow-discrete;\n}\n\n/* DOM追加時 / display変更時の初期状態 */\n@starting-style {\n  .toast {\n    opacity: 0;\n    transform: translateY(20px);\n  }\n}\n\n/* 非表示時 */\n.toast.hidden {\n  opacity: 0;\n  transform: translateY(-20px);\n  display: none;\n}\n\n/* popoverにも有効 */\n[popover]:popover-open {\n  opacity: 1;\n  @starting-style { opacity: 0; }\n}",
+            "props": [
+                { "name": "@starting-style { }", "desc": "要素出現時の初期スタイルを定義" },
+                { "name": "allow-discrete", "desc": "displayなどの離散プロパティのトランジションを許可" },
+                { "name": "transition-behavior", "desc": "allow-discreteを指定するプロパティ" }
+            ],
+            "tags": ["最新CSS", "アニメーション", "トランジション"],
+            "browser": "Chrome 117+, Edge 117+, Firefox 129+, Safari 17.5+",
+            "mdn": "https://developer.mozilla.org/en-US/docs/Web/CSS/@starting-style"
+        },
+        {
+            "name": "interpolate-size: allow-keywords",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "height: autoやwidth: max-contentなどのキーワード値へのトランジション/アニメーションを可能にする。従来はautoへの遷移にJSが必要だったがCSS単体で実現可能に。",
+            "demo": "<div style=\"font-size:0.85rem;padding:12px;background:#fefce8;border:2px solid #eab308;border-radius:8px\"><code>:root { interpolate-size: allow-keywords; }</code><br><code>.panel { height: 0; transition: height 0.3s; }</code><br><code>.panel.open { height: auto; }</code><br><span style=\"color:#854d0e\">height: auto へのアニメーションがCSSだけで可能に</span></div>",
+            "code": "/* ルートで有効化 */\n:root {\n  interpolate-size: allow-keywords;\n}\n\n/* height: auto へのトランジション */\n.accordion-panel {\n  height: 0;\n  overflow: hidden;\n  transition: height 0.3s ease;\n}\n.accordion-panel.open {\n  height: auto; /* ← これがアニメーションする！ */\n}\n\n/* width: max-content への遷移も可能 */\n.expandable {\n  width: 100px;\n  transition: width 0.3s;\n}\n.expandable:hover {\n  width: max-content;\n}",
+            "props": [
+                { "name": "interpolate-size", "desc": "キーワード値へのアニメーション制御" },
+                { "name": "allow-keywords", "desc": "auto, max-content等へのトランジションを許可" },
+                { "name": "height: auto", "desc": "自然な高さへのアニメーションが可能に" }
+            ],
+            "tags": ["最新CSS", "アニメーション", "height:auto"],
+            "browser": "Chrome 129+（実験的）",
+            "mdn": "https://developer.mozilla.org/en-US/docs/Web/CSS/interpolate-size"
+        },
+        {
+            "name": "popover=\"hint\" (ホバーポップオーバー)",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "ツールチップやホバーカードをネイティブに実装するためのpopover値。autoと異なりホバーで表示・非表示が制御され、他のpopoverと共存可能。",
+            "demo": "<div style=\"font-size:0.85rem;padding:12px;background:#eff6ff;border:2px solid #3b82f6;border-radius:8px\"><code>&lt;button popovertarget=\"tip\"&gt;ホバー&lt;/button&gt;</code><br><code>&lt;div id=\"tip\" popover=\"hint\"&gt;ツールチップ&lt;/div&gt;</code><br><span style=\"color:#1d4ed8\">ホバーで表示されるネイティブツールチップ。Chrome 133+</span></div>",
+            "code": "<button popovertarget=\"my-tooltip\"\n        popovertargetaction=\"toggle\">\n  ホバーで表示\n</button>\n\n<div id=\"my-tooltip\" popover=\"hint\">\n  これはヒントポップオーバーです。\n  他のpopoverと同時に表示可能。\n</div>\n\n<style>\n[popover=\"hint\"] {\n  padding: 8px 16px;\n  border-radius: 8px;\n  background: #1e293b;\n  color: #fff;\n  font-size: 0.85rem;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.2);\n}\n</style>",
+            "props": [
+                { "name": "popover=\"hint\"", "desc": "ヒント用ポップオーバー（他のpopoverと共存）" },
+                { "name": "popover=\"auto\"", "desc": "排他的ポップオーバー（従来）" },
+                { "name": "popover=\"manual\"", "desc": "手動制御のポップオーバー" }
+            ],
+            "tags": ["最新HTML", "ツールチップ", "Popover"],
+            "browser": "Chrome 133+（実験的）",
+            "mdn": "https://developer.mozilla.org/en-US/docs/Web/API/Popover_API"
+        },
+        {
+            "name": "Scroll State Container Queries",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "コンテナのスクロール状態（stuck, snapped, overflowing等）に基づいてスタイルを適用する。stickyヘッダーが固定された時や、スクロールスナップ位置にスナップされた時を検知できる。",
+            "demo": "<div style=\"font-size:0.85rem;padding:12px;background:#f1f5f9;border-radius:8px\"><code>@container scroll-state(stuck: top) {</code><br><code>&nbsp;&nbsp;.header { box-shadow: 0 2px 8px rgba(0,0,0,0.1); }</code><br><code>}</code><br><span style=\"color:#475569\">stickyヘッダーが固定された時に影を付ける</span></div>",
+            "code": "/* stickyヘッダーが固定された時 */\n.header-wrapper {\n  container-type: scroll-state;\n}\n@container scroll-state(stuck: top) {\n  .header {\n    box-shadow: 0 2px 8px rgba(0,0,0,0.1);\n    border-bottom: 1px solid #e5e7eb;\n  }\n}\n\n/* スナップ位置にいる時 */\n@container scroll-state(snapped: x) {\n  .slide {\n    opacity: 1;\n    transform: scale(1);\n  }\n}\n\n/* スクロール可能な時 */\n@container scroll-state(overflowing: top) {\n  .scroll-indicator-top { display: block; }\n}",
+            "props": [
+                { "name": "container-type: scroll-state", "desc": "スクロール状態コンテナを宣言" },
+                { "name": "scroll-state(stuck: top)", "desc": "sticky要素が上部に固定された時" },
+                { "name": "scroll-state(snapped: x)", "desc": "スクロールスナップ位置にいる時" },
+                { "name": "scroll-state(overflowing)", "desc": "スクロール可能な方向を検知" }
+            ],
+            "tags": ["最新CSS", "スクロール", "コンテナクエリ"],
+            "browser": "Chrome 133+（実験的）",
+            "mdn": "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_containment/Container_queries"
+        },
+        {
+            "name": "CSS if() 関数",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "CSS内で条件分岐を行うインライン関数（提案段階）。メディアクエリやコンテナクエリの条件に基づいて値を切り替えられる。CSS変数との組み合わせで強力な動的スタイリングが可能に。",
+            "demo": "<div style=\"font-size:0.85rem;padding:12px;background:#fef2f2;border:2px solid #ef4444;border-radius:8px\"><code>width: if(style(--variant: compact): 200px; else: 400px);</code><br><span style=\"color:#991b1b\">⚠️ 提案段階。一部ブラウザで実験的に実装中。</span></div>",
+            "code": "/* CSS if() — 提案段階の構文 */\n.card {\n  /* カスタムプロパティの値で分岐 */\n  width: if(\n    style(--size: compact): 200px;\n    style(--size: full): 100%;\n    else: 400px\n  );\n\n  padding: if(\n    style(--dense: true): 0.5rem;\n    else: 1.5rem\n  );\n}\n\n/* メディア条件での分岐 */\n.text {\n  font-size: if(\n    media(width >= 1024px): 1.25rem;\n    else: 1rem\n  );\n}\n\n/* 現時点ではCSS変数 + @container で代替 */",
+            "props": [
+                { "name": "if(condition: value; else: value)", "desc": "条件に応じた値の切り替え" },
+                { "name": "style()", "desc": "カスタムプロパティの値を条件判定" },
+                { "name": "media()", "desc": "メディア条件を判定" }
+            ],
+            "tags": ["最新CSS", "条件分岐", "提案段階"],
+            "browser": "提案段階（一部Canaryビルドで実験的実装）",
+            "mdn": "https://developer.mozilla.org/en-US/docs/Web/CSS"
+        },
+        {
+            "name": "Invoker Commands (commandfor / command)",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "ボタンのクリックで別の要素にコマンドを送る宣言的API。dialogのshow-modal、popoverのtoggle、detailsの開閉などをJSなしで実行できる。",
+            "demo": "<div style=\"font-size:0.85rem;padding:12px;background:#dcfce7;border:2px solid #22c55e;border-radius:8px\"><code>&lt;button commandfor=\"dialog1\" command=\"show-modal\"&gt;</code><br><code>&nbsp;&nbsp;ダイアログを開く</code><br><code>&lt;/button&gt;</code><br><span style=\"color:#15803d\">JSなしでdialog/popover/detailsを制御。Chrome 134+</span></div>",
+            "code": "<!-- dialog の制御 -->\n<button commandfor=\"my-dialog\" command=\"show-modal\">\n  ダイアログを開く\n</button>\n<dialog id=\"my-dialog\">\n  <p>コンテンツ</p>\n  <button commandfor=\"my-dialog\" command=\"close\">\n    閉じる\n  </button>\n</dialog>\n\n<!-- details の制御 -->\n<button commandfor=\"my-details\" command=\"toggle\">\n  アコーディオン切替\n</button>\n<details id=\"my-details\">\n  <summary>タイトル</summary>\n  <p>コンテンツ</p>\n</details>\n\n<!-- カスタムコマンド -->\n<button commandfor=\"player\" command=\"--play-pause\">\n  再生/停止\n</button>",
+            "props": [
+                { "name": "commandfor", "desc": "コマンド送信先の要素ID" },
+                { "name": "command", "desc": "送信するコマンド名" },
+                { "name": "show-modal / close", "desc": "dialog用コマンド" },
+                { "name": "toggle / show / hide", "desc": "popover用コマンド" },
+                { "name": "--custom-name", "desc": "カスタムコマンド" }
+            ],
+            "tags": ["最新HTML", "コマンド", "宣言的"],
+            "browser": "Chrome 134+（実験的）",
+            "mdn": "https://developer.mozilla.org/en-US/docs/Web/HTML/Reference"
+        }
+    ]
+}

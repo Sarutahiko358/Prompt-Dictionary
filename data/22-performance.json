@@ -1,0 +1,242 @@
+{
+    "cat": "パフォーマンス最適化",
+    "catIcon": "⚡",
+    "catDesc": "Webサイトの表示速度・操作応答性を改善するための技術。Core Web Vitals、リソース最適化、レンダリング制御などを網羅。",
+    "items": [
+        {
+            "name": "Core Web Vitals (LCP / INP / CLS)",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "Googleが定義するユーザー体験の主要指標。LCP（最大コンテンツ描画）・INP（次の描画までの遅延）・CLS（累積レイアウトシフト）の3指標で構成される。SEOランキングにも影響。",
+            "demo": "<div style=\"font-size:0.85rem;display:flex;flex-direction:column;gap:6px\"><div style=\"padding:8px 12px;background:#dcfce7;border-radius:6px;border:1px solid #22c55e\"><strong style=\"color:#16a34a\">LCP</strong> ≤ 2.5s — 最大コンテンツの描画時間</div><div style=\"padding:8px 12px;background:#fef3c7;border-radius:6px;border:1px solid #f59e0b\"><strong style=\"color:#d97706\">INP</strong> ≤ 200ms — インタラクションの応答時間</div><div style=\"padding:8px 12px;background:#dbeafe;border-radius:6px;border:1px solid #3b82f6\"><strong style=\"color:#2563eb\">CLS</strong> ≤ 0.1 — レイアウトのずれ量</div></div>",
+            "code": "// web-vitals ライブラリで計測\nimport { onLCP, onINP, onCLS } from 'web-vitals';\n\nonLCP(console.log);  // Largest Contentful Paint\nonINP(console.log);  // Interaction to Next Paint\nonCLS(console.log);  // Cumulative Layout Shift\n\n// PerformanceObserver で LCP を手動取得\nconst observer = new PerformanceObserver((list) => {\n  const entries = list.getEntries();\n  const last = entries[entries.length - 1];\n  console.log('LCP:', last.startTime);\n});\nobserver.observe({ type: 'largest-contentful-paint', buffered: true });\n\n// CLS を手動計測\nlet clsValue = 0;\nnew PerformanceObserver((list) => {\n  for (const entry of list.getEntries()) {\n    if (!entry.hadRecentInput) {\n      clsValue += entry.value;\n    }\n  }\n  console.log('CLS:', clsValue);\n}).observe({ type: 'layout-shift', buffered: true });",
+            "props": [
+                { "name": "LCP (Largest Contentful Paint)", "desc": "ビューポート内で最も大きい要素の描画完了時間" },
+                { "name": "INP (Interaction to Next Paint)", "desc": "ユーザー操作から次の描画までの遅延" },
+                { "name": "CLS (Cumulative Layout Shift)", "desc": "予期しないレイアウト移動の累積量" },
+                { "name": "TTFB (Time to First Byte)", "desc": "最初のバイトが届くまでの時間" },
+                { "name": "FCP (First Contentful Paint)", "desc": "最初のコンテンツが描画された時間" }
+            ],
+            "tags": ["パフォーマンス", "SEO", "計測"],
+            "browser": "全モダンブラウザ対応",
+            "mdn": "https://developer.mozilla.org/en-US/docs/Web/API/PerformanceObserver"
+        },
+        {
+            "name": "PerformanceObserver",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "パフォーマンス関連のエントリを非同期に監視するAPI。リソース読み込み時間、描画タイミング、レイアウトシフトなどを計測できる。",
+            "demo": "<button onclick=\"try{var obs=new PerformanceObserver(function(l){l.getEntries().forEach(function(e){document.getElementById('perfResult').textContent+='['+e.entryType+': '+Math.round(e.startTime)+'ms] '})});obs.observe({entryTypes:['resource']});this.nextElementSibling.textContent='リソース監視開始！'}catch(e){this.nextElementSibling.textContent='エラー: '+e.message}\" style=\"padding:6px 14px;background:#3b82f6;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem\">監視開始</button><span style=\"margin-left:8px;font-size:0.8rem;color:#6b7280\"></span><div id=\"perfResult\" style=\"font-size:0.75rem;margin-top:4px;color:#475569;word-break:break-all\"></div>",
+            "code": "// リソース読み込み時間の監視\nconst observer = new PerformanceObserver((list) => {\n  for (const entry of list.getEntries()) {\n    console.log(`${entry.name}: ${entry.duration}ms`);\n  }\n});\nobserver.observe({ entryTypes: ['resource'] });\n\n// 描画タイミング\nnew PerformanceObserver((list) => {\n  for (const entry of list.getEntries()) {\n    console.log(`${entry.name}: ${entry.startTime}ms`);\n  }\n}).observe({ entryTypes: ['paint'] });\n\n// Long Tasks（50ms以上のタスク）\nnew PerformanceObserver((list) => {\n  for (const entry of list.getEntries()) {\n    console.log(`Long Task: ${entry.duration}ms`);\n  }\n}).observe({ entryTypes: ['longtask'] });\n\n// buffered: true で過去のエントリも取得\nobserver.observe({ type: 'resource', buffered: true });",
+            "props": [
+                { "name": "observe(options)", "desc": "監視を開始（entryTypes または type を指定）" },
+                { "name": "disconnect()", "desc": "監視を停止" },
+                { "name": "takeRecords()", "desc": "未処理のエントリを取得" },
+                { "name": "entryTypes", "desc": "resource, paint, longtask, layout-shift 等" },
+                { "name": "buffered: true", "desc": "過去のバッファ済みエントリも取得" }
+            ],
+            "tags": ["パフォーマンス", "計測", "API"],
+            "browser": "Chrome 52+, Edge 79+, Firefox 57+, Safari 11+",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/PerformanceObserver"
+        },
+        {
+            "name": "performance.mark() / measure()",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "コード内の任意の地点にマークを設定し、2点間の処理時間を計測するAPI。カスタムパフォーマンス計測やボトルネック特定に使用。DevToolsのPerformanceタブにも表示される。",
+            "demo": "<button onclick=\"performance.mark('start');var s=0;for(var i=0;i<1e6;i++)s+=i;performance.mark('end');performance.measure('calc','start','end');var m=performance.getEntriesByName('calc')[0];this.nextElementSibling.textContent='計算時間: '+m.duration.toFixed(2)+'ms'\" style=\"padding:6px 14px;background:#8b5cf6;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem\">計測実行</button><span style=\"margin-left:8px;font-size:0.85rem\"></span>",
+            "code": "// マークを設定\nperformance.mark('render-start');\n\n// 何らかの処理\nawait renderComponents();\n\nperformance.mark('render-end');\n\n// 2点間を計測\nperformance.measure('render-time', 'render-start', 'render-end');\n\n// 結果を取得\nconst measure = performance.getEntriesByName('render-time')[0];\nconsole.log(`描画時間: ${measure.duration}ms`);\n\n// クリーンアップ\nperformance.clearMarks();\nperformance.clearMeasures();",
+            "props": [
+                { "name": "performance.mark(name)", "desc": "タイムスタンプ付きのマークを設定" },
+                { "name": "performance.measure(name, start, end)", "desc": "2つのマーク間の時間を計測" },
+                { "name": "performance.getEntriesByName()", "desc": "名前でエントリを取得" },
+                { "name": "performance.now()", "desc": "高精度タイムスタンプ（μs精度）" },
+                { "name": "clearMarks() / clearMeasures()", "desc": "エントリを消去" }
+            ],
+            "tags": ["パフォーマンス", "計測", "デバッグ"],
+            "browser": "全モダンブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/Performance/mark"
+        },
+        {
+            "name": "requestIdleCallback",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "ブラウザがアイドル状態（描画やイベント処理の合間）の時にコールバックを実行するAPI。低優先度の処理を遅延実行し、ユーザーの操作をブロックしない。",
+            "demo": "<button onclick=\"var start=Date.now();requestIdleCallback(function(deadline){document.getElementById('ricResult').textContent='アイドルまでの待機: '+(Date.now()-start)+'ms / 残余時間: '+deadline.timeRemaining().toFixed(1)+'ms'})\" style=\"padding:6px 14px;background:#10b981;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem\">idle時に実行</button><div id=\"ricResult\" style=\"font-size:0.8rem;margin-top:4px;color:#6b7280\"></div>",
+            "code": "// 低優先度のタスクをアイドル時に実行\nrequestIdleCallback((deadline) => {\n  while (deadline.timeRemaining() > 0 && tasks.length > 0) {\n    processTask(tasks.shift());\n  }\n  // 残りタスクがあれば次のアイドルへ\n  if (tasks.length > 0) {\n    requestIdleCallback(processRemainingTasks);\n  }\n});\n\n// タイムアウト付き（最大1秒で強制実行）\nrequestIdleCallback(callback, { timeout: 1000 });\n\n// キャンセル\nconst id = requestIdleCallback(callback);\ncancelIdleCallback(id);\n\n// Safari非対応のためポリフィル\nwindow.requestIdleCallback = window.requestIdleCallback ||\n  ((cb) => setTimeout(() => cb({\n    timeRemaining: () => 1,\n    didTimeout: false\n  }), 1));",
+            "props": [
+                { "name": "requestIdleCallback(cb, opts?)", "desc": "アイドル時にcbを実行" },
+                { "name": "deadline.timeRemaining()", "desc": "残りのアイドル時間（ms）" },
+                { "name": "deadline.didTimeout", "desc": "timeout超過で強制実行されたか" },
+                { "name": "timeout オプション", "desc": "最大待機時間（ms）" },
+                { "name": "cancelIdleCallback(id)", "desc": "キャンセル" }
+            ],
+            "tags": ["パフォーマンス", "スケジューリング", "低優先度"],
+            "browser": "Chrome 47+, Edge 79+, Firefox 55+（Safari非対応）",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/Window/requestIdleCallback"
+        },
+        {
+            "name": "will-change",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "ブラウザに要素の変化を事前に通知し、GPUレイヤーの事前確保などの最適化を促す。transform / opacity のアニメーション前に指定するとパフォーマンスが向上するが、乱用はメモリ浪費になる。",
+            "demo": "<div style=\"font-size:0.85rem;padding:12px;background:#fefce8;border:2px solid #eab308;border-radius:8px\"><code>will-change: transform, opacity;</code><br><span style=\"color:#854d0e\">GPUレイヤーを事前確保。<br>⚠️ 常時指定は避け、アニメーション直前に付与→終了後に除去が推奨。</span></div>",
+            "code": "/* ホバー時のアニメーションを最適化 */\n.card {\n  transition: transform 0.3s, box-shadow 0.3s;\n}\n.card:hover {\n  will-change: transform;\n  transform: translateY(-4px);\n}\n\n/* JSで動的に制御（推奨パターン） */\nelement.addEventListener('mouseenter', () => {\n  element.style.willChange = 'transform';\n});\nelement.addEventListener('transitionend', () => {\n  element.style.willChange = 'auto'; // 解除\n});\n\n/* ⚠️ アンチパターン: 全要素に常時指定 */\n/* * { will-change: transform; } ← NG */",
+            "props": [
+                { "name": "auto", "desc": "ブラウザに任せる（デフォルト）" },
+                { "name": "transform", "desc": "変形の事前最適化" },
+                { "name": "opacity", "desc": "透明度変化の事前最適化" },
+                { "name": "scroll-position", "desc": "スクロール位置変化の最適化" },
+                { "name": "contents", "desc": "コンテンツ変化の最適化" }
+            ],
+            "tags": ["パフォーマンス", "GPU", "アニメーション"],
+            "browser": "全モダンブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/will-change"
+        },
+        {
+            "name": "CSS contain",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "要素のレイアウト・スタイル・ペイントの影響範囲をブラウザに通知し、再計算のスコープを限定する。大規模ページで要素変更時のパフォーマンスを改善する。",
+            "demo": "<div style=\"font-size:0.85rem;padding:12px;background:#eff6ff;border:2px solid #3b82f6;border-radius:8px\"><code>contain: layout style paint;</code><br><span style=\"color:#1d4ed8\">この要素内の変更が外部に影響しないことをブラウザに保証。再レイアウトの範囲を限定できる。</span></div>",
+            "code": "/* レイアウト・スタイル・ペイントを封じ込め */\n.widget {\n  contain: layout style paint;\n}\n\n/* 全てのcontainmentを適用（最も強力） */\n.isolated {\n  contain: strict;\n  /* = contain: size layout style paint */\n}\n\n/* content-visibility と併用 */\n.section {\n  contain: content;\n  /* = contain: layout style paint（sizeなし） */\n  content-visibility: auto;\n  contain-intrinsic-size: auto 300px;\n}",
+            "props": [
+                { "name": "none", "desc": "containmentなし（デフォルト）" },
+                { "name": "layout", "desc": "レイアウト計算を要素内に封じ込め" },
+                { "name": "style", "desc": "カウンター等のスタイルスコープを限定" },
+                { "name": "paint", "desc": "描画を要素の矩形内に限定" },
+                { "name": "size", "desc": "子要素のサイズに依存しないことを宣言" },
+                { "name": "strict", "desc": "size layout style paint の一括指定" },
+                { "name": "content", "desc": "layout style paint の一括指定" }
+            ],
+            "tags": ["パフォーマンス", "レンダリング", "最適化"],
+            "browser": "Chrome 52+, Edge 79+, Firefox 69+, Safari 15.4+",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/contain"
+        },
+        {
+            "name": "content-visibility",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "画面外の要素のレンダリングを完全にスキップし、初期表示を大幅に高速化する。autoを指定すると画面内に入った時点で描画される。長いページで劇的な効果がある。",
+            "demo": "<div style=\"font-size:0.85rem;padding:12px;background:#f0fdf4;border:2px solid #22c55e;border-radius:8px\"><code>content-visibility: auto;</code><br><code>contain-intrinsic-size: auto 500px;</code><br><span style=\"color:#15803d\">画面外セクションの描画を遅延。初期表示を数倍高速化できる。</span></div>",
+            "code": "/* 画面外のセクションは描画しない */\n.section {\n  content-visibility: auto;\n  contain-intrinsic-size: auto 500px; /* 推定サイズ */\n}\n\n/* リストアイテムの最適化 */\n.list-item {\n  content-visibility: auto;\n  contain-intrinsic-size: auto 80px;\n}\n\n/* 完全に非表示（display:none風だがDOMに残る） */\n.hidden-section {\n  content-visibility: hidden;\n}",
+            "props": [
+                { "name": "visible", "desc": "通常のレンダリング（デフォルト）" },
+                { "name": "auto", "desc": "画面外ならレンダリングをスキップ" },
+                { "name": "hidden", "desc": "常にレンダリングをスキップ" },
+                { "name": "contain-intrinsic-size", "desc": "スキップ時のプレースホルダーサイズ" }
+            ],
+            "tags": ["パフォーマンス", "レンダリング", "高速化"],
+            "browser": "Chrome 85+, Edge 85+, Firefox 125+（Safari非対応）",
+            "mdn": "https://developer.mozilla.org/en-US/docs/Web/CSS/content-visibility"
+        },
+        {
+            "name": "Resource Hints (preload / prefetch / preconnect)",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "ブラウザにリソースの事前取得や接続確立を指示する。preloadは現ページで必要なリソース、prefetchは次ページ用、preconnectは外部ドメインへの接続を事前に行う。",
+            "demo": "<div style=\"font-size:0.85rem;display:flex;flex-direction:column;gap:4px\"><code style=\"padding:4px 8px;background:#dcfce7;border-radius:4px\">&lt;link rel=\"preload\" href=\"font.woff2\" as=\"font\"&gt;</code><code style=\"padding:4px 8px;background:#dbeafe;border-radius:4px\">&lt;link rel=\"prefetch\" href=\"/next-page.html\"&gt;</code><code style=\"padding:4px 8px;background:#fef3c7;border-radius:4px\">&lt;link rel=\"preconnect\" href=\"https://api.example.com\"&gt;</code></div>",
+            "code": "<!-- 現在のページで確実に必要なリソース -->\n<link rel=\"preload\" href=\"/fonts/main.woff2\"\n      as=\"font\" type=\"font/woff2\" crossorigin>\n<link rel=\"preload\" href=\"/css/critical.css\" as=\"style\">\n<link rel=\"preload\" href=\"/hero.webp\" as=\"image\">\n\n<!-- 次のページで使うリソース（低優先度） -->\n<link rel=\"prefetch\" href=\"/next-page.html\">\n<link rel=\"prefetch\" href=\"/data/products.json\">\n\n<!-- 外部ドメインへの接続を事前確立 -->\n<link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">\n<link rel=\"dns-prefetch\" href=\"https://analytics.example.com\">\n\n<!-- fetchpriority で優先度を制御 -->\n<img src=\"hero.jpg\" fetchpriority=\"high\" alt=\"ヒーロー\">\n<img src=\"footer.jpg\" fetchpriority=\"low\" alt=\"フッター\">",
+            "props": [
+                { "name": "rel=\"preload\"", "desc": "現ページに必須のリソースを先行取得" },
+                { "name": "rel=\"prefetch\"", "desc": "次ページ用リソースをアイドル時に取得" },
+                { "name": "rel=\"preconnect\"", "desc": "外部ドメインへのTCP/TLS接続を事前確立" },
+                { "name": "rel=\"dns-prefetch\"", "desc": "DNS解決のみ事前実行" },
+                { "name": "as", "desc": "リソースタイプ（font, style, script, image等）" },
+                { "name": "fetchpriority", "desc": "high / low / auto でリソース優先度を制御" }
+            ],
+            "tags": ["パフォーマンス", "リソース", "最適化"],
+            "browser": "全モダンブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Attributes/rel/preload"
+        },
+        {
+            "name": "loading=\"lazy\" / decoding=\"async\"",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "画像・iframeの遅延読み込みとデコードの非同期化。ビューポート外の画像をスクロール接近時に読み込み、初期表示の帯域とCPUを節約する。",
+            "demo": "<div style=\"font-size:0.85rem;display:flex;flex-direction:column;gap:4px\"><div style=\"display:flex;align-items:center;gap:8px\"><span style=\"background:#dcfce7;padding:3px 8px;border-radius:4px;font-size:0.75rem;font-weight:600;color:#065f46\">loading=\"lazy\"</span><span>スクロール時に読み込み開始</span></div><div style=\"display:flex;align-items:center;gap:8px\"><span style=\"background:#dbeafe;padding:3px 8px;border-radius:4px;font-size:0.75rem;font-weight:600;color:#1e40af\">decoding=\"async\"</span><span>メインスレッドをブロックしない</span></div><div style=\"display:flex;align-items:center;gap:8px\"><span style=\"background:#fef3c7;padding:3px 8px;border-radius:4px;font-size:0.75rem;font-weight:600;color:#92400e\">fetchpriority=\"high\"</span><span>LCP画像に指定</span></div></div>",
+            "code": "<!-- ビューポート外の画像を遅延読み込み -->\n<img src=\"photo.jpg\" alt=\"写真\"\n     loading=\"lazy\"\n     decoding=\"async\"\n     width=\"800\" height=\"600\">\n\n<!-- LCP画像は eager + high priority -->\n<img src=\"hero.webp\" alt=\"ヒーロー\"\n     loading=\"eager\"\n     fetchpriority=\"high\"\n     decoding=\"async\"\n     width=\"1200\" height=\"600\">\n\n<!-- iframe も遅延読み込み可能 -->\n<iframe src=\"https://youtube.com/embed/xxx\"\n        loading=\"lazy\"\n        title=\"動画\"></iframe>\n\n<!-- ⚠️ ファーストビューの画像には lazy を使わない -->\n<!-- LCPが悪化する原因になる -->",
+            "props": [
+                { "name": "loading=\"lazy\"", "desc": "ビューポート接近時に読み込み" },
+                { "name": "loading=\"eager\"", "desc": "即座に読み込み（デフォルト）" },
+                { "name": "decoding=\"async\"", "desc": "画像デコードを非同期に" },
+                { "name": "fetchpriority=\"high\"", "desc": "LCP画像に指定して優先取得" },
+                { "name": "width / height", "desc": "CLS防止のため必ず指定" }
+            ],
+            "tags": ["パフォーマンス", "画像", "遅延読み込み"],
+            "browser": "全モダンブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/img#loading"
+        },
+        {
+            "name": "debounce / throttle パターン",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "高頻度イベント（scroll, resize, input等）の発火を制御するテクニック。debounceは最後の呼出しから一定時間後に実行、throttleは一定間隔で最大1回実行。",
+            "demo": "<div style=\"font-size:0.85rem\"><input type=\"text\" id=\"debounceInput\" placeholder=\"入力してみてください（debounce 500ms）\" style=\"padding:6px 10px;border:1px solid #cbd5e1;border-radius:6px;font-size:0.85rem;width:280px\" oninput=\"clearTimeout(this._t);this._t=setTimeout(function(){document.getElementById('debounceResult').textContent='検索実行: '+document.getElementById('debounceInput').value},500)\"><div id=\"debounceResult\" style=\"margin-top:4px;color:#6b7280;font-size:0.8rem\"></div></div>",
+            "code": "// debounce: 最後の呼出しから指定時間後に実行\nfunction debounce(fn, delay) {\n  let timer;\n  return (...args) => {\n    clearTimeout(timer);\n    timer = setTimeout(() => fn(...args), delay);\n  };\n}\n\n// throttle: 指定間隔で最大1回実行\nfunction throttle(fn, interval) {\n  let lastTime = 0;\n  return (...args) => {\n    const now = Date.now();\n    if (now - lastTime >= interval) {\n      lastTime = now;\n      fn(...args);\n    }\n  };\n}\n\n// 使用例\nconst handleSearch = debounce((query) => {\n  fetch(`/api/search?q=${query}`);\n}, 300);\n\nconst handleScroll = throttle(() => {\n  updateScrollProgress();\n}, 100);\n\ninput.addEventListener('input', (e) => handleSearch(e.target.value));\nwindow.addEventListener('scroll', handleScroll, { passive: true });",
+            "props": [
+                { "name": "debounce(fn, delay)", "desc": "最後の呼出しからdelay ms後に実行" },
+                { "name": "throttle(fn, interval)", "desc": "interval ms間で最大1回実行" },
+                { "name": "passive: true", "desc": "スクロールイベントのパッシブリスナー" },
+                { "name": "clearTimeout()", "desc": "debounceのタイマーリセット" }
+            ],
+            "tags": ["パフォーマンス", "パターン", "イベント"],
+            "browser": "全ブラウザ対応（JavaScript実装）",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/setTimeout"
+        },
+        {
+            "name": "画像最適化（WebP / AVIF / srcset）",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "最新画像フォーマットとレスポンシブ画像で転送量を削減。WebPはJPEGより25-35%、AVIFは50%小さい。picture要素でフォーマット切替、srcsetで解像度切替を行う。",
+            "demo": "<div style=\"font-size:0.85rem;display:flex;flex-direction:column;gap:6px\"><div style=\"display:flex;gap:8px;align-items:center\"><div style=\"padding:4px 10px;background:#ef4444;color:#fff;border-radius:4px;font-size:0.75rem;font-weight:700\">JPEG 100KB</div><span>→</span><div style=\"padding:4px 10px;background:#f59e0b;color:#fff;border-radius:4px;font-size:0.75rem;font-weight:700\">WebP 70KB</div><span>→</span><div style=\"padding:4px 10px;background:#22c55e;color:#fff;border-radius:4px;font-size:0.75rem;font-weight:700\">AVIF 50KB</div></div><span style=\"color:#6b7280;font-size:0.75rem\">同品質での概算ファイルサイズ比較</span></div>",
+            "code": "<!-- フォーマット切替（最新形式優先） -->\n<picture>\n  <source srcset=\"photo.avif\" type=\"image/avif\">\n  <source srcset=\"photo.webp\" type=\"image/webp\">\n  <img src=\"photo.jpg\" alt=\"写真\"\n       width=\"800\" height=\"600\"\n       loading=\"lazy\" decoding=\"async\">\n</picture>\n\n<!-- 解像度切替 -->\n<img srcset=\"photo-480.jpg 480w,\n            photo-800.jpg 800w,\n            photo-1200.jpg 1200w\"\n     sizes=\"(max-width: 600px) 100vw,\n            (max-width: 1024px) 50vw,\n            33vw\"\n     src=\"photo-800.jpg\" alt=\"写真\">\n\n<!-- アスペクト比を維持（CLS防止） -->\nimg {\n  width: 100%;\n  height: auto;\n  aspect-ratio: 4 / 3;\n}",
+            "props": [
+                { "name": "AVIF", "desc": "最新形式。JPEGの約50%のサイズ" },
+                { "name": "WebP", "desc": "JPEGの約25-35%小さい" },
+                { "name": "srcset + sizes", "desc": "画面幅に応じた最適画像の配信" },
+                { "name": "picture + source", "desc": "ブラウザ対応に応じたフォーマット切替" },
+                { "name": "width / height", "desc": "CLS防止のため必須指定" }
+            ],
+            "tags": ["パフォーマンス", "画像", "最適化"],
+            "browser": "AVIF: Chrome 85+, Firefox 93+, Safari 16+",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/picture"
+        },
+        {
+            "name": "script defer / async / type=\"module\"",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "JavaScriptの読み込みがHTMLの解析をブロックしないよう制御する属性。deferはHTML解析後に順序通り実行、asyncは読込完了次第すぐ実行。パフォーマンスに直結する基本設定。",
+            "demo": "<div style=\"font-size:0.85rem;display:flex;flex-direction:column;gap:4px\"><div style=\"display:flex;align-items:center;gap:8px\"><span style=\"background:#fef2f2;padding:3px 8px;border-radius:4px;font-size:0.75rem;font-weight:600;color:#991b1b\">&lt;script&gt;</span><span style=\"color:#dc2626\">HTML解析をブロック</span></div><div style=\"display:flex;align-items:center;gap:8px\"><span style=\"background:#dcfce7;padding:3px 8px;border-radius:4px;font-size:0.75rem;font-weight:600;color:#166534\">defer</span><span style=\"color:#16a34a\">解析後に順序通り実行（推奨）</span></div><div style=\"display:flex;align-items:center;gap:8px\"><span style=\"background:#fef3c7;padding:3px 8px;border-radius:4px;font-size:0.75rem;font-weight:600;color:#92400e\">async</span><span style=\"color:#d97706\">読込完了次第実行（順序不定）</span></div></div>",
+            "code": "<!-- 推奨: defer でブロッキングを回避 -->\n<script defer src=\"/js/app.js\"></script>\n\n<!-- 独立したスクリプト（Analytics等） -->\n<script async src=\"/js/analytics.js\"></script>\n\n<!-- ES Modules（暗黙的にdefer） -->\n<script type=\"module\" src=\"/js/app.mjs\"></script>\n\n<!-- インラインスクリプトのブロッキング回避 -->\n<script>\n  // 重い処理は requestIdleCallback で遅延\n  requestIdleCallback(() => {\n    initHeavyFeature();\n  });\n</script>",
+            "props": [
+                { "name": "defer", "desc": "HTML解析後に順序を保って実行" },
+                { "name": "async", "desc": "読込完了次第すぐ実行（順序不定）" },
+                { "name": "type=\"module\"", "desc": "ESMとして読み込み（暗黙defer）" },
+                { "name": "ブロッキング", "desc": "属性なしのscriptはHTMLパースを停止する" }
+            ],
+            "tags": ["パフォーマンス", "JavaScript", "ブロッキング"],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/HTML/Element/script"
+        },
+        {
+            "name": "Scheduler API (scheduler.postTask)",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "タスクの優先度を明示的に指定してスケジューリングするAPI。user-blocking（最高）、user-visible（中）、background（低）の3段階でメインスレッドの処理順序を制御する。",
+            "demo": "<div style=\"font-size:0.85rem;padding:12px;background:#f1f5f9;border-radius:8px\"><strong>Scheduler API</strong><br><code>scheduler.postTask(fn, { priority: 'background' })</code><br><span style=\"color:#6b7280\">タスクの優先度をuser-blocking / user-visible / backgroundで制御</span></div>",
+            "code": "// 高優先度: ユーザー操作への応答\nscheduler.postTask(() => {\n  updateUI();\n}, { priority: 'user-blocking' });\n\n// 中優先度: 表示に関わる処理\nscheduler.postTask(() => {\n  renderChart();\n}, { priority: 'user-visible' });\n\n// 低優先度: バックグラウンド処理\nscheduler.postTask(() => {\n  sendAnalytics();\n}, { priority: 'background' });\n\n// 遅延実行\nscheduler.postTask(callback, {\n  priority: 'background',\n  delay: 2000  // 2秒後に実行\n});\n\n// AbortController で中断\nconst controller = new TaskController();\nscheduler.postTask(heavyTask, {\n  signal: controller.signal\n});\ncontroller.abort();",
+            "props": [
+                { "name": "scheduler.postTask(fn, opts)", "desc": "優先度付きでタスクをスケジュール" },
+                { "name": "user-blocking", "desc": "最高優先度（ユーザー操作への応答）" },
+                { "name": "user-visible", "desc": "中優先度（画面更新）" },
+                { "name": "background", "desc": "低優先度（分析、プリフェッチ等）" },
+                { "name": "delay", "desc": "実行を遅延（ms）" },
+                { "name": "TaskController", "desc": "タスクの中断用コントローラー" }
+            ],
+            "tags": ["パフォーマンス", "スケジューリング", "モダン"],
+            "browser": "Chrome 94+, Edge 94+（Firefox, Safari非対応）",
+            "mdn": "https://developer.mozilla.org/en-US/docs/Web/API/Scheduler"
+        }
+    ]
+}

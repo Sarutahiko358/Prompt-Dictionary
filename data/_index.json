@@ -1,124 +1,34 @@
 {
   "categories": [
-    {
-      "file": "01-text.json",
-      "enabled": true
-    },
-    {
-      "file": "02-form.json",
-      "enabled": true
-    },
-    {
-      "file": "03-button.json",
-      "enabled": true
-    },
-    {
-      "file": "04-layout.json",
-      "enabled": true
-    },
-    {
-      "file": "05-list-table.json",
-      "enabled": true
-    },
-    {
-      "file": "06-media.json",
-      "enabled": true
-    },
-    {
-      "file": "07-interactive.json",
-      "enabled": true
-    },
-    {
-      "file": "08-css-effect.json",
-      "enabled": true
-    },
-    {
-      "file": "09-responsive.json",
-      "enabled": true
-    },
-    {
-      "file": "10-a11y.json",
-      "enabled": true
-    },
-    {
-      "file": "11-js-api.json",
-      "enabled": true
-    },
-    {
-      "file": "12-metadata.json",
-      "enabled": true
-    },
-    {
-      "file": "13-css-typography.json",
-      "enabled": true
-    },
-    {
-      "file": "14-css-boxmodel.json",
-      "enabled": true
-    },
-    {
-      "file": "15-css-color-bg.json",
-      "enabled": true
-    },
-    {
-      "file": "16-css-selector.json",
-      "enabled": true
-    },
-    {
-      "file": "17-ui-pattern.json",
-      "enabled": true
-    },
-    {
-      "file": "18-modern-css.json",
-      "enabled": true
-    },
-    {
-      "file": "19-js-async.json",
-      "enabled": true
-    },
-    {
-      "file": "20-js-storage.json",
-      "enabled": true
-    },
-    {
-      "file": "21-js-device.json",
-      "enabled": true
-    },
-    {
-      "file": "22-performance.json",
-      "enabled": true
-    },
-    {
-      "file": "23-svg-detail.json",
-      "enabled": true
-    },
-    {
-      "file": "24-css-print.json",
-      "enabled": true
-    },
-    {
-      "file": "25-css-functions.json",
-      "enabled": true
-    },
-    {
-      "file": "26-web-components.json",
-      "enabled": true
-    },
-    {
-      "file": "27-js-modern-syntax.json",
-      "enabled": true
-    },
-    {
-      "file": "28-css-2026.json",
-      "enabled": true
-    },
-    {
-      "file": "29-forms-advanced.json",
-      "enabled": true
-    },
-    {
-      "file": "30-js-dom-advanced.json",
-      "enabled": true
-    }
+    { "file": "01-text.json", "enabled": true },
+    { "file": "02-form.json", "enabled": true },
+    { "file": "03-button.json", "enabled": true },
+    { "file": "04-layout.json", "enabled": true },
+    { "file": "05-list-table.json", "enabled": true },
+    { "file": "06-media.json", "enabled": true },
+    { "file": "07-interactive.json", "enabled": true },
+    { "file": "08-css-effect.json", "enabled": true },
+    { "file": "09-responsive.json", "enabled": true },
+    { "file": "10-a11y.json", "enabled": true },
+    { "file": "11-js-api.json", "enabled": true },
+    { "file": "12-metadata.json", "enabled": true },
+    { "file": "13-css-typography.json", "enabled": true },
+    { "file": "14-css-boxmodel.json", "enabled": true },
+    { "file": "15-css-color-bg.json", "enabled": true },
+    { "file": "16-css-selector.json", "enabled": true },
+    { "file": "17-ui-pattern.json", "enabled": true },
+    { "file": "18-modern-css.json", "enabled": true },
+    { "file": "19-js-async.json", "enabled": true },
+    { "file": "20-js-storage.json", "enabled": true },
+    { "file": "21-js-device.json", "enabled": true },
+    { "file": "22-performance.json", "enabled": true },
+    { "file": "23-svg-detail.json", "enabled": true },
+    { "file": "24-css-print.json", "enabled": true },
+    { "file": "25-css-functions.json", "enabled": true },
+    { "file": "26-web-components.json", "enabled": true },
+    { "file": "27-js-modern-syntax.json", "enabled": true },
+    { "file": "28-css-2026.json", "enabled": true },
+    { "file": "29-forms-advanced.json", "enabled": true },
+    { "file": "30-js-dom-advanced.json", "enabled": true }
   ]
 }

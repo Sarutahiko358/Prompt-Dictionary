@@ -1,0 +1,222 @@
+{
+    "cat": "SVG詳細",
+    "catIcon": "🔷",
+    "catDesc": "スケーラブル・ベクター・グラフィックスの要素と属性を詳解。基本図形、パス、テキスト、フィルター、アニメーションなど。",
+    "items": [
+        {
+            "name": "SVG 基本図形 (rect / circle / ellipse / line)",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "SVGの基本的な幾何学図形。rect（矩形）、circle（円）、ellipse（楕円）、line（線分）をそれぞれの属性で描画する。CSSでスタイリングも可能。",
+            "demo": "<svg width=\"220\" height=\"70\" viewBox=\"0 0 220 70\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"5\" y=\"10\" width=\"45\" height=\"45\" rx=\"6\" fill=\"#3b82f6\"/><circle cx=\"85\" cy=\"33\" r=\"22\" fill=\"#8b5cf6\"/><ellipse cx=\"140\" cy=\"33\" rx=\"28\" ry=\"18\" fill=\"#ec4899\"/><line x1=\"175\" y1=\"10\" x2=\"210\" y2=\"56\" stroke=\"#f97316\" stroke-width=\"3\" stroke-linecap=\"round\"/></svg>",
+            "code": "<svg width=\"200\" height=\"100\" viewBox=\"0 0 200 100\">\n  <!-- 矩形（角丸つき） -->\n  <rect x=\"10\" y=\"10\" width=\"60\" height=\"40\"\n        rx=\"8\" fill=\"#3b82f6\" />\n\n  <!-- 円 -->\n  <circle cx=\"120\" cy=\"30\" r=\"25\" fill=\"#8b5cf6\" />\n\n  <!-- 楕円 -->\n  <ellipse cx=\"60\" cy=\"75\" rx=\"40\" ry=\"15\"\n           fill=\"#ec4899\" />\n\n  <!-- 線分 -->\n  <line x1=\"150\" y1=\"10\" x2=\"190\" y2=\"90\"\n        stroke=\"#f97316\" stroke-width=\"2\" />\n</svg>",
+            "props": [
+                { "name": "rect: x, y, width, height, rx, ry", "desc": "位置、サイズ、角丸" },
+                { "name": "circle: cx, cy, r", "desc": "中心座標と半径" },
+                { "name": "ellipse: cx, cy, rx, ry", "desc": "中心座標と横/縦半径" },
+                { "name": "line: x1, y1, x2, y2", "desc": "始点と終点の座標" },
+                { "name": "fill / stroke", "desc": "塗りつぶし色 / 線の色" },
+                { "name": "stroke-width", "desc": "線の太さ" }
+            ],
+            "tags": ["SVG", "図形", "基本"],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/SVG/Tutorial/Basic_Shapes"
+        },
+        {
+            "name": "polygon / polyline",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "polygon（多角形、閉じた図形）とpolyline（折れ線、開いた図形）。points属性に頂点座標をスペースまたはカンマ区切りで指定する。星形やグラフの折れ線に使用。",
+            "demo": "<svg width=\"200\" height=\"70\" viewBox=\"0 0 200 70\" xmlns=\"http://www.w3.org/2000/svg\"><polygon points=\"35,5 45,25 67,28 50,43 55,65 35,53 15,65 20,43 3,28 25,25\" fill=\"#f59e0b\"/><polyline points=\"90,60 110,20 130,45 150,10 170,35 190,5\" fill=\"none\" stroke=\"#3b82f6\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+            "code": "<!-- 星形（polygon） -->\n<polygon points=\"50,5 61,35 95,38 68,57 79,91 50,70 21,91 32,57 5,38 39,35\"\n         fill=\"#f59e0b\" />\n\n<!-- 折れ線グラフ（polyline） -->\n<polyline points=\"10,80 40,20 70,50 100,10 130,40\"\n          fill=\"none\" stroke=\"#3b82f6\" stroke-width=\"2\"\n          stroke-linecap=\"round\" stroke-linejoin=\"round\" />",
+            "props": [
+                { "name": "points", "desc": "頂点座標のリスト（x,y のペア）" },
+                { "name": "fill", "desc": "polygon は自動で閉じて塗りつぶし" },
+                { "name": "stroke-linejoin", "desc": "頂点の接合スタイル（round, miter, bevel）" },
+                { "name": "stroke-linecap", "desc": "線端のスタイル（round, square, butt）" }
+            ],
+            "tags": ["SVG", "図形", "多角形"],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/SVG/Element/polygon"
+        },
+        {
+            "name": "&lt;path&gt; (SVGパス)",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "SVGで最も強力な図形要素。d属性にパスコマンド（M/L/C/Q/A/Z等）を記述して任意の形状を描画する。アイコンフォントの代替として最も一般的。",
+            "demo": "<svg width=\"120\" height=\"60\" viewBox=\"0 0 120 60\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M10,50 Q30,5 60,30 T110,10\" fill=\"none\" stroke=\"#8b5cf6\" stroke-width=\"3\" stroke-linecap=\"round\"/><path d=\"M80,50 L95,20 L110,50 Z\" fill=\"#22c55e\" opacity=\"0.7\"/></svg>",
+            "code": "<path d=\"M 10,30\n        L 50,10\n        L 90,30\n        Q 70,60 50,50\n        Z\"\n      fill=\"#3b82f6\" stroke=\"#1d4ed8\" stroke-width=\"1\" />\n\n<!-- パスコマンド一覧 -->\n<!-- M x,y    移動（Move to） -->\n<!-- L x,y    直線（Line to） -->\n<!-- H x      水平線 -->\n<!-- V y      垂直線 -->\n<!-- C x1,y1 x2,y2 x,y  3次ベジェ曲線 -->\n<!-- Q x1,y1 x,y        2次ベジェ曲線 -->\n<!-- A rx,ry rot large sweep x,y  円弧 -->\n<!-- Z        パスを閉じる -->\n<!-- 小文字 = 相対座標 -->",
+            "props": [
+                { "name": "d", "desc": "パスデータ（コマンドと座標の文字列）" },
+                { "name": "M / m", "desc": "移動（Move to）。絶対 / 相対" },
+                { "name": "L / l", "desc": "直線（Line to）" },
+                { "name": "C / c", "desc": "3次ベジェ曲線（Cubic Bezier）" },
+                { "name": "Q / q", "desc": "2次ベジェ曲線（Quadratic Bezier）" },
+                { "name": "A / a", "desc": "円弧（Arc）" },
+                { "name": "Z / z", "desc": "パスを閉じる（Close path）" }
+            ],
+            "tags": ["SVG", "パス", "アイコン"],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/SVG/Element/path"
+        },
+        {
+            "name": "viewBox / preserveAspectRatio",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "SVGの座標系とスケーリングを制御する属性。viewBoxでSVG内部の座標空間を定義し、preserveAspectRatioでコンテナへのフィット方法を指定する。レスポンシブSVGの基盤。",
+            "demo": "<div style=\"display:flex;gap:8px\"><svg width=\"80\" height=\"50\" viewBox=\"0 0 100 100\" style=\"border:1px solid #cbd5e1;border-radius:4px\"><circle cx=\"50\" cy=\"50\" r=\"40\" fill=\"#3b82f6\"/></svg><svg width=\"80\" height=\"50\" viewBox=\"0 0 100 100\" preserveAspectRatio=\"none\" style=\"border:1px solid #cbd5e1;border-radius:4px\"><circle cx=\"50\" cy=\"50\" r=\"40\" fill=\"#ec4899\"/></svg></div>",
+            "code": "<!-- レスポンシブSVG（幅100%で追従） -->\n<svg viewBox=\"0 0 100 100\"\n     width=\"100%\" height=\"auto\">\n  <circle cx=\"50\" cy=\"50\" r=\"40\" fill=\"#3b82f6\" />\n</svg>\n\n<!-- アスペクト比を無視して引き伸ばし -->\n<svg viewBox=\"0 0 100 100\"\n     preserveAspectRatio=\"none\">\n  ...\n</svg>\n\n<!-- 左上基準でフィット -->\n<svg viewBox=\"0 0 200 100\"\n     preserveAspectRatio=\"xMinYMin meet\">\n  ...\n</svg>",
+            "props": [
+                { "name": "viewBox", "desc": "min-x min-y width height の4値で内部座標系を定義" },
+                { "name": "preserveAspectRatio", "desc": "align + meetOrSlice でフィット方法を指定" },
+                { "name": "meet", "desc": "viewBox全体が見えるようにフィット（contain相当）" },
+                { "name": "slice", "desc": "viewBoxで全体を埋める（cover相当）" },
+                { "name": "none", "desc": "アスペクト比を無視" }
+            ],
+            "tags": ["SVG", "座標系", "レスポンシブ"],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/SVG/Attribute/viewBox"
+        },
+        {
+            "name": "&lt;text&gt; / &lt;tspan&gt; (SVGテキスト)",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "SVG内にテキストを描画する要素。CSSフォントプロパティやfill/strokeでスタイリング可能。tspanでテキストの一部だけスタイルを変更できる。",
+            "demo": "<svg width=\"220\" height=\"50\" viewBox=\"0 0 220 50\" xmlns=\"http://www.w3.org/2000/svg\"><text x=\"10\" y=\"20\" font-size=\"14\" font-weight=\"700\" fill=\"#1e293b\">SVG <tspan fill=\"#3b82f6\">テキスト</tspan> 要素</text><text x=\"10\" y=\"42\" font-size=\"11\" fill=\"#64748b\" font-family=\"monospace\">font-size, fill で装飾</text></svg>",
+            "code": "<svg viewBox=\"0 0 200 60\">\n  <text x=\"10\" y=\"30\" font-size=\"20\" fill=\"#1e293b\">\n    Hello <tspan fill=\"#3b82f6\" font-weight=\"bold\">SVG</tspan>\n  </text>\n\n  <!-- テキストアンカー（中央揃え） -->\n  <text x=\"100\" y=\"55\" text-anchor=\"middle\"\n        font-size=\"12\" fill=\"#64748b\">\n    中央揃えテキスト\n  </text>\n</svg>\n\n<!-- CSSでスタイリング -->\n<style>\n  svg text {\n    font-family: system-ui;\n    dominant-baseline: central;\n  }\n</style>",
+            "props": [
+                { "name": "x / y", "desc": "テキスト描画の基準座標" },
+                { "name": "text-anchor", "desc": "start / middle / end で水平揃え" },
+                { "name": "dominant-baseline", "desc": "垂直方向のベースライン" },
+                { "name": "font-size / font-family", "desc": "CSSフォントプロパティ" },
+                { "name": "fill / stroke", "desc": "文字色 / アウトライン" },
+                { "name": "tspan", "desc": "テキストの一部を個別スタイリング" }
+            ],
+            "tags": ["SVG", "テキスト", "スタイリング"],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/SVG/Element/text"
+        },
+        {
+            "name": "&lt;defs&gt; / &lt;use&gt; / &lt;symbol&gt;",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "SVG要素の再利用を可能にする構造。defsで描画せずに定義し、useで参照して複製する。symbolはviewBox付きの再利用コンポーネントを定義する。SVGスプライトの基盤。",
+            "demo": "<svg width=\"180\" height=\"50\" viewBox=\"0 0 180 50\" xmlns=\"http://www.w3.org/2000/svg\"><defs><symbol id=\"star\" viewBox=\"0 0 24 24\"><path d=\"M12,2 L15,9 L22,9 L16,14 L18,22 L12,17 L6,22 L8,14 L2,9 L9,9 Z\" fill=\"currentColor\"/></symbol></defs><use href=\"#star\" x=\"5\" y=\"5\" width=\"40\" height=\"40\" style=\"color:#f59e0b\"/><use href=\"#star\" x=\"50\" y=\"5\" width=\"40\" height=\"40\" style=\"color:#3b82f6\"/><use href=\"#star\" x=\"95\" y=\"5\" width=\"40\" height=\"40\" style=\"color:#ec4899\"/></svg>",
+            "code": "<!-- SVGスプライト定義 -->\n<svg style=\"display:none\">\n  <defs>\n    <symbol id=\"icon-heart\" viewBox=\"0 0 24 24\">\n      <path d=\"M12,21 C...\" fill=\"currentColor\" />\n    </symbol>\n    <symbol id=\"icon-star\" viewBox=\"0 0 24 24\">\n      <path d=\"M12,2 L...\" fill=\"currentColor\" />\n    </symbol>\n  </defs>\n</svg>\n\n<!-- 参照して使用（色はCSSで制御） -->\n<svg width=\"24\" height=\"24\" class=\"icon\">\n  <use href=\"#icon-heart\" />\n</svg>\n\n<style>\n  .icon { color: #3b82f6; }\n  .icon:hover { color: #ef4444; }\n</style>",
+            "props": [
+                { "name": "defs", "desc": "描画せずにSVG要素を定義する領域" },
+                { "name": "symbol", "desc": "viewBox付きの再利用コンポーネント" },
+                { "name": "use href=\"#id\"", "desc": "定義済み要素を参照・複製して描画" },
+                { "name": "currentColor", "desc": "CSSのcolor値を継承する特殊値" }
+            ],
+            "tags": ["SVG", "再利用", "スプライト"],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/SVG/Element/use"
+        },
+        {
+            "name": "SVGグラデーション (linearGradient / radialGradient)",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "SVG要素の塗りに使うグラデーション定義。defs内で定義し、fill=\"url(#id)\"で参照する。CSSのgradientとは異なる構文。",
+            "demo": "<svg width=\"200\" height=\"60\" viewBox=\"0 0 200 60\" xmlns=\"http://www.w3.org/2000/svg\"><defs><linearGradient id=\"lgDemo\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"0\"><stop offset=\"0%\" stop-color=\"#3b82f6\"/><stop offset=\"100%\" stop-color=\"#8b5cf6\"/></linearGradient><radialGradient id=\"rgDemo\"><stop offset=\"0%\" stop-color=\"#fbbf24\"/><stop offset=\"100%\" stop-color=\"#f97316\"/></radialGradient></defs><rect x=\"5\" y=\"5\" width=\"90\" height=\"50\" rx=\"8\" fill=\"url(#lgDemo)\"/><circle cx=\"150\" cy=\"30\" r=\"25\" fill=\"url(#rgDemo)\"/></svg>",
+            "code": "<svg>\n  <defs>\n    <!-- 線形グラデーション -->\n    <linearGradient id=\"grad1\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\">\n      <stop offset=\"0%\" stop-color=\"#3b82f6\" />\n      <stop offset=\"100%\" stop-color=\"#8b5cf6\" />\n    </linearGradient>\n\n    <!-- 放射グラデーション -->\n    <radialGradient id=\"grad2\" cx=\"50%\" cy=\"50%\" r=\"50%\">\n      <stop offset=\"0%\" stop-color=\"#fff\" />\n      <stop offset=\"100%\" stop-color=\"#3b82f6\" />\n    </radialGradient>\n  </defs>\n\n  <rect fill=\"url(#grad1)\" width=\"100\" height=\"50\" />\n  <circle fill=\"url(#grad2)\" cx=\"180\" cy=\"25\" r=\"25\" />\n</svg>",
+            "props": [
+                { "name": "linearGradient", "desc": "線形グラデーションを定義" },
+                { "name": "radialGradient", "desc": "放射グラデーションを定義" },
+                { "name": "stop", "desc": "カラーストップ（offset + stop-color）" },
+                { "name": "x1,y1,x2,y2", "desc": "線形グラデーションの方向（0〜1）" },
+                { "name": "fill=\"url(#id)\"", "desc": "グラデーションを参照して塗りに使用" }
+            ],
+            "tags": ["SVG", "グラデーション", "デザイン"],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/SVG/Element/linearGradient"
+        },
+        {
+            "name": "SVG filter",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "SVG要素にぼかし・影・色変換などのフィルター効果を適用する。CSSのfilterプロパティの元になった技術で、より高度なエフェクトが可能。",
+            "demo": "<svg width=\"200\" height=\"60\" viewBox=\"0 0 200 60\" xmlns=\"http://www.w3.org/2000/svg\"><defs><filter id=\"blurDemo\"><feGaussianBlur in=\"SourceGraphic\" stdDeviation=\"2\"/></filter><filter id=\"shadowDemo\"><feDropShadow dx=\"3\" dy=\"3\" stdDeviation=\"2\" flood-color=\"#00000040\"/></filter></defs><rect x=\"10\" y=\"10\" width=\"70\" height=\"40\" rx=\"8\" fill=\"#3b82f6\" filter=\"url(#blurDemo)\"/><rect x=\"110\" y=\"10\" width=\"70\" height=\"40\" rx=\"8\" fill=\"#ec4899\" filter=\"url(#shadowDemo)\"/></svg>",
+            "code": "<svg>\n  <defs>\n    <filter id=\"blur\">\n      <feGaussianBlur stdDeviation=\"3\" />\n    </filter>\n\n    <filter id=\"drop-shadow\">\n      <feDropShadow dx=\"2\" dy=\"2\"\n                     stdDeviation=\"2\"\n                     flood-color=\"rgba(0,0,0,0.3)\" />\n    </filter>\n\n    <filter id=\"glow\">\n      <feGaussianBlur stdDeviation=\"4\" result=\"blur\" />\n      <feMerge>\n        <feMergeNode in=\"blur\" />\n        <feMergeNode in=\"SourceGraphic\" />\n      </feMerge>\n    </filter>\n  </defs>\n\n  <circle filter=\"url(#glow)\" cx=\"50\" cy=\"50\" r=\"30\" fill=\"#3b82f6\" />\n</svg>",
+            "props": [
+                { "name": "feGaussianBlur", "desc": "ガウスぼかし" },
+                { "name": "feDropShadow", "desc": "ドロップシャドウ" },
+                { "name": "feColorMatrix", "desc": "色変換マトリクス" },
+                { "name": "feMerge", "desc": "複数のフィルタ結果を合成" },
+                { "name": "filter=\"url(#id)\"", "desc": "要素にフィルタを適用" }
+            ],
+            "tags": ["SVG", "フィルター", "効果"],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/SVG/Element/filter"
+        },
+        {
+            "name": "mask / clipPath (SVG)",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "SVG要素のクリッピング（切り抜き）とマスキング（透過制御）。clipPathは形状で完全に切り抜き、maskは輝度/アルファで段階的な透過を適用する。",
+            "demo": "<svg width=\"180\" height=\"60\" viewBox=\"0 0 180 60\" xmlns=\"http://www.w3.org/2000/svg\"><defs><clipPath id=\"clipDemo\"><circle cx=\"40\" cy=\"30\" r=\"25\"/></clipPath><mask id=\"maskDemo\"><rect width=\"100%\" height=\"100%\" fill=\"white\"/><circle cx=\"130\" cy=\"30\" r=\"15\" fill=\"black\"/></mask></defs><image href=\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='60'%3E%3Crect fill='%233b82f6' width='80' height='60'/%3E%3C/svg%3E\" x=\"0\" y=\"0\" width=\"80\" height=\"60\" clip-path=\"url(#clipDemo)\"/><rect x=\"90\" y=\"0\" width=\"80\" height=\"60\" fill=\"#ec4899\" mask=\"url(#maskDemo)\"/></svg>",
+            "code": "<svg>\n  <defs>\n    <!-- クリッピング（形状で切り抜き） -->\n    <clipPath id=\"circle-clip\">\n      <circle cx=\"50\" cy=\"50\" r=\"40\" />\n    </clipPath>\n\n    <!-- マスク（白=表示, 黒=非表示） -->\n    <mask id=\"fade-mask\">\n      <linearGradient id=\"fade\" x1=\"0\" x2=\"1\">\n        <stop offset=\"0%\" stop-color=\"white\" />\n        <stop offset=\"100%\" stop-color=\"black\" />\n      </linearGradient>\n      <rect width=\"100%\" height=\"100%\" fill=\"url(#fade)\" />\n    </mask>\n  </defs>\n\n  <image href=\"photo.jpg\" clip-path=\"url(#circle-clip)\" />\n  <rect width=\"200\" height=\"100\" fill=\"#3b82f6\" mask=\"url(#fade-mask)\" />\n</svg>",
+            "props": [
+                { "name": "clipPath", "desc": "形状に沿って完全に切り抜き" },
+                { "name": "mask", "desc": "輝度/アルファで段階的に透過" },
+                { "name": "clip-path=\"url(#id)\"", "desc": "要素にクリッピングを適用" },
+                { "name": "mask=\"url(#id)\"", "desc": "要素にマスクを適用" }
+            ],
+            "tags": ["SVG", "マスク", "クリッピング"],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/SVG/Element/clipPath"
+        },
+        {
+            "name": "stroke-dasharray / stroke-dashoffset",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "SVGのストロークを破線にし、dashoffsetで描画の開始位置をずらす。CSSアニメーションと組み合わせてストロークが描かれていく「手描き風」アニメーションが実現できる。",
+            "demo": "<svg width=\"200\" height=\"50\" viewBox=\"0 0 200 50\" xmlns=\"http://www.w3.org/2000/svg\"><style>@keyframes draw{from{stroke-dashoffset:200}to{stroke-dashoffset:0}}</style><path d=\"M10,25 Q50,5 100,25 T190,25\" fill=\"none\" stroke=\"#3b82f6\" stroke-width=\"3\" stroke-dasharray=\"200\" stroke-dashoffset=\"0\" style=\"animation:draw 2s ease-in-out infinite alternate\" stroke-linecap=\"round\"/></svg>",
+            "code": "/* ストローク描画アニメーション */\n.draw-line {\n  stroke-dasharray: 300;   /* 線の長さ */\n  stroke-dashoffset: 300;  /* 初期は完全に隠す */\n  animation: draw 2s ease forwards;\n}\n@keyframes draw {\n  to { stroke-dashoffset: 0; }\n}\n\n<!-- JSでパスの長さを取得 -->\n<script>\n  const path = document.querySelector('path');\n  const length = path.getTotalLength();\n  path.style.strokeDasharray = length;\n  path.style.strokeDashoffset = length;\n</script>",
+            "props": [
+                { "name": "stroke-dasharray", "desc": "破線パターン（線の長さ, 隙間の長さ）" },
+                { "name": "stroke-dashoffset", "desc": "破線パターンの開始位置をオフセット" },
+                { "name": "getTotalLength()", "desc": "パスの全長をJSで取得" },
+                { "name": "stroke-linecap", "desc": "線端のスタイル（round, butt, square）" }
+            ],
+            "tags": ["SVG", "アニメーション", "ストローク"],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/SVG/Attribute/stroke-dasharray"
+        },
+        {
+            "name": "SVG animate / animateTransform",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "SVG内蔵のSMILアニメーション。animate要素で属性値を時間経過で変化させる。CSS/JSアニメーションの代替で、SVGファイル単体で完結する。",
+            "demo": "<svg width=\"120\" height=\"60\" viewBox=\"0 0 120 60\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"30\" cy=\"30\" r=\"10\" fill=\"#3b82f6\"><animate attributeName=\"cx\" from=\"20\" to=\"100\" dur=\"2s\" repeatCount=\"indefinite\" /></circle><rect x=\"50\" y=\"15\" width=\"20\" height=\"20\" fill=\"#ec4899\" rx=\"4\"><animateTransform attributeName=\"transform\" type=\"rotate\" from=\"0 60 25\" to=\"360 60 25\" dur=\"3s\" repeatCount=\"indefinite\"/></rect></svg>",
+            "code": "<svg viewBox=\"0 0 100 100\">\n  <!-- 属性値のアニメーション -->\n  <circle cx=\"50\" cy=\"50\" r=\"10\" fill=\"#3b82f6\">\n    <animate attributeName=\"r\" from=\"10\" to=\"40\"\n             dur=\"1s\" repeatCount=\"indefinite\"\n             begin=\"0s\" fill=\"freeze\" />\n  </circle>\n\n  <!-- 回転アニメーション -->\n  <rect x=\"40\" y=\"40\" width=\"20\" height=\"20\" fill=\"#ec4899\">\n    <animateTransform attributeName=\"transform\"\n                      type=\"rotate\"\n                      from=\"0 50 50\" to=\"360 50 50\"\n                      dur=\"3s\" repeatCount=\"indefinite\" />\n  </rect>\n</svg>",
+            "props": [
+                { "name": "animate", "desc": "属性値を時間で変化させる" },
+                { "name": "animateTransform", "desc": "transform属性のアニメーション" },
+                { "name": "attributeName", "desc": "アニメーション対象の属性" },
+                { "name": "dur", "desc": "アニメーションの持続時間" },
+                { "name": "repeatCount", "desc": "繰り返し回数（indefinite で無限）" },
+                { "name": "fill=\"freeze\"", "desc": "終了時の状態を維持" }
+            ],
+            "tags": ["SVG", "SMIL", "アニメーション"],
+            "browser": "全モダンブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/SVG/Element/animate"
+        },
+        {
+            "name": "&lt;foreignObject&gt;",
+            "label": "HTML",
+            "labelClass": "label-html",
+            "desc": "SVG内にHTML要素を埋め込む。SVGのレイアウト機能では難しい複雑なテキストレイアウトやフォーム要素をSVG内に配置できる。",
+            "demo": "<svg width=\"200\" height=\"60\" viewBox=\"0 0 200 60\" xmlns=\"http://www.w3.org/2000/svg\"><rect width=\"200\" height=\"60\" rx=\"8\" fill=\"#1e293b\"/><foreignObject x=\"10\" y=\"8\" width=\"180\" height=\"44\"><div xmlns=\"http://www.w3.org/1999/xhtml\" style=\"color:#fff;font-size:12px;font-family:sans-serif\"><strong>SVG内のHTML</strong><br><span style=\"color:#94a3b8\">foreignObjectでHTMLを埋め込み</span></div></foreignObject></svg>",
+            "code": "<svg viewBox=\"0 0 300 100\">\n  <rect width=\"300\" height=\"100\" rx=\"8\" fill=\"#f8fafc\" />\n  <foreignObject x=\"10\" y=\"10\" width=\"280\" height=\"80\">\n    <!-- HTML名前空間を指定 -->\n    <div xmlns=\"http://www.w3.org/1999/xhtml\"\n         style=\"font-size: 14px;\">\n      <h3>HTMLの見出し</h3>\n      <p>SVG内で通常のHTMLが使える</p>\n      <button>ボタンも配置可能</button>\n    </div>\n  </foreignObject>\n</svg>",
+            "props": [
+                { "name": "x / y", "desc": "HTML埋め込み領域の位置" },
+                { "name": "width / height", "desc": "HTML埋め込み領域のサイズ" },
+                { "name": "xmlns=\"...xhtml\"", "desc": "HTML名前空間の指定（必須）" }
+            ],
+            "tags": ["SVG", "HTML埋め込み", "レイアウト"],
+            "browser": "全モダンブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/SVG/Element/foreignObject"
+        }
+    ]
+}
