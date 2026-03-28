@@ -1,6 +1,6 @@
 /* ==========================================================
-   Web UIコンポーネント辞典 — スタイルシート v2.2
-   サイドバー開閉修正 + デモプレビュー表示版
+   Web UIコンポーネント辞典 — スタイルシート v2.3
+   サイドバー・レイアウト修正版
    ========================================================== */
 
 /* ===== リセット & 基本 ===== */
@@ -45,8 +45,14 @@
     --transition: 0.2s ease;
 
     --sidebar-width: 260px;
-    --header-height: 52px;
-    --filter-bar-height: 44px;
+    --nav-height: 52px;
+    /* ← グローバルナビの高さ */
+    --header-height: 80px;
+    /* ← appヘッダーの概算高さ（レスポンシブで変動） */
+    --filter-bar-height: 48px;
+    /* sticky要素の合計高さ（サイドバーtop / スクロール余白に使用） */
+    --sticky-top: calc(var(--nav-height) + var(--header-height));
+    --sticky-top-with-filter: calc(var(--nav-height) + var(--header-height) + var(--filter-bar-height));
 }
 
 /* ===== ダークテーマ ===== */
@@ -71,7 +77,8 @@
 
 html {
     scroll-behavior: smooth;
-    scroll-padding-top: 160px;
+    scroll-padding-top: 200px;
+    /* ← sticky要素分の余白を十分に確保 */
 }
 
 body {
@@ -90,7 +97,7 @@ body {
     background: var(--bg-secondary);
     border-bottom: 1px solid var(--border);
     padding: 0 16px;
-    height: var(--header-height);
+    height: var(--nav-height);
     position: sticky;
     top: 0;
     z-index: 1100;
@@ -142,14 +149,17 @@ body {
 .app-header {
     background: linear-gradient(135deg, #2563eb, #7c3aed);
     color: white;
-    padding: 16px 24px;
+    padding: 14px 24px;
     position: sticky;
-    top: var(--header-height);
-    z-index: 1000;
+    top: var(--nav-height);
+    /* ← グローバルナビの直下に貼り付く */
+    z-index: 1050;
+    /* ← サイドバー(1150)より下、フィルタバー(999)より上 */
     box-shadow: var(--shadow-lg);
     display: flex;
     align-items: center;
     gap: 24px;
+    min-height: var(--header-height);
 }
 
 .header-text {
@@ -195,13 +205,16 @@ body {
 .sidebar {
     position: fixed;
     left: 0;
-    top: calc(var(--header-height) + 76px);
+    top: var(--sticky-top);
+    /* ← ナビ + ヘッダー分だけ下げる */
     width: var(--sidebar-width);
-    height: calc(100vh - var(--header-height) - 76px);
+    height: calc(100vh - var(--sticky-top));
+    /* ← 残り全部 */
     background: var(--bg-secondary);
     border-right: 1px solid var(--border);
     overflow-y: auto;
-    z-index: 1150;
+    z-index: 1040;
+    /* ← ヘッダー(1050)より下にして重ならない */
     transition: transform 0.3s ease;
     padding-bottom: 40px;
 }
@@ -231,11 +244,15 @@ body {
     padding: 4px;
 }
 
+.sidebar-nav {
+    padding: 4px 0;
+}
+
 .sidebar-nav a {
     display: flex;
     align-items: center;
     gap: 8px;
-    padding: 10px 16px;
+    padding: 9px 16px;
     font-size: 0.82rem;
     color: var(--text-secondary);
     text-decoration: none;
@@ -321,8 +338,11 @@ body {
     flex-wrap: wrap;
     gap: 8px;
     position: sticky;
-    top: calc(var(--header-height) + 76px);
-    z-index: 999;
+    top: var(--sticky-top);
+    /* ← ナビ+ヘッダーの直下 */
+    z-index: 1030;
+    /* ← サイドバー(1040)より下 */
+    min-height: var(--filter-bar-height);
 }
 
 .label-filter {
@@ -463,7 +483,8 @@ body {
 
 .category-section {
     margin-bottom: 48px;
-    scroll-margin-top: 180px;
+    scroll-margin-top: calc(var(--sticky-top-with-filter) + 16px);
+    /* ← 全sticky要素+余白 */
 }
 
 .category-title {
@@ -927,7 +948,6 @@ body {
     }
 
     .main-content,
-    .filter-stats-bar,
     .loading-indicator,
     .no-result {
         padding-left: 20px;
@@ -940,6 +960,11 @@ body {
 }
 
 @media (max-width: 768px) {
+    :root {
+        --header-height: 110px;
+        /* モバイルではヘッダーが縦積みで高くなる */
+    }
+
     .cards-grid {
         grid-template-columns: 1fr;
     }
