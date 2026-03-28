@@ -82,19 +82,43 @@
     },
     {
       "file": "21-js-device.json",
-      "enabled": false
+      "enabled": true
     },
     {
       "file": "22-performance.json",
-      "enabled": false
+      "enabled": true
     },
     {
       "file": "23-svg-detail.json",
-      "enabled": false
+      "enabled": true
     },
     {
       "file": "24-css-print.json",
-      "enabled": false
+      "enabled": true
+    },
+    {
+      "file": "25-css-functions.json",
+      "enabled": true
+    },
+    {
+      "file": "26-web-components.json",
+      "enabled": true
+    },
+    {
+      "file": "27-js-modern-syntax.json",
+      "enabled": true
+    },
+    {
+      "file": "28-css-2026.json",
+      "enabled": true
+    },
+    {
+      "file": "29-forms-advanced.json",
+      "enabled": true
+    },
+    {
+      "file": "30-js-dom-advanced.json",
+      "enabled": true
     }
   ]
 }

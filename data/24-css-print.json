@@ -1,0 +1,267 @@
+{
+    "cat": "CSS印刷・特殊メディア",
+    "catIcon": "🖨️",
+    "catDesc": "印刷時のスタイル制御やページ分割、その他の特殊メディア向けCSSプロパティ。",
+    "items": [
+        {
+            "name": "@media print",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "印刷時のみ適用されるスタイルを定義するメディアクエリ。ナビゲーションや広告の非表示、フォントサイズの調整、背景色の制御などに使用。",
+            "demo": "<div style=\"font-size:0.85rem;padding:12px;background:#f0fdf4;border:2px solid #22c55e;border-radius:8px\"><code>@media print { .no-print { display: none; } }</code><p style=\"margin:6px 0 0;color:#15803d\">印刷プレビュー（Ctrl+P）で効果を確認できます</p></div>",
+            "code": "@media print {\n  /* ナビゲーション・フッターを非表示 */\n  nav, footer, .sidebar, .no-print {\n    display: none !important;\n  }\n\n  /* 背景色を強制印刷 */\n  body {\n    -webkit-print-color-adjust: exact;\n    print-color-adjust: exact;\n  }\n\n  /* リンクURLを表示 */\n  a[href]::after {\n    content: ' (' attr(href) ')';\n    font-size: 0.8em;\n    color: #666;\n  }\n\n  /* フォントサイズ調整 */\n  body { font-size: 12pt; }\n  h1 { font-size: 18pt; }\n}",
+            "props": [
+                {
+                    "name": "@media print",
+                    "desc": "印刷時のみ適用されるスタイルブロック"
+                },
+                {
+                    "name": "@media screen",
+                    "desc": "画面表示時のみ適用"
+                },
+                {
+                    "name": "print-color-adjust",
+                    "desc": "exact で背景色を強制印刷"
+                }
+            ],
+            "tags": [
+                "印刷",
+                "メディアクエリ",
+                "基本"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/@media"
+        },
+        {
+            "name": "@page",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "印刷時のページサイズ、余白、方向などを制御するアットルール。:first、:left、:rightで特定のページだけスタイリング可能。",
+            "demo": "<div style=\"font-size:0.85rem;padding:12px;background:#f1f5f9;border-radius:8px\"><code>@page { margin: 2cm; size: A4 portrait; }</code><br><code>@page :first { margin-top: 4cm; }</code></div>",
+            "code": "/* ページ全体の設定 */\n@page {\n  size: A4 portrait;\n  margin: 2cm;\n}\n\n/* 最初のページだけ余白を広く */\n@page :first {\n  margin-top: 4cm;\n}\n\n/* 左右ページで余白を変える（両面印刷） */\n@page :left {\n  margin-left: 3cm;\n  margin-right: 2cm;\n}\n@page :right {\n  margin-left: 2cm;\n  margin-right: 3cm;\n}",
+            "props": [
+                {
+                    "name": "size",
+                    "desc": "ページサイズ（A4, letter等）と方向"
+                },
+                {
+                    "name": "margin",
+                    "desc": "ページ余白"
+                },
+                {
+                    "name": ":first",
+                    "desc": "最初のページのみ"
+                },
+                {
+                    "name": ":left / :right",
+                    "desc": "左/右ページ（両面印刷時）"
+                }
+            ],
+            "tags": [
+                "印刷",
+                "ページ",
+                "余白"
+            ],
+            "browser": "全ブラウザ対応（size はChrome/Edge のみ完全対応）",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/@page"
+        },
+        {
+            "name": "break-before / break-after / break-inside",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "印刷時や段組みでの改ページ・改カラムを制御する。要素の前後での強制改ページや、要素途中での分割禁止を指定。",
+            "demo": "<div style=\"font-size:0.85rem;padding:12px;background:#f1f5f9;border-radius:8px\"><code>h2 { break-before: page; }</code> → h2の前で必ず改ページ<br><code>.card { break-inside: avoid; }</code> → カード途中で分割しない</div>",
+            "code": "/* 見出しの前で改ページ */\nh2 {\n  break-before: page;\n}\n\n/* 要素の途中で分割しない */\n.card, .table-row, figure {\n  break-inside: avoid;\n}\n\n/* 要素の後で改ページ */\n.chapter-end {\n  break-after: page;\n}\n\n/* 段組みでの分割制御 */\n.column-item {\n  break-inside: avoid-column;\n}",
+            "props": [
+                {
+                    "name": "break-before",
+                    "desc": "要素の前での改ページ/改カラム"
+                },
+                {
+                    "name": "break-after",
+                    "desc": "要素の後での改ページ/改カラム"
+                },
+                {
+                    "name": "break-inside",
+                    "desc": "要素途中での分割制御"
+                },
+                {
+                    "name": "auto",
+                    "desc": "ブラウザに任せる（デフォルト）"
+                },
+                {
+                    "name": "avoid",
+                    "desc": "分割を避ける"
+                },
+                {
+                    "name": "page",
+                    "desc": "改ページを強制"
+                }
+            ],
+            "tags": [
+                "印刷",
+                "改ページ",
+                "段組み"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/break-before"
+        },
+        {
+            "name": "widows / orphans",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "改ページ/改カラム時に孤立する行数の最小値を指定する。widowsはページ末尾、orphansはページ先頭の最小行数。",
+            "demo": "<div style=\"font-size:0.85rem;padding:12px;background:#f1f5f9;border-radius:8px\"><code>p { widows: 3; orphans: 3; }</code><br><span style=\"color:#6b7280\">改ページ時に段落の最初/最後が1〜2行だけ取り残されるのを防ぐ</span></div>",
+            "code": "/* 段落の孤立行を防ぐ */\np {\n  widows: 3;  /* ページ先頭に最低3行 */\n  orphans: 3; /* ページ末尾に最低3行 */\n}",
+            "props": [
+                {
+                    "name": "widows",
+                    "desc": "改ページ後のページ先頭の最小行数"
+                },
+                {
+                    "name": "orphans",
+                    "desc": "改ページ前のページ末尾の最小行数"
+                }
+            ],
+            "tags": [
+                "印刷",
+                "組版",
+                "行制御"
+            ],
+            "browser": "Chrome 25+, Edge 12+, Safari 7+（Firefox は非対応）",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/widows"
+        },
+        {
+            "name": "印刷用スタイル設計パターン",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "Webページを印刷に最適化するための包括的なCSS設計パターン。不要要素の非表示、色の調整、URLの表示、テーブルヘッダー繰り返しなど。",
+            "demo": "<div style=\"font-size:0.85rem;padding:12px;background:#fefce8;border:2px solid #eab308;border-radius:8px\"><strong>印刷最適化チェックリスト:</strong><br>✅ ナビ・広告を非表示<br>✅ 背景色を白に / テキストを黒に<br>✅ リンクURLを表示<br>✅ 改ページ位置を制御<br>✅ テーブルヘッダーを各ページに</div>",
+            "code": "@media print {\n  /* 1. 不要要素を非表示 */\n  nav, .sidebar, .ads, .no-print,\n  button, .fab, .modal { display: none !important; }\n\n  /* 2. 色とフォント */\n  body {\n    color: #000;\n    background: #fff;\n    font-size: 12pt;\n    line-height: 1.5;\n  }\n\n  /* 3. リンクURLを表示 */\n  a[href^=\"http\"]::after {\n    content: ' (' attr(href) ')';\n    font-size: 0.8em;\n    color: #555;\n    word-break: break-all;\n  }\n  a[href^=\"#\"]::after { content: none; }\n\n  /* 4. 改ページ制御 */\n  h2, h3 { break-after: avoid; }\n  img, figure, table { break-inside: avoid; }\n\n  /* 5. テーブルヘッダー繰り返し */\n  thead { display: table-header-group; }\n  tfoot { display: table-footer-group; }\n\n  /* 6. 孤立行防止 */\n  p { widows: 3; orphans: 3; }\n}",
+            "props": [
+                {
+                    "name": "display: none !important",
+                    "desc": "確実に非表示にする"
+                },
+                {
+                    "name": "print-color-adjust: exact",
+                    "desc": "背景色を印刷に含める"
+                },
+                {
+                    "name": "attr(href)",
+                    "desc": "リンクURLをテキストとして表示"
+                },
+                {
+                    "name": "table-header-group",
+                    "desc": "テーブルヘッダーを全ページに表示"
+                }
+            ],
+            "tags": [
+                "印刷",
+                "パターン",
+                "包括的"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/@media"
+        },
+        {
+            "name": "print-color-adjust",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "印刷時に背景色・背景画像を出力するかどうかを制御するプロパティ。デフォルトではブラウザが省インク目的で背景を削除するが、exactで強制出力。",
+            "demo": "<div style=\"font-size:0.85rem;display:flex;gap:8px\"><div style=\"padding:10px;background:#3b82f6;color:#fff;border-radius:6px\">exact なら印刷でも<br>この背景色が出る</div><div style=\"padding:10px;background:#ef4444;color:#fff;border-radius:6px\">economy だと<br>背景色が消える</div></div>",
+            "code": "/* 背景色を印刷に含める */\n.colored-section {\n  background: #3b82f6;\n  color: #fff;\n  -webkit-print-color-adjust: exact;\n  print-color-adjust: exact;\n}\n\n/* テーブルの縞模様を印刷に含める */\ntable {\n  -webkit-print-color-adjust: exact;\n  print-color-adjust: exact;\n}",
+            "props": [
+                {
+                    "name": "economy",
+                    "desc": "ブラウザが背景を最適化（デフォルト）"
+                },
+                {
+                    "name": "exact",
+                    "desc": "CSSの指定通りに背景色・画像を出力"
+                }
+            ],
+            "tags": [
+                "印刷",
+                "背景色",
+                "カラー"
+            ],
+            "browser": "Chrome 17+(-webkit-), Edge 79+, Firefox 97+, Safari 6+(-webkit-)",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/print-color-adjust"
+        },
+        {
+            "name": "@media (prefers-contrast)",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "ユーザーがOSでコントラスト調整を要求しているかを検出するメディア特性。ハイコントラストモードへの対応に使用。",
+            "demo": "<div style=\"font-size:0.85rem;padding:12px;background:#f1f5f9;border-radius:8px\"><code>@media (prefers-contrast: more)</code> → 高コントラスト要求<br><code>@media (prefers-contrast: less)</code> → 低コントラスト要求</div>",
+            "code": "/* 高コントラスト要求時 */\n@media (prefers-contrast: more) {\n  :root {\n    --border: #000;\n    --text: #000;\n    --bg: #fff;\n  }\n  button {\n    border: 2px solid #000;\n  }\n}\n\n/* 低コントラスト要求時 */\n@media (prefers-contrast: less) {\n  :root {\n    --text: #555;\n    --border: #ddd;\n  }\n}\n\n/* 強制カラーモード（Windows ハイコントラスト） */\n@media (forced-colors: active) {\n  .custom-btn {\n    border: 1px solid ButtonText;\n  }\n}",
+            "props": [
+                {
+                    "name": "no-preference",
+                    "desc": "特に要求なし"
+                },
+                {
+                    "name": "more",
+                    "desc": "より高いコントラストを要求"
+                },
+                {
+                    "name": "less",
+                    "desc": "より低いコントラストを要求"
+                },
+                {
+                    "name": "forced-colors",
+                    "desc": "OS の強制カラーモード検出"
+                }
+            ],
+            "tags": [
+                "アクセシビリティ",
+                "コントラスト",
+                "メディア特性"
+            ],
+            "browser": "Chrome 96+, Edge 96+, Firefox 101+, Safari 14.1+",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/@media/prefers-contrast"
+        },
+        {
+            "name": "CSS columns (段組み)",
+            "label": "CSS",
+            "labelClass": "label-css",
+            "desc": "テキストや要素を新聞のような複数カラムに自動配置するCSSプロパティ。column-count/column-widthで列数やその幅を制御。",
+            "demo": "<div style=\"font-size:0.8rem;columns:2;column-gap:16px;column-rule:1px solid #e2e8f0;padding:8px\">CSSの段組み（Multi-column Layout）を使うと、テキストや要素を自動的に複数の列に流し込むことができます。新聞や雑誌のようなレイアウトがCSSだけで実現でき、印刷用スタイルとも相性が良いです。break-insideで分割制御も可能。</div>",
+            "code": "/* 列数を指定 */\n.article {\n  column-count: 3;\n  column-gap: 24px;\n  column-rule: 1px solid #e5e7eb;\n}\n\n/* 列幅で自動列数 */\n.content {\n  column-width: 250px;\n  column-gap: 20px;\n}\n\n/* 列をまたぐ要素 */\nh2 {\n  column-span: all;\n}\n\n/* 列内で分割しない */\n.card {\n  break-inside: avoid;\n}",
+            "props": [
+                {
+                    "name": "column-count",
+                    "desc": "列数を指定"
+                },
+                {
+                    "name": "column-width",
+                    "desc": "列の最小幅（列数は自動計算）"
+                },
+                {
+                    "name": "column-gap",
+                    "desc": "列間の隙間"
+                },
+                {
+                    "name": "column-rule",
+                    "desc": "列間の罫線"
+                },
+                {
+                    "name": "column-span",
+                    "desc": "all で列をまたぐ"
+                },
+                {
+                    "name": "columns",
+                    "desc": "column-width と column-count のショートハンド"
+                }
+            ],
+            "tags": [
+                "段組み",
+                "レイアウト",
+                "印刷"
+            ],
+            "browser": "全ブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/CSS/CSS_multicol_layout"
+        }
+    ]
+}

@@ -1,0 +1,329 @@
+{
+    "cat": "デバイス・ハードウェアAPI",
+    "catIcon": "📱",
+    "catDesc": "ブラウザからデバイスのハードウェア機能にアクセスするJavaScript API。画面制御、共有、振動、センサーなど。",
+    "items": [
+        {
+            "name": "Web Share API",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "OSネイティブの共有ダイアログを呼び出すAPI。URL・テキスト・ファイルをSNSやメールなど任意のアプリに共有できる。モバイルで特に有効。",
+            "demo": "<button onclick=\"if(navigator.share){navigator.share({title:'Web UI辞典',text:'HTML/CSS/JSのリファレンス',url:location.href}).catch(()=>{})}else{this.nextElementSibling.textContent='このブラウザは非対応です'}\" style=\"padding:8px 16px;background:#3b82f6;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem\">📤 共有する</button><span style=\"margin-left:8px;font-size:0.8rem;color:#6b7280\"></span>",
+            "code": "async function shareContent() {\n  if (!navigator.share) {\n    console.log('Web Share API非対応');\n    return;\n  }\n  try {\n    await navigator.share({\n      title: 'ページタイトル',\n      text: '共有するテキスト',\n      url: 'https://example.com',\n    });\n    console.log('共有成功');\n  } catch (err) {\n    if (err.name !== 'AbortError') {\n      console.error('共有失敗:', err);\n    }\n  }\n}\n\n// ファイルの共有\nconst file = new File(['Hello'], 'hello.txt', { type: 'text/plain' });\nif (navigator.canShare?.({ files: [file] })) {\n  await navigator.share({ files: [file] });\n}",
+            "props": [
+                {
+                    "name": "navigator.share(data)",
+                    "desc": "共有ダイアログを表示（Promise）"
+                },
+                {
+                    "name": "navigator.canShare(data)",
+                    "desc": "共有可能かチェック"
+                },
+                {
+                    "name": "title",
+                    "desc": "共有タイトル"
+                },
+                {
+                    "name": "text",
+                    "desc": "共有テキスト"
+                },
+                {
+                    "name": "url",
+                    "desc": "共有URL"
+                },
+                {
+                    "name": "files",
+                    "desc": "共有ファイル（File配列）"
+                }
+            ],
+            "tags": [
+                "共有",
+                "モバイル",
+                "ネイティブ"
+            ],
+            "browser": "Chrome 89+, Edge 93+, Safari 14+, Firefox(Android) 79+",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/Navigator/share"
+        },
+        {
+            "name": "Screen Wake Lock API",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "画面がスリープ・消灯するのを防ぐAPI。動画再生、プレゼン、レシピ表示、ナビゲーションなど画面を点灯し続ける必要がある場面で使用。",
+            "demo": "<button id=\"wlBtn\" onclick=\"(async()=>{try{if(!this._wl){this._wl=await navigator.wakeLock.request('screen');this.textContent='🔓 解除する';this._wl.addEventListener('release',()=>{this.textContent='🔒 画面を点灯維持';this._wl=null})}else{this._wl.release()}}catch(e){this.nextElementSibling.textContent='エラー: '+e.message}})()\" style=\"padding:8px 16px;background:#f59e0b;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem\">🔒 画面を点灯維持</button><span style=\"margin-left:8px;font-size:0.8rem;color:#6b7280\"></span>",
+            "code": "let wakeLock = null;\n\nasync function requestWakeLock() {\n  try {\n    wakeLock = await navigator.wakeLock.request('screen');\n    console.log('Wake Lock 取得');\n\n    wakeLock.addEventListener('release', () => {\n      console.log('Wake Lock 解除');\n    });\n  } catch (err) {\n    console.error('Wake Lock失敗:', err);\n  }\n}\n\n// ページ再表示時に再取得\ndocument.addEventListener('visibilitychange', () => {\n  if (document.visibilityState === 'visible' && !wakeLock) {\n    requestWakeLock();\n  }\n});\n\n// 解除\nwakeLock?.release();\nwakeLock = null;",
+            "props": [
+                {
+                    "name": "navigator.wakeLock.request('screen')",
+                    "desc": "Wake Lockを取得"
+                },
+                {
+                    "name": "release()",
+                    "desc": "Wake Lockを解除"
+                },
+                {
+                    "name": "release イベント",
+                    "desc": "解除時に発火"
+                },
+                {
+                    "name": "visibilitychange",
+                    "desc": "タブ切替で自動解除されるため再取得が必要"
+                }
+            ],
+            "tags": [
+                "画面制御",
+                "スリープ防止",
+                "PWA"
+            ],
+            "browser": "Chrome 84+, Edge 84+, Firefox 126+, Safari 16.4+",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/Screen_Wake_Lock_API"
+        },
+        {
+            "name": "Vibration API",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "デバイスを振動させるシンプルなAPI。通知のフィードバック、ゲーム、アラートなどに使用。パターンで振動リズムを指定可能。",
+            "demo": "<button onclick=\"if(navigator.vibrate){navigator.vibrate([100,50,100,50,200]);this.nextElementSibling.textContent='振動パターン実行！'}else{this.nextElementSibling.textContent='非対応ブラウザ'}\" style=\"padding:8px 16px;background:#ef4444;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem\">📳 振動する</button><span style=\"margin-left:8px;font-size:0.8rem;color:#6b7280\"></span>",
+            "code": "// 単一振動（200ms）\nnavigator.vibrate(200);\n\n// パターン: [振動ms, 停止ms, 振動ms, ...]\nnavigator.vibrate([100, 50, 100, 50, 200]);\n\n// 振動停止\nnavigator.vibrate(0);\n// または\nnavigator.vibrate([]);\n\n// 対応チェック\nif ('vibrate' in navigator) {\n  navigator.vibrate(100);\n}",
+            "props": [
+                {
+                    "name": "navigator.vibrate(pattern)",
+                    "desc": "振動を実行（ms値または配列）"
+                },
+                {
+                    "name": "0 または []",
+                    "desc": "振動を停止"
+                }
+            ],
+            "tags": [
+                "振動",
+                "フィードバック",
+                "モバイル"
+            ],
+            "browser": "Chrome 32+, Edge 79+, Firefox 16+（iOS Safari非対応）",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/Navigator/vibrate"
+        },
+        {
+            "name": "Screen Orientation API",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "画面の向き（縦/横）を検出・ロックするAPI。ゲームや動画アプリで横向き固定などに使用。",
+            "demo": "<div style=\"font-size:0.85rem\"><div id=\"orientDemo\" style=\"padding:10px;background:#f1f5f9;border-radius:8px;text-align:center\">現在の向き: <strong id=\"orientVal\">---</strong></div><script>(function(){try{var el=document.getElementById('orientVal');function u(){el.textContent=screen.orientation?screen.orientation.type:'不明'}u();screen.orientation&&screen.orientation.addEventListener('change',u)}catch(e){}})()</script></div>",
+            "code": "// 現在の向きを取得\nconsole.log(screen.orientation.type);\n// 'portrait-primary' | 'landscape-primary' 等\nconsole.log(screen.orientation.angle); // 0, 90, 180, 270\n\n// 向きの変化を検知\nscreen.orientation.addEventListener('change', () => {\n  console.log('向き変更:', screen.orientation.type);\n});\n\n// 向きをロック（全画面時のみ）\nawait screen.orientation.lock('landscape');\n\n// ロック解除\nscreen.orientation.unlock();",
+            "props": [
+                {
+                    "name": "screen.orientation.type",
+                    "desc": "現在の向き（portrait-primary等）"
+                },
+                {
+                    "name": "screen.orientation.angle",
+                    "desc": "回転角度（0/90/180/270）"
+                },
+                {
+                    "name": "lock(orientation)",
+                    "desc": "向きをロック（全画面必須）"
+                },
+                {
+                    "name": "unlock()",
+                    "desc": "ロック解除"
+                },
+                {
+                    "name": "change イベント",
+                    "desc": "向き変更時に発火"
+                }
+            ],
+            "tags": [
+                "画面",
+                "向き",
+                "ロック"
+            ],
+            "browser": "Chrome 38+, Edge 79+, Firefox 43+, Safari 16.4+",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/ScreenOrientation"
+        },
+        {
+            "name": "Media Session API",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "OS のメディアコントロール（ロック画面、通知バー等）にメタデータや操作ハンドラを提供するAPI。音楽/動画プレーヤーで使用。",
+            "demo": "<div style=\"font-size:0.85rem;padding:10px;background:#f1f5f9;border-radius:8px\"><strong>Media Session API</strong><br>ロック画面やOS通知のメディアコントロールにタイトル・アーティスト・アルバムアートを表示し、再生/一時停止/スキップ操作を受け取る。</div>",
+            "code": "// メタデータ設定\nnavigator.mediaSession.metadata = new MediaMetadata({\n  title: '曲名',\n  artist: 'アーティスト名',\n  album: 'アルバム名',\n  artwork: [\n    { src: '/art-96.png',  sizes: '96x96',   type: 'image/png' },\n    { src: '/art-512.png', sizes: '512x512', type: 'image/png' },\n  ]\n});\n\n// 操作ハンドラ\nnavigator.mediaSession.setActionHandler('play', () => audio.play());\nnavigator.mediaSession.setActionHandler('pause', () => audio.pause());\nnavigator.mediaSession.setActionHandler('previoustrack', prevTrack);\nnavigator.mediaSession.setActionHandler('nexttrack', nextTrack);\nnavigator.mediaSession.setActionHandler('seekto', (details) => {\n  audio.currentTime = details.seekTime;\n});",
+            "props": [
+                {
+                    "name": "navigator.mediaSession.metadata",
+                    "desc": "メタデータ（タイトル等）を設定"
+                },
+                {
+                    "name": "setActionHandler(action, cb)",
+                    "desc": "操作（play/pause等）のハンドラを登録"
+                },
+                {
+                    "name": "playbackState",
+                    "desc": "再生状態（playing/paused/none）"
+                },
+                {
+                    "name": "MediaMetadata",
+                    "desc": "メタデータオブジェクト"
+                }
+            ],
+            "tags": [
+                "メディア",
+                "音楽",
+                "ロック画面"
+            ],
+            "browser": "Chrome 73+, Edge 79+, Firefox 82+, Safari 15+",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/Media_Session_API"
+        },
+        {
+            "name": "Broadcast Channel API",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "同一オリジンの異なるタブ・ウィンドウ・iframe間でメッセージを送受信するAPI。ログアウト同期やテーマ切替の即時反映などに使用。",
+            "demo": "<div style=\"font-size:0.85rem\"><button onclick=\"var ch=new BroadcastChannel('demo');ch.postMessage('Hello from '+new Date().toLocaleTimeString());this.nextElementSibling.textContent='送信済！（別タブで受信可能）'\" style=\"padding:6px 14px;background:#8b5cf6;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem\">📡 ブロードキャスト送信</button><span style=\"margin-left:8px;font-size:0.8rem;color:#6b7280\"></span></div>",
+            "code": "// チャンネル作成\nconst channel = new BroadcastChannel('app-events');\n\n// メッセージ送信\nchannel.postMessage({ type: 'logout' });\nchannel.postMessage({ type: 'theme-change', theme: 'dark' });\n\n// メッセージ受信（別タブ）\nchannel.onmessage = (event) => {\n  switch (event.data.type) {\n    case 'logout':\n      window.location.href = '/login';\n      break;\n    case 'theme-change':\n      applyTheme(event.data.theme);\n      break;\n  }\n};\n\n// チャンネルを閉じる\nchannel.close();",
+            "props": [
+                {
+                    "name": "new BroadcastChannel(name)",
+                    "desc": "名前付きチャンネルを作成"
+                },
+                {
+                    "name": "postMessage(data)",
+                    "desc": "メッセージを全リスナーに送信"
+                },
+                {
+                    "name": "onmessage",
+                    "desc": "メッセージ受信時のコールバック"
+                },
+                {
+                    "name": "close()",
+                    "desc": "チャンネルを閉じる"
+                }
+            ],
+            "tags": [
+                "タブ間通信",
+                "同期",
+                "メッセージ"
+            ],
+            "browser": "Chrome 54+, Edge 79+, Firefox 38+, Safari 15.4+",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/Broadcast_Channel_API"
+        },
+        {
+            "name": "Permissions API",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "カメラ、位置情報、通知などの各API権限の状態を問い合わせるAPI。権限状態に応じたUIの出し分けに使用。",
+            "demo": "<button onclick=\"navigator.permissions.query({name:'notifications'}).then(r=>{this.nextElementSibling.textContent='通知権限: '+r.state})\" style=\"padding:6px 14px;background:#10b981;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem\">🔐 通知権限を確認</button><span style=\"margin-left:8px;font-size:0.8rem;color:#6b7280\"></span>",
+            "code": "// 権限状態を確認\nconst result = await navigator.permissions.query({\n  name: 'notifications'\n});\nconsole.log(result.state);\n// 'granted' | 'denied' | 'prompt'\n\n// 権限状態の変化を監視\nresult.addEventListener('change', () => {\n  console.log('権限が変更:', result.state);\n});\n\n// 確認可能な権限例\n// 'geolocation', 'notifications', 'camera',\n// 'microphone', 'clipboard-read', 'clipboard-write'",
+            "props": [
+                {
+                    "name": "navigator.permissions.query(desc)",
+                    "desc": "権限状態を問い合わせ"
+                },
+                {
+                    "name": "state",
+                    "desc": "granted / denied / prompt"
+                },
+                {
+                    "name": "change イベント",
+                    "desc": "権限状態変更時に発火"
+                }
+            ],
+            "tags": [
+                "権限",
+                "プライバシー",
+                "確認"
+            ],
+            "browser": "Chrome 43+, Edge 79+, Firefox 46+, Safari 16+",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/Permissions_API"
+        },
+        {
+            "name": "Page Visibility API",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "ページがユーザーに見えているか（タブがアクティブか）を検知するAPI。バックグラウンド時のアニメーション停止やリソース節約に使用。",
+            "demo": "<div style=\"font-size:0.85rem\"><div id=\"visDemo\" style=\"padding:10px;background:#dcfce7;border-radius:8px;text-align:center\">このタブは <strong id=\"visState\">visible</strong> です</div><script>(function(){var el=document.getElementById('visState');function u(){el.textContent=document.visibilityState;el.parentElement.style.background=document.hidden?'#fef2f2':'#dcfce7'}document.addEventListener('visibilitychange',u);u()})()</script></div>",
+            "code": "// 現在の状態\nconsole.log(document.visibilityState);\n// 'visible' | 'hidden'\nconsole.log(document.hidden); // boolean\n\n// 状態変化の検知\ndocument.addEventListener('visibilitychange', () => {\n  if (document.hidden) {\n    // タブ非アクティブ: リソース節約\n    pauseAnimations();\n    pauseVideoPlayback();\n  } else {\n    // タブアクティブ: 再開\n    resumeAnimations();\n    fetchLatestData();\n  }\n});",
+            "props": [
+                {
+                    "name": "document.visibilityState",
+                    "desc": "'visible' または 'hidden'"
+                },
+                {
+                    "name": "document.hidden",
+                    "desc": "非表示ならtrue"
+                },
+                {
+                    "name": "visibilitychange",
+                    "desc": "状態変化時に発火するイベント"
+                }
+            ],
+            "tags": [
+                "タブ",
+                "可視性",
+                "パフォーマンス"
+            ],
+            "browser": "全モダンブラウザ対応",
+            "mdn": "https://developer.mozilla.org/ja/docs/Web/API/Page_Visibility_API"
+        },
+        {
+            "name": "Badging API",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "アプリアイコンやタスクバーにバッジ（通知数）を表示するAPI。PWAのネイティブアプリ風の通知体験に使用。",
+            "demo": "<div style=\"font-size:0.85rem;display:flex;gap:8px\"><button onclick=\"navigator.setAppBadge&&navigator.setAppBadge(5);this.parentElement.querySelector('span').textContent='バッジ 5 を設定！'\" style=\"padding:6px 14px;background:#ef4444;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem\">🔴 バッジ設定</button><button onclick=\"navigator.clearAppBadge&&navigator.clearAppBadge();this.parentElement.querySelector('span').textContent='バッジ解除'\" style=\"padding:6px 14px;background:#6b7280;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem\">消去</button><span style=\"font-size:0.8rem;color:#6b7280\"></span></div>",
+            "code": "// バッジを設定（未読数など）\nawait navigator.setAppBadge(5);\n\n// フラグバッジ（数値なし、ドットのみ）\nawait navigator.setAppBadge();\n\n// バッジを消去\nawait navigator.clearAppBadge();\n\n// 対応チェック\nif ('setAppBadge' in navigator) {\n  navigator.setAppBadge(unreadCount);\n}",
+            "props": [
+                {
+                    "name": "navigator.setAppBadge(count?)",
+                    "desc": "バッジを設定（数値省略でドット）"
+                },
+                {
+                    "name": "navigator.clearAppBadge()",
+                    "desc": "バッジを消去"
+                }
+            ],
+            "tags": [
+                "バッジ",
+                "PWA",
+                "通知"
+            ],
+            "browser": "Chrome 81+, Edge 81+, Safari 16.4+（Firefox非対応）",
+            "mdn": "https://developer.mozilla.org/en-US/docs/Web/API/Badging_API"
+        },
+        {
+            "name": "Web Bluetooth API",
+            "label": "JS",
+            "labelClass": "label-js",
+            "desc": "近くのBluetooth Low Energy(BLE)デバイスと通信するAPI。IoTデバイス、フィットネス機器、スマートライトなどの制御に使用。実験的機能。",
+            "demo": "<div style=\"font-size:0.85rem;padding:10px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px\"><strong>Web Bluetooth API</strong><br>Bluetooth LEデバイスのスキャン→接続→サービス/特性の読み書きが可能。ユーザーの明示的操作（ボタンクリック等）が必要。<br><span style=\"color:#6b7280\">※ Chrome系ブラウザのみ対応</span></div>",
+            "code": "// BLEデバイスをスキャン・接続\nasync function connectBLE() {\n  const device = await navigator.bluetooth.requestDevice({\n    filters: [{ services: ['heart_rate'] }]\n  });\n\n  const server = await device.gatt.connect();\n  const service = await server.getPrimaryService('heart_rate');\n  const char = await service.getCharacteristic(\n    'heart_rate_measurement'\n  );\n\n  // 通知を購読\n  await char.startNotifications();\n  char.addEventListener('characteristicvaluechanged', (e) => {\n    const value = e.target.value.getUint8(1);\n    console.log('心拍数:', value);\n  });\n}",
+            "props": [
+                {
+                    "name": "navigator.bluetooth.requestDevice()",
+                    "desc": "デバイス選択ダイアログを表示"
+                },
+                {
+                    "name": "device.gatt.connect()",
+                    "desc": "GATTサーバーに接続"
+                },
+                {
+                    "name": "getPrimaryService()",
+                    "desc": "BLEサービスを取得"
+                },
+                {
+                    "name": "getCharacteristic()",
+                    "desc": "特性（データポイント）を取得"
+                },
+                {
+                    "name": "startNotifications()",
+                    "desc": "値変更の通知を開始"
+                }
+            ],
+            "tags": [
+                "Bluetooth",
+                "IoT",
+                "ハードウェア"
+            ],
+            "browser": "Chrome 56+, Edge 79+（Firefox, Safari非対応）",
+            "mdn": "https://developer.mozilla.org/en-US/docs/Web/API/Web_Bluetooth_API"
+        }
+    ]
+}
